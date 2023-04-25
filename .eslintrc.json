@@ -1,0 +1,109 @@
+{
+  "root": true,
+  "ignorePatterns": [
+    "projects/**/*",
+    "set-env.js",
+    "src/environments/*",
+    "src/**/*.spec.ts"
+  ],
+  "overrides": [
+    {
+      "files": [
+        "*.ts"
+      ],
+      "extends": [
+        "eslint:recommended",
+        "plugin:@typescript-eslint/recommended",
+        "plugin:@angular-eslint/recommended",
+        "plugin:@angular-eslint/template/process-inline-templates"
+      ],
+      "rules": {
+        "@angular-eslint/directive-selector": [
+          "error",
+          {
+            "type": "attribute",
+            "prefix": "vc",
+            "style": "camelCase"
+          }
+        ],
+        "@angular-eslint/component-selector": [
+          "error",
+          {
+            "type": "element",
+            "prefix": "vc",
+            "style": "kebab-case"
+          }
+        ],
+        "no-duplicate-imports": 2,
+        "no-cond-assign": 2,
+        "no-sparse-arrays": 2,
+        "no-import-assign": 2,
+        "no-var": 2,
+        "no-param-reassign": 2,
+        "no-await-in-loop": 2,
+        "no-compare-neg-zero": 2,
+        "no-duplicate-case": 2,
+        "no-delete-var": 2,
+        "no-eval": 2,
+        "no-extra-boolean-cast": 2,
+        "no-extra-semi": 2,
+        "no-global-assign": 2,
+        "no-lonely-if": 2,
+        "no-nonoctal-decimal-escape": 2,
+        "no-octal": 2,
+        "no-shadow-restricted-names": 2,
+        "no-shadow": 2,
+        "no-script-url": 2,
+        "no-unused-labels": 2,
+        "no-useless-catch": 2,
+        "no-with": 2,
+        "no-multi-spaces": 2,
+        "no-multiple-empty-lines": 2,
+        "complexity": ["error", 8],
+        "prefer-spread": 2,
+        "prefer-arrow-callback": 2,
+        "prefer-destructuring": 2,
+        "max-classes-per-file": ["error", 1],
+        "max-depth":  ["error", 4],
+        "max-lines": ["error", {"max": 400, "skipComments": true}],
+        "max-lines-per-function": ["error", {"max": 3, "IIFEs": true, "skipComments": true}],
+        "max-nested-callbacks": ["error", 3],
+        "max-params": ["error", 6],
+        "max-statements": ["error", 10],
+        "max-len": ["error", {
+          "code": 140,
+          "ignoreComments": true,
+          "ignoreUrls": true,
+          "ignoreTemplateLiterals": true
+        }],
+        "max-statements-per-line": ["error", { "max": 1 }],
+        "linebreak-style": ["error", "unix"],
+        "operator-linebreak": ["error", "after"],
+        "no-irregular-whitespace": ["error", { "skipComments": true }],
+        "no-trailing-spaces": ["error", {
+          "ignoreComments": true
+        }],
+        "no-whitespace-before-property": 2,
+        "space-before-function-paren": ["error", {
+          "anonymous": "always",
+          "named": "always",
+          "asyncArrow": "always"
+      }],
+      "indent": ["error", "tab"],
+      "no-unused-private-class-members": 2,
+      "quotes": ["error", "single"],
+      "radix": "error",
+      "semi": ["error", "always"]
+      }
+    },
+    {
+      "files": [
+        "*.html"
+      ],
+      "extends": [
+        "plugin:@angular-eslint/template/recommended"
+      ],
+      "rules": {}
+    }
+  ]
+}
