@@ -7,6 +7,7 @@ import { PresentationRequestComponent } from './components/presentation-request/
 import { VerifiableCredentialComponent } from './components/verifiable-credential/verifiable-credential.component';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { ReactiveFormsModule } from '@angular/forms';
+import { PresentationDefinitionService } from './services/presentation-definition.service';
 
 
 @NgModule({
@@ -14,6 +15,9 @@ import { ReactiveFormsModule } from '@angular/forms';
 		HomeComponent,
 		PresentationRequestComponent,
 		VerifiableCredentialComponent
+	],
+	providers: [
+		PresentationDefinitionService
 	],
 	imports: [
 		CommonModule,

@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "scripts": {
     "ng": "ng",
-    "start": "npm run config && ng serve",
+    "start": "npm run config && ng serve --proxy-config src/proxy.conf.json",
     "build": "npm run config && ng build --build-optimizer --configuration=production",
     "watch": "npm run config && ng build --watch --configuration=development",
     "config": "node set-env.js",
@@ -26,6 +26,7 @@
     "@codemirror/theme-one-dark": "^6.1.2",
     "@types/codemirror": "^5.60.7",
     "codemirror": "^6.0.1",
+    "jwt-decode": "^3.1.2",
     "rxjs": "~7.8.0",
     "tslib": "^2.3.0",
     "zone.js": "~0.12.0"

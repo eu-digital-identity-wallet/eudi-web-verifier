@@ -5,7 +5,7 @@
     </div>
     <div class="vc-box-top">
       <vc-presentation-request (request)="requestedCode($event)"></vc-presentation-request>
-      <vc-verifiable-credential></vc-verifiable-credential>
+      <vc-verifiable-credential [presentationDefinition]="presentationDefinition$"></vc-verifiable-credential>
     </div>
     <div class="vc-box-bottom">
       <vc-button name="Generate code" [isDisabled]="!requestCode" (clicked)="generateCode()"></vc-button>

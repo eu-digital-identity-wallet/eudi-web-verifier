@@ -2,9 +2,11 @@
     .vc-container-editor {
         background-color: rgb(40 44 52);
         border-radius: 16px;
-        height: 600px;
+        height: 608px;
         min-height: 340px;
         min-width: 400px;
+        max-width: 600px;
+        width: 100%;
         overflow-y: scroll;
         padding: 16px;
         position: relative;

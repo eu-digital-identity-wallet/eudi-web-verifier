@@ -1,12 +1,13 @@
 import { NgModule } from '@angular/core';
+import { HttpClientModule } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
-import { NetworkModule } from './network/network.module';
+
 
 @NgModule({
 	declarations: [],
 	imports: [
-		CommonModule,
-		NetworkModule
+		HttpClientModule,
+		CommonModule
 	]
 })
-export class CoreModule { }
+export class NetworkModule { }
