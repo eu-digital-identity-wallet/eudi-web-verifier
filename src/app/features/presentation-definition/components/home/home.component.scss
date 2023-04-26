@@ -1,0 +1,64 @@
+:host {
+    .container {
+        align-items: center;
+        display: flex;
+        flex-flow: column wrap;
+        justify-content: center;
+        margin: 0 auto;
+        max-width: 121.6rem;
+        padding: 0;
+
+        .vc-box {
+            align-items: center;
+            background:  0% 0% / 50rem rgb(60 64 74);
+            background-position-x: 100%;
+            background-size: 71rem;
+            border-radius: 4rem;
+            display: flex;
+            flex-flow: column wrap;
+            justify-content: center;
+            margin: 6.4rem auto 0;
+            margin-bottom: 8rem;
+            margin-left: -100px;
+            margin-right: -100px;
+            max-width: 144rem;
+            padding: 3.4rem 99px;
+            position: relative;
+
+            .vc-title {
+                border-bottom: 1px solid rgb(120 125 135);
+                display: flex;
+                gap: 24px;
+                margin-bottom: 2rem;
+                width: 100%;
+
+                h2 {
+                    font-family: Inter;
+                    font-size: 18px;
+                    font-style: normal;
+                    font-weight: 500;
+                    line-height: 28px;
+                }
+            }
+
+            .vc-box-top {
+                align-items: center;
+                display: flex;
+                flex-flow: row wrap;
+                justify-content: center;
+            }
+
+            .vc-box-bottom {
+                align-items: center;
+                display: flex;
+                flex-flow: column wrap;
+                justify-content: center;
+                width: 100%;
+
+                :first-child {
+                    width: 100%;
+                }
+            }
+        }
+    }
+}
