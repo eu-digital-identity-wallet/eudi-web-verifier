@@ -5,10 +5,13 @@
     </div>
     <div class="vc-box-top">
       <vc-presentation-request (request)="requestedCode($event)"></vc-presentation-request>
-      <vc-verifiable-credential [presentationDefinition]="presentationDefinition$"></vc-verifiable-credential>
+      <vc-verifiable-credential [requestGenerate]="requestGenerate" [presentationDefinition$]="presentationDefinition$"></vc-verifiable-credential>
+    </div>
+    <div *ngIf="invalidJSON" class="vc-box-display-error">
+      <p>Invalid JSON Format</p>
     </div>
     <div class="vc-box-bottom">
-      <vc-button name="Generate code" [isDisabled]="!requestCode" (clicked)="generateCode()"></vc-button>
+      <vc-button name="Generate code" [mode]="buttonMode" [isDisabled]="!requestCode" color="primary" (clicked)="generateCode()"></vc-button>
     </div>
   </div>
 </div>

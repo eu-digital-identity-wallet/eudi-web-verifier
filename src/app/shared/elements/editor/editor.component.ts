@@ -19,11 +19,13 @@ export class EditorComponent implements AfterViewInit {
 
   @Input()	readonly = false;
 
+  @Input()	code: string | undefined;
+
   @Output() request: EventEmitter<string> = new EventEmitter();
 
   editorTheme = new Compartment();
 
-  code: string | undefined;
+  // code: string | undefined;
 
   codeMirrorInstance: any;
 
@@ -48,7 +50,6 @@ export class EditorComponent implements AfterViewInit {
   onChange (v: any) {
   	if (v.docChanged) {
   		this.request.emit(this.codeMirrorInstance.state.doc.toString());
-  		console.log(this.codeMirrorInstance.state.doc.toString());
   	}
   }
 

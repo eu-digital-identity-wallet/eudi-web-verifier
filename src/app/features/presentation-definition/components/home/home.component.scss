@@ -43,10 +43,10 @@
 
             .vc-box-top {
                 align-items: center;
+                align-items: flex-start;
                 display: flex;
                 flex-flow: row wrap;
                 justify-content: center;
-                align-items: flex-start;
             }
 
             .vc-box-bottom {
@@ -59,6 +59,11 @@
                 :first-child {
                     width: 100%;
                 }
+            }
+
+            .vc-box-display-error p {
+                color: red;
+                font-style: italic;
             }
         }
     }

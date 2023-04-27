@@ -32,7 +32,9 @@
             "styles": [
               "src/styles.scss"
             ],
-            "scripts": []
+            "scripts": [
+              "./node_modules/qrcodejs/qrcode.min.js"
+            ]
           },
           "configurations": {
             "production": {

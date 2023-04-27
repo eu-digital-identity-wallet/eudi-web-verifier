@@ -8,7 +8,7 @@ const envConfigFile = `export const environment = {
     apiUrl: '${process.env.DOMAIN_NAME}',
     appName: '${process.env.APP_NAME}'
 };`;
-console.log(process.env.DOMAIN_NAME);
+
 console.log(envConfigFile);
 fs.writeFile(targetPath, envConfigFile, (err) => {
 	if (err) {

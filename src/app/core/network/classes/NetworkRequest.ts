@@ -9,7 +9,6 @@ export class NetworkRequest {
 		this.http = http;
 	}
 	protected GET<T> (params: IRequestParams<T>): Observable<T> {
-		// const {options} = params;
 		return this.http.get<T> (params.url).pipe(
 			this.error()
 		);

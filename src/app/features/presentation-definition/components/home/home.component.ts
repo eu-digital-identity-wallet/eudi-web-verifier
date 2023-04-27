@@ -1,6 +1,6 @@
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, ChangeDetectorRef } from '@angular/core';
 import { HttpService } from '@network/http/http.service';
-import { Observable } from 'rxjs';
+import { Observable, map } from 'rxjs';
 import { PresentationDefinitionResponse } from '../../models/presentation-definition-response';
 
 @Component({
@@ -12,9 +12,13 @@ import { PresentationDefinitionResponse } from '../../models/presentation-defini
 export class HomeComponent {
 
 	constructor (
-    private readonly httpService: HttpService
+    private readonly httpService: HttpService,
+    private readonly changeDetectorRef: ChangeDetectorRef
 	) {}
 
+	invalidJSON = false;
+	requestGenerate = false;
+	buttonMode = 'none';
 	requestCode = null;
 	presentationDefinition$!: Observable<PresentationDefinitionResponse>;
 
@@ -22,11 +26,30 @@ export class HomeComponent {
 		this.requestCode = code;
 	}
 	generateCode () {
-		console.log('code', this.requestCode);
-		if (this.requestCode) {
+		this.requestGenerate = true;
+		if (this.requestCode && this.isJSON(this.requestCode)) {
+			this.buttonMode = 'loading';
+			this.invalidJSON = false;
 			const payload = JSON.parse(this.requestCode);
-			console.log('payload: ', payload);
-			this.presentationDefinition$ = this.httpService.post('ui/presentations', payload);
+			this.presentationDefinition$ = this.httpService.post('ui/presentations', payload).
+				pipe(
+					map((data) => {
+						this.buttonMode = 'none';
+						this.requestGenerate = false;
+						this.changeDetectorRef.detectChanges();
+						return data;
+					} )
+				);
+		} else {
+			this.invalidJSON = true;
+		}
+	}
+
+	isJSON (requestCode: string) {
+		try {
+			return (JSON.parse(requestCode) && !!requestCode);
+		} catch (e) {
+			return false;
 		}
 	}
 }

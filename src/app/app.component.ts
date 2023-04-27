@@ -4,12 +4,11 @@ import { environment } from './../environments/environment';
 @Component({
 	selector: 'vc-root',
 	templateUrl: './app.component.html',
-	styleUrls: ['./app.component.scss'],
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class AppComponent implements OnInit {
 	ngOnInit (): void {
-		console.log('env', environment.apiUrl);
+		console.log('apiUrl', environment.apiUrl);
 	}
 	title = 'verifier-ui';
 }
