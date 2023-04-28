@@ -1,7 +1,7 @@
 import { Component, Input, ChangeDetectorRef } from '@angular/core';
 import { PresentationDefinitionResponse } from '../../models/presentation-definition-response';
 import { PresentationDefinitionService } from '../../services/presentation-definition.service';
-import { Observable, tap } from 'rxjs';
+import { Observable, catchError, of, tap } from 'rxjs';
 
 declare let QRCode: any;
 @Component({
@@ -43,14 +43,29 @@ export class VerifiableCredentialComponent {
   obtainCredential () {
   	this.displayButtonJWTObject = false;
   	this.presentationDefinitionService.requestCredentialByJWT(this.presentationDefinition.request_uri)
+  		.pipe(
+  			catchError((error) => {
+  				let message = 'An error occurred while processing your request.';
+  				if (error.status === 400) {
+  					message = 'The JWT has been already fetched.';
+  				}
+  				return of({
+  					error: message
+  				});
+  			})
+  		)
   		.subscribe((jwt) => {
   			this.displayButtonJWTObject = true;
   			this.JwtObject = JSON.stringify(jwt, null, 2);
+  			this.displayJWTObject = true;
   			this.changeDetectorRef.detectChanges();
-  		// new QRCode(document.getElementById('qrcode'), JSON.stringify(jwt));
   	});
   }
-  showJwtObject () {
-  	this.displayJWTObject = true;
+  async copyToClipboard () {
+  	try {
+  		await navigator.clipboard.writeText(this.presentationDefinition.request_uri);
+  	} catch (err) {
+  		console.error('Failed to copy: ', err);
+  	}
   }
 }

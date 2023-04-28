@@ -4,6 +4,11 @@ import { json } from '@codemirror/lang-json';
 import { basicSetup, EditorView } from 'codemirror';
 import { Compartment } from '@codemirror/state';
 import { oneDarkTheme } from '@codemirror/theme-one-dark';
+import {
+	StreamLanguage,
+	defaultHighlightStyle,
+	syntaxHighlighting
+} from '@codemirror/language';
 
 @Component({
 	selector: 'vc-editor',
@@ -36,6 +41,7 @@ export class EditorComponent implements AfterViewInit {
   			EditorView.updateListener.of((v) => {this.onChange(v); }),
   			basicSetup,
   			json(),
+  			syntaxHighlighting(defaultHighlightStyle, {fallback: true}),
   			// lineNumbers(),
   			// foldGutter({
   			// 	closedText: '›',
