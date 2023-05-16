@@ -10,4 +10,4 @@ if [ "$(docker ps -a -q -f name=verifier-app)" ]; then
 fi
 
 docker build --no-cache -t verifier-ui .
-docker run --name verifier-app -d -it -p 4300:4300 verifier-ui
+docker run --name verifier-app -d -it -p 4300:4300 -e HOST_API="http://localhost:4300" verifier-ui

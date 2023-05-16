@@ -1,5 +1,4 @@
-events{}
-http {
+# http {
     include /etc/nginx/mime.types;
     server {
         listen 4300;
@@ -8,6 +7,9 @@ http {
         index index.html;
         location / {
             try_files $uri $uri/ /index.html;
+            sub_filter_types text/xml application/javascript text/javascript;
+            sub_filter 'http://localhost:8080' $HOST_API;
+            sub_filter_once on;
         }
     }
-}
+# }
