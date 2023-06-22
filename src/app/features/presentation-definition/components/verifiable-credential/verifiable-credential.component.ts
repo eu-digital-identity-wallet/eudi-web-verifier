@@ -1,7 +1,8 @@
-import { Component, Input, ChangeDetectorRef } from '@angular/core';
+import { Component, Input, ChangeDetectorRef, OnInit } from '@angular/core';
 import { PresentationDefinitionResponse } from '../../models/presentation-definition-response';
 import { PresentationDefinitionService } from '../../services/presentation-definition.service';
 import { Observable, catchError, of, tap } from 'rxjs';
+import { DataService } from '@app/core/services/data.service';
 
 declare let QRCode: any;
 @Component({
@@ -9,38 +10,47 @@ declare let QRCode: any;
 	templateUrl: './verifiable-credential.component.html',
 	styleUrls: ['./verifiable-credential.component.scss']
 })
-export class VerifiableCredentialComponent {
+export class VerifiableCredentialComponent implements OnInit {
 
 	constructor (
     private readonly presentationDefinitionService: PresentationDefinitionService,
-    private readonly changeDetectorRef: ChangeDetectorRef
+    private readonly changeDetectorRef: ChangeDetectorRef,
+    private readonly dataService: DataService
 	) {}
+	ngOnInit (): void {
+		const data = this.dataService.QRCode;
+		console.log('data: => ', data);
+		this.displayJWTObject = false;
+		this.displayButtonJWTObject = false;
+		this.presentationDefinition = data;
+		new QRCode(document.getElementById('qrcode'), data.request_uri);
+	}
 
-  @Input() requestGenerate = false;
-  @Input() set presentationDefinition$ (request: Observable<PresentationDefinitionResponse>) {
-  	this.displayJWTObject = false;
-  	this.displayButtonJWTObject = false;
-  	if (request) {
-  		request.
-  			pipe(
-  				tap((data: PresentationDefinitionResponse) => {
-  					this.displayJWTObject = false;
-  					this.displayButtonJWTObject = false;
-  					this.presentationDefinition = data;
-  					new QRCode(document.getElementById('qrcode'), data.request_uri);
-  					this.changeDetectorRef.detectChanges();
-  				})
-  			).subscribe();
-  	}
-  }
+	requestGenerate = false;
+	// @Input() set presentationDefinition$ (request: Observable<PresentationDefinitionResponse>) {
+	// 	this.displayJWTObject = false;
+	// 	this.displayButtonJWTObject = false;
+	// 	if (request) {
+	// 		request.
+	// 			pipe(
+	// 				tap((data: PresentationDefinitionResponse) => {
+	// 					this.displayJWTObject = false;
+	// 					this.displayButtonJWTObject = false;
+	// 					this.presentationDefinition = data;
+	// 					new QRCode(document.getElementById('qrcode'), data.request_uri);
+	// 					this.changeDetectorRef.detectChanges();
+	// 				})
+	// 			).subscribe();
+	// 	}
+	// }
 
-  JwtObject!: string;
-  displayJWTObject = false;
-  displayButtonJWTObject = false;
+	JwtObject!: string;
+	displayJWTObject = false;
+	displayButtonJWTObject = false;
 
-  presentationDefinition!: PresentationDefinitionResponse;
+	presentationDefinition!: PresentationDefinitionResponse;
 
-  obtainCredential () {
+	obtainCredential () {
   	this.displayButtonJWTObject = false;
   	this.presentationDefinitionService.requestCredentialByJWT(this.presentationDefinition.request_uri)
   		.pipe(
@@ -60,12 +70,12 @@ export class VerifiableCredentialComponent {
   			this.displayJWTObject = true;
   			this.changeDetectorRef.detectChanges();
   	});
-  }
-  async copyToClipboard () {
+	}
+	async copyToClipboard () {
   	try {
   		await navigator.clipboard.writeText(this.presentationDefinition.request_uri);
   	} catch (err) {
   		console.error('Failed to copy: ', err);
   	}
-  }
+	}
 }

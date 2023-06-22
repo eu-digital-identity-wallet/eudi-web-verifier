@@ -1,0 +1,11 @@
+<div class="container">
+  <label class="radio-group-label" id="radio-group-label">Choose an authentication method</label>
+  <mat-radio-group
+    aria-labelledby="radio-group-label"
+    class="radio-group"
+    [(ngModel)]="chose" (change)="selected()">
+    <mat-radio-button class="radio-button" *ngFor="let option of options" [value]="option.key">
+      {{option.value}}
+    </mat-radio-button>
+  </mat-radio-group>
+</div>

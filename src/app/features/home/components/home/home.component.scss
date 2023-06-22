@@ -1,0 +1,27 @@
+:host {
+  height: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+    .container {
+      position: relative;
+      display: flex;
+      flex-direction: column;
+      padding: 15px;
+      width: 100vw;
+      max-width: 375px;
+      height: 979px;
+      min-height: 400px;
+      max-height: 694px;
+      background-color: rgb(246, 247, 250);
+      border-radius: 15px;
+      .submit {
+        align-items: center;
+        display: flex;
+        flex-flow: column wrap;
+        justify-content: center;
+        width: 100%;
+      }
+    }
+}
