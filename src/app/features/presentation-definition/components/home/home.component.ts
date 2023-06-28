@@ -29,8 +29,10 @@ export class HomeComponent implements OnInit {
 	ngOnInit (): void {
 		this.dataService.presentationDefinitionRequest$.subscribe((code) => {
 			this.requestCode = code;
-			console.log(code);
 		});
+	}
+	goBack () {
+		this.navigateService.goBack();
 	}
 	requestedCode (code: any) {
 		this.requestCode = code;

@@ -26,7 +26,7 @@ export class HttpService extends NetworkRequest {
 		return this.http.get<T> (url, options);
 	}
 
-	public post <T> (endpoint: string, body: T, options?: IRequestOptions): Observable<T | ArrayBuffer> {
+	public post <T> (endpoint: string, body: T, options?: IRequestOptions): Observable<T> {
 		return this.POST({ url: this.getUrl(endpoint), body: body, options: options });
 	}
 

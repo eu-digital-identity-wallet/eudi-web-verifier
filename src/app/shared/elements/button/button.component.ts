@@ -16,7 +16,6 @@ export class ButtonComponent {
   	} else {
   		this.buttonName = this.name;
   	}
-  	console.log(this.buttonName);
   }
   @Output() clicked: EventEmitter<string> = new EventEmitter();
   buttonName!: string;

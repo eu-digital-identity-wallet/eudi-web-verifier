@@ -1,7 +1,7 @@
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { throwError, Observable } from 'rxjs';
 import { catchError, take } from 'rxjs/operators';
-import { IRequestParams } from '../models/request.model';
+import { IRequestOptions, IRequestParams } from '../models/request.model';
 
 export class NetworkRequest {
 	http: HttpClient;
@@ -15,7 +15,8 @@ export class NetworkRequest {
 	}
 
 	protected POST<T> (params: IRequestParams<T>): Observable<T> {
-		return this.http.post<T> (params.url, params.body).pipe(
+		const {options} = params;
+		return this.http.post<T> (params.url, params.body, { headers: options?.headers}).pipe(
 			this.error()
 		);
 	}
@@ -44,7 +45,7 @@ export class NetworkRequest {
 		})
 	);
 
-	private handleError (error: HttpErrorResponse): void {
-		console.log('Error', error?.message || 'Something Bad Happened');
+	private handleError (_error: HttpErrorResponse): void {
+		// console.log('Error', error?.message || 'Something Bad Happened');
 	}
 }

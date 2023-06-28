@@ -1,5 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
+import {Location} from '@angular/common';
 
 @Injectable({
 	providedIn: 'root'
@@ -7,14 +8,17 @@ import { Router } from '@angular/router';
 export class NavigateService {
 
 	constructor (
-    private readonly router: Router
+    private readonly router: Router,
+    private readonly location: Location
 	) {}
 
+	goHome () {
+		this.navigateTo('home');
+	}
+	goBack () {
+		this.location.back();
+	}
 	navigateTo (path: string) {
-		this.router.navigate([path]).then(
-			(d) => {
-				console.log('done: ', d);
-			}
-		);
+		this.router.navigate([path]);
 	}
 }

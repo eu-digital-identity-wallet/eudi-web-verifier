@@ -1,10 +1,8 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 
-import { HomeRoutingModule } from './home-routing.module';
+import { SIOPRoutingModule } from './siop-routing.module';
 import { HomeComponent } from './components/home/home.component';
-import { SharedModule } from '@app/shared/shared.module';
-import { RadioGroupComponent } from '@app/shared/elements/radio-group/radio-group.component';
 import { LayoutComponent } from '@app/core/layout/layout/layout.component';
 
 
@@ -13,11 +11,9 @@ import { LayoutComponent } from '@app/core/layout/layout/layout.component';
 		HomeComponent
 	],
 	imports: [
-		RadioGroupComponent,
 		CommonModule,
-		SharedModule,
-		HomeRoutingModule,
+		SIOPRoutingModule,
 		LayoutComponent
 	]
 })
-export class HomeModule { }
+export class SIOPModule { }

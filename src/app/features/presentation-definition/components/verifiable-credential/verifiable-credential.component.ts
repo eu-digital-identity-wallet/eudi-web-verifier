@@ -1,6 +1,6 @@
 import { Component, Input, ChangeDetectorRef, OnInit } from '@angular/core';
 import { PresentationDefinitionResponse } from '../../models/presentation-definition-response';
-import { PresentationDefinitionService } from '../../services/presentation-definition.service';
+import { PresentationDefinitionService } from '../../../../core/services/presentation-definition.service';
 import { Observable, catchError, of, tap } from 'rxjs';
 import { DataService } from '@app/core/services/data.service';
 
@@ -19,7 +19,6 @@ export class VerifiableCredentialComponent implements OnInit {
 	) {}
 	ngOnInit (): void {
 		const data = this.dataService.QRCode;
-		console.log('data: => ', data);
 		this.displayJWTObject = false;
 		this.displayButtonJWTObject = false;
 		this.presentationDefinition = data;

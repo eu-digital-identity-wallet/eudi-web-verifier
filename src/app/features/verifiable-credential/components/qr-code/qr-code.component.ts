@@ -1,7 +1,11 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { SharedModule } from '@app/shared/shared.module';
 import { DataService } from '@app/core/services/data.service';
+import { PresentationDefinitionService } from '@app/core/services/presentation-definition.service';
+import { ReplaySubject, Subject, catchError, interval, of, takeUntil } from 'rxjs';
+import { JWT } from '@app/features/presentation-definition/models/JWT';
+import { NavigateService } from '@app/core/services/navigate.service';
 
 declare let QRCode: any;
 
@@ -11,85 +15,104 @@ declare let QRCode: any;
 	imports: [CommonModule, SharedModule],
 	templateUrl: './qr-code.component.html',
 	styleUrls: ['./qr-code.component.scss'],
+	providers: [PresentationDefinitionService],
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class QrCodeComponent implements OnInit {
+export class QrCodeComponent implements OnInit, OnDestroy {
 	constructor (
-    // private readonly presentationDefinitionService: {
-    //   client_id: string,
-    //   request_uri: string
-    // },
-    private readonly dataService: DataService
+    private readonly presentationDefinitionService: PresentationDefinitionService,
+    private readonly dataService: DataService,
+    private readonly navigateService: NavigateService,
+    private readonly changeDetectorRef: ChangeDetectorRef
 	) {}
+
+	ngOnDestroy (): void {
+		this.destroy$.unsubscribe();
+		this.dataService.setQRCode('');
+	}
 
 	ngOnInit (): void {
 		const data = this.dataService.QRCode;
-		console.log('data: => ', data);
+
+		if (!data) {
+			this.navigateService.goHome();
+		}
 		this.displayJWTObject = false;
 		this.displayButtonJWTObject = false;
 		this.presentationDefinition = data;
 		new QRCode(document.getElementById('qrcode'), data.request_uri);
+		this.pollingRequest(data.presentation_id,'nonce');
 	}
+	destroy$ = new Subject();
+  @ViewChild('qrCode')	qrCode!: ElementRef;
+  responseData = false;
+  requestGenerate = false;
+  hasResult = false;
 
-	requestGenerate = false;
-	// @Input() set presentationDefinition$ (request: Observable<{
-	//   client_id: string,
-	//   request_uri: string
-	// }>) {
-	// 	this.displayJWTObject = false;
-	// 	this.displayButtonJWTObject = false;
-	// 	if (request) {
-	// 		request.
-	// 			pipe(
-	// 				tap((data: {
-	//           client_id: string,
-	//           request_uri: string
-	//         }) => {
-	// 					this.displayJWTObject = false;
-	// 					this.displayButtonJWTObject = false;
-	// 					this.presentationDefinition = data;
-	// 					new QRCode(document.getElementById('qrcode'), data.request_uri);
-	// 					this.changeDetectorRef.detectChanges();
-	// 				})
-	// 			).subscribe();
-	// 	}
-	// }
+  results!: string;
+  JwtObject!: string;
+  displayJWTObject = false;
+  displayButtonJWTObject = false;
 
-	JwtObject!: string;
-	displayJWTObject = false;
-	displayButtonJWTObject = false;
-
-	presentationDefinition!: {
+  presentationDefinition!: {
     client_id: string,
     request_uri: string
+    presentation_id: string
   };
 
-	obtainCredential () {
+  pollingRequest (presentation_id: string, nonce: string) {
+  	const source = interval(2000);
+  	const stopPlay$ = new ReplaySubject(1);
+  	source
+  		.pipe(takeUntil(stopPlay$))
+  		.subscribe(() => {
+  		this.presentationDefinitionService.getWalletResponse(presentation_id,nonce).
+  				pipe(takeUntil(this.destroy$))
+  				.subscribe(
+  				res =>{
+  					this.results = res;
+  					const divElement = this.qrCode.nativeElement;
+  					divElement.style.display='none';
+  					this.hasResult = true;
+  					this.changeDetectorRef.detectChanges();
+  					stopPlay$.next(1);
+  				},
+  			);
+  		});
+  }
+
+  authentication () {
   	this.displayButtonJWTObject = false;
-  	// this.presentationDefinitionService.requestCredentialByJWT(this.presentationDefinition.request_uri)
-  	// 	.pipe(
-  	// 		catchError((error) => {
-  	// 			let message = 'An error occurred while processing your request.';
-  	// 			if (error.status === 400) {
-  	// 				message = 'The JWT has been already fetched.';
-  	// 			}
-  	// 			return of({
-  	// 				error: message
-  	// 			});
-  	// 		})
-  	// 	)
-  	// 	.subscribe((jwt) => {
-  	// 		this.displayButtonJWTObject = true;
-  	// 		this.JwtObject = JSON.stringify(jwt, null, 2);
-  	// 		this.displayJWTObject = true;
-  	// 		this.changeDetectorRef.detectChanges();
-  	// });
-	}
-	async copyToClipboard () {
+  	this.presentationDefinitionService.requestCredentialByJWT(this.presentationDefinition.request_uri)
+  		.pipe(
+  			catchError((error) => {
+  				let message = 'An error occurred while processing your request.';
+  				if (error.status === 400) {
+  					message = 'The JWT has been already fetched.';
+  				}
+  				return of({
+  					error: message
+  				});
+  			})
+  		)
+  		.subscribe((jwt: JWT | any) => {
+  			this.displayButtonJWTObject = true;
+  			this.JwtObject = JSON.stringify(jwt, null, 2);
+  			this.displayJWTObject = true;
+  			this.submitWalletResponse(jwt.state);
+  			this.changeDetectorRef.detectChanges();
+  	});
+  }
+
+  submitWalletResponse (state: string) {
+  	this.presentationDefinitionService.submitWalletResponse(state).subscribe();
+  }
+
+  async copyToClipboard () {
   	try {
   		await navigator.clipboard.writeText(this.presentationDefinition.request_uri);
   	} catch (err) {
   		console.error('Failed to copy: ', err);
   	}
-	}
+  }
 }

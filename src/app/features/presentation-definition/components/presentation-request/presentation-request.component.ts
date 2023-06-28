@@ -18,7 +18,6 @@ export class PresentationRequestComponent {
   ) {}
 
   onRequest (code: any) {
-  	console.log(code);
   	this.dataService.presentationDefinitionRequest$.next(code);
   	this.request.emit(code);
   }

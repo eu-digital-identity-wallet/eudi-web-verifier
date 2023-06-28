@@ -25,6 +25,9 @@
               margin-top: 40px;
               padding: 15px;
               width: 256px;
+              &.green-bg {
+                background: green;
+              }
           }
 
           .vc-obtain-container {

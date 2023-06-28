@@ -2,10 +2,11 @@
   <div class="vc-box">
     <div class="vc-title">
       <h2>Create a Presentation Definition</h2>
+      <div class="arrow-back">
+        <mat-icon aria-hidden="false" fontIcon="arrow_back" (click)="goBack()"></mat-icon>
+      </div>
     </div>
     <div class="vc-box-top">
-      <!-- <vc-presentation-request (request)="requestedCode($event)"></vc-presentation-request> -->
-      <!-- <vc-verifiable-credential [requestGenerate]="requestGenerate" [presentationDefinition$]="presentationDefinition$"></vc-verifiable-credential> -->
       <router-outlet></router-outlet>
     </div>
     <div *ngIf="invalidJSON" class="vc-box-display-error">

@@ -6,7 +6,10 @@ const routes: Routes = [
 	{ path: 'home', loadChildren: () => import('./features/home/home.module').then(m => m.HomeModule) },
 	{ path: 'presentation',
 		loadChildren: () => import('./features/presentation-definition/presentation-definition.module').
-			then(m => m.PresentationDefinitionModule )}
+			then(m => m.PresentationDefinitionModule )},
+	{ path: 'siop',
+		loadChildren: () => import('./features/siop/siop.module').
+			then(m => m.SIOPModule )}
 ];
 
 @NgModule({

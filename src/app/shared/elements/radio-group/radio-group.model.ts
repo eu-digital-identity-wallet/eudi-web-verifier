@@ -1,4 +1,5 @@
 export type RadioGroupModel = {
   key: string,
-  value: string
+  value: string,
+  isDisabled: boolean
 }

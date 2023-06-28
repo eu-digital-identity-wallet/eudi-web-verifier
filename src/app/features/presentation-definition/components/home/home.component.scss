@@ -31,6 +31,9 @@
                 gap: 24px;
                 margin-bottom: 2rem;
                 width: 100%;
+                display: flex;
+                flex-direction: row;
+                justify-content: space-between;
 
                 h2 {
                     font-family: Inter;
@@ -38,6 +41,15 @@
                     font-style: normal;
                     font-weight: 500;
                     line-height: 28px;
+                }
+                .arrow-back {
+                  display: flex;
+                  align-items: center;
+                  justify-content: end;
+                  margin: 0 0 16px;
+                  mat-icon {
+                    cursor: pointer;
+                  }
                 }
             }
 
