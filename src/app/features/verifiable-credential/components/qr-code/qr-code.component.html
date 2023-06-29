@@ -15,7 +15,7 @@
         </div>
         <div class="vc-obtain-container" *ngIf="(presentationDefinition?.request_uri && !requestGenerate) && !displayButtonJWTObject">
         <!-- <vc-button name="Continue the authentication"  mode="none" color="white" (clicked)="authentication()"></vc-button> -->
-        <vc-button name="Copy to Clipboard"  mode="none" color="white" (clicked)="copyToClipboard()"></vc-button>
+        <vc-button *ngIf="!hasResult" name="Copy to Clipboard"  mode="none" color="white" (clicked)="copyToClipboard()"></vc-button>
       </div>
       <!-- <div class="vc-display-jwt" *ngIf="!requestGenerate">
         <vc-editor *ngIf="displayJWTObject" [code]="JwtObject"></vc-editor>

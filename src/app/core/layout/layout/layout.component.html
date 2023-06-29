@@ -2,7 +2,7 @@
   <div class="vc-box">
     <div class="vc-title">
       <ng-content select="[title]"></ng-content>
-      <div class="arrow-back">
+      <div *ngIf="showBackButton" class="arrow-back">
         <mat-icon aria-hidden="false" fontIcon="arrow_back" (click)="goBack()"></mat-icon>
       </div>
     </div>

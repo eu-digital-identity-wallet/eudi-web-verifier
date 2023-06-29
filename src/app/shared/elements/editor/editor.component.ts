@@ -5,7 +5,6 @@ import { basicSetup, EditorView } from 'codemirror';
 import { Compartment } from '@codemirror/state';
 import { oneDarkTheme } from '@codemirror/theme-one-dark';
 import {
-	StreamLanguage,
 	defaultHighlightStyle,
 	syntaxHighlighting
 } from '@codemirror/language';

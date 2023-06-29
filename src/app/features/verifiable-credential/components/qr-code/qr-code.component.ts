@@ -3,9 +3,10 @@ import { CommonModule } from '@angular/common';
 import { SharedModule } from '@app/shared/shared.module';
 import { DataService } from '@app/core/services/data.service';
 import { PresentationDefinitionService } from '@app/core/services/presentation-definition.service';
-import { ReplaySubject, Subject, catchError, interval, of, takeUntil } from 'rxjs';
+import { ReplaySubject, Subject, catchError, interval, of, take, takeUntil } from 'rxjs';
 import { JWT } from '@app/features/presentation-definition/models/JWT';
 import { NavigateService } from '@app/core/services/navigate.service';
+import { environment } from '@environments/environment';
 
 declare let QRCode: any;
 
@@ -40,7 +41,8 @@ export class QrCodeComponent implements OnInit, OnDestroy {
 		this.displayJWTObject = false;
 		this.displayButtonJWTObject = false;
 		this.presentationDefinition = data;
-		new QRCode(document.getElementById('qrcode'), data.request_uri);
+		const qr = this.buildQrCode(data);
+		new QRCode(document.getElementById('qrcode'), qr);
 		this.pollingRequest(data.presentation_id,'nonce');
 	}
 	destroy$ = new Subject();
@@ -64,7 +66,10 @@ export class QrCodeComponent implements OnInit, OnDestroy {
   	const source = interval(2000);
   	const stopPlay$ = new ReplaySubject(1);
   	source
-  		.pipe(takeUntil(stopPlay$))
+  		.pipe(
+  			takeUntil(stopPlay$),
+  			take(60)
+  		)
   		.subscribe(() => {
   		this.presentationDefinitionService.getWalletResponse(presentation_id,nonce).
   				pipe(takeUntil(this.destroy$))
@@ -110,9 +115,12 @@ export class QrCodeComponent implements OnInit, OnDestroy {
 
   async copyToClipboard () {
   	try {
-  		await navigator.clipboard.writeText(this.presentationDefinition.request_uri);
+  		await navigator.clipboard.writeText(this.buildQrCode(this.presentationDefinition));
   	} catch (err) {
   		console.error('Failed to copy: ', err);
   	}
+  }
+  private buildQrCode (data: {client_id: string, request_uri: string, presentation_id: string}): string {
+  	return `${environment.apiUrl}?client_id=${data.client_id}&request_uri=${data.request_uri}`;
   }
 }

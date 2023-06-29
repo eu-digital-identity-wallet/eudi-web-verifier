@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { environment } from '@environments/environment';
 import { Observable } from 'rxjs';
 import { NetworkRequest } from '../classes/NetworkRequest';
-import { IRequestOptions, IRequestParams } from '../models/request.model';
+import { IRequestOptions } from '../models/request.model';
 
 @Injectable({
 	providedIn: 'root'

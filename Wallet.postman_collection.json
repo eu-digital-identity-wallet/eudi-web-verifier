@@ -1,0 +1,577 @@
+{
+	"info": {
+		"_postman_id": "bfbcecb1-a2df-4e24-bdab-074e38c1f7b9",
+		"name": "Wallet",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json",
+		"_exporter_id": "12735027"
+	},
+	"item": [
+		{
+			"name": "TEST SIOP",
+			"item": [
+				{
+					"name": "Getting the request object (GET Request)",
+					"event": [
+						{
+							"listen": "test",
+							"script": {
+								"exec": [
+									"\r",
+									" function parseJwt (token,part) {\r",
+									"   var base64Url = token.split('.')[part];\r",
+									"   var words = CryptoJS.enc.Base64.parse(base64Url);\r",
+									"   var jsonPayload = CryptoJS.enc.Utf8.stringify(words);\r",
+									"   return  JSON.parse(jsonPayload);\r",
+									"};\r",
+									"\r",
+									"\r",
+									"console.log(\"response\");\r",
+									"var jwt = parseJwt(responseBody,1);\r",
+									"console.log(jwt);\r",
+									"postman.setEnvironmentVariable(\"nonce\", jwt.nonce);\r",
+									"postman.setEnvironmentVariable(\"state\", jwt.state);\r",
+									"\r",
+									"console.log(\"state\", jwt.state);\r",
+									"\r",
+									"const secret = \"mysecret\"\r",
+									"// The header typically consists of two parts: \r",
+									"// the type of the token, which is JWT, and the signing algorithm being used, \r",
+									"// such as HMAC SHA256 or RSA.\r",
+									"const header = {\r",
+									"  \"alg\": \"HS256\",\r",
+									"  \"typ\": \"JWT\"\r",
+									"}\r",
+									"const encodedHeaders = btoa(JSON.stringify(header))\r",
+									"const JWT_EXPIRATION_IN_MILlISECONDS = 3600000;\r",
+									"const now = new Date().getTime();\r",
+									"const claims = {\r",
+									"    \"state\": jwt.state,\r",
+									"    \"id_token\": \"bla\",\r",
+									"    \"iss\": \"eudi.issuer.org\",\r",
+									"    \"iat\": now,\r",
+									"    \"exp\": now+JWT_EXPIRATION_IN_MILlISECONDS,\r",
+									"    \"nbf\": now-1\r",
+									"}\r",
+									"const encodedPlayload = btoa(JSON.stringify(claims))\r",
+									"const signature = CryptoJS.HmacSHA256(`${encodedHeaders}.${encodedPlayload}`, secret);\r",
+									"// const signature = HMACSHA256(`${encodedHeaders}.${encodedPlayload}`, \"mysecret\")\r",
+									"console.log(\"signature: \", signature);\r",
+									"const encodedSignature = btoa(signature);\r",
+									"console.log(\"encodedSignature: \", encodedSignature);\r",
+									"\r",
+									"const jwtBuild = `${encodedHeaders}.${encodedPlayload}.${encodedSignature}`\r",
+									"postman.setEnvironmentVariable(\"JWTTokenForResponse\", jwtBuild);\r",
+									"console.log({jwtBuild})\r",
+									""
+								],
+								"type": "text/javascript"
+							}
+						}
+					],
+					"request": {
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "http://localhost:8080/wallet/request.jwt/AyQMLKneKpZpim3ZPZ09ZlJ8ILJ6Pqr-POlIQn_DgCjdAWhBz1DY-h1FYzZk72SDreWeScWEFVLDN4-Ysaxp9w",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"wallet",
+								"request.jwt",
+								"AyQMLKneKpZpim3ZPZ09ZlJ8ILJ6Pqr-POlIQn_DgCjdAWhBz1DY-h1FYzZk72SDreWeScWEFVLDN4-Ysaxp9w"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Submit Wallet Response - Direct Post",
+					"request": {
+						"method": "POST",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							},
+							{
+								"key": "Content-type",
+								"value": "application/x-www-form-urlencoded",
+								"type": "text"
+							}
+						],
+						"body": {
+							"mode": "urlencoded",
+							"urlencoded": [
+								{
+									"key": "response",
+									"value": "{{JWTTokenForResponse}}",
+									"type": "text"
+								}
+							]
+						},
+						"url": {
+							"raw": "http://localhost:8080/wallet/direct_post",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"wallet",
+								"direct_post"
+							]
+						}
+					},
+					"response": []
+				},
+				{
+					"name": "Get Wallet Response (Polling)",
+					"request": {
+						"method": "GET",
+						"header": [
+							{
+								"key": "Accept",
+								"value": "application/json",
+								"type": "text"
+							}
+						],
+						"url": {
+							"raw": "http://localhost:8080/ui/presentations/{{presentation_id}}?nonce={{nonce}}",
+							"protocol": "http",
+							"host": [
+								"localhost"
+							],
+							"port": "8080",
+							"path": [
+								"ui",
+								"presentations",
+								"{{presentation_id}}"
+							],
+							"query": [
+								{
+									"key": "nonce",
+									"value": "{{nonce}}"
+								}
+							]
+						}
+					},
+					"response": []
+				}
+			]
+		},
+		{
+			"name": "Submit Authorisation Response",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-type",
+						"value": "multipart/form-data",
+						"type": "text",
+						"disabled": true
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "state",
+							"value": "{{state}}",
+							"type": "text"
+						},
+						{
+							"key": "idToken",
+							"value": "subject_signed_id_token",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:8080/wallet/direct_post",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"wallet",
+						"direct_post"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Requesting a id_token & vp_token",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);\r",
+							"postman.setEnvironmentVariable(\"presentation_id\", jsonData.presentation_id);\r",
+							"postman.setEnvironmentVariable(\"request_uri\", jsonData.request_uri);\r",
+							" let state = \"\";\r",
+							"if ( jsonData.request_uri ) {\r",
+							"    const start = jsonData.request_uri.indexOf(\".jwt\") + 5;\r",
+							"    const end = jsonData.request_uri.length;\r",
+							"    state = jsonData.request_uri.slice(start, end);\r",
+							"    postman.setEnvironmentVariable(\"state\", state)\r",
+							"}\r",
+							"\r",
+							"\r",
+							"const secret = \"mysecret\"\r",
+							"// The header typically consists of two parts: \r",
+							"// the type of the token, which is JWT, and the signing algorithm being used, \r",
+							"// such as HMAC SHA256 or RSA.\r",
+							"const header = {\r",
+							"  \"alg\": \"HS256\",\r",
+							"  \"typ\": \"JWT\"\r",
+							"}\r",
+							"const encodedHeaders = btoa(JSON.stringify(header))\r",
+							"const JWT_EXPIRATION_IN_MILlISECONDS = 3600000;\r",
+							"const now = new Date().getTime();\r",
+							"const claims = {\r",
+							"    \"state\": state,\r",
+							"    \"id_token\": \"1234\",\r",
+							"    \"iss\": \"eudi.issuer.org\",\r",
+							"    \"iat\": now,\r",
+							"    \"exp\": now+JWT_EXPIRATION_IN_MILlISECONDS,\r",
+							"    \"nbf\": now-1\r",
+							"}\r",
+							"const encodedPlayload = btoa(JSON.stringify(claims))\r",
+							"const signature = CryptoJS.HmacSHA256(`${encodedHeaders}.${encodedPlayload}`, secret);\r",
+							"// const signature = HMACSHA256(`${encodedHeaders}.${encodedPlayload}`, \"mysecret\")\r",
+							"console.log(\"signature: \", signature);\r",
+							"const encodedSignature = btoa(signature);\r",
+							"console.log(\"encodedSignature: \", encodedSignature);\r",
+							"\r",
+							"const jwt = `${encodedHeaders}.${encodedPlayload}.${encodedSignature}`\r",
+							"postman.setEnvironmentVariable(\"JWTTokenForResponse\", jwt);\r",
+							"console.log({jwt})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"type\": \"id_token\",\n  \"id_token_type\": \"subject_signed_id_token\",\n  \"nonce\": \"nonce\",\n  \"presentation_definition\": {\n    \"id\": \"32f54163-7166-48f1-93d8-ff217bdb0653\",\n    \"input_descriptors\": [\n      {\n        \"id\": \"wa_driver_license\",\n        \"name\": \"Washington State Business License\",\n        \"purpose\": \"We can only allow licensed Washington State business representatives into the WA Business Conference\",\n        \"constraints\": {\n          \"fields\": [\n            {\n              \"path\": [\n                \"$.credentialSubject.dateOfBirth\",\n                \"$.credentialSubject.dob\",\n                \"$.vc.credentialSubject.dateOfBirth\",\n                \"$.vc.credentialSubject.dob\"\n              ]\n            }\n          ]\n        }\n      }\n    ]\n  }\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/ui/presentations",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"ui",
+						"presentations"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Requesting a id_token",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"var jsonData = JSON.parse(responseBody);\r",
+							"postman.setEnvironmentVariable(\"presentation_id\", jsonData.presentation_id);\r",
+							"postman.setEnvironmentVariable(\"request_uri\", jsonData.request_uri);\r",
+							" let state = \"\";\r",
+							"if ( jsonData.request_uri ) {\r",
+							"    const start = jsonData.request_uri.indexOf(\".jwt\") + 5;\r",
+							"    const end = jsonData.request_uri.length;\r",
+							"    state = jsonData.request_uri.slice(start, end);\r",
+							"    postman.setEnvironmentVariable(\"state\", state)\r",
+							"}\r",
+							"\r",
+							"\r",
+							"const secret = \"mysecret\"\r",
+							"// The header typically consists of two parts: \r",
+							"// the type of the token, which is JWT, and the signing algorithm being used, \r",
+							"// such as HMAC SHA256 or RSA.\r",
+							"const header = {\r",
+							"  \"alg\": \"HS256\",\r",
+							"  \"typ\": \"JWT\"\r",
+							"}\r",
+							"const encodedHeaders = btoa(JSON.stringify(header))\r",
+							"const JWT_EXPIRATION_IN_MILlISECONDS = 3600000;\r",
+							"const now = new Date().getTime();\r",
+							"const claims = {\r",
+							"    \"state\": state,\r",
+							"    \"id_token\": \"1234\",\r",
+							"    \"iss\": \"eudi.issuer.org\",\r",
+							"    \"iat\": now,\r",
+							"    \"exp\": now+JWT_EXPIRATION_IN_MILlISECONDS,\r",
+							"    \"nbf\": now-1\r",
+							"}\r",
+							"const encodedPlayload = btoa(JSON.stringify(claims))\r",
+							"const signature = CryptoJS.HmacSHA256(`${encodedHeaders}.${encodedPlayload}`, secret);\r",
+							"// const signature = HMACSHA256(`${encodedHeaders}.${encodedPlayload}`, \"mysecret\")\r",
+							"console.log(\"signature: \", signature);\r",
+							"const encodedSignature = btoa(signature);\r",
+							"console.log(\"encodedSignature: \", encodedSignature);\r",
+							"\r",
+							"const jwt = `${encodedHeaders}.${encodedPlayload}.${encodedSignature}`\r",
+							"postman.setEnvironmentVariable(\"JWTTokenForResponse\", jwt);\r",
+							"console.log({jwt})"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Content-type",
+						"value": "application/json"
+					}
+				],
+				"body": {
+					"mode": "raw",
+					"raw": "{\n  \"type\": \"id_token\",\n  \"id_token_type\": \"subject_signed_id_token\",\n  \"nonce\": \"nonce\"\n}"
+				},
+				"url": {
+					"raw": "http://localhost:8080/ui/presentations",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"ui",
+						"presentations"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Submit Wallet Response - Direct Post",
+			"request": {
+				"method": "POST",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					},
+					{
+						"key": "Content-type",
+						"value": "application/x-www-form-urlencoded",
+						"type": "text"
+					}
+				],
+				"body": {
+					"mode": "urlencoded",
+					"urlencoded": [
+						{
+							"key": "state",
+							"value": "{{state}}",
+							"type": "text",
+							"disabled": true
+						},
+						{
+							"key": "idToken",
+							"value": "123",
+							"type": "text",
+							"disabled": true
+						},
+						{
+							"key": "response",
+							"value": "{{JWTTokenForResponse}}",
+							"type": "text"
+						}
+					]
+				},
+				"url": {
+					"raw": "http://localhost:8080/wallet/direct_post",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"wallet",
+						"direct_post"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Getting the request object",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"\r",
+							" function parseJwt (token,part) {\r",
+							"   var base64Url = token.split('.')[part];\r",
+							"   var words = CryptoJS.enc.Base64.parse(base64Url);\r",
+							"   var jsonPayload = CryptoJS.enc.Utf8.stringify(words);\r",
+							"   return  JSON.parse(jsonPayload);\r",
+							"};\r",
+							"\r",
+							"\r",
+							"console.log(\"response\");\r",
+							"var jwt = parseJwt(responseBody,1);\r",
+							"console.log(jwt);\r",
+							"postman.setEnvironmentVariable(\"nonce\", jwt.nonce);\r",
+							"postman.setEnvironmentVariable(\"state\", jwt.state);\r",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "{{request_uri}}",
+					"host": [
+						"{{request_uri}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Accessing the request_uri",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"exec": [
+							"\r",
+							" function parseJwt (token,part) {\r",
+							"   var base64Url = token.split('.')[part];\r",
+							"   var words = CryptoJS.enc.Base64.parse(base64Url);\r",
+							"   var jsonPayload = CryptoJS.enc.Utf8.stringify(words);\r",
+							"   return  JSON.parse(jsonPayload);\r",
+							"};\r",
+							"\r",
+							"\r",
+							"console.log(\"response\");\r",
+							"var jwt = parseJwt(responseBody,1);\r",
+							"console.log(jwt);\r",
+							"postman.setEnvironmentVariable(\"nonce\", jwt.nonce);\r",
+							"postman.setEnvironmentVariable(\"state\", jwt.state);"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:8080/wallet/request.jwt/{{presentation_id}}",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"wallet",
+						"request.jwt",
+						"{{presentation_id}}"
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Get Wallet Response",
+			"request": {
+				"method": "GET",
+				"header": [
+					{
+						"key": "Accept",
+						"value": "application/json",
+						"type": "text"
+					}
+				],
+				"url": {
+					"raw": "http://localhost:8080/ui/presentations/{{presentation_id}}?nonce={{nonce}}",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"ui",
+						"presentations",
+						"{{presentation_id}}"
+					],
+					"query": [
+						{
+							"key": "nonce",
+							"value": "{{nonce}}"
+						}
+					]
+				}
+			},
+			"response": []
+		},
+		{
+			"name": "Requesting a id_token",
+			"protocolProfileBehavior": {
+				"disableBodyPruning": true
+			},
+			"request": {
+				"method": "GET",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n  \"type\": \"id_token\",\r\n  \"id_token_type\": \"subject_signed_id_token\",\r\n  \"nonce\" : \"Nonce\"\r\n}",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:8080/ui/presentations",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "8080",
+					"path": [
+						"ui",
+						"presentations"
+					]
+				}
+			},
+			"response": []
+		}
+	],
+	"variable": [
+		{
+			"key": "request_uri",
+			"value": "s"
+		}
+	]
+}
