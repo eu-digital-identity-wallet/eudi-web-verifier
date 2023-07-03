@@ -18,7 +18,7 @@ export class NavigateService {
 	goBack () {
 		this.location.back();
 	}
-	navigateTo (path: string) {
-		this.router.navigate([path]);
+	navigateTo (path: string): Promise<boolean> {
+		return this.router.navigate([path]);
 	}
 }

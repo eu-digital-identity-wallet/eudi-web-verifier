@@ -34,34 +34,25 @@ export class QrCodeComponent implements OnInit, OnDestroy {
 	}
 
 	ngOnInit (): void {
-		const data = this.dataService.QRCode as PresentationDefinitionResponse;
+		this.presentationDefinition = this.dataService.QRCode as PresentationDefinitionResponse;
 
-		if (!data) {
+		if (!this.presentationDefinition) {
 			this.navigateService.goHome();
 		}
-		this.displayJWTObject = false;
 		this.displayButtonJWTObject = false;
-		this.presentationDefinition = data;
-		const qr = this.buildQrCode(data);
+		const qr = this.buildQrCode(this.presentationDefinition);
 		new QRCode(document.getElementById('qrcode'), qr);
-		this.pollingRequest(data.presentation_id,'nonce');
+		this.pollingRequest(this.presentationDefinition.presentation_id,'nonce');
 	}
 	destroy$ = new Subject();
   @ViewChild('qrCode')	qrCode!: ElementRef;
-  responseData = false;
-  requestGenerate = false;
   hasResult = false;
 
   results!: string;
   JwtObject!: string;
-  displayJWTObject = false;
   displayButtonJWTObject = false;
 
-  presentationDefinition!: {
-    client_id: string,
-    request_uri: string
-    presentation_id: string
-  };
+  presentationDefinition!: PresentationDefinitionResponse;
 
   pollingRequest (presentation_id: string, nonce: string) {
   	const source = interval(2000);

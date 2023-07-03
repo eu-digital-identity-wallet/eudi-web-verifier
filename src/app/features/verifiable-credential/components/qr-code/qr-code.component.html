@@ -13,11 +13,8 @@
             </code>
           </div>
         </div>
-        <div class="vc-obtain-container" *ngIf="(presentationDefinition?.request_uri && !requestGenerate) && !displayButtonJWTObject">
+        <div class="vc-obtain-container" *ngIf="(presentationDefinition?.request_uri) && !displayButtonJWTObject">
         <vc-button *ngIf="!hasResult" name="Copy to Clipboard"  mode="none" color="white" (clicked)="copyToClipboard()"></vc-button>
       </div>
-      <!-- <div class="vc-display-jwt" *ngIf="!requestGenerate">
-        <vc-editor *ngIf="displayJWTObject" [code]="JwtObject"></vc-editor>
-      </div> -->
   </div>
 </div>

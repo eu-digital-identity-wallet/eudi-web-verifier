@@ -1,11 +1,6 @@
-<div class="container">
-  <div class="vc-box">
-    <div class="vc-title">
-      <h2>Create a Presentation Definition</h2>
-      <div class="arrow-back">
-        <mat-icon aria-hidden="false" fontIcon="arrow_back" (click)="goBack()"></mat-icon>
-      </div>
-    </div>
+<vc-layout>
+  <h2 title>Create a Presentation Definition</h2>
+  <div body class="container">
     <div class="vc-box-top">
       <router-outlet></router-outlet>
     </div>
@@ -16,4 +11,4 @@
       <vc-button name="Generate code" [mode]="buttonMode" [isDisabled]="!requestCode" color="primary" (clicked)="generateCode()"></vc-button>
     </div>
   </div>
-</div>8
+</vc-layout>
