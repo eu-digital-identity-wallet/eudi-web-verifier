@@ -1,10 +1,16 @@
+import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { LayoutComponent } from '@app/core/layout/layout/layout.component';
 import { DataService } from '@app/core/services/data.service';
 import { NavigateService } from '@app/core/services/navigate.service';
 import { OnlineAuthenticationSIOPService } from '@app/core/services/online-authentication-siop.service';
+import { RadioGroupComponent } from '@app/shared/elements/radio-group/radio-group.component';
+import { SharedModule } from '@app/shared/shared.module';
 
 @Component({
 	selector: 'vc-home',
+	standalone: true,
+	imports: [CommonModule, RadioGroupComponent, SharedModule, LayoutComponent],
 	templateUrl: './home.component.html',
 	styleUrls: ['./home.component.scss'],
 	providers: [OnlineAuthenticationSIOPService],

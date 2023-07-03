@@ -1,18 +1,19 @@
 import { Injectable } from '@angular/core';
 import { Subject } from 'rxjs';
+import { PresentationDefinitionResponse } from '../models/presentation-definition-response';
 
 @Injectable({
 	providedIn: 'root'
 })
 export class DataService {
 
-	presentationDefinitionRequest$: Subject<any> = new Subject();
+	presentationDefinitionRequest$: Subject<string> = new Subject();
 
-	private dataQR!: {client_id: string, request_uri: string, presentation_id: string };
+	private dataQR: PresentationDefinitionResponse | null = null;
 	get QRCode () {
 		return this.dataQR;
 	}
-	setQRCode (code: any) {
+	setQRCode (code: PresentationDefinitionResponse | null) {
 		this.dataQR = code;
 	}
 }

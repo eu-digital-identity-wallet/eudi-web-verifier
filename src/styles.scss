@@ -8,16 +8,18 @@ body {
     overflow-x: hidden;
     width: 100vw;
 }
+
 main {
-  width: 100vw;
-  height: 100vh;
-  padding: 0;
-  margin: 0;
-  overflow: hidden;
+    height: 100vh;
+    margin: 0;
+    overflow: hidden;
+    padding: 0;
+    width: 100vw;
 }
+
 .ͼe {
-  color: #9af3b1 !important;
+    color: #9af3b1 !important;
 }
 
 html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }
+body { font-family: Roboto, "Helvetica Neue", sans-serif; margin: 0; }

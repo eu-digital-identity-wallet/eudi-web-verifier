@@ -5,8 +5,7 @@ import { CommonModule } from '@angular/common';
 	selector: 'vc-menu',
 	standalone: true,
 	imports: [CommonModule],
-	templateUrl: './menu.component.html',
-	styleUrls: ['./menu.component.scss']
+	templateUrl: './menu.component.html'
 })
 export class MenuComponent {
 

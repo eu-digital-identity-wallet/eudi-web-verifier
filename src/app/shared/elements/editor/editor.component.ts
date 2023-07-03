@@ -1,4 +1,4 @@
-import { AfterViewInit, ChangeDetectionStrategy, Component, EventEmitter, Input, Output, ViewChild } from '@angular/core';
+import { AfterViewInit, ChangeDetectionStrategy, Component, EventEmitter, Input, Output, ViewChild, ElementRef } from '@angular/core';
 import { CodeEditorMode } from './CodeEditorMode';
 import { json } from '@codemirror/lang-json';
 import { basicSetup, EditorView } from 'codemirror';
@@ -17,7 +17,7 @@ import {
 })
 export class EditorComponent implements AfterViewInit {
 
-  @ViewChild('editorHolder', { static: true })	editorHolder: any;
+  @ViewChild('editorHolder', { static: true })	editorHolder!: ElementRef;
 
   @Input()	mode: CodeEditorMode = 'json';
 
@@ -29,9 +29,7 @@ export class EditorComponent implements AfterViewInit {
 
   editorTheme = new Compartment();
 
-  // code: string | undefined;
-
-  codeMirrorInstance: any;
+  codeMirrorInstance!: EditorView;
 
   ngAfterViewInit (): void {
   	this.codeMirrorInstance = new EditorView({
@@ -41,18 +39,13 @@ export class EditorComponent implements AfterViewInit {
   			basicSetup,
   			json(),
   			syntaxHighlighting(defaultHighlightStyle, {fallback: true}),
-  			// lineNumbers(),
-  			// foldGutter({
-  			// 	closedText: '›',
-  			// 	openText: '⌄'
-  			// }),
   			this.editorTheme.of(oneDarkTheme),
   		],
   		parent: this.editorHolder.nativeElement
   	});
   }
 
-  onChange (v: any) {
+  onChange (v: {docChanged:boolean}) {
   	if (v.docChanged) {
   		this.request.emit(this.codeMirrorInstance.state.doc.toString());
   	}

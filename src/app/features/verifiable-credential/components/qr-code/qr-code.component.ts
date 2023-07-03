@@ -3,12 +3,13 @@ import { CommonModule } from '@angular/common';
 import { SharedModule } from '@app/shared/shared.module';
 import { DataService } from '@app/core/services/data.service';
 import { PresentationDefinitionService } from '@app/core/services/presentation-definition.service';
-import { ReplaySubject, Subject, catchError, interval, of, take, takeUntil } from 'rxjs';
-import { JWT } from '@app/features/presentation-definition/models/JWT';
+import { ReplaySubject, Subject, interval, take, takeUntil } from 'rxjs';
 import { NavigateService } from '@app/core/services/navigate.service';
 import { environment } from '@environments/environment';
+import { QRCodeModel } from '../../models/QRCodeModel';
+import { PresentationDefinitionResponse } from '@app/core/models/presentation-definition-response';
 
-declare let QRCode: any;
+declare let QRCode: new (arg0: HTMLElement | null, arg1: string) => QRCodeModel;
 
 @Component({
 	selector: 'vc-qr-code',
@@ -29,11 +30,11 @@ export class QrCodeComponent implements OnInit, OnDestroy {
 
 	ngOnDestroy (): void {
 		this.destroy$.unsubscribe();
-		this.dataService.setQRCode('');
+		this.dataService.setQRCode(null);
 	}
 
 	ngOnInit (): void {
-		const data = this.dataService.QRCode;
+		const data = this.dataService.QRCode as PresentationDefinitionResponse;
 
 		if (!data) {
 			this.navigateService.goHome();
@@ -84,33 +85,6 @@ export class QrCodeComponent implements OnInit, OnDestroy {
   				},
   			);
   		});
-  }
-
-  authentication () {
-  	this.displayButtonJWTObject = false;
-  	this.presentationDefinitionService.requestCredentialByJWT(this.presentationDefinition.request_uri)
-  		.pipe(
-  			catchError((error) => {
-  				let message = 'An error occurred while processing your request.';
-  				if (error.status === 400) {
-  					message = 'The JWT has been already fetched.';
-  				}
-  				return of({
-  					error: message
-  				});
-  			})
-  		)
-  		.subscribe((jwt: JWT | any) => {
-  			this.displayButtonJWTObject = true;
-  			this.JwtObject = JSON.stringify(jwt, null, 2);
-  			this.displayJWTObject = true;
-  			this.submitWalletResponse(jwt.state);
-  			this.changeDetectorRef.detectChanges();
-  	});
-  }
-
-  submitWalletResponse (state: string) {
-  	this.presentationDefinitionService.submitWalletResponse(state).subscribe();
   }
 
   async copyToClipboard () {

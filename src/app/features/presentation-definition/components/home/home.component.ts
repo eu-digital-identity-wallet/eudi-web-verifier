@@ -1,7 +1,7 @@
 import { ChangeDetectionStrategy, Component, ChangeDetectorRef, OnInit } from '@angular/core';
 import { HttpService } from '@network/http/http.service';
 import { Observable, map } from 'rxjs';
-import { PresentationDefinitionResponse } from '../../models/presentation-definition-response';
+import { PresentationDefinitionResponse } from '@core/models/presentation-definition-response';
 import { DataService } from '@app/core/services/data.service';
 import { NavigateService } from '@app/core/services/navigate.service';
 
@@ -23,7 +23,7 @@ export class HomeComponent implements OnInit {
 	invalidJSON = false;
 	requestGenerate = false;
 	buttonMode = 'none';
-	requestCode = null;
+	requestCode = '';
 	presentationDefinition$!: Observable<PresentationDefinitionResponse>;
 
 	ngOnInit (): void {
@@ -34,18 +34,16 @@ export class HomeComponent implements OnInit {
 	goBack () {
 		this.navigateService.goBack();
 	}
-	requestedCode (code: any) {
-		this.requestCode = code;
-	}
+
 	generateCode () {
 		this.requestGenerate = true;
 		if (this.requestCode && this.isJSON(this.requestCode)) {
 			this.buttonMode = 'loading';
 			this.invalidJSON = false;
 			const payload = JSON.parse(this.requestCode);
-			this.httpService.post('ui/presentations', payload).
+			this.httpService.post<PresentationDefinitionResponse, string>('ui/presentations', payload).
 				pipe(
-					map((data) => {
+					map((data: PresentationDefinitionResponse ) => {
 						this.buttonMode = 'none';
 						this.requestGenerate = false;
 						this.changeDetectorRef.detectChanges();

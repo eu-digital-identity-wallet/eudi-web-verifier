@@ -1,27 +1,29 @@
 :host {
-  height: 100%;
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  align-items: center;
+    align-items: center;
+    display: flex;
+    flex-direction: row;
+    height: 100%;
+    justify-content: center;
+
     .container {
-      position: relative;
-      display: flex;
-      flex-direction: column;
-      padding: 15px;
-      width: 100vw;
-      max-width: 375px;
-      height: 979px;
-      min-height: 400px;
-      max-height: 694px;
-      background-color: rgb(246, 247, 250);
-      border-radius: 15px;
-      .submit {
-        align-items: center;
+        background-color: rgb(246 247 250);
+        border-radius: 15px;
         display: flex;
-        flex-flow: column wrap;
-        justify-content: center;
-        width: 100%;
-      }
+        flex-direction: column;
+        height: 979px;
+        max-height: 694px;
+        max-width: 375px;
+        min-height: 400px;
+        padding: 15px;
+        position: relative;
+        width: 100vw;
+
+        .submit {
+            align-items: center;
+            display: flex;
+            flex-flow: column wrap;
+            justify-content: center;
+            width: 100%;
+        }
     }
 }

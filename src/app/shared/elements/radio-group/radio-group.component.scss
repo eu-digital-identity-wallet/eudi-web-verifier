@@ -1,19 +1,22 @@
 :host {
-      .container {
-      position: relative;
-      display: flex;
-      flex-direction: column;
-      .radio-group {
+    .container {
         display: flex;
         flex-direction: column;
-        margin: 15px 0;
-        align-items: flex-start;
-      }
-      .radio-group-label {
-        color: #000000de;
-      }
-      .radio-button {
-        margin: 5px;
-      }
+        position: relative;
+
+        .radio-group {
+            align-items: flex-start;
+            display: flex;
+            flex-direction: column;
+            margin: 15px 0;
+        }
+
+        .radio-group-label {
+            color: #000000de;
+        }
+
+        .radio-button {
+            margin: 5px;
+        }
     }
 }

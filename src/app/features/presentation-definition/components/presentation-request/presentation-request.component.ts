@@ -1,5 +1,5 @@
 import { CommonModule } from '@angular/common';
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component } from '@angular/core';
 import { DataService } from '@app/core/services/data.service';
 import { SharedModule } from '@app/shared/shared.module';
 
@@ -11,15 +11,13 @@ import { SharedModule } from '@app/shared/shared.module';
 	styleUrls: ['./presentation-request.component.scss']
 })
 export class PresentationRequestComponent {
-  @Output() request: EventEmitter<string> = new EventEmitter();
 
-  constructor (
+	constructor (
     private readonly dataService: DataService
-  ) {}
+	) {}
 
-  onRequest (code: any) {
+	onRequest (code: string) {
   	this.dataService.presentationDefinitionRequest$.next(code);
-  	this.request.emit(code);
-  }
+	}
 
 }
