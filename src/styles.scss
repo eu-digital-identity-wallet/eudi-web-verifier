@@ -12,7 +12,8 @@ body {
 main {
     height: 100vh;
     margin: 0;
-    overflow: hidden;
+    overflow-y: auto;
+    overflow-x: hidden;
     padding: 0;
     width: 100vw;
 }
