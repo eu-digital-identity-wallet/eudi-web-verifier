@@ -11,7 +11,7 @@
             margin: 15px 0;
         }
 
-        .radio-group-label {
+        ::ng-deep .radio-button label {
             color: #000000de;
         }
 
