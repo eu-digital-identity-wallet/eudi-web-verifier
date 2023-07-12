@@ -1,17 +1,14 @@
-<div class="container">
-  <div class="vc-box">
-    <div class="vc-title">
-      <h2>Create a Presentation Definition</h2>
-    </div>
+<vc-layout>
+  <h2 title>Create a Presentation Definition</h2>
+  <div body class="container">
     <div class="vc-box-top">
-      <vc-presentation-request (request)="requestedCode($event)"></vc-presentation-request>
-      <vc-verifiable-credential [requestGenerate]="requestGenerate" [presentationDefinition$]="presentationDefinition$"></vc-verifiable-credential>
+      <router-outlet></router-outlet>
     </div>
     <div *ngIf="invalidJSON" class="vc-box-display-error">
       <p>Invalid JSON Format</p>
     </div>
-    <div class="vc-box-bottom">
+    <div *ngIf="hideButton" class="vc-box-bottom">
       <vc-button name="Generate code" [mode]="buttonMode" [isDisabled]="!requestCode" color="primary" (clicked)="generateCode()"></vc-button>
     </div>
   </div>
-</div>
+</vc-layout>

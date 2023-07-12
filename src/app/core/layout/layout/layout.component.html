@@ -1,0 +1,16 @@
+<div class="container">
+  <div class="vc-box">
+    <div class="vc-title">
+      <ng-content select="[title]"></ng-content>
+      <div *ngIf="showBackButton" class="arrow-back">
+        <mat-icon aria-hidden="false" fontIcon="arrow_back" (click)="goBack()"></mat-icon>
+      </div>
+    </div>
+    <div class="vc-box-top">
+      <ng-content select="[body]"></ng-content>
+    </div>
+    <div select="footer">
+
+    </div>
+  </div>
+</div>

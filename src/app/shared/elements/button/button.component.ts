@@ -7,16 +7,16 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 })
 export class ButtonComponent {
 
-  @Input() set mode (value: string) {
-		if (value== 'loading') {
-			this.buttonName = 'Loading...';
-		} else {
-			this.buttonName = this.name;
-		}
-	}
   @Input() isDisabled = false;
   @Input() name!: string;
   @Input() color: 'primary' | 'white' = 'primary';
+  @Input() set mode (value: string) {
+  	if (value === 'loading') {
+  		this.buttonName = 'Loading...';
+  	} else {
+  		this.buttonName = this.name;
+  	}
+  }
   @Output() clicked: EventEmitter<string> = new EventEmitter();
   buttonName!: string;
   click () {

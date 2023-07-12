@@ -14,23 +14,24 @@ export class NetworkRequest {
 		);
 	}
 
-	protected POST<T> (params: IRequestParams<T>): Observable<T> {
-		return this.http.post<T> (params.url, params.body).pipe(
+	protected POST<T, K> (params: IRequestParams<K>): Observable<T> {
+		const {options} = params;
+		return this.http.post<T> (params.url, params.body, { headers: options?.headers}).pipe(
 			this.error()
 		);
 	}
 
-	protected PUT<T> (params: IRequestParams<T>): Observable<T | ArrayBuffer> {
+	protected PUT<T> (params: IRequestParams<T>): Observable<T> {
 		return this.http.put<T> (params.url, params.body).pipe(
 			this.error()
 		);
 	}
-	protected PATCH<T> (params: IRequestParams<T>): Observable<T | ArrayBuffer> {
+	protected PATCH<T> (params: IRequestParams<T>): Observable<T> {
 		return this.http.patch<T> (params.url, params.body).pipe(
 			this.error()
 		);
 	}
-	protected DELETE<T> (params: IRequestParams<T>): Observable<T | ArrayBuffer> {
+	protected DELETE<T> (params: IRequestParams<T>): Observable<T> {
 		return this.http.delete<T> (params.url).pipe(
 			this.error()
 		);

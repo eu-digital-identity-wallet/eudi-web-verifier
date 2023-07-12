@@ -1,7 +1,11 @@
-import { ChangeDetectionStrategy, Component, ChangeDetectorRef } from '@angular/core';
-import { HttpService } from '@network/http/http.service';
-import { Observable, map } from 'rxjs';
-import { PresentationDefinitionResponse } from '../../models/presentation-definition-response';
+import { ChangeDetectionStrategy, Component, ChangeDetectorRef, OnInit } from '@angular/core';
+import { Observable, catchError } from 'rxjs';
+import { PresentationDefinitionResponse } from '@core/models/presentation-definition-response';
+import { DataService } from '@app/core/services/data.service';
+import { NavigateService } from '@app/core/services/navigate.service';
+import { PresentationDefinitionService } from '@app/core/services/presentation-definition.service';
+import { NavigationEnd, Router } from '@angular/router';
+import { filter } from 'rxjs/operators';
 
 @Component({
 	selector: 'vc-home',
@@ -9,47 +13,66 @@ import { PresentationDefinitionResponse } from '../../models/presentation-defini
 	styleUrls: ['./home.component.scss'],
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class HomeComponent {
+export class HomeComponent implements OnInit {
 
 	constructor (
-    private readonly httpService: HttpService,
-    private readonly changeDetectorRef: ChangeDetectorRef
+    private readonly changeDetectorRef: ChangeDetectorRef,
+    private readonly router: Router,
+    private readonly dataService: DataService,
+    private readonly navigateService: NavigateService,
+    private readonly presentationDefinitionService: PresentationDefinitionService
 	) {}
 
+	hideButton = true;
 	invalidJSON = false;
 	requestGenerate = false;
 	buttonMode = 'none';
-	requestCode = null;
+	requestCode = '';
 	presentationDefinition$!: Observable<PresentationDefinitionResponse>;
 
-	requestedCode (code: any) {
-		this.requestCode = code;
+	ngOnInit (): void {
+		this.router.events
+			.pipe(
+				filter(event => event instanceof NavigationEnd )
+			)
+			.subscribe(() => {
+				if (this.router.url.indexOf('create') > 0) {
+					this.buttonMode = 'none';
+					this.hideButton = true;
+					this.changeDetectorRef.detectChanges();
+				}
+			});
+		this.dataService.presentationDefinitionRequest$.subscribe((code) => {
+			this.requestCode = code;
+		});
 	}
+	goBack () {
+		this.navigateService.goBack();
+	}
+
 	generateCode () {
 		this.requestGenerate = true;
-		if (this.requestCode && this.isJSON(this.requestCode)) {
+		if (this.requestCode) {
 			this.buttonMode = 'loading';
 			this.invalidJSON = false;
-			const payload = JSON.parse(this.requestCode);
-			this.presentationDefinition$ = this.httpService.post('ui/presentations', payload).
-				pipe(
-					map((data) => {
-						this.buttonMode = 'none';
-						this.requestGenerate = false;
-						this.changeDetectorRef.detectChanges();
-						return data;
-					} )
-				);
+			this.presentationDefinitionService.generateCode(this.requestCode)
+				.pipe(
+					catchError((error) => {
+						this.invalidJSON = true;
+						return error;
+					})
+				)
+				.subscribe((data) => {
+					this.buttonMode = 'none';
+					this.requestGenerate = false;
+					this.dataService.setQRCode(data as PresentationDefinitionResponse);
+					this.hideButton = false;
+					this.navigateService.navigateTo('/presentation/verifiable');
+					this.changeDetectorRef.detectChanges();
+				});
 		} else {
 			this.invalidJSON = true;
 		}
 	}
 
-	isJSON (requestCode: string) {
-		try {
-			return (JSON.parse(requestCode) && !!requestCode);
-		} catch (e) {
-			return false;
-		}
-	}
 }

@@ -1,0 +1,10 @@
+<div class="container">
+  <mat-radio-group
+    aria-labelledby="radio-group-label"
+    class="radio-group"
+    [(ngModel)]="chose" (change)="selected()">
+    <mat-radio-button class="radio-button" *ngFor="let option of options" [value]="option.key" [disabled]="option.isDisabled">
+      {{option.value}}
+    </mat-radio-button>
+  </mat-radio-group>
+</div>
