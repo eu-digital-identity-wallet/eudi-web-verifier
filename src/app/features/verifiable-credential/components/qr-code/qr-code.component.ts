@@ -6,10 +6,10 @@ import { PresentationDefinitionService } from '@app/core/services/presentation-d
 import { ReplaySubject, Subject, interval, take, takeUntil } from 'rxjs';
 import { NavigateService } from '@app/core/services/navigate.service';
 import { environment } from '@environments/environment';
-import { QRCodeModel } from '../../models/QRCodeModel';
 import { PresentationDefinitionResponse } from '@app/core/models/presentation-definition-response';
 
-declare let QRCode: new (arg0: HTMLElement | null, arg1: string) => QRCodeModel;
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+declare let QRCode: any;
 
 @Component({
 	selector: 'vc-qr-code',
@@ -41,7 +41,11 @@ export class QrCodeComponent implements OnInit, OnDestroy {
 		}
 		this.displayButtonJWTObject = false;
 		const qr = this.buildQrCode(this.presentationDefinition);
-		new QRCode(document.getElementById('qrcode'), qr);
+
+		new QRCode(document.getElementById('qrcode'), {
+			text: qr,
+			correctLevel: QRCode.CorrectLevel.L
+		});
 		this.pollingRequest(this.presentationDefinition.presentation_id,'nonce');
 	}
 	destroy$ = new Subject();

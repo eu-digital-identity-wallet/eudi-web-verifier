@@ -1,18 +1,18 @@
 :host {
-  .vc-box-bottom {
-    align-items: center;
-    display: flex;
-    flex-flow: column wrap;
-    justify-content: center;
-    width: 100%;
+    .vc-box-bottom {
+        align-items: center;
+        display: flex;
+        flex-flow: column wrap;
+        justify-content: center;
+        width: 100%;
 
-    :first-child {
-      width: 100%;
+        :first-child {
+            width: 100%;
+        }
     }
-  }
 
-  .vc-box-display-error p {
-    color: red;
-    font-style: italic;
-  }
+    .vc-box-display-error p {
+        color: red;
+        font-style: italic;
+    }
 }
