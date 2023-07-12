@@ -9,21 +9,22 @@
         padding: 0;
 
         .vc-box {
-            align-items: center;
-            background:  0% 0% / 50rem rgb(60 64 74);
-            background-position-x: 100%;
-            background-size: 71rem;
-            border-radius: 4rem;
-            display: flex;
-            flex-flow: column wrap;
-            justify-content: center;
-            margin: 6.4rem auto 0;
-            margin-bottom: 8rem;
-            margin-left: -100px;
-            margin-right: -100px;
-            max-width: 144rem;
-            padding: 3.4rem 99px;
-            position: relative;
+          align-items: center;
+          background: 0% 0%/50rem rgb(60, 64, 74);
+          background-position-x: 100%;
+          background-size: 71rem;
+          border-radius: 4rem;
+          display: flex;
+          flex-flow: column wrap;
+          justify-content: center;
+          /* margin: 0.4rem auto 0; */
+          /* margin-bottom: 8rem; */
+          /* margin-left: -100px; */
+          /* margin-right: -100px; */
+          max-width: 144rem;
+          padding: 3.4rem 99px;
+          position: relative;
+          /* align-items: center;*/
 
             .vc-title {
                 border-bottom: 1px solid rgb(120 125 135);
