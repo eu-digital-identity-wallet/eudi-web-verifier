@@ -32,7 +32,7 @@ export class HomeComponent {
 	{
 		key: 'OID4VP_CBOR',
 		value: 'OID4VP + CBOR',
-		isDisabled: true,
+		isDisabled: false,
 	},
 	{
 		key: 'OID4VP_C',
@@ -45,7 +45,7 @@ export class HomeComponent {
 		if (choose === 'SIOP') {
 			this.navPath = 'siop';
 		} else if (choose === 'OID4VP_CBOR') {
-			this.navPath = 'OID4VP_CBOR';
+			this.navPath = 'cbor';
 		} else if (choose === 'OID4VP_C') {
 			this.navPath = '/presentation';
 		}
@@ -56,6 +56,11 @@ export class HomeComponent {
 			this.navigateService.navigateTo(this.navPath);
 		} else if (this.navPath === 'siop') {
 			this.onlineAuthenticationSIOPService.initTransaction().subscribe((data) => {
+				this.dataService.setQRCode(data);
+				this.navigateService.navigateTo(this.navPath);
+			});
+		} else if(this.navPath === 'cbor') {
+			this.onlineAuthenticationSIOPService.initCborTransaction().subscribe((data) => {
 				this.dataService.setQRCode(data);
 				this.navigateService.navigateTo(this.navPath);
 			});

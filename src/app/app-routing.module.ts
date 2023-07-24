@@ -9,7 +9,10 @@ const routes: Routes = [
 			then(m => m.PresentationDefinitionModule )},
 	{ path: 'siop',
 		loadChildren: () => import('./features/siop/siop.module').
-			then(m => m.SIOPModule )}
+			then(m => m.SIOPModule )},
+	{ path: 'cbor',
+		loadChildren: () => import('./features/cbor/cbor.module').
+			then(m => m.CborModule )}
 ];
 
 @NgModule({
