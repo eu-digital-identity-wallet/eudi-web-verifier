@@ -48,7 +48,7 @@ export class QrCodeComponent implements OnInit, OnDestroy {
   	}
   	this.displayButtonJWTObject = false;
   	const qr = this.buildQrCode(this.presentationDefinition);
-  	this.redirectUrl = qr.replace('http', 'mdoc-openid4vp');
+  	this.redirectUrl = qr.replace('https', 'mdoc-openid4vp');
 
   	new QRCode(document.getElementById('qrcode'), {
   		text: qr,
