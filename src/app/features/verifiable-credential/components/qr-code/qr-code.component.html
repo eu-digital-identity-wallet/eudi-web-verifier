@@ -19,9 +19,9 @@
 
     <div class="vc-obtain-container " *ngIf="(presentationDefinition?.request_uri) && !displayButtonJWTObject">
 <!--      <span (click)="navigate()">{{redirectUrl}}</span>-->
-      <div style="width: 80%; word-wrap: anywhere; margin: 0 auto;color: blueviolet;">
+      <div style="margin-top: 20px">
 <!--        <a (click)="goToLink(redirectUrl)">{{redirectUrl}}</a>-->
-        <a>{{redirectUrl}}</a>
+        <a [href]="redirectUrl">AUTHORIZE</a>
       </div>
 
     </div>
