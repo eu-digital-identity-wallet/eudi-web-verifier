@@ -7,6 +7,7 @@ import { ReplaySubject, Subject, interval, take, takeUntil } from 'rxjs';
 import { NavigateService } from '@app/core/services/navigate.service';
 import { environment } from '@environments/environment';
 import { PresentationDefinitionResponse } from '@app/core/models/presentation-definition-response';
+import * as cbor from 'cbor-js';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 declare let QRCode: any;
@@ -21,33 +22,7 @@ declare let QRCode: any;
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class QrCodeComponent implements OnInit, OnDestroy {
-	constructor (
-    private readonly presentationDefinitionService: PresentationDefinitionService,
-    private readonly dataService: DataService,
-    private readonly navigateService: NavigateService,
-    private readonly changeDetectorRef: ChangeDetectorRef
-	) {}
 
-	ngOnDestroy (): void {
-		this.destroy$.unsubscribe();
-		this.dataService.setQRCode(null);
-	}
-
-	ngOnInit (): void {
-		this.presentationDefinition = this.dataService.QRCode as PresentationDefinitionResponse;
-
-		if (!this.presentationDefinition) {
-			this.navigateService.goHome();
-		}
-		this.displayButtonJWTObject = false;
-		const qr = this.buildQrCode(this.presentationDefinition);
-
-		new QRCode(document.getElementById('qrcode'), {
-			text: qr,
-			correctLevel: QRCode.CorrectLevel.L
-		});
-		this.pollingRequest(this.presentationDefinition.presentation_id,'nonce');
-	}
 	destroy$ = new Subject();
   @ViewChild('qrCode')	qrCode!: ElementRef;
   hasResult = false;
@@ -55,8 +30,32 @@ export class QrCodeComponent implements OnInit, OnDestroy {
   results!: string;
   JwtObject!: string;
   displayButtonJWTObject = false;
-
   presentationDefinition!: PresentationDefinitionResponse;
+
+  redirectUrl!: string;
+  constructor (
+    private readonly presentationDefinitionService: PresentationDefinitionService,
+    private readonly dataService: DataService,
+    private readonly navigateService: NavigateService,
+    private readonly changeDetectorRef: ChangeDetectorRef
+  ) {}
+
+  ngOnInit (): void {
+  	this.presentationDefinition = this.dataService.QRCode as PresentationDefinitionResponse;
+
+  	if (!this.presentationDefinition) {
+  		this.navigateService.goHome();
+  	}
+  	this.displayButtonJWTObject = false;
+  	const qr = this.buildQrCode(this.presentationDefinition);
+  	this.redirectUrl = qr.replace('http', 'mdoc-openid4vp');
+
+  	new QRCode(document.getElementById('qrcode'), {
+  		text: qr,
+  		correctLevel: QRCode.CorrectLevel.L
+  	});
+  	this.pollingRequest(this.presentationDefinition.presentation_id,'nonce');
+  }
 
   pollingRequest (presentation_id: string, nonce: string) {
   	const source = interval(2000);
@@ -71,6 +70,7 @@ export class QrCodeComponent implements OnInit, OnDestroy {
   				pipe(takeUntil(this.destroy$))
   				.subscribe(
   				res =>{
+  						this.convertToCbor(res);
   					this.results = res;
   					const divElement = this.qrCode.nativeElement;
   					divElement.style.display='none';
@@ -91,5 +91,36 @@ export class QrCodeComponent implements OnInit, OnDestroy {
   }
   private buildQrCode (data: {client_id: string, request_uri: string, presentation_id: string}): string {
   	return `${environment.apiUrl}?client_id=${data.client_id}&request_uri=${data.request_uri}`;
+  }
+
+  goToLink (url: string) {
+  	window.open(url, '_blank');
+  }
+
+  // @ts-ignore
+  convertToCbor (res) {
+  	const binaryData = this.base64ToBinary(res);
+  	const cborEncodedObject = this.cborParser(binaryData);
+  	console.log(cborEncodedObject);
+  }
+
+  private base64ToBinary (base64String: string): Uint8Array {
+  	const binaryString = atob(base64String);
+  	const binaryData = new Uint8Array(binaryString.length);
+
+  	for (let i = 0; i < binaryString.length; i++) {
+  		binaryData[i] = binaryString.charCodeAt(i);
+  	}
+
+  	return binaryData;
+  }
+
+  cborParser (binaryData: Uint8Array){
+  	return cbor.decode(binaryData);
+  }
+
+  ngOnDestroy (): void {
+  	this.destroy$.unsubscribe();
+  	this.dataService.setQRCode(null);
   }
 }
