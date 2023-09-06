@@ -7,6 +7,7 @@ import { ReplaySubject, Subject, interval, take, takeUntil } from 'rxjs';
 import { NavigateService } from '@app/core/services/navigate.service';
 import { environment } from '@environments/environment';
 import { PresentationDefinitionResponse } from '@app/core/models/presentation-definition-response';
+// import base64url from 'base64url';
 import * as cbor from 'cbor-js';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -101,17 +102,20 @@ export class QrCodeComponent implements OnInit, OnDestroy {
   convertToCbor (res) {
   	const binaryData = this.base64ToBinary(res);
   	const cborEncodedObject = this.cborParser(binaryData);
+  	this.results = cborEncodedObject;
   	console.log(cborEncodedObject);
   }
 
   private base64ToBinary (base64String: string): Uint8Array {
-  	const binaryString = atob(base64String);
+  	const URlDecoded = decodeURI(base64String);
+  	console.log('URlDecoded', URlDecoded);
+  	const binaryString = atob(URlDecoded);
   	const binaryData = new Uint8Array(binaryString.length);
 
   	for (let i = 0; i < binaryString.length; i++) {
   		binaryData[i] = binaryString.charCodeAt(i);
   	}
-
+  	console.log('binaryData', binaryData);
   	return binaryData;
   }
 

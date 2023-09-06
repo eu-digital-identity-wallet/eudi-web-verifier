@@ -28,6 +28,7 @@
     "@codemirror/theme-one-dark": "^6.1.2",
     "@types/codemirror": "^5.60.7",
     "@types/crypto-js": "^4.1.1",
+    "base64url": "^3.0.1",
     "cbor-js": "^0.1.0",
     "codemirror": "^6.0.1",
     "crypto-js": "^4.1.1",
