@@ -8,9 +8,10 @@
       <div #qrCode id="qrcode" > </div>
       <div class="show-resualt" *ngIf="hasResult">
         <h3>Results:</h3>
-        <code>
+        <!-- <code>
           {{results | json}}
-        </code>
+        </code> -->
+        <vc-editor (input)="results"></vc-editor>
       </div>
     </div>
     <div class="vc-obtain-container" *ngIf="(presentationDefinition?.request_uri) && !displayButtonJWTObject">
@@ -19,7 +20,7 @@
 
     <div class="vc-obtain-container " *ngIf="(presentationDefinition?.request_uri) && !displayButtonJWTObject">
 <!--      <span (click)="navigate()">{{redirectUrl}}</span>-->
-      <div style="margin-top: 20px">
+      <div *ngIf="!hasResult" style="margin-top: 20px">
 <!--        <a (click)="goToLink(redirectUrl)">{{redirectUrl}}</a>-->
         <a [href]="redirectUrl">AUTHORIZE</a>
       </div>

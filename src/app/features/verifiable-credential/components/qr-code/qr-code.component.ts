@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild, OnDestroy } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { Router } from '@angular/router';
 import { SharedModule } from '@app/shared/shared.module';
 import { DataService } from '@app/core/services/data.service';
 import { PresentationDefinitionService } from '@app/core/services/presentation-definition.service';
@@ -7,7 +8,7 @@ import { ReplaySubject, Subject, interval, take, takeUntil } from 'rxjs';
 import { NavigateService } from '@app/core/services/navigate.service';
 import { environment } from '@environments/environment';
 import { PresentationDefinitionResponse } from '@app/core/models/presentation-definition-response';
-// import base64url from 'base64url';
+
 import * as cbor from 'cbor-js';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -38,7 +39,8 @@ export class QrCodeComponent implements OnInit, OnDestroy {
     private readonly presentationDefinitionService: PresentationDefinitionService,
     private readonly dataService: DataService,
     private readonly navigateService: NavigateService,
-    private readonly changeDetectorRef: ChangeDetectorRef
+    private readonly changeDetectorRef: ChangeDetectorRef,
+    private readonly router: Router,
   ) {}
 
   ngOnInit (): void {
@@ -71,13 +73,17 @@ export class QrCodeComponent implements OnInit, OnDestroy {
   				pipe(takeUntil(this.destroy$))
   				.subscribe(
   				res =>{
-  						this.convertToCbor(res);
-  					this.results = res;
-  					const divElement = this.qrCode.nativeElement;
-  					divElement.style.display='none';
-  					this.hasResult = true;
-  					this.changeDetectorRef.detectChanges();
-  					stopPlay$.next(1);
+            console.log(this.router.url.includes('cbor'));
+  						if (this.router.url.includes('cbor')) {
+  							this.convertToCbor(res);
+  						} else {
+  							this.results = res;
+  							const divElement = this.qrCode.nativeElement;
+  							divElement.style.display='none';
+  							this.hasResult = true;
+  							this.changeDetectorRef.detectChanges();
+  						}
+  						stopPlay$.next(1);
   				},
   			);
   		});
@@ -100,23 +106,49 @@ export class QrCodeComponent implements OnInit, OnDestroy {
 
   // @ts-ignore
   convertToCbor (res) {
-  	const binaryData = this.base64ToBinary(res);
+  	const binaryData = this.base64ToBinary(res.vp_token);
+
   	const cborEncodedObject = this.cborParser(binaryData);
   	this.results = cborEncodedObject;
+  	this.hasResult = true;
+  	const divElement = this.qrCode.nativeElement;
+  	divElement.style.display='none';
+  	this.changeDetectorRef.detectChanges();
   	console.log(cborEncodedObject);
   }
 
-  private base64ToBinary (base64String: string): Uint8Array {
-  	const URlDecoded = decodeURI(base64String);
-  	console.log('URlDecoded', URlDecoded);
-  	const binaryString = atob(URlDecoded);
+  private base64ToBinary (base64String: string): any {
+  	// const URlDecoded = btoa(base64String);
+  	// console.log('URlDecoded', URlDecoded);
+
+  	const binaryString = this.base64URLDecode(base64String);
   	const binaryData = new Uint8Array(binaryString.length);
 
   	for (let i = 0; i < binaryString.length; i++) {
   		binaryData[i] = binaryString.charCodeAt(i);
   	}
   	console.log('binaryData', binaryData);
-  	return binaryData;
+  	return binaryData.buffer;
+  }
+
+  private base64URLDecode (input: any) {
+  	// Replace non-url compatible chars with base64 standard chars
+  	let	output = input
+  		.replace(/-/g, '+')
+  		.replace(/_/g, '/');
+
+
+  	// Pad out with standard base64 required padding characters
+  	const pad = input.length % 4;
+  	if(pad) {
+  		if(pad === 1) {
+  			throw new Error('InvalidLengthError: Input base64url string is the wrong length to determine padding');
+  		}
+  		output += new Array(5-pad).join('=');
+  	}
+
+
+  	return atob(output);
   }
 
   cborParser (binaryData: Uint8Array){
