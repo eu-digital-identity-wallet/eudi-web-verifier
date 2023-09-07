@@ -109,12 +109,22 @@ export class QrCodeComponent implements OnInit, OnDestroy {
   	const binaryData = this.base64ToBinary(res.vp_token);
 
   	const cborEncodedObject = this.cborParser(binaryData);
+
+    this.printPid(cborEncodedObject);
+
   	this.results = cborEncodedObject;
   	this.hasResult = true;
   	const divElement = this.qrCode.nativeElement;
   	divElement.style.display='none';
   	this.changeDetectorRef.detectChanges();
   	console.log(cborEncodedObject);
+  }
+
+  private printPid(cborEncodedObject: any) {
+    let issuerSignedArray = cborEncodedObject.documents[0].issuerSigned.nameSpaces["eu.europa.ec.eudiw.pid.1"];
+    for (let i = 0; i < issuerSignedArray.length; i++) {
+      console.log(this.cborParser(issuerSignedArray[i].buffer));
+    }
   }
 
   private base64ToBinary (base64String: string): any {
