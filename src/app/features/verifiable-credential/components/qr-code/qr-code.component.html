@@ -6,13 +6,17 @@
   <div class="body">
     <div class="qr-code" [ngClass]="{'green-bg': hasResult}">
       <div #qrCode id="qrcode" > </div>
-      <div class="show-resualt" *ngIf="hasResult">
+      <div class="show-result" *ngIf="hasResult && results">
         <h3>Results:</h3>
-        <!-- <code>
+        <code>
           {{results | json}}
-        </code> -->
-        <vc-editor (input)="results"></vc-editor>
+        </code>
       </div>
+      <div *ngIf="hasResult && CBORResults" class="cbor-show-result" >
+        <h2> CBOR Results </h2>
+        <vc-editor   [code]="CBORResults" [editable]="true"></vc-editor>
+      </div>
+
     </div>
     <div class="vc-obtain-container" *ngIf="(presentationDefinition?.request_uri) && !displayButtonJWTObject">
       <vc-button *ngIf="!hasResult" name="Copy to Clipboard"  mode="none" color="white" (clicked)="copyToClipboard()"></vc-button>

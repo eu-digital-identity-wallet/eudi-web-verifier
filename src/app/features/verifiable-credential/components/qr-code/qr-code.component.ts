@@ -9,8 +9,6 @@ import { NavigateService } from '@app/core/services/navigate.service';
 import { environment } from '@environments/environment';
 import { PresentationDefinitionResponse } from '@app/core/models/presentation-definition-response';
 
-import * as cbor from 'cbor-js';
-
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 declare let QRCode: any;
 
@@ -29,7 +27,8 @@ export class QrCodeComponent implements OnInit, OnDestroy {
   @ViewChild('qrCode')	qrCode!: ElementRef;
   hasResult = false;
 
-  results!: string;
+  results!: any;
+  CBORResults!: any;
   JwtObject!: string;
   displayButtonJWTObject = false;
   presentationDefinition!: PresentationDefinitionResponse;
@@ -72,17 +71,16 @@ export class QrCodeComponent implements OnInit, OnDestroy {
   		this.presentationDefinitionService.getWalletResponse(presentation_id,nonce).
   				pipe(takeUntil(this.destroy$))
   				.subscribe(
-  				res =>{
-            console.log(this.router.url.includes('cbor'));
+  				(res: any) =>{
   						if (this.router.url.includes('cbor')) {
-  							this.convertToCbor(res);
+  							this.CBORResults = res.vp_token_decoded;
   						} else {
   							this.results = res;
-  							const divElement = this.qrCode.nativeElement;
-  							divElement.style.display='none';
-  							this.hasResult = true;
-  							this.changeDetectorRef.detectChanges();
   						}
+  						const divElement = this.qrCode.nativeElement;
+  						divElement.style.display='none';
+  						this.hasResult = true;
+  						this.changeDetectorRef.detectChanges();
   						stopPlay$.next(1);
   				},
   			);
@@ -102,67 +100,6 @@ export class QrCodeComponent implements OnInit, OnDestroy {
 
   goToLink (url: string) {
   	window.open(url, '_blank');
-  }
-
-  // @ts-ignore
-  convertToCbor (res) {
-  	const binaryData = this.base64ToBinary(res.vp_token);
-
-  	const cborEncodedObject = this.cborParser(binaryData);
-
-    this.printPid(cborEncodedObject);
-
-  	this.results = cborEncodedObject;
-  	this.hasResult = true;
-  	const divElement = this.qrCode.nativeElement;
-  	divElement.style.display='none';
-  	this.changeDetectorRef.detectChanges();
-  	console.log(cborEncodedObject);
-  }
-
-  private printPid(cborEncodedObject: any) {
-    let issuerSignedArray = cborEncodedObject.documents[0].issuerSigned.nameSpaces["eu.europa.ec.eudiw.pid.1"];
-    for (let i = 0; i < issuerSignedArray.length; i++) {
-      console.log(this.cborParser(issuerSignedArray[i].buffer));
-    }
-  }
-
-  private base64ToBinary (base64String: string): any {
-  	// const URlDecoded = btoa(base64String);
-  	// console.log('URlDecoded', URlDecoded);
-
-  	const binaryString = this.base64URLDecode(base64String);
-  	const binaryData = new Uint8Array(binaryString.length);
-
-  	for (let i = 0; i < binaryString.length; i++) {
-  		binaryData[i] = binaryString.charCodeAt(i);
-  	}
-  	console.log('binaryData', binaryData);
-  	return binaryData.buffer;
-  }
-
-  private base64URLDecode (input: any) {
-  	// Replace non-url compatible chars with base64 standard chars
-  	let	output = input
-  		.replace(/-/g, '+')
-  		.replace(/_/g, '/');
-
-
-  	// Pad out with standard base64 required padding characters
-  	const pad = input.length % 4;
-  	if(pad) {
-  		if(pad === 1) {
-  			throw new Error('InvalidLengthError: Input base64url string is the wrong length to determine padding');
-  		}
-  		output += new Array(5-pad).join('=');
-  	}
-
-
-  	return atob(output);
-  }
-
-  cborParser (binaryData: Uint8Array){
-  	return cbor.decode(binaryData);
   }
 
   ngOnDestroy (): void {
