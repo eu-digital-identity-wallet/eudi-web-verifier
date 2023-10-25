@@ -25,15 +25,21 @@
                 margin-top: 40px;
                 padding: 15px;
                 width: 256px;
+
+                &.green-bg {
+                    background: green;
+                }
             }
 
             .vc-obtain-container {
-              display: flex;
-              flex-direction: column;
-              vc-button {
-                width: 256px;
-              }
+                display: flex;
+                flex-direction: column;
+
+                vc-button {
+                    width: 256px;
+                }
             }
+
             .vc-display-jwt {
                 vc-editor {
                     display: inline;

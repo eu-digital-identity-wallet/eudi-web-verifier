@@ -3,7 +3,7 @@ import { Injectable } from '@angular/core';
 import { environment } from '@environments/environment';
 import { Observable } from 'rxjs';
 import { NetworkRequest } from '../classes/NetworkRequest';
-import { IRequestOptions, IRequestParams } from '../models/request.model';
+import { IRequestOptions } from '../models/request.model';
 
 @Injectable({
 	providedIn: 'root'
@@ -22,12 +22,8 @@ export class HttpService extends NetworkRequest {
 		return this.GET ({ url: this.getUrl(endpoint), options: options });
 	}
 
-	public getStandalone <T> (url: string, options: any): Observable<any> {
-		return this.http.get<T> (url, options);
-	}
-
-	public post <T> (endpoint: string, body: T, options?: IRequestOptions): Observable<T | ArrayBuffer> {
-		return this.POST({ url: this.getUrl(endpoint), body: body, options: options });
+	public post <T, K> (endpoint: string, body: K, options?: IRequestOptions): Observable<T> {
+		return this.POST<T, K>({ url: this.getUrl(endpoint), body, options });
 	}
 
 	public put <T> (endpoint: string, body: T, options?: IRequestOptions): Observable<T | ArrayBuffer> {

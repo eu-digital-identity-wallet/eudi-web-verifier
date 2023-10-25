@@ -8,6 +8,25 @@ body {
     overflow-x: hidden;
     width: 100vw;
 }
-.ͼe {
-  color: #9af3b1 !important;
+
+main {
+    height: 100vh;
+    margin: 0;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding: 0;
+    width: 100vw;
 }
+
+.ͼe {
+    color: #9af3b1 !important;
+}
+
+html, body { height: 100%; }
+body { font-family: Roboto, "Helvetica Neue", sans-serif; margin: 0; }
+
+html, body { height: 100%; }
+body { font-family: Roboto, "Helvetica Neue", sans-serif; margin: 0; }
+
+html, body { height: 100%; }
+body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

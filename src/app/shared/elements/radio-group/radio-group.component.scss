@@ -1,0 +1,22 @@
+:host {
+    .container {
+        display: flex;
+        flex-direction: column;
+        position: relative;
+
+        .radio-group {
+            align-items: flex-start;
+            display: flex;
+            flex-direction: column;
+            margin: 15px 0;
+        }
+
+        ::ng-deep .radio-button label {
+            color: #000000de;
+        }
+
+        .radio-button {
+            margin: 5px;
+        }
+    }
+}

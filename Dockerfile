@@ -1,5 +1,5 @@
 # Stage 1
-FROM node:latest as build-step
+FROM node:18.15.0 as build-step
 RUN mkdir -p /usr/src/app
 WORKDIR /usr/src/app
 COPY package.json /usr/src/app

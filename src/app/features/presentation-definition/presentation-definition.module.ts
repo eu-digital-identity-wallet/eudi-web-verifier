@@ -3,17 +3,15 @@ import { CommonModule } from '@angular/common';
 
 import { PresentationDefinitionRoutingModule } from './presentation-definition-routing.module';
 import { HomeComponent } from './components/home/home.component';
-import { PresentationRequestComponent } from './components/presentation-request/presentation-request.component';
-import { VerifiableCredentialComponent } from './components/verifiable-credential/verifiable-credential.component';
 import { SharedModule } from 'src/app/shared/shared.module';
-import { PresentationDefinitionService } from './services/presentation-definition.service';
+import { PresentationDefinitionService } from '../../core/services/presentation-definition.service';
+import { MatIconModule } from '@angular/material/icon';
+import { LayoutComponent } from '@app/core/layout/layout/layout.component';
 
 
 @NgModule({
 	declarations: [
-		HomeComponent,
-		PresentationRequestComponent,
-		VerifiableCredentialComponent
+		HomeComponent
 	],
 	providers: [
 		PresentationDefinitionService
@@ -21,7 +19,9 @@ import { PresentationDefinitionService } from './services/presentation-definitio
 	imports: [
 		CommonModule,
 		PresentationDefinitionRoutingModule,
-		SharedModule
+		LayoutComponent,
+		SharedModule,
+		MatIconModule
 	]
 })
 export class PresentationDefinitionModule { }
