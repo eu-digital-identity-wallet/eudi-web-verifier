@@ -38,6 +38,11 @@ export class HomeComponent implements OnInit {
 		isDisabled: false,
 	},
 	{
+		key: 'SIOPPlus',
+		value: 'Online Authentication  (SIOP) Plus',
+		isDisabled: false,
+	},
+	{
 		key: 'OID4VP_CBOR',
 		value: 'OID4VP + CBOR',
 		isDisabled: false,
@@ -56,6 +61,8 @@ export class HomeComponent implements OnInit {
 			this.navPath = 'cbor';
 		} else if (choose === 'OID4VP_C') {
 			this.navPath = '/presentation';
+		} else if (choose === 'SIOPPlus') {
+			this.navPath = 'siopPlus/create';
 		}
 
 	}
@@ -72,6 +79,12 @@ export class HomeComponent implements OnInit {
 				this.dataService.setQRCode(data);
 				this.navigateService.navigateTo(this.navPath);
 			});
+		} else if (this.navPath === 'siopPlus/create') {
+			this.navigateService.navigateTo(this.navPath);
+			// this.onlineAuthenticationSIOPService.initTransaction().subscribe((data) => {
+			// 	this.dataService.setQRCode(data);
+			// 	this.navigateService.navigateTo(this.navPath);
+			// });
 		}
 	}
 }

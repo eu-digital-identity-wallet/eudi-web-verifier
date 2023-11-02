@@ -12,7 +12,10 @@ const routes: Routes = [
 			then(m => m.SIOPModule )},
 	{ path: 'cbor',
 		loadChildren: () => import('./features/cbor/cbor.module').
-			then(m => m.CborModule )}
+			then(m => m.CborModule )},
+	{ path: 'siopPlus',
+		loadChildren: () => import('./features/siop-custom/siop-custom.module').
+			then(m => m.SiopCustomModule )}
 ];
 
 @NgModule({

@@ -1,0 +1,24 @@
+<div class="creation">
+    <h3>Select the information requested from the user</h3>
+    <div>
+      <ng-container  *ngFor="let field of fields; index as idx; trackBy: trackByFn" >
+        <div class="controls">
+          <mat-checkbox (click)="handel(field)" color="primary">
+            {{field.label}}
+          </mat-checkbox>
+        </div>
+
+      </ng-container>
+    </div>
+    <mat-expansion-panel class="presentation-definition">
+      <mat-expansion-panel-header>
+        <mat-panel-title>
+          Presentation definition
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      <vc-editor [code]="definitionText"></vc-editor>
+    </mat-expansion-panel>
+    <div class="vc-box-bottom">
+      <vc-button [isDisabled]="definitionFields.length === 0" [mode]="buttonMode" name="Generate code" color="primary" (clicked)="generateCode()"></vc-button>
+    </div>
+</div>
