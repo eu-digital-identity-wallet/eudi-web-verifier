@@ -1,5 +1,4 @@
 :host {
-  max-width: 40rem;
   ::ng-deep {
     .mat-mdc-checkbox .mdc-form-field {
         color: var(--mdc-theme-text-primary-on-background, rgba(255, 255, 255, 0.87));
@@ -30,8 +29,5 @@
     .presentation-definition {
       margin-top: 1rem;
     }
-  }
-  vc-button {
-    width: 100%;
   }
 }

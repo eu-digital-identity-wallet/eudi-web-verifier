@@ -11,7 +11,6 @@ import { PID_PRESENTATION_DEFINITION } from '@app/core/data/pid_presentation_def
 import { DefinitionPath } from '../../models/DefinitionPath';
 import { DataService } from '@app/core/services/data.service';
 import { NavigateService } from '@app/core/services/navigate.service';
-import { CBORFields } from '@app/core/data/cbor_fields';
 
 @Component({
 	selector: 'vc-create-a-scenario',
@@ -37,7 +36,7 @@ export class CreateAScenarioComponent implements OnInit {
     private readonly router: Router,
 	) {
 		this.form = this.createFormService.form;
-		this.fields = CBORFields;
+		this.fields = this.createFormService.fields;
 	}
 	ngOnInit (): void {
 		this.definition.presentation_definition.input_descriptors[0].constraints.fields = [];
@@ -47,9 +46,11 @@ export class CreateAScenarioComponent implements OnInit {
 		this.requestGenerate = true;
 		if (this.definitionText) {
 			this.buttonMode = 'loading';
+			// this.invalidJSON = false;
 			this.presentationDefinitionService.generateCode(this.definitionText)
 				.pipe(
 					catchError((error) => {
+						// this.invalidJSON = true;
 						return error;
 					})
 				)
@@ -57,14 +58,14 @@ export class CreateAScenarioComponent implements OnInit {
 					this.buttonMode = 'none';
 					this.requestGenerate = false;
 					this.dataService.setQRCode(data as PresentationDefinitionResponse);
-					this.navigateService.navigateTo('/cbor-selectable/verifiable');
+					this.navigateService.navigateTo('/siopPlus/verifiable');
 					this.changeDetectorRef.detectChanges();
 				});
 		} else {
 			console.log('invalid JSON');
 		}
 	}
-	handle (data: any) {
+	handel (data: any) {
 		const value = data?.value;
 		if (!this.isExist(value.path[0])) {
 			this.definitionFields.push(value);
