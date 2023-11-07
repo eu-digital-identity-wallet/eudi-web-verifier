@@ -9,6 +9,8 @@ import { NavigateService } from '@app/core/services/navigate.service';
 import { environment } from '@environments/environment';
 import { PresentationDefinitionResponse } from '@app/core/models/presentation-definition-response';
 
+import * as cbor from 'cbor-js';
+
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 declare let QRCode: any;
 
