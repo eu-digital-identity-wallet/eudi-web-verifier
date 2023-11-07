@@ -4,12 +4,13 @@ import { Router } from '@angular/router';
 import { SharedModule } from '@app/shared/shared.module';
 import { DataService } from '@app/core/services/data.service';
 import { PresentationDefinitionService } from '@app/core/services/presentation-definition.service';
-import { ReplaySubject, Subject, interval, take, takeUntil } from 'rxjs';
+import { ReplaySubject, Subject, interval, take, takeUntil, of } from 'rxjs';
+import { switchMap } from 'rxjs/operators';
 import { NavigateService } from '@app/core/services/navigate.service';
 import { environment } from '@environments/environment';
 import { PresentationDefinitionResponse } from '@app/core/models/presentation-definition-response';
-
-import * as cbor from 'cbor-js';
+import { CborDecodeService } from '@app/core/services/cbor/cbor-decode.service';
+import { MatListModule } from '@angular/material/list';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 declare let QRCode: any;
@@ -17,10 +18,10 @@ declare let QRCode: any;
 @Component({
 	selector: 'vc-qr-code',
 	standalone: true,
-	imports: [CommonModule, SharedModule],
+	imports: [CommonModule, SharedModule, MatListModule],
 	templateUrl: './qr-code.component.html',
 	styleUrls: ['./qr-code.component.scss'],
-	providers: [PresentationDefinitionService],
+	providers: [PresentationDefinitionService, CborDecodeService],
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class QrCodeComponent implements OnInit, OnDestroy {
@@ -30,7 +31,7 @@ export class QrCodeComponent implements OnInit, OnDestroy {
   hasResult = false;
 
   results!: any;
-  CBORResults!: any;
+  CBORResults: any[] = [];
   JwtObject!: string;
   displayButtonJWTObject = false;
   presentationDefinition!: PresentationDefinitionResponse;
@@ -42,6 +43,7 @@ export class QrCodeComponent implements OnInit, OnDestroy {
     private readonly navigateService: NavigateService,
     private readonly changeDetectorRef: ChangeDetectorRef,
     private readonly router: Router,
+    private readonly cborDecodeService: CborDecodeService
   ) {}
 
   ngOnInit (): void {
@@ -71,14 +73,24 @@ export class QrCodeComponent implements OnInit, OnDestroy {
   		)
   		.subscribe(() => {
   		this.presentationDefinitionService.getWalletResponse(presentation_id,nonce).
-  				pipe(takeUntil(this.destroy$))
+  				pipe(
+  					takeUntil(this.destroy$),
+  					switchMap((res: any) => {
+  						if (this.router.url.includes('cbor')) {
+  							return this.cborDecodeService.decode(res.vp_token);
+  						} else {
+  							return of(res);
+  						}
+  					})
+  				)
   				.subscribe(
   				(res: any) =>{
   						if (this.router.url.includes('cbor')) {
-  							this.CBORResults = res.vp_token_decoded;
+  							this.CBORResults = res;
   						} else {
   							this.results = res;
   						}
+  						this.results = res;
   						const divElement = this.qrCode.nativeElement;
   						divElement.style.display='none';
   						this.hasResult = true;

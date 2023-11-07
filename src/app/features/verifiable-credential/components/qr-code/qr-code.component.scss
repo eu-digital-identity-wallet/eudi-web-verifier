@@ -10,27 +10,29 @@
         position: relative;
 
         .body {
-            align-items: center;
-            display: flex;
-            flex-direction: column;
-            justify-content: center;
+          align-items: center;
+          display: flex;
+          flex-direction: column;
+          justify-content: center;
+          width: 100%;
+          overflow-x: hidden;
+          overflow-y: auto;
+          padding-top: 58px;
 
             .qr-code {
-                background: rgb(255 255 255);
-                border-radius: 30px;
-                -webkit-box-pack: center;
-                display: flex;
-                height: 256px;
-                justify-content: center;
-                margin-top: 40px;
-                padding: 15px;
-                width: 256px;
+              background: rgb(255, 255, 255);
+              border-radius: 30px;
+              -webkit-box-pack: center;
+              display: flex;
+              justify-content: center;
+              padding: 15px;
+              width: 100%;
+              max-width: 565px;
+              max-height: -moz-fit-content;
+              max-height: fit-content;
 
-                &.green-bg {
-                    background: green;
-                }
                 .cbor-show-result {
-                  margin-top: -64px;
+                  // margin-top: -64px;
                   h2 {
                     margin: 4px 2px;
                   }

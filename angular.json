@@ -19,7 +19,9 @@
           "options": {
             "allowedCommonJsDependencies": [
               "crypto-js",
-              "cbor-js"
+              "cbor-web",
+              "cbor-bigdecimal",
+              "buffer"
             ],
             "outputPath": "dist/verifier-ui",
             "index": "src/index.html",
