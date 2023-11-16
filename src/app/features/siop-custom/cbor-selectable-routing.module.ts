@@ -18,7 +18,7 @@ const routes: Routes = [
 			{
 				path: 'verifiable',
 				loadComponent:
-        () => import('../../features/verifiable-credential/components/qr-code/qr-code.component').then(c => c.QrCodeComponent)
+        () => import('../verifiable-credential/components/qr-code/qr-code.component').then(c => c.QrCodeComponent)
 			},
 		]
 	}

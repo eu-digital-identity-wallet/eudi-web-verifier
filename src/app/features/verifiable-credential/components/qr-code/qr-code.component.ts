@@ -76,7 +76,7 @@ export class QrCodeComponent implements OnInit, OnDestroy {
   				pipe(
   					takeUntil(this.destroy$),
   					switchMap((res: any) => {
-  						if (this.router.url.includes('cbor')) {
+  						if (this.router.url.includes('cbor') || this.router.url.includes('cbor-selectable')) {
   							return this.cborDecodeService.decode(res.vp_token);
   						} else {
   							return of(res);
@@ -85,7 +85,7 @@ export class QrCodeComponent implements OnInit, OnDestroy {
   				)
   				.subscribe(
   				(res: any) =>{
-  						if (this.router.url.includes('cbor')) {
+  						if (this.router.url.includes('cbor') || this.router.url.includes('cbor-selectable')) {
   							this.CBORResults = res;
   						} else {
   							this.results = res;

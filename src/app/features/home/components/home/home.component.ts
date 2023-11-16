@@ -7,6 +7,8 @@ import { NavigateService } from '@app/core/services/navigate.service';
 import { OnlineAuthenticationSIOPService } from '@app/core/services/online-authentication-siop.service';
 import { RadioGroupComponent } from '@app/shared/elements/radio-group/radio-group.component';
 import { SharedModule } from '@app/shared/shared.module';
+import { HomeService } from '../../services/home.service';
+import { MenuOption } from '../../models/menu-option';
 
 @Component({
 	selector: 'vc-home',
@@ -14,45 +16,28 @@ import { SharedModule } from '@app/shared/shared.module';
 	imports: [CommonModule, RadioGroupComponent, SharedModule, LayoutComponent],
 	templateUrl: './home.component.html',
 	styleUrls: ['./home.component.scss'],
-	providers: [OnlineAuthenticationSIOPService, CborDecodeService],
+	providers: [OnlineAuthenticationSIOPService, CborDecodeService, HomeService],
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class HomeComponent implements OnInit {
 
+	options: MenuOption[] = [];
 	constructor (
     private navigateService: NavigateService,
     private readonly onlineAuthenticationSIOPService: OnlineAuthenticationSIOPService,
     private readonly dataService: DataService,
-    private readonly cborDecodeService: CborDecodeService
+    private readonly cborDecodeService: CborDecodeService,
+    private readonly homeService: HomeService
 	) {
 	}
 	ngOnInit (): void {
+		this.options = this.homeService.options;
 		this.cborDecodeService.test();
 	}
 
 	navPath = '';
 	disableButton = true;
-	options = [{
-		key: 'SIOP',
-		value: 'Online Authentication  (SIOP)',
-		isDisabled: false,
-	},
-	{
-		key: 'SIOPPlus',
-		value: 'Online Authentication  (SIOP) Plus',
-		isDisabled: false,
-	},
-	{
-		key: 'OID4VP_CBOR',
-		value: 'OID4VP + CBOR',
-		isDisabled: false,
-	},
-	{
-		key: 'OID4VP_C',
-		value: 'OID4VP Custom',
-		isDisabled: false,
-	}
-	];
+
 	navigate (choose: string) {
 		this.disableButton = false;
 		if (choose === 'SIOP') {
@@ -61,10 +46,9 @@ export class HomeComponent implements OnInit {
 			this.navPath = 'cbor';
 		} else if (choose === 'OID4VP_C') {
 			this.navPath = '/presentation';
-		} else if (choose === 'SIOPPlus') {
-			this.navPath = 'siopPlus/create';
+		} else if (choose === 'OID4VP_CBOR_Selectable') {
+			this.navPath = 'cbor-selectable/create';
 		}
-
 	}
 	submit () {
 		if (this.navPath === '/presentation') {
@@ -79,12 +63,8 @@ export class HomeComponent implements OnInit {
 				this.dataService.setQRCode(data);
 				this.navigateService.navigateTo(this.navPath);
 			});
-		} else if (this.navPath === 'siopPlus/create') {
+		} else if (this.navPath === 'cbor-selectable/create') {
 			this.navigateService.navigateTo(this.navPath);
-			// this.onlineAuthenticationSIOPService.initTransaction().subscribe((data) => {
-			// 	this.dataService.setQRCode(data);
-			// 	this.navigateService.navigateTo(this.navPath);
-			// });
 		}
 	}
 }

@@ -13,8 +13,8 @@ const routes: Routes = [
 	{ path: 'cbor',
 		loadChildren: () => import('./features/cbor/cbor.module').
 			then(m => m.CborModule )},
-	{ path: 'siopPlus',
-		loadChildren: () => import('./features/siop-custom/siop-custom.module').
+	{ path: 'cbor-selectable',
+		loadChildren: () => import('./features/siop-custom/cbor-selectable.module').
 			then(m => m.SiopCustomModule )}
 ];
 

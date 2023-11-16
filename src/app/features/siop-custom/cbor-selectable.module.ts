@@ -5,7 +5,7 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 
 
-import { SiopCustomRoutingModule } from './siop-custom-routing.module';
+import { SiopCustomRoutingModule } from './cbor-selectable-routing.module';
 import { LayoutComponent } from '@app/core/layout/layout/layout.component';
 import { CreateAScenarioComponent } from './components/create-a-scenario/create-a-scenario.component';
 import { HomeComponent } from './components/home/home.component';
