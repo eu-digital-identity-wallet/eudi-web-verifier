@@ -2,7 +2,7 @@ import { AfterViewInit, ChangeDetectionStrategy, Component, EventEmitter, Input,
 import { CodeEditorMode } from './CodeEditorMode';
 import { json } from '@codemirror/lang-json';
 import { basicSetup, EditorView } from 'codemirror';
-import { Compartment } from '@codemirror/state';
+import { Compartment, EditorState } from '@codemirror/state';
 import { oneDarkTheme } from '@codemirror/theme-one-dark';
 import {
 	defaultHighlightStyle,
@@ -21,20 +21,28 @@ export class EditorComponent implements AfterViewInit {
 
   @Input()	mode: CodeEditorMode = 'json';
 
-  @Input()	readonly = false;
+  // @Input()	code: string | undefined = '';
 
-  @Input()	code: string | undefined;
+  @Input() set code (value: string | undefined) {
+  	if (value) {
+  		this.inputCode = JSON.stringify(value, null, '\t');
+  	}
+  }
+
+  @Input()	editable = true;
 
   @Output() request: EventEmitter<string> = new EventEmitter();
 
+  inputCode = '';
   editorTheme = new Compartment();
 
   codeMirrorInstance!: EditorView;
 
   ngAfterViewInit (): void {
   	this.codeMirrorInstance = new EditorView({
-  		doc: this.code ? this.code : '',
+  		doc: this.inputCode,
   		extensions: [
+  			EditorState.readOnly.of(this.editable),
   			EditorView.updateListener.of((v) => {this.onChange(v); }),
   			basicSetup,
   			json(),

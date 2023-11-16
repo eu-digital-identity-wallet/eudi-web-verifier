@@ -18,7 +18,10 @@
           "builder": "@angular-devkit/build-angular:browser",
           "options": {
             "allowedCommonJsDependencies": [
-              "crypto-js"
+              "crypto-js",
+              "cbor-web",
+              "cbor-bigdecimal",
+              "buffer"
             ],
             "outputPath": "dist/verifier-ui",
             "index": "src/index.html",

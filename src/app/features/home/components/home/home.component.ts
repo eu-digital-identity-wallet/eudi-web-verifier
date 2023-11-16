@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
-import { ChangeDetectionStrategy, Component } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { LayoutComponent } from '@app/core/layout/layout/layout.component';
+import { CborDecodeService } from '@app/core/services/cbor/cbor-decode.service';
 import { DataService } from '@app/core/services/data.service';
 import { NavigateService } from '@app/core/services/navigate.service';
 import { OnlineAuthenticationSIOPService } from '@app/core/services/online-authentication-siop.service';
@@ -13,15 +14,22 @@ import { SharedModule } from '@app/shared/shared.module';
 	imports: [CommonModule, RadioGroupComponent, SharedModule, LayoutComponent],
 	templateUrl: './home.component.html',
 	styleUrls: ['./home.component.scss'],
-	providers: [OnlineAuthenticationSIOPService],
+	providers: [OnlineAuthenticationSIOPService, CborDecodeService],
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class HomeComponent {
+export class HomeComponent implements OnInit {
+
 	constructor (
     private navigateService: NavigateService,
     private readonly onlineAuthenticationSIOPService: OnlineAuthenticationSIOPService,
-    private readonly dataService: DataService
-	) {}
+    private readonly dataService: DataService,
+    private readonly cborDecodeService: CborDecodeService
+	) {
+	}
+	ngOnInit (): void {
+		this.cborDecodeService.test();
+	}
+
 	navPath = '';
 	disableButton = true;
 	options = [{
