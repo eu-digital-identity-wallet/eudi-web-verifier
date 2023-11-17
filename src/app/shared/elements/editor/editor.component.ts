@@ -32,15 +32,13 @@ export class EditorComponent implements AfterViewInit, OnChanges {
 
   @Input()	mode: CodeEditorMode = 'json';
 
-  // @Input()	code: string | undefined = '';
-
   @Input() set code (value: string | undefined) {
   	if (value) {
   		this.inputCode = JSON.stringify(value, null, '\t');
   	}
   }
 
-  @Input()	editable = true;
+  @Input()	editable = false;
 
   @Output() request: EventEmitter<string> = new EventEmitter();
 
