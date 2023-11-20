@@ -1,5 +1,7 @@
 # VerifierUi
 
+[![License](https://img.shields.io/badge/License-Apache%202.0-blue.svg)](https://www.apache.org/licenses/LICENSE-2.0)
+
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 15.2.5.
 
 ## Development server
@@ -30,7 +32,11 @@ To get more help on the Angular CLI use `ng help` or go check out the [Angular C
 
 ### Third-party component licenses
 
-TBD
+* [Angular CLI](https://github.com/angular/angular-cli)
+* [cbor](https://github.com/hildjj/node-cbor)
+* [jwt-decode](https://github.com/auth0/jwt-decode#readme)
+* [rxjs](https://github.com/reactivex/rxjs)
+* [qrcodejs](https://github.com/llyys/qrcodejs)
 
 ### License details
 
