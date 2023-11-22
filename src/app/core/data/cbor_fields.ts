@@ -1,41 +1,43 @@
-export const 	CBORFields = [
-	{
-		id: 0,
-		label: 'Document Type',
-		path: '$.mdoc.doctype',
-		value: {
-			'path': [
-				'$.mdoc.doctype'
-			],
-			'filter': {
-				'type': 'string',
-				'const': 'eu.europa.ec.eudiw.pid.1'
-			}
-		}
-	},
-	{
-		id: 1,
-		label: 'Name Space',
-		path: '$.mdoc.namespace',
-		value: {
-			'path': [
-				'$.mdoc.namespace'
-			],
-			'filter': {
-				'type': 'string',
-				'const': 'eu.europa.ec.eudiw.pid.1'
-			}
-		}
-	},
+import { CBORField } from '../models/CBORFields';
+
+export const 	CBORFields: CBORField[] = [
+	// {
+	// 	id: 0,
+	// 	label: 'Document Type',
+	// 	path: '$.mdoc.doctype',
+	// 	value: {
+	// 		path: [
+	// 			'$.mdoc.doctype'
+	// 		],
+	// 		'filter': {
+	// 			'type': 'string',
+	// 			'const': 'eu.europa.ec.eudiw.pid.1'
+	// 		}
+	// 	}
+	// },
+	// {
+	// 	id: 1,
+	// 	label: 'Name Space',
+	// 	path: '$.mdoc.namespace',
+	// 	value: {
+	// 		path: [
+	// 			'$.mdoc.namespace'
+	// 		],
+	// 		'filter': {
+	// 			'type': 'string',
+	// 			'const': 'eu.europa.ec.eudiw.pid.1'
+	// 		}
+	// 	}
+	// },
 	{
 		id: 2,
 		label: 'Family Name',
 		path: '$.mdoc.family_name',
 		value: {
-			'path': [
+			path: [
 				'$.mdoc.family_name'
 			],
-			'intent_to_retain': false
+			intent_to_retain: false
 		},
 	},
 	{
@@ -43,10 +45,10 @@ export const 	CBORFields = [
 		label: 'Given Name',
 		path: '$.mdoc.given_name',
 		value: {
-			'path': [
+			path: [
 				'$.mdoc.given_name'
 			],
-			'intent_to_retain': false
+			intent_to_retain: false
 		}
 	},
 	{
@@ -54,10 +56,10 @@ export const 	CBORFields = [
 		label: 'Birthdate',
 		path: '$.mdoc.birth_date',
 		value: {
-			'path': [
+			path: [
 				'$.mdoc.birth_date'
 			],
-			'intent_to_retain': false
+			intent_to_retain: false
 		}
 	},
 	{
@@ -65,10 +67,10 @@ export const 	CBORFields = [
 		label: 'Age over 18',
 		path: '$.mdoc.age_over_18',
 		value: {
-			'path': [
+			path: [
 				'$.mdoc.age_over_18'
 			],
-			'intent_to_retain': false
+			intent_to_retain: false
 		}
 	},
 	{
@@ -76,10 +78,10 @@ export const 	CBORFields = [
 		label: 'Age in years',
 		path: '$.mdoc.age_in_years',
 		value: {
-			'path': [
+			path: [
 				'$.mdoc.age_in_years'
 			],
-			'intent_to_retain': false
+			intent_to_retain: false
 		}
 	},
 	{
@@ -87,21 +89,10 @@ export const 	CBORFields = [
 		label: 'Age birth years',
 		path: '$.mdoc.age_birth_year',
 		value: {
-			'path': [
+			path: [
 				'$.mdoc.age_birth_year'
 			],
-			'intent_to_retain': false
-		}
-	},
-	{
-		id: 7,
-		label: 'Unique ID',
-		path: '$.mdoc.unique_id',
-		value: {
-			'path': [
-				'$.mdoc.unique_id'
-			],
-			'intent_to_retain': false
+			intent_to_retain: false
 		}
 	},
 	{
@@ -109,10 +100,10 @@ export const 	CBORFields = [
 		label: 'Family name birth',
 		path: '$.mdoc.family_name_birth',
 		value: {
-			'path': [
+			path: [
 				'$.mdoc.family_name_birth'
 			],
-			'intent_to_retain': false
+			intent_to_retain: false
 		}
 	},
 	{
@@ -120,10 +111,10 @@ export const 	CBORFields = [
 		label: 'Given name birth',
 		path: '$.mdoc.given_name_birth',
 		value: {
-			'path': [
+			path: [
 				'$.mdoc.given_name_birth'
 			],
-			'intent_to_retain': false
+			intent_to_retain: false
 		}
 	},
 	{
@@ -131,10 +122,10 @@ export const 	CBORFields = [
 		label: 'Birth place',
 		path: '$.mdoc.birth_place',
 		value: {
-			'path': [
+			path: [
 				'$.mdoc.birth_place'
 			],
-			'intent_to_retain': false
+			intent_to_retain: false
 		}
 	},
 	{
@@ -142,10 +133,10 @@ export const 	CBORFields = [
 		label: 'Birth place',
 		path: '$.mdoc.birth_place',
 		value: {
-			'path': [
+			path: [
 				'$.mdoc.birth_place'
 			],
-			'intent_to_retain': false
+			intent_to_retain: false
 		}
 	},
 	{
@@ -153,10 +144,10 @@ export const 	CBORFields = [
 		label: 'Birth country',
 		path: '$.mdoc.birth_country',
 		value: {
-			'path': [
+			path: [
 				'$.mdoc.birth_country'
 			],
-			'intent_to_retain': false
+			intent_to_retain: false
 		}
 	},
 	{
@@ -164,10 +155,10 @@ export const 	CBORFields = [
 		label: 'Birth state',
 		path: '$.mdoc.birth_state',
 		value: {
-			'path': [
+			path: [
 				'$.mdoc.birth_state'
 			],
-			'intent_to_retain': false
+			intent_to_retain: false
 		}
 	},
 	{
@@ -175,10 +166,10 @@ export const 	CBORFields = [
 		label: 'Birth city',
 		path: '$.mdoc.birth_city',
 		value: {
-			'path': [
+			path: [
 				'$.mdoc.birth_city'
 			],
-			'intent_to_retain': false
+			intent_to_retain: false
 		}
 	},
 	{
@@ -186,10 +177,10 @@ export const 	CBORFields = [
 		label: 'Resident address',
 		path: '$.mdoc.resident_address',
 		value: {
-			'path': [
+			path: [
 				'$.mdoc.resident_address'
 			],
-			'intent_to_retain': false
+			intent_to_retain: false
 		}
 	},
 	{
@@ -197,10 +188,10 @@ export const 	CBORFields = [
 		label: 'Resident country',
 		path: '$.mdoc.resident_country',
 		value: {
-			'path': [
+			path: [
 				'$.mdoc.resident_country'
 			],
-			'intent_to_retain': false
+			intent_to_retain: false
 		}
 	},
 	{
@@ -208,10 +199,10 @@ export const 	CBORFields = [
 		label: 'Resident state',
 		path: '$.mdoc.resident_state',
 		value: {
-			'path': [
+			path: [
 				'$.mdoc.resident_state'
 			],
-			'intent_to_retain': false
+			intent_to_retain: false
 		}
 	},
 	{
@@ -219,10 +210,10 @@ export const 	CBORFields = [
 		label: 'Resident city',
 		path: '$.mdoc.resident_city',
 		value: {
-			'path': [
+			path: [
 				'$.mdoc.resident_city'
 			],
-			'intent_to_retain': false
+			intent_to_retain: false
 		}
 	},
 	{
@@ -230,10 +221,10 @@ export const 	CBORFields = [
 		label: 'Resident postal code',
 		path: '$.mdoc.resident_postal_code',
 		value: {
-			'path': [
+			path: [
 				'$.mdoc.resident_postal_code'
 			],
-			'intent_to_retain': false
+			intent_to_retain: false
 		}
 	},
 	{
@@ -241,10 +232,10 @@ export const 	CBORFields = [
 		label: 'Resident street',
 		path: '$.mdoc.resident_street',
 		value: {
-			'path': [
+			path: [
 				'$.mdoc.resident_street'
 			],
-			'intent_to_retain': false
+			intent_to_retain: false
 		}
 	},
 	{
@@ -252,10 +243,10 @@ export const 	CBORFields = [
 		label: 'Resident house number',
 		path: '$.mdoc.resident_house_number',
 		value: {
-			'path': [
+			path: [
 				'$.mdoc.resident_house_number'
 			],
-			'intent_to_retain': false
+			intent_to_retain: false
 		}
 	},
 	{
@@ -263,10 +254,10 @@ export const 	CBORFields = [
 		label: 'Gender',
 		path: '$.mdoc.gender',
 		value: {
-			'path': [
+			path: [
 				'$.mdoc.gender'
 			],
-			'intent_to_retain': false
+			intent_to_retain: false
 		}
 	},
 	{
@@ -274,10 +265,10 @@ export const 	CBORFields = [
 		label: 'Nationality',
 		path: '$.mdoc.nationality',
 		value: {
-			'path': [
+			path: [
 				'$.mdoc.nationality'
 			],
-			'intent_to_retain': false
+			intent_to_retain: false
 		}
 	},
 	{
@@ -285,10 +276,10 @@ export const 	CBORFields = [
 		label: 'Issuance date',
 		path: '$.mdoc.issuance_date',
 		value: {
-			'path': [
+			path: [
 				'$.mdoc.issuance_date'
 			],
-			'intent_to_retain': false
+			intent_to_retain: false
 		}
 	},
 	{
@@ -296,10 +287,10 @@ export const 	CBORFields = [
 		label: 'Expiry date',
 		path: '$.mdoc.expiry_date',
 		value: {
-			'path': [
+			path: [
 				'$.mdoc.expiry_date'
 			],
-			'intent_to_retain': false
+			intent_to_retain: false
 		}
 	},
 	{
@@ -307,10 +298,10 @@ export const 	CBORFields = [
 		label: 'Issuing authority',
 		path: '$.mdoc.issuing_authority',
 		value: {
-			'path': [
+			path: [
 				'$.mdoc.issuing_authority'
 			],
-			'intent_to_retain': false
+			intent_to_retain: false
 		}
 	},
 	{
@@ -318,10 +309,10 @@ export const 	CBORFields = [
 		label: 'Document number',
 		path: '$.mdoc.document_number',
 		value: {
-			'path': [
+			path: [
 				'$.mdoc.document_number'
 			],
-			'intent_to_retain': false
+			intent_to_retain: false
 		}
 	},
 	{
@@ -329,10 +320,10 @@ export const 	CBORFields = [
 		label: 'Administrative number',
 		path: '$.mdoc.administrative_number',
 		value: {
-			'path': [
+			path: [
 				'$.mdoc.administrative_number'
 			],
-			'intent_to_retain': false
+			intent_to_retain: false
 		}
 	},
 	{
@@ -340,10 +331,10 @@ export const 	CBORFields = [
 		label: 'Issuing country',
 		path: '$.mdoc.issuing_country',
 		value: {
-			'path': [
+			path: [
 				'$.mdoc.issuing_country'
 			],
-			'intent_to_retain': false
+			intent_to_retain: false
 		}
 	},
 	{
@@ -351,10 +342,10 @@ export const 	CBORFields = [
 		label: 'Issuing jurisdiction',
 		path: '$.mdoc.issuing_jurisdiction',
 		value: {
-			'path': [
+			path: [
 				'$.mdoc.issuing_jurisdiction'
 			],
-			'intent_to_retain': false
+			intent_to_retain: false
 		}
 	},
 ];

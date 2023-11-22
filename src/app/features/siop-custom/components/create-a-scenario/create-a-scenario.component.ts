@@ -2,16 +2,14 @@ import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { catchError } from 'rxjs';
 import { PresentationDefinitionResponse } from '@core/models/presentation-definition-response';
-
 import { PresentationDefinitionService } from '@app/core/services/presentation-definition.service';
-import { Router } from '@angular/router';
-
 import { CreateFormService } from '../../services/create-form.service';
 import { PID_PRESENTATION_DEFINITION } from '@app/core/data/pid_presentation_definition';
 import { DefinitionPath } from '../../models/DefinitionPath';
 import { DataService } from '@app/core/services/data.service';
 import { NavigateService } from '@app/core/services/navigate.service';
 import { CBORFields } from '@app/core/data/cbor_fields';
+import { CBORField } from '@app/core/models/CBORFields';
 
 @Component({
 	selector: 'vc-create-a-scenario',
@@ -22,7 +20,7 @@ import { CBORFields } from '@app/core/data/cbor_fields';
 export class CreateAScenarioComponent implements OnInit {
 
 	form!: FormGroup;
-	fields;
+	fields: CBORField[];
 	requestGenerate = false;
 	buttonMode = 'none';
 	definition = {...PID_PRESENTATION_DEFINITION};
@@ -33,14 +31,17 @@ export class CreateAScenarioComponent implements OnInit {
     private readonly presentationDefinitionService: PresentationDefinitionService,
     private readonly dataService: DataService,
     private readonly changeDetectorRef: ChangeDetectorRef,
-    private readonly navigateService: NavigateService,
-    private readonly router: Router,
+    private readonly navigateService: NavigateService
 	) {
 		this.form = this.createFormService.form;
 		this.fields = CBORFields;
 	}
 	ngOnInit (): void {
-		this.definition.presentation_definition.input_descriptors[0].constraints.fields = [];
+		const requiredFields = this.definition.presentation_definition.input_descriptors[0].constraints.fields
+			.filter((item) => item.filter );
+		requiredFields.forEach((item: DefinitionPath) => {
+			this.definitionFields.push(item);
+		});
 		this.definitionText = JSON.stringify(this.definition, null, '\t');
 	}
 	generateCode () {
@@ -64,12 +65,12 @@ export class CreateAScenarioComponent implements OnInit {
 			console.log('invalid JSON');
 		}
 	}
-	handle (data: any) {
+	handle (data: CBORField) {
 		const value = data?.value;
 		if (!this.isExist(value.path[0])) {
 			this.definitionFields.push(value);
 		}	else if (this.isExist(value.path[0])) {
-			this.definitionFields = this.definitionFields.filter((item) => {
+			this.definitionFields = this.definitionFields.filter((item: DefinitionPath) => {
 				return String(item.path) !== String(value.path[0]);
 			});
 		}
@@ -82,7 +83,7 @@ export class CreateAScenarioComponent implements OnInit {
 		return exists.length > 0;
 	}
 
-	trackByFn (data: any) {
+	trackByFn (_index: number, data: CBORField) {
 		return data.id;
 	}
 }
