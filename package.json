@@ -34,7 +34,7 @@
     "cbor-web": "8.0.1",
     "codemirror": "^6.0.1",
     "crypto-js": "^4.1.1",
-    "jwt-decode": "^3.1.2",
+    "jwt-decode": "3.1.2",
     "nofilter": "^4.0.2",
     "qrcodejs": "^1.0.0",
     "rxjs": "~7.8.0",

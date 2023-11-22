@@ -11,6 +11,7 @@ import { environment } from '@environments/environment';
 import { PresentationDefinitionResponse } from '@app/core/models/presentation-definition-response';
 import { CborDecodeService } from '@app/core/services/cbor/cbor-decode.service';
 import { MatListModule } from '@angular/material/list';
+import { JWTService } from '@app/core/services/jwt.service';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 declare let QRCode: any;
@@ -21,7 +22,7 @@ declare let QRCode: any;
 	imports: [CommonModule, SharedModule, MatListModule],
 	templateUrl: './qr-code.component.html',
 	styleUrls: ['./qr-code.component.scss'],
-	providers: [PresentationDefinitionService, CborDecodeService],
+	providers: [PresentationDefinitionService, CborDecodeService, JWTService],
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class QrCodeComponent implements OnInit, OnDestroy {
@@ -30,9 +31,10 @@ export class QrCodeComponent implements OnInit, OnDestroy {
   @ViewChild('qrCode')	qrCode!: ElementRef;
   hasResult = false;
 
-  results!: any;
-  CBORResults: any[] = [];
-  JwtObject!: string;
+  results: { data: any[], label: string } = {
+  	data: [],
+  	label: ''
+  };
   displayButtonJWTObject = false;
   presentationDefinition!: PresentationDefinitionResponse;
 
@@ -43,7 +45,8 @@ export class QrCodeComponent implements OnInit, OnDestroy {
     private readonly navigateService: NavigateService,
     private readonly changeDetectorRef: ChangeDetectorRef,
     private readonly router: Router,
-    private readonly cborDecodeService: CborDecodeService
+    private readonly cborDecodeService: CborDecodeService,
+    private readonly jWTService: JWTService
   ) {}
 
   ngOnInit (): void {
@@ -76,21 +79,18 @@ export class QrCodeComponent implements OnInit, OnDestroy {
   				pipe(
   					takeUntil(this.destroy$),
   					switchMap((res: any) => {
-  						if (this.router.url.includes('cbor')) {
+  						if (this.router.url.includes('cbor') || this.router.url.includes('cbor-selectable')) {
+  							this.results.label = 'CBOR';
   							return this.cborDecodeService.decode(res.vp_token);
   						} else {
-  							return of(res);
+  							this.results.label = '';
+  							return this.jWTService.decode(res.id_token);
   						}
   					})
   				)
   				.subscribe(
   				(res: any) =>{
-  						if (this.router.url.includes('cbor')) {
-  							this.CBORResults = res;
-  						} else {
-  							this.results = res;
-  						}
-  						this.results = res;
+  						this.results.data = res;
   						const divElement = this.qrCode.nativeElement;
   						divElement.style.display='none';
   						this.hasResult = true;

@@ -6,21 +6,14 @@
   <div class="body">
     <div class="qr-code" [ngClass]="{'green-bg': hasResult}">
       <div #qrCode id="qrcode" > </div>
-      <div class="show-result" *ngIf="hasResult && results && CBORResults.length === 0">
-        <h3>Results:</h3>
-        <code>
-          {{results | json}}
-        </code>
-      </div>
-      <div *ngIf="hasResult && CBORResults.length > 0" class="cbor-show-result" >
-        <h2> CBOR Results </h2>
+      <div *ngIf="hasResult && results.data.length > 0" class="show-result" >
+        <h2> {{results.label}} Results </h2>
         <mat-list>
-          <mat-list-item *ngFor="let option of CBORResults">
+          <mat-list-item *ngFor="let option of results.data">
             <span matListItemTitle>{{option.key}}</span>
             <span matListItemLine>{{option.value}}</span>
           </mat-list-item>
         </mat-list>
-        <!-- <vc-editor  [code]="CBORResults" [editable]="false"></vc-editor> -->
       </div>
 
     </div>
