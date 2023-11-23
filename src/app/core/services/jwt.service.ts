@@ -16,7 +16,6 @@ export class JWTService {
 		console.log(decoded);
 		const result: KeyValue<string, string>[] = [];
 		Object.keys(decoded).forEach((item) => {
-			console.log(`key: ${item} : value ${decoded[item]}`);
 			result.push({key: item, value: decoded[item]});
 		});
 		return of(result);

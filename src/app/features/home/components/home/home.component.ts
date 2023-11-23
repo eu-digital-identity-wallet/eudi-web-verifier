@@ -1,7 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { LayoutComponent } from '@app/core/layout/layout/layout.component';
-import { CborDecodeService } from '@app/core/services/cbor/cbor-decode.service';
 import { DataService } from '@app/core/services/data.service';
 import { NavigateService } from '@app/core/services/navigate.service';
 import { OnlineAuthenticationSIOPService } from '@app/core/services/online-authentication-siop.service';
@@ -16,7 +15,7 @@ import { MenuOption } from '../../models/menu-option';
 	imports: [CommonModule, RadioGroupComponent, SharedModule, LayoutComponent],
 	templateUrl: './home.component.html',
 	styleUrls: ['./home.component.scss'],
-	providers: [OnlineAuthenticationSIOPService, CborDecodeService, HomeService],
+	providers: [OnlineAuthenticationSIOPService, HomeService],
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class HomeComponent implements OnInit {
@@ -26,13 +25,11 @@ export class HomeComponent implements OnInit {
     private navigateService: NavigateService,
     private readonly onlineAuthenticationSIOPService: OnlineAuthenticationSIOPService,
     private readonly dataService: DataService,
-    private readonly cborDecodeService: CborDecodeService,
     private readonly homeService: HomeService
 	) {
 	}
 	ngOnInit (): void {
 		this.options = this.homeService.options;
-		this.cborDecodeService.test();
 	}
 
 	navPath = '';

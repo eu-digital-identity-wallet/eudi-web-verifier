@@ -65,12 +65,6 @@ export const PID_PRESENTATION_DEFINITION = {
 						},
 					  {
 							'path': [
-								'$.mdoc.unique_id'
-							],
-							'intent_to_retain': false
-						},
-					  {
-							'path': [
 								'$.mdoc.family_name_birth'
 							],
 							'intent_to_retain': false

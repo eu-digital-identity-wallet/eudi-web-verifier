@@ -1,9 +1,9 @@
 export type DefinitionPath = {
   path: string[],
-  filter?: filter | undefined,
-  intent_to_retain?: boolean | any
+  filter?: FilterModel,
+  intent_to_retain?: boolean | any,
 }
-type filter = {
+export type FilterModel = {
   type: string;
   const: string;
 }
