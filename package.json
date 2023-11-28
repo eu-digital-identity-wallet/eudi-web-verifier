@@ -8,7 +8,7 @@
     "watch": "npm run config && ng build --watch --configuration=development",
     "config": "node set-env.js",
     "test": "ng test",
-    "stylelint": "npx stylelint \"src/**/*.{css,scss}\" --fix",
+    "stylelint": "npx stylelint \"src/**/*.{css,scss,sass}\" --fix",
     "lint": "ng lint --fix",
     "pre-build": "test && lint"
   },

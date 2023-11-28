@@ -1,0 +1,20 @@
+@use 'sass:map';
+@use '/src/template' as temp;
+@use '/src/layout-breakpoint' as points;
+:host {
+  width: inherit;
+  height: 5rem;
+  border-bottom: 1px;
+  border-color: map-get(map-get(map-get(temp.$palette, general), divider), dark);
+  border-style: solid;
+  display: flex;
+  img {
+    left: temp.$left;
+    position: relative;
+  }
+  @media (max-width: map-get(points.$breakpoints, sm)) {
+    img {
+      left: 3%;
+    }
+  }
+}

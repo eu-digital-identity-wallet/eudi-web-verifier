@@ -1,0 +1,6 @@
+<div class="container">
+  <ng-container *ngFor="let action of actions | orderBy: 'desc'">
+    <vc-button class="vc-button" [name]="action.label" [id]="action.id" [mode]="action.mode" [isDisabled]="action.disabled" [color]="action.color" (clicked)="runClick(action)"></vc-button>
+  </ng-container>
+</div>
+

@@ -1,4 +1,5 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { TypeOfColor } from './enums/type-of-color';
 
 @Component({
 	selector: 'vc-button',
@@ -9,7 +10,7 @@ export class ButtonComponent {
 
   @Input() isDisabled = false;
   @Input() name!: string;
-  @Input() color: 'primary' | 'white' = 'primary';
+  @Input() color: TypeOfColor = 'primary';
   @Input() set mode (value: string) {
   	if (value === 'loading') {
   		this.buttonName = 'Loading...';

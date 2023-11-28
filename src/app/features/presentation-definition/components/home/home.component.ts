@@ -6,6 +6,9 @@ import { NavigateService } from '@app/core/services/navigate.service';
 import { PresentationDefinitionService } from '@app/core/services/presentation-definition.service';
 import { NavigationEnd, Router } from '@angular/router';
 import { filter } from 'rxjs/operators';
+import { BodyAction } from '@app/shared/elements/body-actions/models/BodyAction';
+import { PRESENTATION_ACTIONS } from '@app/core/utils/pages-actions';
+import { ActionCode } from '@app/shared/elements/body-actions/models/ActionCode';
 
 @Component({
 	selector: 'vc-home',
@@ -15,6 +18,14 @@ import { filter } from 'rxjs/operators';
 })
 export class HomeComponent implements OnInit {
 
+
+	actions: BodyAction[] = PRESENTATION_ACTIONS;
+	hideButton = true;
+	invalidJSON = false;
+	requestGenerate = false;
+	buttonMode = 'none';
+	requestCode = '';
+	presentationDefinition$!: Observable<PresentationDefinitionResponse>;
 	constructor (
     private readonly changeDetectorRef: ChangeDetectorRef,
     private readonly router: Router,
@@ -22,14 +33,6 @@ export class HomeComponent implements OnInit {
     private readonly navigateService: NavigateService,
     private readonly presentationDefinitionService: PresentationDefinitionService
 	) {}
-
-	hideButton = true;
-	invalidJSON = false;
-	requestGenerate = false;
-	buttonMode = 'none';
-	requestCode = '';
-	presentationDefinition$!: Observable<PresentationDefinitionResponse>;
-
 	ngOnInit (): void {
 		this.router.events
 			.pipe(
@@ -44,10 +47,28 @@ export class HomeComponent implements OnInit {
 			});
 		this.dataService.presentationDefinitionRequest$.subscribe((code) => {
 			this.requestCode = code;
+			console.log(code);
+			this.actions.map((item: BodyAction) => {
+				if (code && item.code == ActionCode.NEXT) {
+					item.disabled = false;
+				} else if(item.code == ActionCode.NEXT) {
+					item.disabled = true;
+				}
+				return item;
+			});
 		});
 	}
 	goBack () {
 		this.navigateService.goBack();
+	}
+
+	runActions (data: BodyAction) {
+		console.log(data);
+		if (data.code === ActionCode.BACK) {
+			this.navigateService.goBack();
+		} else if (data.code === ActionCode.NEXT) {
+			this.generateCode();
+		}
 	}
 
 	generateCode () {
@@ -74,5 +95,4 @@ export class HomeComponent implements OnInit {
 			this.invalidJSON = true;
 		}
 	}
-
 }

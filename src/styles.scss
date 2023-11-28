@@ -1,12 +1,16 @@
 /* You can add global styles to this file, and also import other style files */
+@use "sass:map";
+@use 'template' as temp;
+html {
+  height: 100vh;
+  width: 100vw;
+}
 body {
-    background: rgb(0 0 0);
-    color: rgb(255 255 255);
-    font-family: Inter, sans-serif;
-    height: 100vh;
-    margin: 0;
+    background: map-get(map-get(map-get(temp.$palette, general), bg), paper);
+    // color: rgb(255 255 255);
+    height: inherit;
     overflow-x: hidden;
-    width: 100vw;
+    width: inherit;
 }
 
 main {
@@ -17,16 +21,3 @@ main {
     padding: 0;
     width: 100vw;
 }
-
-.ͼe {
-    color: #9af3b1 !important;
-}
-
-html, body { height: 100%; }
-body { font-family: Roboto, "Helvetica Neue", sans-serif; margin: 0; }
-
-html, body { height: 100%; }
-body { font-family: Roboto, "Helvetica Neue", sans-serif; margin: 0; }
-
-html, body { height: 100%; }
-body { margin: 0; font-family: Roboto, "Helvetica Neue", sans-serif; }

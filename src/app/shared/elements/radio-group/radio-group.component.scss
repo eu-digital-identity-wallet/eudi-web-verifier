@@ -1,9 +1,11 @@
+@use '/src/template' as temp;
 :host {
     .container {
         display: flex;
         flex-direction: column;
         position: relative;
-
+        background-color: map-get(map-get(map-get(temp.$palette, general), bg), default);
+        border-radius: 16px;
         .radio-group {
             align-items: flex-start;
             display: flex;

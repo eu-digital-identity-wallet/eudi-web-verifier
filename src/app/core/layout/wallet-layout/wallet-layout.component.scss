@@ -1,0 +1,12 @@
+@use '/src/template' as temp;
+:host {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  .body {
+    left: temp.$left;
+    position: relative;
+    width: fit-content;
+  }
+}

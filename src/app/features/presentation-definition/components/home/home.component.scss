@@ -1,3 +1,4 @@
+@use '/src/template' as temp;
 :host {
     .vc-box-bottom {
         align-items: center;
@@ -12,7 +13,11 @@
     }
 
     .vc-box-display-error p {
-        color: red;
+        color: map-get(map-get(temp.$palette, color), error);
         font-style: italic;
+    }
+    .wrapper {
+      background-color: map-get(map-get(map-get(temp.$palette, general), bg), default);
+      padding: temp.$spaceBasic;
     }
 }

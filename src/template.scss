@@ -1,0 +1,71 @@
+@use "sass:map";
+$palette: (
+  color: (
+    primary:#2A5ED9,
+    secondary: #D6D9F9,
+    success: #55953B,
+    warning: #F39626,
+    error: #DA2C27,
+    info: #8145BD
+  ),
+  general: (
+    bg: (
+      default: hsl(0, 0%, 92%),
+      paper: hsl(0, 0%, 100%)
+    ),
+    text: (
+      primary: (
+        dark: hsl(0, 0%, 13%)
+      ),
+      secondary: (
+         dark: hsl(0, 0%, 44%),
+         light: hsl(0, 0%, 99%),
+      ),
+      disabled: (
+        dark: hsl(0, 0%, 60%),
+        light: hsl(0, 0%, 98%),
+      )
+    ),
+    divider: (
+      dark: hsl(0, 0%, 84%),
+    )
+  )
+);
+$spaceBasic: 1.5rem;
+$space: (
+  top: 2rem,
+  right: 2rem,
+  left: 2rem,
+  bottom: 2rem
+);
+
+$left: 31%;
+$max-body-panel: 34.375em;
+$max-body-width: 31.25rem;
+$max-body-height: 31.25rem;
+$min-body-width: 21.875rem;
+$min-body-height: 21.875rem;
+
+h1, h2, h3, h4, h5, h6 {
+  color: map-get(map-get(map-get(map-get($palette, general), text), primary), dark);
+  font-weight: 500;
+  margin: $spaceBasic 0;
+}
+h1 {
+  font-size: 6em;
+}
+h2 {
+  font-size: 3.75em;
+}
+h3 {
+  font-size: 3em;
+}
+h4 {
+  font-size: 1.875em;
+}
+h5 {
+  font-size: 1.5em;
+}
+h6 {
+  font-size: 1.25em;
+}
