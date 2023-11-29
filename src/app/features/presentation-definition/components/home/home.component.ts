@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, ChangeDetectorRef, OnInit } from '@angular/core';
-import { Observable, catchError } from 'rxjs';
+import { Observable } from 'rxjs';
 import { PresentationDefinitionResponse } from '@core/models/presentation-definition-response';
 import { DataService } from '@app/core/services/data.service';
 import { NavigateService } from '@app/core/services/navigate.service';
@@ -20,10 +20,6 @@ export class HomeComponent implements OnInit {
 
 
 	actions: BodyAction[] = PRESENTATION_ACTIONS;
-	hideButton = true;
-	invalidJSON = false;
-	requestGenerate = false;
-	buttonMode = 'none';
 	requestCode = '';
 	presentationDefinition$!: Observable<PresentationDefinitionResponse>;
 	constructor (
@@ -40,14 +36,11 @@ export class HomeComponent implements OnInit {
 			)
 			.subscribe(() => {
 				if (this.router.url.indexOf('create') > 0) {
-					this.buttonMode = 'none';
-					this.hideButton = true;
 					this.changeDetectorRef.detectChanges();
 				}
 			});
 		this.dataService.presentationDefinitionRequest$.subscribe((code) => {
 			this.requestCode = code;
-			console.log(code);
 			this.actions.map((item: BodyAction) => {
 				if (code && item.code == ActionCode.NEXT) {
 					item.disabled = false;
@@ -58,12 +51,8 @@ export class HomeComponent implements OnInit {
 			});
 		});
 	}
-	goBack () {
-		this.navigateService.goBack();
-	}
 
 	runActions (data: BodyAction) {
-		console.log(data);
 		if (data.code === ActionCode.BACK) {
 			this.navigateService.goBack();
 		} else if (data.code === ActionCode.NEXT) {
@@ -72,27 +61,20 @@ export class HomeComponent implements OnInit {
 	}
 
 	generateCode () {
-		this.requestGenerate = true;
 		if (this.requestCode) {
-			this.buttonMode = 'loading';
-			this.invalidJSON = false;
 			this.presentationDefinitionService.generateCode(this.requestCode)
-				.pipe(
-					catchError((error) => {
-						this.invalidJSON = true;
-						return error;
-					})
-				)
 				.subscribe((data) => {
-					this.buttonMode = 'none';
-					this.requestGenerate = false;
+					this.hideNextStep();
 					this.dataService.setQRCode(data as PresentationDefinitionResponse);
-					this.hideButton = false;
 					this.navigateService.navigateTo('/presentation/verifiable');
 					this.changeDetectorRef.detectChanges();
 				});
 		} else {
-			this.invalidJSON = true;
+			console.error('invalid JSON format');
 		}
+	}
+
+	private hideNextStep () {
+		this.actions = this.actions.filter((item: BodyAction) => item.code !== ActionCode.NEXT);
 	}
 }

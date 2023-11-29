@@ -1,0 +1,15 @@
+@use '/src/template' as temp;
+:host {
+  .show-result {
+    display: flex;
+    flex-direction: row;
+    width: 100%;
+    h6 {
+      margin: 4px 2px;
+      color: temp.$textDarkSecondary;
+    }
+    .id-token {
+      margin-right: 1rem;
+    }
+  }
+}

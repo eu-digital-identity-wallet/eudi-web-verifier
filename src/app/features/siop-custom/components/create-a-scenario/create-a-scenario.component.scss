@@ -1,17 +1,21 @@
+@use '/src/template' as temp;
 :host {
   max-width: 40rem;
   ::ng-deep {
-    .mat-mdc-checkbox .mdc-form-field {
-        color: var(--mdc-theme-text-primary-on-background, rgba(255, 255, 255, 0.87));
+    .mat-expansion-panel {
+      padding: 0 !important;
     }
-    .mat-mdc-checkbox .mdc-checkbox .mdc-checkbox__native-control:enabled:not(:checked):not(:indeterminate):not([data-indeterminate=true])~.mdc-checkbox__background {
-        border-color: rgba(255, 255, 255, 0.54);
-    }
+
+  }
+  .mb {
+    margin-bottom: temp.$spaceBasic;
   }
   .creation {
     display: flex;
     flex-direction: column;
     justify-content: center;
+    height: temp.$body-height;
+    overflow-y: auto;
     h3 {
       letter-spacing: 0px;
       text-decoration: none;
@@ -30,8 +34,5 @@
     .presentation-definition {
       margin-top: 1rem;
     }
-  }
-  vc-button {
-    width: 100%;
   }
 }

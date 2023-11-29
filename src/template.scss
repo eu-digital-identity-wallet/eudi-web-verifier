@@ -39,12 +39,19 @@ $space: (
   bottom: 2rem
 );
 
+$backgroundDefault: map-get(map-get(map-get($palette, general), bg), default);
+$backgroundPaper: map-get(map-get(map-get($palette, general), bg), paper);
+$textDarkSecondary: map-get(map-get(map-get(map-get($palette, general), text), secondary), dark);
+$textDarkPrimary: map-get(map-get(map-get(map-get($palette, general), text), primary), dark);
+
 $left: 31%;
 $max-body-panel: 34.375em;
 $max-body-width: 31.25rem;
 $max-body-height: 31.25rem;
 $min-body-width: 21.875rem;
 $min-body-height: 21.875rem;
+
+$body-height: 34.25rem;
 
 h1, h2, h3, h4, h5, h6 {
   color: map-get(map-get(map-get(map-get($palette, general), text), primary), dark);

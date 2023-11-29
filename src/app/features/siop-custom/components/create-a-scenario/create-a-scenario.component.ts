@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { catchError } from 'rxjs';
 import { PresentationDefinitionResponse } from '@core/models/presentation-definition-response';
@@ -10,6 +10,7 @@ import { DataService } from '@app/core/services/data.service';
 import { NavigateService } from '@app/core/services/navigate.service';
 import { CBORFields } from '@app/core/data/cbor_fields';
 import { CBORField } from '@app/core/models/CBORFields';
+import { HelperCborSelectableService } from '../../services/helper-cbor-selectable.service';
 
 @Component({
 	selector: 'vc-create-a-scenario',
@@ -31,7 +32,8 @@ export class CreateAScenarioComponent implements OnInit {
     private readonly presentationDefinitionService: PresentationDefinitionService,
     private readonly dataService: DataService,
     private readonly changeDetectorRef: ChangeDetectorRef,
-    private readonly navigateService: NavigateService
+    private readonly navigateService: NavigateService,
+    private readonly helperCborSelectableService: HelperCborSelectableService
 	) {
 		this.form = this.createFormService.form;
 		this.fields = CBORFields;
@@ -43,6 +45,9 @@ export class CreateAScenarioComponent implements OnInit {
 			this.definitionFields.push(item);
 		});
 		this.definitionText = JSON.stringify(this.definition, null, '\t');
+		this.helperCborSelectableService.goNextStep$.subscribe(_ => {
+			this.generateCode();
+		});
 	}
 	generateCode () {
 		this.requestGenerate = true;

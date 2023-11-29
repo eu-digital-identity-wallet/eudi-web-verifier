@@ -1,0 +1,20 @@
+<div class="show-result" >
+  <div class="d-flex id-token" *ngIf="results.idToken.length > 0">
+    <h6>Results from ID token </h6>
+    <mat-list>
+      <mat-list-item *ngFor="let option of results.idToken">
+        <span matListItemTitle>{{option.key}}</span>
+        <span matListItemLine>{{option.value}}</span>
+      </mat-list-item>
+    </mat-list>
+  </div>
+  <div class="d-flex vp-token" *ngIf="results.vpToken.length > 0">
+    <h6> Results from VP token </h6>
+    <mat-list>
+      <mat-list-item *ngFor="let option of results.vpToken">
+        <span matListItemTitle>{{option.key}}</span>
+        <span matListItemLine>{{option.value}}</span>
+      </mat-list-item>
+    </mat-list>
+  </div>
+</div>

@@ -5,6 +5,9 @@
         max-height: temp.$max-body-height;
         min-height: temp.$min-body-height;;
         min-width: temp.$min-body-height;;
-
     }
+    .vc-box-display-error p {
+      color: map-get(map-get(temp.$palette, color), error);
+      font-style: italic;
+  }
 }

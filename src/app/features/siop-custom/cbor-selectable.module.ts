@@ -6,10 +6,11 @@ import { MatCheckboxModule } from '@angular/material/checkbox';
 
 
 import { SiopCustomRoutingModule } from './cbor-selectable-routing.module';
-import { LayoutComponent } from '@app/core/layout/layout/layout.component';
 import { CreateAScenarioComponent } from './components/create-a-scenario/create-a-scenario.component';
 import { HomeComponent } from './components/home/home.component';
 import { SharedModule } from '@app/shared/shared.module';
+import { WalletLayoutComponent } from '@app/core/layout/wallet-layout/wallet-layout.component';
+import { HelperCborSelectableService } from './services/helper-cbor-selectable.service';
 
 
 @NgModule({
@@ -20,12 +21,15 @@ import { SharedModule } from '@app/shared/shared.module';
 	imports: [
 		CommonModule,
 		SiopCustomRoutingModule,
-		LayoutComponent,
+		WalletLayoutComponent,
 		ReactiveFormsModule,
 		FormsModule,
 		MatExpansionModule,
 		SharedModule,
 		MatCheckboxModule,
+	],
+	providers: [
+		HelperCborSelectableService
 	]
 })
 export class SiopCustomModule { }

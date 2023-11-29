@@ -1,15 +1,16 @@
+@use '/src/template' as temp;
 :host {
     .vc-container-editor {
-        background-color: rgb(40 44 52);
+        background-color: temp.$backgroundPaper;
         border-radius: 16px;
-        height: inherit;
+        height: temp.$body-height;
         max-width: inherit;
         min-height: inherit;
         min-width: inherit;
-        overflow-y: scroll;
+        overflow-y: auto;
+        overflow-x: auto;
         padding: 16px;
         position: relative;
-        width: 100%;
 
         textarea {
             height: 100%;

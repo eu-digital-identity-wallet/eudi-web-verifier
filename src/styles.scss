@@ -21,3 +21,9 @@ main {
     padding: 0;
     width: 100vw;
 }
+
+.bg-panel {
+  background-color: temp.$backgroundDefault;
+  padding: 1.5rem;
+  border-radius: 16px;
+}
