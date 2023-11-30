@@ -1,4 +1,5 @@
 @use '/src/template' as temp;
+@use '/src/layout-breakpoint' as points;
 :host {
     .vc-container-editor {
         background-color: temp.$backgroundPaper;
@@ -18,5 +19,22 @@
             resize: none;
             width: 100%;
         }
+    }
+    @media (max-width: map-get(points.$breakpoints, xs)) and  (min-width: map-get(points.$breakpoints, sm)){
+      .vc-container-editor {
+        width: temp.$body-width-xs;
+        min-width: temp.$body-width-xs
+      }
+    }
+    @media (max-width: map-get(points.$breakpoints, sm)) {
+      .vc-container-editor {
+        width: temp.$body-width-sm;
+        min-width: temp.$body-width-sm;
+      }
+    }
+    @media (max-width: map-get(points.$breakpoints, md)) and (min-width: map-get(points.$breakpoints, sm)){
+      .vc-container-editor {
+        width: temp.$body-width-md;
+      }
     }
 }

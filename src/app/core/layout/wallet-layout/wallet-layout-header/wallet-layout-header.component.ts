@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { NavigateService } from '@app/core/services/navigate.service';
 
 @Component({
 	selector: 'vc-wallet-layout-header',
@@ -7,5 +8,9 @@ import { Component } from '@angular/core';
 	styleUrls: ['./wallet-layout-header.component.scss']
 })
 export class WalletLayoutHeaderComponent {
+	constructor (private readonly navigateService: NavigateService) {}
 
+	goHome () {
+		this.navigateService.goHome();
+	}
 }

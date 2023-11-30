@@ -1,4 +1,3 @@
-@use "sass:map";
 $palette: (
   color: (
     primary:#2A5ED9,
@@ -54,6 +53,9 @@ $min-body-height: 21.875rem;
 
 $body-height: 34.25rem;
 $body-width: 35rem;
+$body-width-xs: 10rem;
+$body-width-sm: 19rem;
+$body-width-md: 23rem;
 
 h1, h2, h3, h4, h5, h6 {
   color: map-get(map-get(map-get(map-get($palette, general), text), primary), dark);

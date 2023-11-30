@@ -1,10 +1,11 @@
 @use '/src/template' as temp;
+@use '/src/layout-breakpoint' as points;
 :host {
     .vc-verifiable-credential {
       align-items: center;
       display: flex;
       flex-direction: column;
-      min-width: 25rem;
+      min-width: temp.$min-body-width;
 
         .body {
           align-items: center;
@@ -35,18 +36,29 @@
                 color: temp.$textDarkPrimary;
               }
             }
-            // .vc-obtain-container {
-            //     display: flex;
-            //     flex-direction: column;
-
-            //     vc-button {
-            //         width: 256px;
-            //     }
-            // }
         }
-
-        // &.view-json {
-        //     background: linear-gradient(90.09deg, rgb(50 54 57) 16.25%, rgb(50 54 57) 40.42%, rgb(50 54 57) 100%);
-        // }
+    }
+    @media (max-width: map-get(points.$breakpoints, xs)) and  (min-width: map-get(points.$breakpoints, sm)){
+      .vc-verifiable-credential {
+        width: temp.$body-width-xs;
+        min-width: temp.$body-width-xs;
+        .body {
+          flex-direction: column;
+        }
+      }
+    }
+    @media (max-width: map-get(points.$breakpoints, sm)) {
+      .vc-verifiable-credential {
+        width: temp.$body-width-sm;
+        min-width: temp.$body-width-sm;
+        .body {
+          flex-direction: column;
+        }
+      }
+    }
+    @media (max-width: map-get(points.$breakpoints, md)) and (min-width: map-get(points.$breakpoints, sm)){
+      .vc-verifiable-credential {
+        width: temp.$body-width-md;
+      }
     }
 }
