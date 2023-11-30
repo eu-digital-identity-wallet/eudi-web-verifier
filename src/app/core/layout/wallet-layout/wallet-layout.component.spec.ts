@@ -2,7 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { WalletLayoutComponent } from './wallet-layout.component';
 
-fdescribe('WalletLayoutComponent', () => {
+describe('WalletLayoutComponent', () => {
   let component: WalletLayoutComponent;
   let fixture: ComponentFixture<WalletLayoutComponent>;
 
