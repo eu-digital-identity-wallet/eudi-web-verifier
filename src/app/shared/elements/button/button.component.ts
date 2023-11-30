@@ -15,7 +15,7 @@ export class ButtonComponent {
   	if (value === 'loading') {
   		this.buttonName = 'Loading...';
   	} else {
-  		this.buttonName = this.name;
+  		this.buttonName = this.name.toUpperCase();
   	}
   }
   @Output() clicked: EventEmitter<string> = new EventEmitter();

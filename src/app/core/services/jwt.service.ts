@@ -13,10 +13,9 @@ export class JWTService {
 	};
 	decode (token: string): Observable<KeyValue<string, string>[]> {
 		const decoded: any = jwtDecode(token);
-		console.log(decoded);
 		const result: KeyValue<string, string>[] = [];
 		Object.keys(decoded).forEach((item) => {
-			result.push({key: item, value: decoded[item]});
+			result.push({key: item.replaceAll('_', ' '), value: decoded[item]});
 		});
 		return of(result);
 	}

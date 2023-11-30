@@ -13,19 +13,31 @@
   .creation {
     display: flex;
     flex-direction: column;
-    justify-content: center;
     height: temp.$body-height;
     overflow-y: auto;
-    h3 {
-      letter-spacing: 0px;
-      text-decoration: none;
-      word-break: break-word;
-      overflow-wrap: break-word;
-      -webkit-font-smoothing: antialiased;
-      font-family: "Source Sans Pro", "Helvetica Neue", Arial, sans-serif;
-      font-size: 16px;
-      line-height: 20px;
-      font-weight: 600;
+    .creation-header {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: baseline;
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      background: temp.$backgroundDefault;
+      h3 {
+        letter-spacing: 0px;
+        text-decoration: none;
+        word-break: break-word;
+        overflow-wrap: break-word;
+        -webkit-font-smoothing: antialiased;
+        font-size: 16px;
+        line-height: 20px;
+        color: temp.$textDarkSecondary;
+      }
+      span {
+        color: temp.$textDarkSecondary;
+        padding-right: temp.$spaceBasic;
+      }
     }
     .controls {
       display: flex;

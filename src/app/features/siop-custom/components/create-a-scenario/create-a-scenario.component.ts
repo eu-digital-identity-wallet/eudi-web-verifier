@@ -39,12 +39,13 @@ export class CreateAScenarioComponent implements OnInit {
 		this.fields = CBORFields;
 	}
 	ngOnInit (): void {
-		const requiredFields = this.definition.presentation_definition.input_descriptors[0].constraints.fields
+		const requiredFields = this.getFields()
 			.filter((item) => item.filter );
 		requiredFields.forEach((item: DefinitionPath) => {
 			this.definitionFields.push(item);
 		});
-		this.definitionText = JSON.stringify(this.definition, null, '\t');
+		this.setFields();
+		this.definitionText = this.convertJSONtoString();
 		this.helperCborSelectableService.goNextStep$.subscribe(_ => {
 			this.generateCode();
 		});
@@ -79,9 +80,18 @@ export class CreateAScenarioComponent implements OnInit {
 				return String(item.path) !== String(value.path[0]);
 			});
 		}
-		this.definition.presentation_definition.input_descriptors[0].constraints.fields = this.definitionFields;
-		this.definitionText = JSON.stringify(this.definition, null, '\t');
+		this.setFields();
+		this.definitionText = this.convertJSONtoString();
 		this.changeDetectorRef.detectChanges();
+	}
+	setFields () {
+		this.definition.presentation_definition.input_descriptors[0].constraints.fields = this.definitionFields;
+	}
+	getFields () {
+		return this.definition.presentation_definition.input_descriptors[0].constraints.fields;
+	}
+	convertJSONtoString () {
+		return JSON.stringify(this.definition, null, '\t');
 	}
 	isExist (path: string) {
 		const exists = this.definitionFields.filter((item) => item.path.includes(path));

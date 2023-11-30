@@ -8,7 +8,6 @@ import { switchMap, map } from 'rxjs/operators';
 import { NavigateService } from '@app/core/services/navigate.service';
 import { PresentationDefinitionResponse } from '@app/core/models/presentation-definition-response';
 import { CborDecodeService } from '@app/core/services/cbor/cbor-decode.service';
-import { MatListModule } from '@angular/material/list';
 import { TransformedResponse } from '../../models/TransformedResponse';
 import { WalletResponse } from '../../models/WalletResponse';
 import { JWTService } from '@app/core/services/jwt.service';

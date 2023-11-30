@@ -5,7 +5,7 @@
 <vc-wallet-layout>
   <div body class="container">
     <h5 body-title >OID4VP + CBOR selectable</h5>
-    <div>
+    <div [ngClass]="{'bg-panel': !isCreatePage}">
         <router-outlet></router-outlet>
     </div>
     <vc-body-actions [actions]="actions" (clicked)="runActions($event)"></vc-body-actions>

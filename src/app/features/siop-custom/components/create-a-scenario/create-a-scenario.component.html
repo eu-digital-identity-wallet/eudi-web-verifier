@@ -1,6 +1,9 @@
 <div class="bg-panel mb">
   <div class="creation">
-    <h3>Select the information requested from the user</h3>
+    <div class="creation-header">
+      <h3>Select the information requested from the user</h3>
+      <span>{{definitionFields.length - 2}} selected</span>
+    </div>
       <ng-container  *ngFor="let field of fields; index as idx; trackBy: trackByFn" >
         <div class="controls">
           <mat-checkbox (click)="handle(field)" color="primary">
