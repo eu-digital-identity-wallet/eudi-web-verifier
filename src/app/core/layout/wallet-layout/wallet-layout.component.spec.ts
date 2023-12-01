@@ -8,7 +8,7 @@ describe('WalletLayoutComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [ WalletLayoutComponent ]
+      // imports: [ WalletLayoutComponent ]
     })
     .compileComponents();
 
@@ -20,4 +20,7 @@ describe('WalletLayoutComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+  it('should have a <vc-wallet-layout-header>', () => {});
+  it('should have a body-title', () => {});
+  it('should have a body', () => {});
 });

@@ -6,7 +6,9 @@ describe('HelperCborSelectableService', () => {
   let service: HelperCborSelectableService;
 
   beforeEach(() => {
-    TestBed.configureTestingModule({});
+    TestBed.configureTestingModule({
+      providers: [HelperCborSelectableService]
+    });
     service = TestBed.inject(HelperCborSelectableService);
   });
 

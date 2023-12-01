@@ -59,13 +59,17 @@ export class QrCodeComponent implements OnInit, OnDestroy {
   	const qr = this.buildQrCode(this.presentationDefinition);
   	this.redirectUrl = qr.replace('https', 'mdoc-openid4vp');
 
+  	this.setUpQrCode(qr);
+  	this.pollingRequest(this.presentationDefinition.presentation_id,'nonce');
+  }
+
+  setUpQrCode (qr: string) {
   	new QRCode(document.getElementById('qrcode'), {
   		text: qr,
   		colorDark : '#F5F5F5',
   		colorLight : '#5a11df',
   		correctLevel: QRCode.CorrectLevel.L,
   	});
-  	this.pollingRequest(this.presentationDefinition.presentation_id,'nonce');
   }
 
   pollingRequest (presentation_id: string, nonce: string) {

@@ -1,6 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { PresentationRequestComponent } from './presentation-request.component';
+import { SharedModule } from '@app/shared/shared.module';
 
 describe('PresentationRequestComponent', () => {
   let component: PresentationRequestComponent;
@@ -8,7 +9,10 @@ describe('PresentationRequestComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ PresentationRequestComponent ]
+      imports: [
+        SharedModule
+      ],
+      // declarations: [ PresentationRequestComponent ]
     })
     .compileComponents();
 

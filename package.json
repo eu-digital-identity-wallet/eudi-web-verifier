@@ -8,7 +8,8 @@
     "watch": "npm run config && ng build --watch --configuration=development",
     "config": "node set-env.js",
     "test": "ng test",
-    "stylelint": "npx stylelint \"src/**/*.{css,scss,sass}\" --fix",
+    "test:coverage": "ng test --code-coverage",
+    "stylelint": "npx stylelint \"src/**/*.{css,scss}\" --fix",
     "lint": "ng lint --fix",
     "pre-build": "test && lint"
   },
@@ -52,6 +53,7 @@
     "@angular/cli": "~15.2.9",
     "@angular/compiler-cli": "^15.2.9",
     "@types/jasmine": "~4.3.0",
+    "@types/jest": "^29.5.10",
     "@typescript-eslint/eslint-plugin": "5.48.2",
     "@typescript-eslint/parser": "5.48.2",
     "cypress": "^12.10.0",
