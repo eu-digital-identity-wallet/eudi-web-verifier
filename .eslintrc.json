@@ -52,7 +52,7 @@
         "no-nonoctal-decimal-escape": 2,
         "no-octal": 2,
         "no-shadow-restricted-names": 2,
-        "no-shadow": 2,
+        "no-shadow": 1,
         "no-script-url": 2,
         "no-unused-labels": 2,
         "no-useless-catch": 2,

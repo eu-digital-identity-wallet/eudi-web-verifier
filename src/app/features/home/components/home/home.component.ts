@@ -1,6 +1,5 @@
 import { CommonModule } from '@angular/common';
 import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
-import { LayoutComponent } from '@app/core/layout/layout/layout.component';
 import { DataService } from '@app/core/services/data.service';
 import { NavigateService } from '@app/core/services/navigate.service';
 import { OnlineAuthenticationSIOPService } from '@app/core/services/online-authentication-siop.service';
@@ -8,11 +7,14 @@ import { RadioGroupComponent } from '@app/shared/elements/radio-group/radio-grou
 import { SharedModule } from '@app/shared/shared.module';
 import { HomeService } from '../../services/home.service';
 import { MenuOption } from '../../models/menu-option';
+import { WalletLayoutComponent } from '@app/core/layout/wallet-layout/wallet-layout.component';
+import { BodyAction } from '@app/shared/elements/body-actions/models/BodyAction';
+import { HOME_ACTIONS } from '@app/core/utils/pages-actions';
 
 @Component({
 	selector: 'vc-home',
 	standalone: true,
-	imports: [CommonModule, RadioGroupComponent, SharedModule, LayoutComponent],
+	imports: [CommonModule, RadioGroupComponent, SharedModule, WalletLayoutComponent],
 	templateUrl: './home.component.html',
 	styleUrls: ['./home.component.scss'],
 	providers: [OnlineAuthenticationSIOPService, HomeService],
@@ -20,6 +22,7 @@ import { MenuOption } from '../../models/menu-option';
 })
 export class HomeComponent implements OnInit {
 
+	actions: BodyAction[] = HOME_ACTIONS;
 	options: MenuOption[] = [];
 	constructor (
     private navigateService: NavigateService,
@@ -32,11 +35,9 @@ export class HomeComponent implements OnInit {
 		this.options = this.homeService.options;
 	}
 
-	navPath = '';
-	disableButton = true;
+	private navPath = '';
 
 	navigate (choose: string) {
-		this.disableButton = false;
 		if (choose === 'SIOP') {
 			this.navPath = 'siop';
 		} else if (choose === 'OID4VP_CBOR') {
@@ -46,6 +47,7 @@ export class HomeComponent implements OnInit {
 		} else if (choose === 'OID4VP_CBOR_Selectable') {
 			this.navPath = 'cbor-selectable/create';
 		}
+		this.actions.map((item) => item.disabled = false);
 	}
 	submit () {
 		if (this.navPath === '/presentation') {

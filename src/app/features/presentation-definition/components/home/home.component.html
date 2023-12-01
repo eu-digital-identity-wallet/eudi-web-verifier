@@ -1,14 +1,9 @@
-<vc-layout>
-  <h2 title>Create a Presentation Definition</h2>
+<vc-wallet-layout>
   <div body class="container">
-    <div class="vc-box-top">
-      <router-outlet></router-outlet>
+    <h5 body-title >OID4VP Custom</h5>
+    <div class="wrapper">
+        <router-outlet></router-outlet>
     </div>
-    <div *ngIf="invalidJSON" class="vc-box-display-error">
-      <p>Invalid JSON Format</p>
-    </div>
-    <div *ngIf="hideButton" class="vc-box-bottom">
-      <vc-button name="Generate code" [mode]="buttonMode" [isDisabled]="!requestCode" color="primary" (clicked)="generateCode()"></vc-button>
-    </div>
+    <vc-body-actions [actions]="actions" (clicked)="runActions($event)"></vc-body-actions>
   </div>
-</vc-layout>
+</vc-wallet-layout>

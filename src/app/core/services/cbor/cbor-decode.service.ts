@@ -35,7 +35,7 @@ export class CborDecodeService {
 								map(
 									(items) =>
 										items.map((item: { elementIdentifier: string, elementValue: string}) =>
-										{ return { key: item.elementIdentifier, value: item.elementValue}; })
+										{ return { key: item.elementIdentifier.replaceAll('_', ' '), value: item.elementValue}; })
 								),
 							)
 				),

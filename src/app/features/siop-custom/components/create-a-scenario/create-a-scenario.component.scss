@@ -1,27 +1,44 @@
+@use '/src/template' as temp;
+@use '/src//layout-breakpoint' as points;
 :host {
   max-width: 40rem;
   ::ng-deep {
-    .mat-mdc-checkbox .mdc-form-field {
-        color: var(--mdc-theme-text-primary-on-background, rgba(255, 255, 255, 0.87));
+    .mat-expansion-panel {
+      padding: 0 !important;
     }
-    .mat-mdc-checkbox .mdc-checkbox .mdc-checkbox__native-control:enabled:not(:checked):not(:indeterminate):not([data-indeterminate=true])~.mdc-checkbox__background {
-        border-color: rgba(255, 255, 255, 0.54);
-    }
+
+  }
+  .mb {
+    margin-bottom: temp.$spaceBasic;
   }
   .creation {
     display: flex;
     flex-direction: column;
-    justify-content: center;
-    h3 {
-      letter-spacing: 0px;
-      text-decoration: none;
-      word-break: break-word;
-      overflow-wrap: break-word;
-      -webkit-font-smoothing: antialiased;
-      font-family: "Source Sans Pro", "Helvetica Neue", Arial, sans-serif;
-      font-size: 16px;
-      line-height: 20px;
-      font-weight: 600;
+    height: temp.$body-height;
+    overflow-y: auto;
+    .creation-header {
+      display: flex;
+      flex-direction: row;
+      justify-content: space-between;
+      align-items: baseline;
+      position: sticky;
+      top: 0;
+      z-index: 50;
+      background: temp.$backgroundDefault;
+      h3 {
+        letter-spacing: 0px;
+        text-decoration: none;
+        word-break: break-word;
+        overflow-wrap: break-word;
+        -webkit-font-smoothing: antialiased;
+        font-size: 16px;
+        line-height: 20px;
+        color: temp.$textDarkSecondary;
+      }
+      span {
+        color: temp.$textDarkSecondary;
+        padding-right: temp.$spaceBasic;
+      }
     }
     .controls {
       display: flex;
@@ -31,7 +48,18 @@
       margin-top: 1rem;
     }
   }
-  vc-button {
-    width: 100%;
+
+  @media (max-width: map-get(points.$breakpoints, xs)) and  (min-width: map-get(points.$breakpoints, sm)){
+    .creation {
+      width: temp.$body-width-xs;
+      height: 24.25rem;
+    }
   }
+  @media (max-width: map-get(points.$breakpoints, sm)) {
+    .creation {
+      width: temp.$body-width-sm;
+      height: 24.25rem;
+    }
+  }
+
 }

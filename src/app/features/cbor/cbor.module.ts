@@ -3,7 +3,8 @@ import { CommonModule } from '@angular/common';
 
 import { CborRoutingModule } from './cbor-routing.module';
 import { HomeComponent } from './home/home.component';
-import { LayoutComponent } from '@app/core/layout/layout/layout.component';
+import { WalletLayoutComponent } from '@app/core/layout/wallet-layout/wallet-layout.component';
+import { SharedModule } from '@app/shared/shared.module';
 
 
 @NgModule({
@@ -12,8 +13,9 @@ import { LayoutComponent } from '@app/core/layout/layout/layout.component';
 	],
 	imports: [
 		CommonModule,
-		LayoutComponent,
-		CborRoutingModule
+		WalletLayoutComponent,
+		CborRoutingModule,
+		SharedModule
 	]
 })
 export class CborModule { }

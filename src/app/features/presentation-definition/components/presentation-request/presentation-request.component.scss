@@ -1,8 +1,13 @@
+@use '/src/template' as temp;
 :host {
     vc-editor {
-        height: 608px;
-        max-width: 600px;
-        min-height: 340px;
-        min-width: 400px;
+        max-width: temp.$max-body-width;
+        max-height: temp.$max-body-height;
+        min-height: temp.$min-body-height;;
+        min-width: temp.$min-body-height;;
     }
+    .vc-box-display-error p {
+      color: map-get(map-get(temp.$palette, color), error);
+      font-style: italic;
+  }
 }

@@ -6,7 +6,7 @@ import { HomeComponent } from './components/home/home.component';
 import { SharedModule } from 'src/app/shared/shared.module';
 import { PresentationDefinitionService } from '../../core/services/presentation-definition.service';
 import { MatIconModule } from '@angular/material/icon';
-import { LayoutComponent } from '@app/core/layout/layout/layout.component';
+import { WalletLayoutComponent } from '@app/core/layout/wallet-layout/wallet-layout.component';
 
 
 @NgModule({
@@ -19,7 +19,7 @@ import { LayoutComponent } from '@app/core/layout/layout/layout.component';
 	imports: [
 		CommonModule,
 		PresentationDefinitionRoutingModule,
-		LayoutComponent,
+		WalletLayoutComponent,
 		SharedModule,
 		MatIconModule
 	]

@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef, Input, OnChanges, SimpleChanges } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { catchError } from 'rxjs';
 import { PresentationDefinitionResponse } from '@core/models/presentation-definition-response';
@@ -10,6 +10,7 @@ import { DataService } from '@app/core/services/data.service';
 import { NavigateService } from '@app/core/services/navigate.service';
 import { CBORFields } from '@app/core/data/cbor_fields';
 import { CBORField } from '@app/core/models/CBORFields';
+import { HelperCborSelectableService } from '../../services/helper-cbor-selectable.service';
 
 @Component({
 	selector: 'vc-create-a-scenario',
@@ -31,18 +32,23 @@ export class CreateAScenarioComponent implements OnInit {
     private readonly presentationDefinitionService: PresentationDefinitionService,
     private readonly dataService: DataService,
     private readonly changeDetectorRef: ChangeDetectorRef,
-    private readonly navigateService: NavigateService
+    private readonly navigateService: NavigateService,
+    private readonly helperCborSelectableService: HelperCborSelectableService
 	) {
 		this.form = this.createFormService.form;
 		this.fields = CBORFields;
 	}
 	ngOnInit (): void {
-		const requiredFields = this.definition.presentation_definition.input_descriptors[0].constraints.fields
+		const requiredFields = this.getFields()
 			.filter((item) => item.filter );
 		requiredFields.forEach((item: DefinitionPath) => {
 			this.definitionFields.push(item);
 		});
-		this.definitionText = JSON.stringify(this.definition, null, '\t');
+		this.setFields();
+		this.definitionText = this.convertJSONtoString();
+		this.helperCborSelectableService.goNextStep$.subscribe(_ => {
+			this.generateCode();
+		});
 	}
 	generateCode () {
 		this.requestGenerate = true;
@@ -74,9 +80,18 @@ export class CreateAScenarioComponent implements OnInit {
 				return String(item.path) !== String(value.path[0]);
 			});
 		}
-		this.definition.presentation_definition.input_descriptors[0].constraints.fields = this.definitionFields;
-		this.definitionText = JSON.stringify(this.definition, null, '\t');
+		this.setFields();
+		this.definitionText = this.convertJSONtoString();
 		this.changeDetectorRef.detectChanges();
+	}
+	setFields () {
+		this.definition.presentation_definition.input_descriptors[0].constraints.fields = this.definitionFields;
+	}
+	getFields () {
+		return this.definition.presentation_definition.input_descriptors[0].constraints.fields;
+	}
+	convertJSONtoString () {
+		return JSON.stringify(this.definition, null, '\t');
 	}
 	isExist (path: string) {
 		const exists = this.definitionFields.filter((item) => item.path.includes(path));

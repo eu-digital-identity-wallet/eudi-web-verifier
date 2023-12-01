@@ -3,13 +3,14 @@ import { HttpService } from '@app/core/network/http/http.service';
 import { Observable } from 'rxjs';
 import { isJSON } from '../utils/ValidationJSON';
 import { PresentationDefinitionResponse } from '../models/presentation-definition-response';
+import { PresentationsResponse } from '../models/presentations-response';
 
 @Injectable()
 export class PresentationDefinitionService {
 
 	constructor (private readonly httpService: HttpService) { }
 
-	getWalletResponse (presentation_id: string, nonce: string) : Observable<string> {
+	getWalletResponse (presentation_id: string, nonce: string) : Observable<PresentationsResponse> {
 		return this.httpService.get(`ui/presentations/${presentation_id}?nonce=${nonce}`);
 	}
 

@@ -8,11 +8,11 @@ import { switchMap, map } from 'rxjs/operators';
 import { NavigateService } from '@app/core/services/navigate.service';
 import { PresentationDefinitionResponse } from '@app/core/models/presentation-definition-response';
 import { CborDecodeService } from '@app/core/services/cbor/cbor-decode.service';
-import { MatListModule } from '@angular/material/list';
 import { TransformedResponse } from '../../models/TransformedResponse';
 import { WalletResponse } from '../../models/WalletResponse';
 import { JWTService } from '@app/core/services/jwt.service';
 import { environment } from '@environments/environment';
+import { PresentationsResultsComponent } from '../presentations-results/presentations-results.component';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 declare let QRCode: any;
@@ -20,7 +20,7 @@ declare let QRCode: any;
 @Component({
 	selector: 'vc-qr-code',
 	standalone: true,
-	imports: [CommonModule, SharedModule, MatListModule],
+	imports: [CommonModule, SharedModule, PresentationsResultsComponent],
 	templateUrl: './qr-code.component.html',
 	styleUrls: ['./qr-code.component.scss'],
 	providers: [PresentationDefinitionService, CborDecodeService, JWTService],
@@ -59,11 +59,17 @@ export class QrCodeComponent implements OnInit, OnDestroy {
   	const qr = this.buildQrCode(this.presentationDefinition);
   	this.redirectUrl = qr.replace('https', 'mdoc-openid4vp');
 
+  	this.setUpQrCode(qr);
+  	this.pollingRequest(this.presentationDefinition.presentation_id,'nonce');
+  }
+
+  setUpQrCode (qr: string) {
   	new QRCode(document.getElementById('qrcode'), {
   		text: qr,
-  		correctLevel: QRCode.CorrectLevel.L
+  		colorDark : '#F5F5F5',
+  		colorLight : '#5a11df',
+  		correctLevel: QRCode.CorrectLevel.L,
   	});
-  	this.pollingRequest(this.presentationDefinition.presentation_id,'nonce');
   }
 
   pollingRequest (presentation_id: string, nonce: string) {

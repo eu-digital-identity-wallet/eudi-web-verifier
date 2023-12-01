@@ -1,0 +1,11 @@
+@use '/src/template' as temp;
+:host {
+  .container {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: map-get(temp.$space, top);
+    .vc-button {
+      margin-left: map-get(temp.$space, left);
+    }
+  }
+}

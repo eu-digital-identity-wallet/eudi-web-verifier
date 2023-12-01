@@ -3,7 +3,8 @@ import { CommonModule } from '@angular/common';
 
 import { SIOPRoutingModule } from './siop-routing.module';
 import { HomeComponent } from './components/home/home.component';
-import { LayoutComponent } from '@app/core/layout/layout/layout.component';
+import { WalletLayoutComponent } from '@app/core/layout/wallet-layout/wallet-layout.component';
+import { SharedModule } from '@app/shared/shared.module';
 
 
 @NgModule({
@@ -13,7 +14,8 @@ import { LayoutComponent } from '@app/core/layout/layout/layout.component';
 	imports: [
 		CommonModule,
 		SIOPRoutingModule,
-		LayoutComponent
+		WalletLayoutComponent,
+		SharedModule
 	]
 })
 export class SIOPModule { }

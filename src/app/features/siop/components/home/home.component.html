@@ -1,4 +1,9 @@
-<vc-layout>
-  <h2 title>Online Authentication (SIOP)</h2>
-  <router-outlet body></router-outlet>
-</vc-layout>
+<vc-wallet-layout>
+  <div body class="container">
+    <h5 body-title >Online Authentication (SIOP)</h5>
+    <div class="bg-panel">
+        <router-outlet></router-outlet>
+    </div>
+    <vc-body-actions [actions]="actions" (clicked)="runActions($event)"></vc-body-actions>
+  </div>
+</vc-wallet-layout>

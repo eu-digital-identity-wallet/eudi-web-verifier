@@ -14,11 +14,11 @@ import { CodeEditorMode } from './CodeEditorMode';
 import { json } from '@codemirror/lang-json';
 import { basicSetup, EditorView } from 'codemirror';
 import { Compartment, EditorState } from '@codemirror/state';
-import { oneDarkTheme } from '@codemirror/theme-one-dark';
 import {
 	defaultHighlightStyle,
 	syntaxHighlighting
 } from '@codemirror/language';
+import { smoothy } from 'thememirror';
 
 @Component({
 	selector: 'vc-editor',
@@ -68,7 +68,7 @@ export class EditorComponent implements AfterViewInit, OnChanges {
   			basicSetup,
   			json(),
   			syntaxHighlighting(defaultHighlightStyle, {fallback: true}),
-  			this.editorTheme.of(oneDarkTheme),
+  			this.editorTheme.of(smoothy),
   		],
   		parent: this.editorHolder.nativeElement
   	});

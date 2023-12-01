@@ -46,7 +46,10 @@
         "src/app/core/network/*"
       ],
     },
-    "types": []
+    "types": [
+      "jest",
+      "node_modules/@types"
+    ]
   },
   "exclude": [
     "node_modules",

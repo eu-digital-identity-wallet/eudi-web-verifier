@@ -30,7 +30,7 @@ export const 	CBORFields: CBORField[] = [
 	// 	}
 	// },
 	{
-		id: 2,
+		id: 1,
 		label: 'Family Name',
 		path: '$.mdoc.family_name',
 		value: {
@@ -41,7 +41,7 @@ export const 	CBORFields: CBORField[] = [
 		},
 	},
 	{
-		id: 3,
+		id: 2,
 		label: 'Given Name',
 		path: '$.mdoc.given_name',
 		value: {
@@ -52,7 +52,7 @@ export const 	CBORFields: CBORField[] = [
 		}
 	},
 	{
-		id: 4,
+		id: 3,
 		label: 'Birthdate',
 		path: '$.mdoc.birth_date',
 		value: {
@@ -63,7 +63,7 @@ export const 	CBORFields: CBORField[] = [
 		}
 	},
 	{
-		id: 5,
+		id: 4,
 		label: 'Age over 18',
 		path: '$.mdoc.age_over_18',
 		value: {
@@ -74,7 +74,7 @@ export const 	CBORFields: CBORField[] = [
 		}
 	},
 	{
-		id: 6,
+		id: 5,
 		label: 'Age in years',
 		path: '$.mdoc.age_in_years',
 		value: {
@@ -96,7 +96,7 @@ export const 	CBORFields: CBORField[] = [
 		}
 	},
 	{
-		id: 8,
+		id: 7,
 		label: 'Family name birth',
 		path: '$.mdoc.family_name_birth',
 		value: {
@@ -107,7 +107,7 @@ export const 	CBORFields: CBORField[] = [
 		}
 	},
 	{
-		id: 9,
+		id: 8,
 		label: 'Given name birth',
 		path: '$.mdoc.given_name_birth',
 		value: {
@@ -118,29 +118,18 @@ export const 	CBORFields: CBORField[] = [
 		}
 	},
 	{
+		id: 9,
+		label: 'Birth place',
+		path: '$.mdoc.birth_place',
+		value: {
+			path: [
+				'$.mdoc.birth_place'
+			],
+			intent_to_retain: false
+		}
+	},
+	{
 		id: 10,
-		label: 'Birth place',
-		path: '$.mdoc.birth_place',
-		value: {
-			path: [
-				'$.mdoc.birth_place'
-			],
-			intent_to_retain: false
-		}
-	},
-	{
-		id: 11,
-		label: 'Birth place',
-		path: '$.mdoc.birth_place',
-		value: {
-			path: [
-				'$.mdoc.birth_place'
-			],
-			intent_to_retain: false
-		}
-	},
-	{
-		id: 12,
 		label: 'Birth country',
 		path: '$.mdoc.birth_country',
 		value: {
@@ -151,7 +140,7 @@ export const 	CBORFields: CBORField[] = [
 		}
 	},
 	{
-		id: 13,
+		id: 11,
 		label: 'Birth state',
 		path: '$.mdoc.birth_state',
 		value: {
@@ -162,7 +151,7 @@ export const 	CBORFields: CBORField[] = [
 		}
 	},
 	{
-		id: 14,
+		id: 12,
 		label: 'Birth city',
 		path: '$.mdoc.birth_city',
 		value: {
@@ -173,7 +162,7 @@ export const 	CBORFields: CBORField[] = [
 		}
 	},
 	{
-		id: 15,
+		id: 13,
 		label: 'Resident address',
 		path: '$.mdoc.resident_address',
 		value: {
@@ -184,7 +173,7 @@ export const 	CBORFields: CBORField[] = [
 		}
 	},
 	{
-		id: 15,
+		id: 14,
 		label: 'Resident country',
 		path: '$.mdoc.resident_country',
 		value: {
@@ -195,7 +184,7 @@ export const 	CBORFields: CBORField[] = [
 		}
 	},
 	{
-		id: 16,
+		id: 15,
 		label: 'Resident state',
 		path: '$.mdoc.resident_state',
 		value: {
@@ -206,7 +195,7 @@ export const 	CBORFields: CBORField[] = [
 		}
 	},
 	{
-		id: 17,
+		id: 16,
 		label: 'Resident city',
 		path: '$.mdoc.resident_city',
 		value: {
@@ -217,7 +206,7 @@ export const 	CBORFields: CBORField[] = [
 		}
 	},
 	{
-		id: 18,
+		id: 17,
 		label: 'Resident postal code',
 		path: '$.mdoc.resident_postal_code',
 		value: {
@@ -228,7 +217,7 @@ export const 	CBORFields: CBORField[] = [
 		}
 	},
 	{
-		id: 19,
+		id: 18,
 		label: 'Resident street',
 		path: '$.mdoc.resident_street',
 		value: {
@@ -239,7 +228,7 @@ export const 	CBORFields: CBORField[] = [
 		}
 	},
 	{
-		id: 20,
+		id: 19,
 		label: 'Resident house number',
 		path: '$.mdoc.resident_house_number',
 		value: {
@@ -250,7 +239,7 @@ export const 	CBORFields: CBORField[] = [
 		}
 	},
 	{
-		id: 21,
+		id: 20,
 		label: 'Gender',
 		path: '$.mdoc.gender',
 		value: {
@@ -261,7 +250,7 @@ export const 	CBORFields: CBORField[] = [
 		}
 	},
 	{
-		id: 22,
+		id: 21,
 		label: 'Nationality',
 		path: '$.mdoc.nationality',
 		value: {
@@ -272,7 +261,7 @@ export const 	CBORFields: CBORField[] = [
 		}
 	},
 	{
-		id: 23,
+		id: 22,
 		label: 'Issuance date',
 		path: '$.mdoc.issuance_date',
 		value: {
@@ -283,7 +272,7 @@ export const 	CBORFields: CBORField[] = [
 		}
 	},
 	{
-		id: 24,
+		id: 23,
 		label: 'Expiry date',
 		path: '$.mdoc.expiry_date',
 		value: {
@@ -294,7 +283,7 @@ export const 	CBORFields: CBORField[] = [
 		}
 	},
 	{
-		id: 25,
+		id: 24,
 		label: 'Issuing authority',
 		path: '$.mdoc.issuing_authority',
 		value: {
@@ -305,7 +294,7 @@ export const 	CBORFields: CBORField[] = [
 		}
 	},
 	{
-		id: 26,
+		id: 25,
 		label: 'Document number',
 		path: '$.mdoc.document_number',
 		value: {
@@ -316,7 +305,7 @@ export const 	CBORFields: CBORField[] = [
 		}
 	},
 	{
-		id: 27,
+		id: 26,
 		label: 'Administrative number',
 		path: '$.mdoc.administrative_number',
 		value: {
@@ -327,7 +316,7 @@ export const 	CBORFields: CBORField[] = [
 		}
 	},
 	{
-		id: 28,
+		id: 27,
 		label: 'Issuing country',
 		path: '$.mdoc.issuing_country',
 		value: {
@@ -338,7 +327,7 @@ export const 	CBORFields: CBORField[] = [
 		}
 	},
 	{
-		id: 29,
+		id: 28,
 		label: 'Issuing jurisdiction',
 		path: '$.mdoc.issuing_jurisdiction',
 		value: {

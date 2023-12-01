@@ -1,20 +1,40 @@
+@use '/src/template' as temp;
+@use '/src/layout-breakpoint' as points;
 :host {
     .vc-container-editor {
-        background-color: rgb(40 44 52);
+        background-color: temp.$backgroundPaper;
         border-radius: 16px;
-        height: inherit;
+        height: temp.$body-height;
         max-width: inherit;
         min-height: inherit;
         min-width: inherit;
-        overflow-y: scroll;
+        overflow-y: auto;
+        overflow-x: auto;
         padding: 16px;
         position: relative;
-        width: 100%;
+        width: temp.$body-width;
 
         textarea {
             height: 100%;
             resize: none;
             width: 100%;
         }
+    }
+    @media (max-width: map-get(points.$breakpoints, xs)) and  (min-width: map-get(points.$breakpoints, sm)){
+      .vc-container-editor {
+        width: temp.$body-width-xs;
+        min-width: temp.$body-width-xs
+      }
+    }
+    @media (max-width: map-get(points.$breakpoints, sm)) {
+      .vc-container-editor {
+        width: temp.$body-width-sm;
+        min-width: temp.$body-width-sm;
+      }
+    }
+    @media (max-width: map-get(points.$breakpoints, md)) and (min-width: map-get(points.$breakpoints, sm)){
+      .vc-container-editor {
+        width: temp.$body-width-md;
+      }
     }
 }

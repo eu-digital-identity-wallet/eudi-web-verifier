@@ -1,57 +1,64 @@
+@use '/src/template' as temp;
+@use '/src/layout-breakpoint' as points;
 :host {
     .vc-verifiable-credential {
-        align-items: center;
-        background: linear-gradient(90.09deg, rgb(204 210 220) 16.25%, rgb(218 223 232) 40.42%, rgb(218 223 232) 100%);
-        border-radius: 16px;
-        display: flex;
-        flex-direction: column;
-        height: 640px;
-        margin: 0 50px;
-        position: relative;
+      align-items: center;
+      display: flex;
+      flex-direction: column;
+      min-width: temp.$min-body-width;
 
         .body {
           align-items: center;
           display: flex;
-          flex-direction: column;
+          flex-direction: row;
           justify-content: center;
           width: 100%;
-          overflow-x: hidden;
-          overflow-y: auto;
-          padding-top: 8px;
-
             .qr-code {
               -webkit-box-pack: center;
               display: flex;
               justify-content: center;
-              padding: 15px;
-              width: 100%;
-              max-width: 565px;
+              padding: temp.$spaceBasic;
               max-height: -moz-fit-content;
-              height: 500px;
-
-                .show-result {
-                  display: flex;
-                  flex-direction: row;
-                  width: 100%;
-                  h2 {
-                    margin: 4px 2px;
-                    color: black;
-                  }
-                }
+              height: fit-content;
+              max-height: temp.$body-height;
+              overflow-y: auto;
+              width: 100%;
             }
-
-            .vc-obtain-container {
-                display: flex;
-                flex-direction: column;
-
-                vc-button {
-                    width: 256px;
-                }
+            .qr-info {
+              display: flex;
+              flex-direction: column;
+              justify-content: baseline;
+              p {
+                color: temp.$textDarkSecondary;
+              }
+              span {
+                cursor: pointer;
+                color: temp.$textDarkPrimary;
+              }
             }
         }
-
-        &.view-json {
-            background: linear-gradient(90.09deg, rgb(50 54 57) 16.25%, rgb(50 54 57) 40.42%, rgb(50 54 57) 100%);
+    }
+    @media (max-width: map-get(points.$breakpoints, xs)) and  (min-width: map-get(points.$breakpoints, sm)){
+      .vc-verifiable-credential {
+        width: temp.$body-width-xs;
+        min-width: temp.$body-width-xs;
+        .body {
+          flex-direction: column;
         }
+      }
+    }
+    @media (max-width: map-get(points.$breakpoints, sm)) {
+      .vc-verifiable-credential {
+        width: temp.$body-width-sm;
+        min-width: temp.$body-width-sm;
+        .body {
+          flex-direction: column;
+        }
+      }
+    }
+    @media (max-width: map-get(points.$breakpoints, md)) and (min-width: map-get(points.$breakpoints, sm)){
+      .vc-verifiable-credential {
+        width: temp.$body-width-md;
+      }
     }
 }

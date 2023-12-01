@@ -1,0 +1,11 @@
+@use '/src/template' as temp;
+.ͼe {
+  // color: #9af3b1 !important;
+}
+.mdc-list-item__primary-text {
+  color: temp.$textDarkSecondary !important;
+}
+
+.mdc-list-item__secondary-text {
+  color: temp.$textDarkPrimary !important;
+}
