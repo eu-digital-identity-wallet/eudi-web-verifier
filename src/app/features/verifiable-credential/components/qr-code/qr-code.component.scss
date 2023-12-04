@@ -1,64 +1,70 @@
 @use '/src/template' as temp;
 @use '/src/layout-breakpoint' as points;
+
 :host {
     .vc-verifiable-credential {
-      align-items: center;
-      display: flex;
-      flex-direction: column;
-      min-width: temp.$min-body-width;
+        align-items: center;
+        display: flex;
+        flex-direction: column;
+        min-width: temp.$min-body-width;
 
         .body {
-          align-items: center;
-          display: flex;
-          flex-direction: row;
-          justify-content: center;
-          width: 100%;
+            align-items: center;
+            display: flex;
+            flex-direction: row;
+            justify-content: center;
+            width: 100%;
+
             .qr-code {
-              -webkit-box-pack: center;
-              display: flex;
-              justify-content: center;
-              padding: temp.$spaceBasic;
-              max-height: -moz-fit-content;
-              height: fit-content;
-              max-height: temp.$body-height;
-              overflow-y: auto;
-              width: 100%;
+                -webkit-box-pack: center;
+                display: flex;
+                height: fit-content;
+                justify-content: center;
+                max-height: temp.$body-height;
+                overflow-y: auto;
+                padding: temp.$spaceBasic;
+                width: 100%;
             }
+
             .qr-info {
-              display: flex;
-              flex-direction: column;
-              justify-content: baseline;
-              p {
-                color: temp.$textDarkSecondary;
-              }
-              span {
-                cursor: pointer;
-                color: temp.$textDarkPrimary;
-              }
+                display: flex;
+                flex-direction: column;
+                justify-content: baseline;
+
+                p {
+                    color: temp.$textDarkSecondary;
+                }
+
+                span {
+                    color: temp.$textDarkPrimary;
+                    cursor: pointer;
+                }
             }
         }
     }
     @media (max-width: map-get(points.$breakpoints, xs)) and  (min-width: map-get(points.$breakpoints, sm)){
-      .vc-verifiable-credential {
-        width: temp.$body-width-xs;
-        min-width: temp.$body-width-xs;
-        .body {
-          flex-direction: column;
+        .vc-verifiable-credential {
+            min-width: temp.$body-width-xs;
+            width: temp.$body-width-xs;
+
+            .body {
+                flex-direction: column;
+            }
         }
-      }
     }
     @media (max-width: map-get(points.$breakpoints, sm)) {
-      .vc-verifiable-credential {
-        width: temp.$body-width-sm;
-        min-width: temp.$body-width-sm;
-        .body {
-          flex-direction: column;
+        .vc-verifiable-credential {
+            min-width: temp.$body-width-sm;
+            width: temp.$body-width-sm;
+
+            .body {
+                flex-direction: column;
+            }
         }
-      }
     }
     @media (max-width: map-get(points.$breakpoints, md)) and (min-width: map-get(points.$breakpoints, sm)){
-      .vc-verifiable-credential {
-        width: temp.$body-width-md;
-      }
+        .vc-verifiable-credential {
+            width: temp.$body-width-md;
+        }
     }
 }

@@ -1,29 +1,32 @@
 @use '/src/template' as temp;
 @use '/src/layout-breakpoint' as points;
-:host {
-  width: 100vw;
-  height: 100vh;
-  display: flex;
-  flex-direction: column;
-  .body {
-    left: temp.$left;
-    position: relative;
-    width: fit-content;
-  }
 
-  @media (max-width: map-get(points.$breakpoints, xs)) and  (min-width: map-get(points.$breakpoints, sm)){
+:host {
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    width: 100vw;
+
     .body {
-      left: 3%;
+        left: temp.$left;
+        position: relative;
+        width: fit-content;
     }
-  }
-  @media (max-width: map-get(points.$breakpoints, sm)) {
-    .body {
-      left: 3%;
+    @media (max-width: map-get(points.$breakpoints, xs)) and  (min-width: map-get(points.$breakpoints, sm)){
+        .body {
+            left: 3%;
+            width: 92%;
+        }
     }
-  }
-  @media (max-width: map-get(points.$breakpoints, md)) and (min-width: map-get(points.$breakpoints, sm)){
-    .body {
-      left: 15%;
+    @media (max-width: map-get(points.$breakpoints, sm)) {
+        .body {
+            left: 3%;
+            width: 92%;
+        }
     }
-  }
+    @media (max-width: map-get(points.$breakpoints, md)) and (min-width: map-get(points.$breakpoints, sm)){
+        .body {
+            left: 15%;
+        }
+    }
 }

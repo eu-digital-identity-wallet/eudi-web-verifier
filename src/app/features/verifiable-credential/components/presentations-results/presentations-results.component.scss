@@ -1,15 +1,18 @@
 @use '/src/template' as temp;
+
 :host {
-  .show-result {
-    display: flex;
-    flex-direction: row;
-    width: 100%;
-    h6 {
-      margin: 4px 2px;
-      color: temp.$textDarkSecondary;
+    .show-result {
+        display: flex;
+        flex-direction: row;
+        width: 100%;
+
+        h6 {
+            color: temp.$textDarkSecondary;
+            margin: 4px 2px;
+        }
+
+        .id-token {
+            margin-right: 1rem;
+        }
     }
-    .id-token {
-      margin-right: 1rem;
-    }
-  }
 }
