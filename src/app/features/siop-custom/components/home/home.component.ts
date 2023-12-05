@@ -28,7 +28,7 @@ export class HomeComponent implements OnInit {
 			.subscribe((event) => {
 				this.isCreatePage = event.url.includes('verifiable') ? false : true;
 				if (this.isCreatePage) {
-					this.actions =CBOR_ACTIONS;
+					this.actions = CBOR_ACTIONS;
 				}
 			});
 	}

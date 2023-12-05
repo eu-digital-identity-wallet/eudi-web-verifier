@@ -1,5 +1,6 @@
 @use '/src/template' as temp;
 @use '/src/layout-breakpoint' as points;
+
 :host {
     .vc-container-editor {
         background-color: temp.$backgroundPaper;
@@ -8,8 +9,7 @@
         max-width: inherit;
         min-height: inherit;
         min-width: inherit;
-        overflow-y: auto;
-        overflow-x: auto;
+        overflow: auto auto;
         padding: 16px;
         position: relative;
         width: temp.$body-width;
@@ -20,21 +20,21 @@
             width: 100%;
         }
     }
-    @media (max-width: map-get(points.$breakpoints, xs)) and  (min-width: map-get(points.$breakpoints, sm)){
-      .vc-container-editor {
-        width: temp.$body-width-xs;
-        min-width: temp.$body-width-xs
-      }
+    @media (max-width: map-get(points.$breakpoints, xs)) {
+        .vc-container-editor {
+            min-width: 90%;
+            width: 90%;
+        }
     }
-    @media (max-width: map-get(points.$breakpoints, sm)) {
-      .vc-container-editor {
-        width: temp.$body-width-sm;
-        min-width: temp.$body-width-sm;
-      }
+    @media (max-width: map-get(points.$breakpoints, sm))  and  (min-width: map-get(points.$breakpoints, xs1)) {
+        .vc-container-editor {
+            min-width: temp.$body-width-sm;
+            width: temp.$body-width-sm;
+        }
     }
     @media (max-width: map-get(points.$breakpoints, md)) and (min-width: map-get(points.$breakpoints, sm)){
-      .vc-container-editor {
-        width: temp.$body-width-md;
-      }
+        .vc-container-editor {
+            width: temp.$body-width-md;
+        }
     }
 }

@@ -1,11 +1,11 @@
-import { ChangeDetectionStrategy, Component, ChangeDetectorRef, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
+import { ChangeDetectionStrategy, Component, ChangeDetectorRef, OnInit, OnDestroy } from '@angular/core';
+import { Observable, Subject } from 'rxjs';
+import { takeUntil, filter } from 'rxjs/operators';
 import { PresentationDefinitionResponse } from '@core/models/presentation-definition-response';
 import { DataService } from '@app/core/services/data.service';
 import { NavigateService } from '@app/core/services/navigate.service';
 import { PresentationDefinitionService } from '@app/core/services/presentation-definition.service';
 import { NavigationEnd, Router } from '@angular/router';
-import { filter } from 'rxjs/operators';
 import { BodyAction } from '@app/shared/elements/body-actions/models/BodyAction';
 import { PRESENTATION_ACTIONS } from '@app/core/utils/pages-actions';
 import { ActionCode } from '@app/shared/elements/body-actions/models/ActionCode';
@@ -16,9 +16,9 @@ import { ActionCode } from '@app/shared/elements/body-actions/models/ActionCode'
 	styleUrls: ['./home.component.scss'],
 	changeDetection: ChangeDetectionStrategy.OnPush
 })
-export class HomeComponent implements OnInit {
+export class HomeComponent implements OnInit, OnDestroy {
 
-
+	destroy$ = new Subject();
 	actions: BodyAction[] = PRESENTATION_ACTIONS;
 	requestCode = '';
 	presentationDefinition$!: Observable<PresentationDefinitionResponse>;
@@ -29,27 +29,28 @@ export class HomeComponent implements OnInit {
     private readonly navigateService: NavigateService,
     private readonly presentationDefinitionService: PresentationDefinitionService
 	) {}
+	ngOnDestroy (): void {
+		this.destroy$.next('');
+		this.destroy$.complete();
+	}
 	ngOnInit (): void {
+		this.dataService.presentationDefinitionRequest$.subscribe((code) => {
+			this.requestCode = code;
+			this.disableNextButton(code);
+		});
 		this.router.events
 			.pipe(
-				filter(event => event instanceof NavigationEnd )
+				takeUntil(this.destroy$),
+				filter((event): event is NavigationEnd => event instanceof NavigationEnd)
 			)
-			.subscribe(() => {
-				if (this.router.url.indexOf('create') > 0) {
+			.subscribe((event) => {
+				if (event.url.includes('presentation/create')) {
+					this.actions = PRESENTATION_ACTIONS;
+					this.requestCode = '';
+					this.disableNextButton(this.requestCode);
 					this.changeDetectorRef.detectChanges();
 				}
 			});
-		this.dataService.presentationDefinitionRequest$.subscribe((code) => {
-			this.requestCode = code;
-			this.actions.map((item: BodyAction) => {
-				if (code && item.code == ActionCode.NEXT) {
-					item.disabled = false;
-				} else if(item.code == ActionCode.NEXT) {
-					item.disabled = true;
-				}
-				return item;
-			});
-		});
 	}
 
 	runActions (data: BodyAction) {
@@ -74,6 +75,16 @@ export class HomeComponent implements OnInit {
 		}
 	}
 
+	private disableNextButton (code: string) {
+		[...this.actions].map((item: BodyAction) => {
+			if (code && item.code == ActionCode.NEXT) {
+				item.disabled = false;
+			} else if(item.code == ActionCode.NEXT) {
+				item.disabled = true;
+			}
+			return item;
+		});
+	}
 	private hideNextStep () {
 		this.actions = this.actions.filter((item: BodyAction) => item.code !== ActionCode.NEXT);
 	}

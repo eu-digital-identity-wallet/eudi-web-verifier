@@ -1,11 +1,15 @@
 /* You can add global styles to this file, and also import other style files */
 @use 'template' as temp;
+@use '/src/layout-breakpoint' as points;
+
 html {
-  height: 100vh;
-  width: 100vw;
+    height: 100vh;
+    width: 100vw;
 }
+
 body {
     background: map-get(map-get(map-get(temp.$palette, general), bg), paper);
+
     // color: rgb(255 255 255);
     height: inherit;
     overflow-x: hidden;
@@ -15,14 +19,24 @@ body {
 main {
     height: 100vh;
     margin: 0;
-    overflow-y: auto;
-    overflow-x: hidden;
+    overflow: hidden auto;
     padding: 0;
     width: 100vw;
 }
 
 .bg-panel {
-  background-color: temp.$backgroundDefault;
-  padding: 1.5rem;
-  border-radius: 16px;
+    background-color: temp.$backgroundDefault;
+    border-radius: 16px;
+    padding: 1.5rem;
 }
+
+// @media (max-width: map-get(points.$breakpoints, xs)) and  (min-width: map-get(points.$breakpoints, sm)){
+//   .container-responsive {
+//     width: temp.$body-width-xs !important;
+//   }
+// }
+// @media (max-width: map-get(points.$breakpoints, sm)) {
+//   .container-responsive {
+//     width: temp.$body-width-sm !important;
+//   }
+// }

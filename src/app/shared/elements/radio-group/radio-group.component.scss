@@ -1,11 +1,12 @@
 @use '/src/template' as temp;
 @use '/src/layout-breakpoint' as points;
+
 :host {
     .container {
         display: flex;
         flex-direction: column;
-        position: relative;
         min-width: temp.$min-body-width;
+        position: relative;
 
         .radio-group {
             align-items: flex-start;
@@ -13,25 +14,26 @@
             flex-direction: column;
             margin: 15px 0;
         }
+
         .radio-button {
             margin: 5px;
         }
     }
-    @media (max-width: map-get(points.$breakpoints, xs)) and  (min-width: map-get(points.$breakpoints, sm)){
-      .container {
-        width: temp.$body-width-xs;
-        min-width: temp.$body-width-xs;
-      }
+    @media (max-width: map-get(points.$breakpoints, xs)) {
+        .container {
+            min-width: temp.$body-width-xs;
+            width: temp.$body-width-xs;
+        }
     }
-    @media (max-width: map-get(points.$breakpoints, sm)) {
-      .container {
-        width: temp.$body-width-sm;
-        min-width: temp.$body-width-sm;
-      }
+    @media (max-width: map-get(points.$breakpoints, sm))  and  (min-width: map-get(points.$breakpoints, xs1)) {
+        .container {
+            min-width: temp.$body-width-sm;
+            width: temp.$body-width-sm;
+        }
     }
     @media (max-width: map-get(points.$breakpoints, md)) and (min-width: map-get(points.$breakpoints, sm)){
-      .container {
-        width: temp.$body-width-md;
-      }
+        .container {
+            width: temp.$body-width-md;
+        }
     }
 }

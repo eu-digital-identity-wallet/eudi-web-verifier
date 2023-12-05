@@ -47,7 +47,10 @@ export class HomeComponent implements OnInit {
 		} else if (choose === 'OID4VP_CBOR_Selectable') {
 			this.navPath = 'cbor-selectable/create';
 		}
-		this.actions.map((item) => item.disabled = false);
+		this.actions = [...this.actions].map((item) => {
+			item.disabled = false;
+			return item;
+		});
 	}
 	submit () {
 		if (this.navPath === '/presentation') {
