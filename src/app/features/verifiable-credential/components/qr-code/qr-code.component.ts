@@ -56,18 +56,17 @@ export class QrCodeComponent implements OnInit, OnDestroy {
   		this.navigateService.goHome();
   	}
   	this.displayButtonJWTObject = false;
-  	const qr = this.buildQrCode(this.presentationDefinition);
-  	this.redirectUrl = qr.replace('https', 'mdoc-openid4vp');
+  	this.redirectUrl = this.buildQrCode(this.presentationDefinition);
 
-  	this.setUpQrCode(qr);
+  	this.setUpQrCode(this.redirectUrl);
   	this.pollingRequest(this.presentationDefinition.presentation_id,'nonce');
   }
 
   setUpQrCode (qr: string) {
   	new QRCode(document.getElementById('qrcode'), {
   		text: qr,
-  		colorDark : '#F5F5F5',
-  		colorLight : '#5a11df',
+  		// colorDark : '#F5F5F5',
+  		// colorLight : '#5a11df',
   		correctLevel: QRCode.CorrectLevel.L,
   	});
   }
@@ -115,7 +114,9 @@ export class QrCodeComponent implements OnInit, OnDestroy {
   	}
   }
   private buildQrCode (data: {client_id: string, request_uri: string, presentation_id: string}): string {
-  	return `${environment.apiUrl}?client_id=${data.client_id}&request_uri=${data.request_uri}`;
+  	let builtURL = `${environment.apiUrl}?client_id=${data.client_id}&request_uri=${encodeURIComponent(data.request_uri)}`;
+  	builtURL = builtURL.replace('https', 'eudi-openid4vp');
+  	return builtURL;
   }
 
   goToLink (url: string) {

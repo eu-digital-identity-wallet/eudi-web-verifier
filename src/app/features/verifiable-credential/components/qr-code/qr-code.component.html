@@ -29,6 +29,7 @@
     <div *ngIf="!hasResult"  class="qr-info">
       <p>Scan the QR code <br/> with your phone's camera app</p>
       <span (click)="copyToClipboard()">or copy to clipboard</span>
+      <a class="authorize" [href]="redirectUrl">AUTHORIZE</a>
     </div>
     <!-- <div class="vc-obtain-container" *ngIf="(presentationDefinition?.request_uri) && !displayButtonJWTObject">
       <vc-button *ngIf="!hasResult" name="Copy to Clipboard"  mode="none" color="secondary" ></vc-button>

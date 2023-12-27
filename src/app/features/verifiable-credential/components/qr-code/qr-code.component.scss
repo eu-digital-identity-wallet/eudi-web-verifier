@@ -39,6 +39,9 @@
                     color: temp.$textDarkPrimary;
                     cursor: pointer;
                 }
+                a {
+                  margin-top: temp.$spaceBasic;
+                }
             }
         }
     }
