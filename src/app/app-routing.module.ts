@@ -15,7 +15,11 @@ const routes: Routes = [
 			then(m => m.CborModule )},
 	{ path: 'cbor-selectable',
 		loadChildren: () => import('./features/siop-custom/cbor-selectable.module').
-			then(m => m.SiopCustomModule )}
+			then(m => m.SiopCustomModule )},
+	{
+		path: 'test-qr',
+		loadComponent: () => import('./features/test-qr/test-qr.component').then(m => m.TestQrComponent )
+	}
 ];
 
 @NgModule({
