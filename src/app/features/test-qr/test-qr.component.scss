@@ -1,9 +1,10 @@
 :host {
-  .qr-container {
-    display: flex;
-    flex-direction: row;
-    :first-child {
-      margin-right: 3rem;
+    .qr-container {
+        display: flex;
+        flex-direction: row;
+
+        :first-child {
+            margin-right: 3rem;
+        }
     }
-  }
 }

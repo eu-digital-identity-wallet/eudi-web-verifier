@@ -4,6 +4,7 @@ import { WalletRedirectResolver } from './features/wallet-redirect/resolver/wall
 import { PresentationDefinitionService } from './core/services/presentation-definition.service';
 import { CborDecodeService } from './core/services/cbor/cbor-decode.service';
 import { JWTService } from './core/services/jwt.service';
+import { NavigateService } from './core/services/navigate.service';
 
 const routes: Routes = [
 	{ path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -20,14 +21,10 @@ const routes: Routes = [
 	{ path: 'cbor-selectable',
 		loadChildren: () => import('./features/siop-custom/cbor-selectable.module').
 			then(m => m.SiopCustomModule )},
-	// {
-	// 	path: 'test-qr',
-	// 	loadComponent: () => import('./features/test-qr/test-qr.component').then(c => c.TestQrComponent )
-	// },
 	{
 		path: 'get-wallet-code',
 		loadComponent: () => import('./features/wallet-redirect/wallet-redirect.component').then(c => c.WalletRedirectComponent),
-		providers: [PresentationDefinitionService, CborDecodeService, JWTService],
+		providers: [PresentationDefinitionService, CborDecodeService, JWTService, NavigateService],
 		resolve: {
 			data: WalletRedirectResolver
 		}

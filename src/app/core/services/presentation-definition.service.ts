@@ -9,7 +9,6 @@ import { LocalStorageService } from './local-storage.service';
 import * as constants from '@core/constants/constants';
 import { DeviceDetectorService } from './device-detector.service';
 import { environment } from '@environments/environment';
-import { uuidv4 } from '../utils/uuid';
 
 @Injectable()
 export class PresentationDefinitionService {
@@ -20,8 +19,11 @@ export class PresentationDefinitionService {
     private readonly deviceDetectorService: DeviceDetectorService
 	) { }
 
-	getWalletResponse (presentation_id: string, nonce: string) : Observable<PresentationsResponse> {
-		return this.httpService.get(`ui/presentations/${presentation_id}?nonce=${nonce}`);
+	getWalletResponseWithCode (presentation_id: string, code: string) : Observable<PresentationsResponse> {
+		return this.httpService.get(`ui/presentations/${presentation_id}?response_code=${code}`);
+	}
+	getWalletResponse (presentation_id: string) : Observable<PresentationsResponse> {
+		return this.httpService.get(`ui/presentations/${presentation_id}`);
 	}
 
 	generateCode (requestCode: string): Observable<PresentationDefinitionResponse> {
@@ -29,7 +31,7 @@ export class PresentationDefinitionService {
 			if (requestCode && isJSON(requestCode)) {
 				const payload = JSON.parse(requestCode);
 				if (!this.deviceDetectorService.isDesktop()) {
-					payload['wallet_response_redirect_uri_template'] = environment.apiUrl+'/home/get-wallet-code?response_code='+uuidv4();
+					payload['wallet_response_redirect_uri_template'] = environment.apiUrl+'/get-wallet-code?response_code={RESPONSE_CODE}"';
 				}
 				this.httpService.post<PresentationDefinitionResponse, string>('ui/presentations', payload)
 					.pipe(

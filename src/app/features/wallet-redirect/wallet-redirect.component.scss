@@ -1,0 +1,15 @@
+@use '/src/template' as temp;
+@use '/src/layout-breakpoint' as points;
+
+:host {
+    .display-container {
+        -webkit-box-pack: center;
+        display: flex;
+        height: fit-content;
+        justify-content: center;
+        max-height: temp.$body-height;
+        overflow-y: auto;
+        padding: temp.$spaceBasic;
+        width: 100%;
+    }
+}

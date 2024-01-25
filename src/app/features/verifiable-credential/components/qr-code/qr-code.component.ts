@@ -71,7 +71,7 @@ export class QrCodeComponent implements OnInit, OnDestroy {
 
   		this.setUpQrCode(this.redirectUrl);
   		if (this.deviceDetectorService.isDesktop()) {
-  			this.pollingRequest(this.presentationDefinition.presentation_id,'nonce');
+  			this.pollingRequest(this.presentationDefinition.presentation_id);
   		}
   	}
   }
@@ -83,7 +83,7 @@ export class QrCodeComponent implements OnInit, OnDestroy {
   	});
   }
 
-  pollingRequest (presentation_id: string, nonce: string) {
+  pollingRequest (presentation_id: string) {
   	const source = interval(2000);
   	source
   		.pipe(
@@ -91,7 +91,7 @@ export class QrCodeComponent implements OnInit, OnDestroy {
   			take(60)
   		)
   		.subscribe(() => {
-  		this.presentationDefinitionService.getWalletResponse(presentation_id,nonce).
+  		this.presentationDefinitionService.getWalletResponse(presentation_id).
   				pipe(
   					takeUntil(this.stopPlay$),
   					map((data) => data as WalletResponse),

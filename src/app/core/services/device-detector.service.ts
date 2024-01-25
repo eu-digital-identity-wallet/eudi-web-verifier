@@ -8,7 +8,6 @@ export class DeviceDetectorService {
 	userAgent = '';
 
 	constructor (@Inject(PLATFORM_ID) private platformId: object) {
-		console.log(this.platformId);
 		if (isPlatformBrowser(this.platformId) && typeof window !== 'undefined') {
 			this.userAgent = window.navigator.userAgent;
 		}

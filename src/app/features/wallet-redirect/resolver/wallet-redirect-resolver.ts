@@ -1,8 +1,9 @@
 import { inject } from '@angular/core';
+import { KeyValue } from '@angular/common';
 import { ActivatedRouteSnapshot, ResolveFn, RouterStateSnapshot } from '@angular/router';
 import { LocalStorageService } from '@app/core/services/local-storage.service';
 import { PresentationDefinitionService } from '@app/core/services/presentation-definition.service';
-import { of, Observable, forkJoin } from 'rxjs';
+import { of, Observable, forkJoin, EMPTY } from 'rxjs';
 import { switchMap, take } from 'rxjs/operators';
 import * as constants from '@core/constants/constants';
 import { PresentationDefinitionResponse } from '@app/core/models/presentation-definition-response';
@@ -10,18 +11,10 @@ import { WalletResponse } from '@app/features/verifiable-credential/models/Walle
 import { JWTService } from '@app/core/services/jwt.service';
 import { CborDecodeService } from '@app/core/services/cbor/cbor-decode.service';
 
-// @Injectable({
-// 	providedIn: 'root'
-// })
-// export class WalletRedirectResolverService implements Resolve<any> {
-
-// 	// constructor () { }
-// 	resolve (_route: ActivatedRouteSnapshot, _state: RouterStateSnapshot): Observable<any>|Promise<any>|any {
-// 		 return of({});
-// 	}
-// }
-export const WalletRedirectResolver: ResolveFn<any> =
-    (route: ActivatedRouteSnapshot, _state: RouterStateSnapshot): Observable<any> => {
+export const WalletRedirectResolver: ResolveFn<{vpToken: KeyValue<string, string>[], idToken: KeyValue<string, string>[]}> =
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    (route: ActivatedRouteSnapshot, _state: RouterStateSnapshot):
+    Observable<{vpToken: KeyValue<string, string>[], idToken: KeyValue<string, string>[]}> => {
     	const services = {
     		definition: inject(PresentationDefinitionService),
     		localStorage: inject(LocalStorageService),
@@ -31,11 +24,10 @@ export const WalletRedirectResolver: ResolveFn<any> =
 
     	let data: PresentationDefinitionResponse;
     	const stData: string | null = services.localStorage.get(constants.UI_PRESENTATION);
-
-    	if (stData) {
+    	const responseCode: string = route.queryParams['response_code'];
+    	if (stData && responseCode) {
     		data = JSON.parse( stData );
-    		console.log('localStorageService: ', data);
-    		return services.definition.getWalletResponse(data.presentation_id, 'nonce')
+    		return services.definition.getWalletResponseWithCode(data.presentation_id, responseCode)
     			.pipe(
     				switchMap((res: WalletResponse) => {
     					return forkJoin({
@@ -47,6 +39,6 @@ export const WalletRedirectResolver: ResolveFn<any> =
     				}),
     			);
     	} else {
-    		return of([]);
+    		return EMPTY;
     	}
     };

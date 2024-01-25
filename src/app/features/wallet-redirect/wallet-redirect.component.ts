@@ -19,7 +19,6 @@ export class WalletRedirectComponent implements OnInit {
 	) {}
 	ngOnInit (): void {
 		this.data = this.activeRoute.snapshot.data['data'];
-		console.log(this.data);
 	}
 
 }

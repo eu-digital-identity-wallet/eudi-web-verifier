@@ -1,9 +1,5 @@
 @use '/src/template' as temp;
 
-.ͼe {
-    // color: #9af3b1 !important;
-}
-
 .mdc-list-item__primary-text {
     color: temp.$textDarkSecondary !important;
 }

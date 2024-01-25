@@ -8,7 +8,6 @@ import { LocalStorageService } from './local-storage.service';
 import * as constants from '@core/constants/constants';
 import { DeviceDetectorService } from './device-detector.service';
 import { environment } from '@environments/environment';
-import { uuidv4 } from '../utils/uuid';
 
 @Injectable()
 export class OnlineAuthenticationSIOPService {
@@ -26,7 +25,7 @@ export class OnlineAuthenticationSIOPService {
 			'nonce': 'nonce'
 		};
 		if (!this.deviceDetectorService.isDesktop()) {
-			dataRequest['wallet_response_redirect_uri_template'] = environment.apiUrl+'/home/get-wallet-code/?response_code='+uuidv4();
+			dataRequest['wallet_response_redirect_uri_template'] = environment.apiUrl+'/get-wallet-code/?response_code={RESPONSE_CODE}';
 		}
 		return this.httpService.post<PresentationDefinitionResponse, {type: string, 'id_token_type': string, 'nonce': string}>
 		('ui/presentations', dataRequest)
@@ -37,7 +36,7 @@ export class OnlineAuthenticationSIOPService {
 	initCborTransaction (): Observable<PresentationDefinitionResponse> {
 		const payload: any = PID_PRESENTATION_DEFINITION;
 		if (!this.deviceDetectorService.isDesktop()) {
-			payload['wallet_response_redirect_uri_template'] = environment.apiUrl+'/home/get-wallet-code?response_code='+uuidv4();
+			payload['wallet_response_redirect_uri_template'] = environment.apiUrl+'/get-wallet-code?response_code={RESPONSE_CODE}';
 		}
 		return this.httpService.post<PresentationDefinitionResponse, any>('ui/presentations', payload)
 			.pipe(
