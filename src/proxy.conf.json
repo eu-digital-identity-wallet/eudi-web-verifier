@@ -1,12 +1,12 @@
 {
   "/ui": {
-      "target": "http://localhost:8080",
+      "target": "https://eudi.netcompany-intrasoft.com/san-dns",
       "secure": false,
       "logLevel": "debug",
       "changeOrigin": true
   },
   "/wallet": {
-    "target": "http://localhost:8080",
+    "target": "https://eudi.netcompany-intrasoft.com/san-dns",
     "secure": false,
     "logLevel": "debug",
     "changeOrigin": true

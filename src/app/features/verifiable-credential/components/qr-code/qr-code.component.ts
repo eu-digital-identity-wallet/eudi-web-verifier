@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild, OnDestroy } from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ElementRef, OnInit, ViewChild, OnDestroy, Injector } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { SharedModule } from '@app/shared/shared.module';
 import { DataService } from '@app/core/services/data.service';
@@ -13,6 +13,9 @@ import { WalletResponse } from '../../models/WalletResponse';
 import { JWTService } from '@app/core/services/jwt.service';
 import { environment } from '@environments/environment';
 import { PresentationsResultsComponent } from '../presentations-results/presentations-results.component';
+import { DeviceDetectorService } from '@app/core/services/device-detector.service';
+import { LocalStorageService } from '@app/core/services/local-storage.service';
+import * as constants from '@core/constants/constants';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 declare let QRCode: any;
@@ -29,6 +32,7 @@ declare let QRCode: any;
 export class QrCodeComponent implements OnInit, OnDestroy {
 
 	destroy$ = new Subject();
+	stopPlay$ = new ReplaySubject(1);
   @ViewChild('qrCode')	qrCode!: ElementRef;
   hasResult = false;
 
@@ -40,48 +44,56 @@ export class QrCodeComponent implements OnInit, OnDestroy {
   presentationDefinition!: PresentationDefinitionResponse;
 
   redirectUrl!: string;
+  private readonly deviceDetectorService!: DeviceDetectorService;
+  private readonly jWTService!: JWTService;
+  private readonly localStorageService!: LocalStorageService;
   constructor (
     private readonly presentationDefinitionService: PresentationDefinitionService,
     private readonly dataService: DataService,
     private readonly navigateService: NavigateService,
     private readonly changeDetectorRef: ChangeDetectorRef,
     private readonly cborDecodeService: CborDecodeService,
-    private readonly jWTService: JWTService
-  ) {}
+    private readonly injector: Injector,
+  ) {
+  	this.deviceDetectorService = this.injector.get(DeviceDetectorService);
+  	this.jWTService = this.injector.get(JWTService);
+  	this.localStorageService = this.injector.get(LocalStorageService);
+  }
 
   ngOnInit (): void {
   	this.presentationDefinition = this.dataService.QRCode as PresentationDefinitionResponse;
 
   	if (!this.presentationDefinition) {
   		this.navigateService.goHome();
-  	}
-  	this.displayButtonJWTObject = false;
-  	this.redirectUrl = this.buildQrCode(this.presentationDefinition);
+  	} else {
+  		this.displayButtonJWTObject = false;
+  		this.redirectUrl = this.buildQrCode(this.presentationDefinition);
 
-  	this.setUpQrCode(this.redirectUrl);
-  	this.pollingRequest(this.presentationDefinition.presentation_id,'nonce');
+  		this.setUpQrCode(this.redirectUrl);
+  		if (this.deviceDetectorService.isDesktop()) {
+  			this.pollingRequest(this.presentationDefinition.presentation_id);
+  		}
+  	}
   }
 
   setUpQrCode (qr: string) {
   	new QRCode(document.getElementById('qrcode'), {
   		text: qr,
-  		// colorDark : '#F5F5F5',
-  		// colorLight : '#5a11df',
   		correctLevel: QRCode.CorrectLevel.L,
   	});
   }
 
-  pollingRequest (presentation_id: string, nonce: string) {
+  pollingRequest (presentation_id: string) {
   	const source = interval(2000);
-  	const stopPlay$ = new ReplaySubject(1);
   	source
   		.pipe(
-  			takeUntil(stopPlay$),
+  			takeUntil(this.stopPlay$),
   			take(60)
   		)
   		.subscribe(() => {
-  		this.presentationDefinitionService.getWalletResponse(presentation_id,nonce).
+  		this.presentationDefinitionService.getWalletResponse(presentation_id).
   				pipe(
+  					takeUntil(this.stopPlay$),
   					map((data) => data as WalletResponse),
   					switchMap((res: WalletResponse) => {
   						return forkJoin({
@@ -91,7 +103,6 @@ export class QrCodeComponent implements OnInit, OnDestroy {
   							take(1)
   						);
   					}),
-  					takeUntil(this.destroy$),
   				)
   				.subscribe(
   				(res: TransformedResponse) =>{
@@ -100,7 +111,8 @@ export class QrCodeComponent implements OnInit, OnDestroy {
   						divElement.style.display='none';
   						this.hasResult = true;
   						this.changeDetectorRef.detectChanges();
-  						stopPlay$.next(1);
+  						this.localStorageService.remove(constants.UI_PRESENTATION);
+  						this.stopPlay$.next(1);
   				},
   			);
   		});
@@ -124,7 +136,11 @@ export class QrCodeComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy (): void {
-  	this.destroy$.unsubscribe();
+  	// this.localStorageService.remove(constants.UI_PRESENTATION);
+  	this.destroy$.next('');
+  	this.destroy$.complete();
+  	this.stopPlay$.next('');
+  	this.stopPlay$.complete();
   	this.dataService.setQRCode(null);
   }
 }

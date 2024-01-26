@@ -1,4 +1,4 @@
-import { Component, OnInit, ChangeDetectorRef, Input, OnChanges, SimpleChanges } from '@angular/core';
+import { Component, OnInit, ChangeDetectorRef, Injector } from '@angular/core';
 import { FormGroup } from '@angular/forms';
 import { catchError } from 'rxjs';
 import { PresentationDefinitionResponse } from '@core/models/presentation-definition-response';
@@ -11,7 +11,8 @@ import { NavigateService } from '@app/core/services/navigate.service';
 import { CBORFields } from '@app/core/data/cbor_fields';
 import { CBORField } from '@app/core/models/CBORFields';
 import { HelperCborSelectableService } from '../../services/helper-cbor-selectable.service';
-
+import { LocalStorageService } from '@app/core/services/local-storage.service';
+import * as constants from '@core/constants/constants';
 @Component({
 	selector: 'vc-create-a-scenario',
 	templateUrl: './create-a-scenario.component.html',
@@ -27,18 +28,24 @@ export class CreateAScenarioComponent implements OnInit {
 	definition = {...PID_PRESENTATION_DEFINITION};
 	definitionText!: string;
 	definitionFields: DefinitionPath[] = [];
+	private readonly navigateService!: NavigateService;
+	private readonly helperCborSelectableService!: HelperCborSelectableService;
+	private readonly localStorageService!: LocalStorageService;
 	constructor (
     private readonly createFormService: CreateFormService,
     private readonly presentationDefinitionService: PresentationDefinitionService,
     private readonly dataService: DataService,
     private readonly changeDetectorRef: ChangeDetectorRef,
-    private readonly navigateService: NavigateService,
-    private readonly helperCborSelectableService: HelperCborSelectableService
+    private readonly injector: Injector,
 	) {
+		this.navigateService = this.injector.get(NavigateService);
+		this.helperCborSelectableService = this.injector.get(HelperCborSelectableService);
+		this.localStorageService = this.injector.get(LocalStorageService);
 		this.form = this.createFormService.form;
 		this.fields = CBORFields;
 	}
 	ngOnInit (): void {
+		this.localStorageService.remove(constants.UI_PRESENTATION);
 		const requiredFields = this.getFields()
 			.filter((item) => item.filter );
 		requiredFields.forEach((item: DefinitionPath) => {

@@ -10,6 +10,8 @@ import { MenuOption } from '../../models/menu-option';
 import { WalletLayoutComponent } from '@app/core/layout/wallet-layout/wallet-layout.component';
 import { BodyAction } from '@app/shared/elements/body-actions/models/BodyAction';
 import { HOME_ACTIONS } from '@app/core/utils/pages-actions';
+import { LocalStorageService } from '@app/core/services/local-storage.service';
+import * as constants from '@core/constants/constants';
 
 @Component({
 	selector: 'vc-home',
@@ -28,8 +30,10 @@ export class HomeComponent implements OnInit {
     private navigateService: NavigateService,
     private readonly onlineAuthenticationSIOPService: OnlineAuthenticationSIOPService,
     private readonly dataService: DataService,
-    private readonly homeService: HomeService
+    private readonly homeService: HomeService,
+    private readonly localStorageService: LocalStorageService
 	) {
+		this.localStorageService.remove(constants.UI_PRESENTATION);
 	}
 	ngOnInit (): void {
 		this.options = this.homeService.options;
