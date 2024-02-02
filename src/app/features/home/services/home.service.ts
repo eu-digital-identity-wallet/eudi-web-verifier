@@ -4,11 +4,12 @@ import { MenuOption } from '../models/menu-option';
 @Injectable()
 export class HomeService {
 
-	options: MenuOption[] = [{
-		key: 'SIOP',
-		value: 'Online Authentication  (SIOP)',
-		isDisabled: false,
-	},
+	options: MenuOption[] = [
+  //   {
+	// 	key: 'SIOP',
+	// 	value: 'Online Authentication  (SIOP)',
+	// 	isDisabled: false,
+	// },
 	{
 		key: 'OID4VP_CBOR_Selectable',
 		value: 'OID4VP + CBOR selectable',

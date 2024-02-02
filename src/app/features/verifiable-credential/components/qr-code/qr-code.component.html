@@ -1,9 +1,8 @@
-
 <div class="vc-verifiable-credential" [ngClass]="{'view-json': displayButtonJWTObject}">
   <div class="body">
-    <div class="qr-code" [ngClass]="{'green-bg': hasResult}">
-      <div #qrCode id="qrcode" > </div>
-      <vc-presentations-results [results]="results" *ngIf="results"></vc-presentations-results>
+      <div class="qr-code" [ngClass]="{'green-bg': hasResult}">
+        <div #qrCode id="qrcode"></div>
+        <vc-presentations-results [results]="results" *ngIf="results"></vc-presentations-results>
       <!-- <div *ngIf="hasResult" class="show-result" >
         <div class="d-flex id-token" *ngIf="results.idToken.length > 0">
           <h2> Results for ID token </h2>
@@ -25,12 +24,11 @@
         </div>
       </div> -->
 
-    </div>
-    <div *ngIf="!hasResult"  class="qr-info">
-      <p>Scan the QR code <br/> with your phone's camera app</p>
-      <span (click)="copyToClipboard()">or copy to clipboard</span>
+      </div>
+      <div *ngIf="!hasResult" class="qr-info">
+        <p>Scan the QR code <br/> with your phone's camera app</p>
       <a class="authorize" [href]="redirectUrl">AUTHORIZE</a>
-    </div>
+      </div>
     <!-- <div class="vc-obtain-container" *ngIf="(presentationDefinition?.request_uri) && !displayButtonJWTObject">
       <vc-button *ngIf="!hasResult" name="Copy to Clipboard"  mode="none" color="secondary" ></vc-button>
     </div> -->
