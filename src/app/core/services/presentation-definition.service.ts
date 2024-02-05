@@ -31,7 +31,7 @@ export class PresentationDefinitionService {
 			if (requestCode && isJSON(requestCode)) {
 				const payload = JSON.parse(requestCode);
 				if (!this.deviceDetectorService.isDesktop()) {
-					payload['wallet_response_redirect_uri_template'] = environment.apiUrl+'/get-wallet-code?response_code={RESPONSE_CODE}';
+					payload['wallet_response_redirect_uri_template'] = location.origin+'/get-wallet-code?response_code={RESPONSE_CODE}';
 				}
 				this.httpService.post<PresentationDefinitionResponse, string>('ui/presentations', payload)
 					.pipe(
