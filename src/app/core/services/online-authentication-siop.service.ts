@@ -25,7 +25,7 @@ export class OnlineAuthenticationSIOPService {
 			'nonce': 'nonce'
 		};
 		if (!this.deviceDetectorService.isDesktop()) {
-			dataRequest['wallet_response_redirect_uri_template'] = environment.apiUrl+'/get-wallet-code/?response_code={RESPONSE_CODE}';
+			dataRequest['wallet_response_redirect_uri_template'] = location.origin+'/get-wallet-code/?response_code={RESPONSE_CODE}';
 		}
 		return this.httpService.post<PresentationDefinitionResponse, {type: string, 'id_token_type': string, 'nonce': string}>
 		('ui/presentations', dataRequest)
@@ -36,7 +36,7 @@ export class OnlineAuthenticationSIOPService {
 	initCborTransaction (): Observable<PresentationDefinitionResponse> {
 		const payload: any = PID_PRESENTATION_DEFINITION;
 		if (!this.deviceDetectorService.isDesktop()) {
-			payload['wallet_response_redirect_uri_template'] = environment.apiUrl+'/get-wallet-code?response_code={RESPONSE_CODE}';
+			payload['wallet_response_redirect_uri_template'] = location.origin+'/get-wallet-code?response_code={RESPONSE_CODE}';
 		}
 		return this.httpService.post<PresentationDefinitionResponse, any>('ui/presentations', payload)
 			.pipe(
