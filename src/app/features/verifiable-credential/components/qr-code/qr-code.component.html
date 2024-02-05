@@ -3,41 +3,10 @@
       <div class="qr-code" [ngClass]="{'green-bg': hasResult}">
         <div #qrCode id="qrcode"></div>
         <vc-presentations-results [results]="results" *ngIf="results"></vc-presentations-results>
-      <!-- <div *ngIf="hasResult" class="show-result" >
-        <div class="d-flex id-token" *ngIf="results.idToken.length > 0">
-          <h2> Results for ID token </h2>
-          <mat-list>
-            <mat-list-item *ngFor="let option of results.idToken">
-              <span matListItemTitle>{{option.key}}</span>
-              <span matListItemLine>{{option.value}}</span>
-            </mat-list-item>
-          </mat-list>
-        </div>
-        <div class="d-flex vp-token" *ngIf="results.vpToken.length > 0">
-          <h2> Results for VP token </h2>
-          <mat-list>
-            <mat-list-item *ngFor="let option of results.vpToken">
-              <span matListItemTitle>{{option.key}}</span>
-              <span matListItemLine>{{option.value}}</span>
-            </mat-list-item>
-          </mat-list>
-        </div>
-      </div> -->
-
       </div>
-      <div *ngIf="!hasResult" class="qr-info">
+      <div *ngIf="!hasResult && isDesktop" class="qr-info">
         <p>Scan the QR code <br/> with your phone's camera app</p>
-      <a class="authorize" [href]="redirectUrl">AUTHORIZE</a>
       </div>
-    <!-- <div class="vc-obtain-container" *ngIf="(presentationDefinition?.request_uri) && !displayButtonJWTObject">
-      <vc-button *ngIf="!hasResult" name="Copy to Clipboard"  mode="none" color="secondary" ></vc-button>
-    </div> -->
-
-    <!-- <div class="vc-obtain-container " *ngIf="(presentationDefinition?.request_uri) && !displayButtonJWTObject">
-      <div *ngIf="!hasResult" style="margin-top: 20px">
-        <a [href]="redirectUrl">AUTHORIZE</a>
-      </div>
-
-    </div> -->
   </div>
+    <a class="authorize" [href]="redirectUrl">AUTHORIZE</a>
 </div>
