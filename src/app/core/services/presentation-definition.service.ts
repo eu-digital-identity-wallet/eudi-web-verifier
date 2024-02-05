@@ -23,7 +23,7 @@ export class PresentationDefinitionService {
 		return this.httpService.get(`ui/presentations/${presentation_id}?response_code=${code}`);
 	}
 	getWalletResponse (presentation_id: string) : Observable<PresentationsResponse> {
-    return this.httpService.get(`ui/presentations/${presentation_id}?nonce=nonce`);
+		return this.httpService.get(`ui/presentations/${presentation_id}`);
 	}
 
 	generateCode (requestCode: string): Observable<PresentationDefinitionResponse> {

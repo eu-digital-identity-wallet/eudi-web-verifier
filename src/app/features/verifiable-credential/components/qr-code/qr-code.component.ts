@@ -35,6 +35,7 @@ export class QrCodeComponent implements OnInit, OnDestroy {
 	stopPlay$ = new ReplaySubject(1);
   @ViewChild('qrCode')	qrCode!: ElementRef;
   hasResult = false;
+  isDesktop = true;
 
   results: TransformedResponse = {
   	vpToken: [],
@@ -58,6 +59,7 @@ export class QrCodeComponent implements OnInit, OnDestroy {
   	this.deviceDetectorService = this.injector.get(DeviceDetectorService);
   	this.jWTService = this.injector.get(JWTService);
   	this.localStorageService = this.injector.get(LocalStorageService);
+  	this.isDesktop = this.deviceDetectorService.isDesktop();
   }
 
   ngOnInit (): void {
@@ -69,8 +71,8 @@ export class QrCodeComponent implements OnInit, OnDestroy {
   		this.displayButtonJWTObject = false;
   		this.redirectUrl = this.buildQrCode(this.presentationDefinition);
 
-  		this.setUpQrCode(this.redirectUrl);
   		if (this.deviceDetectorService.isDesktop()) {
+  			this.setUpQrCode(this.redirectUrl);
   			this.pollingRequest(this.presentationDefinition.presentation_id);
   		}
   	}
