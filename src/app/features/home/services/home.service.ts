@@ -7,17 +7,17 @@ export class HomeService {
 	options: MenuOption[] = [
 		{
 			key: 'OID4VP_CBOR_Selectable',
-			value: 'OID4VP + CBOR selectable',
+			value: 'Request to share specific attributes from PID',
 			isDisabled: false,
 		},
 		{
 			key: 'OID4VP_CBOR',
-			value: 'OID4VP + CBOR',
+			value: 'Request for the entire PID',
 			isDisabled: false,
 		},
 		{
 			key: 'OID4VP_C',
-			value: 'OID4VP Custom',
+			value: 'Custom request (for testing)',
 			isDisabled: false,
 		}
 	];
