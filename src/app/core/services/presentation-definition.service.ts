@@ -8,7 +8,6 @@ import { PresentationsResponse } from '../models/presentations-response';
 import { LocalStorageService } from './local-storage.service';
 import * as constants from '@core/constants/constants';
 import { DeviceDetectorService } from './device-detector.service';
-import { environment } from '@environments/environment';
 
 @Injectable()
 export class PresentationDefinitionService {
