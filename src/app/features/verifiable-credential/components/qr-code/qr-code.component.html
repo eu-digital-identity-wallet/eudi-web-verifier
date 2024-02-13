@@ -11,5 +11,7 @@
         <p> - OR - </p>
       </div>
   </div>
-  <a class="authorize" [href]="redirectUrl">AUTHENTICATE WITH WALLET</a>
+  <div *ngIf="!hasResult">
+    <a class="authorize" [href]="redirectUrl">AUTHENTICATE WITH WALLET</a>
+  </div>
 </div>
