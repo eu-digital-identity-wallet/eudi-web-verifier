@@ -3,7 +3,6 @@
 :host {
     button {
         &:disabled {
-            // background: rgb(99 93 255 / 50%);
             cursor: none;
             opacity: 0.7;
             pointer-events: none;

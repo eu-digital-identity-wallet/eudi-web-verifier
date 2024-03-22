@@ -13,6 +13,7 @@ import { CBORField } from '@app/core/models/CBORFields';
 import { HelperCborSelectableService } from '../../services/helper-cbor-selectable.service';
 import { LocalStorageService } from '@app/core/services/local-storage.service';
 import * as constants from '@core/constants/constants';
+import { uuidv4 } from '@app/core/utils/uuid';
 @Component({
 	selector: 'vc-create-a-scenario',
 	templateUrl: './create-a-scenario.component.html',
@@ -38,6 +39,7 @@ export class CreateAScenarioComponent implements OnInit {
     private readonly changeDetectorRef: ChangeDetectorRef,
     private readonly injector: Injector,
 	) {
+		this.definition.nonce = uuidv4();
 		this.navigateService = this.injector.get(NavigateService);
 		this.helperCborSelectableService = this.injector.get(HelperCborSelectableService);
 		this.localStorageService = this.injector.get(LocalStorageService);

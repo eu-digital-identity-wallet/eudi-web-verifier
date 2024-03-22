@@ -9,8 +9,6 @@ html {
 
 body {
     background: map-get(map-get(map-get(temp.$palette, general), bg), paper);
-
-    // color: rgb(255 255 255);
     height: inherit;
     overflow-x: hidden;
     width: inherit;
@@ -29,14 +27,3 @@ main {
     border-radius: 16px;
     padding: 1.5rem;
 }
-
-// @media (max-width: map-get(points.$breakpoints, xs)) and  (min-width: map-get(points.$breakpoints, sm)){
-//   .container-responsive {
-//     width: temp.$body-width-xs !important;
-//   }
-// }
-// @media (max-width: map-get(points.$breakpoints, sm)) {
-//   .container-responsive {
-//     width: temp.$body-width-sm !important;
-//   }
-// }

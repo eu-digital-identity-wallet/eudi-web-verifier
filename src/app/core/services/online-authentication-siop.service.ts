@@ -7,7 +7,7 @@ import { PID_PRESENTATION_DEFINITION } from '../data/pid_presentation_definition
 import { LocalStorageService } from './local-storage.service';
 import * as constants from '@core/constants/constants';
 import { DeviceDetectorService } from './device-detector.service';
-import { environment } from '@environments/environment';
+import { uuidv4 } from '../utils/uuid';
 
 @Injectable()
 export class OnlineAuthenticationSIOPService {
@@ -22,7 +22,7 @@ export class OnlineAuthenticationSIOPService {
 		const dataRequest: any = {
 			'type': 'id_token',
 			'id_token_type': 'subject_signed_id_token',
-			'nonce': 'nonce'
+			'nonce': uuidv4()
 		};
 		if (!this.deviceDetectorService.isDesktop()) {
 			dataRequest['wallet_response_redirect_uri_template'] = location.origin+'/get-wallet-code/?response_code={RESPONSE_CODE}';
@@ -34,7 +34,8 @@ export class OnlineAuthenticationSIOPService {
 			);
 	}
 	initCborTransaction (): Observable<PresentationDefinitionResponse> {
-		const payload: any = PID_PRESENTATION_DEFINITION;
+		const payload: any = {...PID_PRESENTATION_DEFINITION};
+		payload.nonce = uuidv4();
 		if (!this.deviceDetectorService.isDesktop()) {
 			payload['wallet_response_redirect_uri_template'] = location.origin+'/get-wallet-code?response_code={RESPONSE_CODE}';
 		}
