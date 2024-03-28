@@ -1,6 +1,7 @@
 <vc-wallet-layout>
   <div body class="container ">
     <h5 body-title >Authenticate by sharing your PID</h5>
+    <vc-input-scheme></vc-input-scheme>
     <vc-radio-group [options]="options" (choseEvent)="navigate($event)"></vc-radio-group>
     <vc-body-actions [actions]="actions" (clicked)="submit()"></vc-body-actions>
   </div>
