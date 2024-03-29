@@ -61,3 +61,5 @@ cypress/videos/*
 .sonarlint/
 
 reports
+
+notes.txt

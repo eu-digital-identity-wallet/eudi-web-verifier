@@ -200,5 +200,5 @@ export const PID_PRESENTATION_DEFINITION = {
 			}
 		]
 	},
-	'nonce' : 'nonce'
+	'nonce' : ''
 };

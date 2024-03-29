@@ -45,12 +45,28 @@ module.exports = function (config) {
       },
     },
     coverageReporter: {
-      dir: require('path').join(__dirname, './coverage/verifier-ui'),
+      dir: require('path').join(__dirname, './coverage'),
       subdir: '.',
       reporters: [
         { type: 'html' },
-        { type: 'text-summary' }
-      ]
+        { type: 'text-summary' },
+        { type: 'lcov' }
+      ],
+      thresholds: {
+        emitWarning: true,
+        global: {
+            statements: 80,
+            lines: 80,
+            branches: 80,
+            functions: 80
+        },
+        each: {
+            statements: 80,
+            lines: 80,
+            branches: 80,
+            functions: 80,
+        }
+    },
     },
     reporters: ['progress', 'kjhtml', 'sonarqube'],
     browsers: ['ChromeHeadless'],
