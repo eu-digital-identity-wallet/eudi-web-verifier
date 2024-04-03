@@ -48,11 +48,7 @@ export class CreateAScenarioComponent implements OnInit {
 	}
 	ngOnInit (): void {
 		this.localStorageService.remove(constants.UI_PRESENTATION);
-		const requiredFields = this.getFields()
-			.filter((item) => item.filter );
-		requiredFields.forEach((item: DefinitionPath) => {
-			this.definitionFields.push(item);
-		});
+
 		this.setFields();
 		this.definitionText = this.convertJSONtoString();
 		this.helperCborSelectableService.goNextStep$.subscribe(_ => {
@@ -96,9 +92,7 @@ export class CreateAScenarioComponent implements OnInit {
 	setFields () {
 		this.definition.presentation_definition.input_descriptors[0].constraints.fields = this.definitionFields;
 	}
-	getFields () {
-		return this.definition.presentation_definition.input_descriptors[0].constraints.fields;
-	}
+
 	convertJSONtoString () {
 		return JSON.stringify(this.definition, null, '\t');
 	}
