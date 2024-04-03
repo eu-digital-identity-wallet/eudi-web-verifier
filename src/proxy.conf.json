@@ -1,12 +1,12 @@
 {
   "/ui": {
-      "target": "https://eudi.netcompany-intrasoft.com/san-dns",
+      "target": "https://dev.verifier.eudiw.dev/home",
       "secure": false,
       "logLevel": "debug",
       "changeOrigin": true
   },
   "/wallet": {
-    "target": "https://eudi.netcompany-intrasoft.com/san-dns",
+    "target": "https://dev.verifier.eudiw.dev/home",
     "secure": false,
     "logLevel": "debug",
     "changeOrigin": true

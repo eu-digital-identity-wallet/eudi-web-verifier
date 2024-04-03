@@ -45,6 +45,7 @@ export class QrCodeComponent implements OnInit, OnDestroy {
   presentationDefinition!: PresentationDefinitionResponse;
 
   redirectUrl!: string;
+  scheme!: string;
   private readonly deviceDetectorService!: DeviceDetectorService;
   private readonly jWTService!: JWTService;
   private readonly localStorageService!: LocalStorageService;
@@ -60,6 +61,11 @@ export class QrCodeComponent implements OnInit, OnDestroy {
   	this.jWTService = this.injector.get(JWTService);
   	this.localStorageService = this.injector.get(LocalStorageService);
   	this.isDesktop = this.deviceDetectorService.isDesktop();
+  	if (this.localStorageService.get(constants.SCHEME)) {
+  		this.scheme = this.localStorageService.get(constants.SCHEME)?? constants.DEFAULT_SCHEME;
+  	} else {
+  		this.scheme = constants.DEFAULT_SCHEME;
+  	}
   }
 
   ngOnInit (): void {
@@ -129,7 +135,7 @@ export class QrCodeComponent implements OnInit, OnDestroy {
   }
   private buildQrCode (data: {client_id: string, request_uri: string, presentation_id: string}): string {
   	let builtURL = `${environment.apiUrl}?client_id=${data.client_id}&request_uri=${encodeURIComponent(data.request_uri)}`;
-  	builtURL = builtURL.replace('https', 'eudi-openid4vp');
+  	builtURL = builtURL.replace('https://', this.scheme);
   	return builtURL;
   }
 
