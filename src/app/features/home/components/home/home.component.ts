@@ -12,11 +12,12 @@ import { BodyAction } from '@app/shared/elements/body-actions/models/BodyAction'
 import { HOME_ACTIONS } from '@app/core/utils/pages-actions';
 import { LocalStorageService } from '@app/core/services/local-storage.service';
 import * as constants from '@core/constants/constants';
+import { InputSchemeComponent } from '../input-scheme/input-scheme.component';
 
 @Component({
 	selector: 'vc-home',
 	standalone: true,
-	imports: [CommonModule, RadioGroupComponent, SharedModule, WalletLayoutComponent],
+	imports: [CommonModule, RadioGroupComponent, SharedModule, InputSchemeComponent, WalletLayoutComponent],
 	templateUrl: './home.component.html',
 	styleUrls: ['./home.component.scss'],
 	providers: [OnlineAuthenticationSIOPService, HomeService],
