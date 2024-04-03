@@ -7,7 +7,7 @@ import { MatInputModule } from '@angular/material/input';
 import { ErrorStateMatcher } from './error-state-matcher';
 import { SharedModule } from '@app/shared/shared.module';
 import { LocalStorageService } from '@app/core/services/local-storage.service';
-import { SCHEME } from '@app/core/constants/constants';
+import { DEFAULT_SCHEME, SCHEME } from '@app/core/constants/constants';
 
 @Component({
 	selector: 'vc-input-scheme',
@@ -27,10 +27,7 @@ export class InputSchemeComponent implements OnInit {
 	schemeValue!: string;
 
 	ngOnInit (): void {
-		const storedValue = this.localStorageService.get(SCHEME);
-		if (storedValue) {
-			this.schemeValue = storedValue;
-		}
+		this.schemeValue = this.localStorageService.get(SCHEME) || DEFAULT_SCHEME;
 	}
 
 	save () {

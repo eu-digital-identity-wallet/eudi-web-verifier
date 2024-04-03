@@ -1,10 +1,7 @@
 <mat-expansion-panel hideToggle>
   <mat-expansion-panel-header>
-    <mat-panel-title *ngIf="!schemeValue">
-      Define a custom scheme
-    </mat-panel-title>
-    <mat-panel-title *ngIf="schemeValue">
-      You have defined this scheme: <strong>{{schemeValue}}</strong>
+    <mat-panel-title>
+      Authorization endpoint scheme: <strong> {{schemeValue}} </strong>
     </mat-panel-title>
   </mat-expansion-panel-header>
   <form class="example-form">
