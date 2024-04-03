@@ -62,7 +62,9 @@ export class QrCodeComponent implements OnInit, OnDestroy {
   	this.localStorageService = this.injector.get(LocalStorageService);
   	this.isDesktop = this.deviceDetectorService.isDesktop();
   	if (this.localStorageService.get(constants.SCHEME)) {
-  		this.scheme = this.localStorageService.get(constants.SCHEME)?? 'eudi-openid4vp://';
+  		this.scheme = this.localStorageService.get(constants.SCHEME)?? constants.DEFAULT_SCHEME;
+  	} else {
+  		this.scheme = constants.DEFAULT_SCHEME;
   	}
   }
 
