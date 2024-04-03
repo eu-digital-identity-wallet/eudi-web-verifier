@@ -2,6 +2,7 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { BodyActionsComponent } from './body-actions.component';
 import { OrderByPipe } from '../pipes/order-by.pipe';
+import { BodyActionsService } from './body-actions.service';
 
 describe('BodyActionsComponent', () => {
   let component: BodyActionsComponent;
@@ -9,7 +10,8 @@ describe('BodyActionsComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ BodyActionsComponent, OrderByPipe ]
+      declarations: [ BodyActionsComponent, OrderByPipe ],
+      providers: [BodyActionsService]
     })
     .compileComponents();
 

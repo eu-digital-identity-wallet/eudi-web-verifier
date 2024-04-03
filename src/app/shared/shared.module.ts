@@ -4,6 +4,7 @@ import { EditorComponent } from './elements/editor/editor.component';
 import { ButtonComponent } from './elements/button/button.component';
 import { BodyActionsComponent } from './elements/body-actions/body-actions.component';
 import { OrderByPipe } from './elements/pipes/order-by.pipe';
+import { BodyActionsService } from './elements/body-actions/body-actions.service';
 
 @NgModule({
 	declarations: [
@@ -20,6 +21,9 @@ import { OrderByPipe } from './elements/pipes/order-by.pipe';
 		ButtonComponent,
 		BodyActionsComponent,
 		OrderByPipe
+	],
+	providers: [
+		BodyActionsService
 	]
 })
 export class SharedModule { }
