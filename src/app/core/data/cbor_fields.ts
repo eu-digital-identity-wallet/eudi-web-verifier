@@ -1,41 +1,13 @@
+/* eslint-disable quotes */
 import { CBORField } from '../models/CBORFields';
 
 export const 	CBORFields: CBORField[] = [
-	// {
-	// 	id: 0,
-	// 	label: 'Document Type',
-	// 	path: '$.mdoc.doctype',
-	// 	value: {
-	// 		path: [
-	// 			'$.mdoc.doctype'
-	// 		],
-	// 		'filter': {
-	// 			'type': 'string',
-	// 			'const': 'eu.europa.ec.eudiw.pid.1'
-	// 		}
-	// 	}
-	// },
-	// {
-	// 	id: 1,
-	// 	label: 'Name Space',
-	// 	path: '$.mdoc.namespace',
-	// 	value: {
-	// 		path: [
-	// 			'$.mdoc.namespace'
-	// 		],
-	// 		'filter': {
-	// 			'type': 'string',
-	// 			'const': 'eu.europa.ec.eudiw.pid.1'
-	// 		}
-	// 	}
-	// },
 	{
 		id: 1,
 		label: 'Family Name',
-		path: '$.mdoc.family_name',
 		value: {
 			path: [
-				'$.mdoc.family_name'
+				"$['eu.europa.ec.eudiw.pid.1']['family_name']"
 			],
 			intent_to_retain: false
 		},
@@ -43,10 +15,9 @@ export const 	CBORFields: CBORField[] = [
 	{
 		id: 2,
 		label: 'Given Name',
-		path: '$.mdoc.given_name',
 		value: {
 			path: [
-				'$.mdoc.given_name'
+				"$['eu.europa.ec.eudiw.pid.1']['given_name']"
 			],
 			intent_to_retain: false
 		}
@@ -54,10 +25,9 @@ export const 	CBORFields: CBORField[] = [
 	{
 		id: 3,
 		label: 'Birthdate',
-		path: '$.mdoc.birth_date',
 		value: {
 			path: [
-				'$.mdoc.birth_date'
+				"$['eu.europa.ec.eudiw.pid.1']['birth_date']"
 			],
 			intent_to_retain: false
 		}
@@ -65,10 +35,9 @@ export const 	CBORFields: CBORField[] = [
 	{
 		id: 4,
 		label: 'Age over 18',
-		path: '$.mdoc.age_over_18',
 		value: {
 			path: [
-				'$.mdoc.age_over_18'
+				"$['eu.europa.ec.eudiw.pid.1']['age_over_18']"
 			],
 			intent_to_retain: false
 		}
@@ -76,10 +45,9 @@ export const 	CBORFields: CBORField[] = [
 	{
 		id: 5,
 		label: 'Age in years',
-		path: '$.mdoc.age_in_years',
 		value: {
 			path: [
-				'$.mdoc.age_in_years'
+				"$['eu.europa.ec.eudiw.pid.1']['age_in_years']"
 			],
 			intent_to_retain: false
 		}
@@ -87,10 +55,9 @@ export const 	CBORFields: CBORField[] = [
 	{
 		id: 6,
 		label: 'Age birth years',
-		path: '$.mdoc.age_birth_year',
 		value: {
 			path: [
-				'$.mdoc.age_birth_year'
+				"$['eu.europa.ec.eudiw.pid.1']['age_birth_year']"
 			],
 			intent_to_retain: false
 		}
@@ -98,10 +65,9 @@ export const 	CBORFields: CBORField[] = [
 	{
 		id: 7,
 		label: 'Family name birth',
-		path: '$.mdoc.family_name_birth',
 		value: {
 			path: [
-				'$.mdoc.family_name_birth'
+				"$['eu.europa.ec.eudiw.pid.1']['family_name_birth']"
 			],
 			intent_to_retain: false
 		}
@@ -109,10 +75,9 @@ export const 	CBORFields: CBORField[] = [
 	{
 		id: 8,
 		label: 'Given name birth',
-		path: '$.mdoc.given_name_birth',
 		value: {
 			path: [
-				'$.mdoc.given_name_birth'
+				"$['eu.europa.ec.eudiw.pid.1']['given_name_birth']"
 			],
 			intent_to_retain: false
 		}
@@ -120,10 +85,9 @@ export const 	CBORFields: CBORField[] = [
 	{
 		id: 9,
 		label: 'Birth place',
-		path: '$.mdoc.birth_place',
 		value: {
 			path: [
-				'$.mdoc.birth_place'
+				"$['eu.europa.ec.eudiw.pid.1']['birth_place']"
 			],
 			intent_to_retain: false
 		}
@@ -131,10 +95,9 @@ export const 	CBORFields: CBORField[] = [
 	{
 		id: 10,
 		label: 'Birth country',
-		path: '$.mdoc.birth_country',
 		value: {
 			path: [
-				'$.mdoc.birth_country'
+				"$['eu.europa.ec.eudiw.pid.1']['birth_country']"
 			],
 			intent_to_retain: false
 		}
@@ -142,10 +105,9 @@ export const 	CBORFields: CBORField[] = [
 	{
 		id: 11,
 		label: 'Birth state',
-		path: '$.mdoc.birth_state',
 		value: {
 			path: [
-				'$.mdoc.birth_state'
+				"$['eu.europa.ec.eudiw.pid.1']['birth_state']"
 			],
 			intent_to_retain: false
 		}
@@ -153,10 +115,9 @@ export const 	CBORFields: CBORField[] = [
 	{
 		id: 12,
 		label: 'Birth city',
-		path: '$.mdoc.birth_city',
 		value: {
 			path: [
-				'$.mdoc.birth_city'
+				"$['eu.europa.ec.eudiw.pid.1']['birth_city']"
 			],
 			intent_to_retain: false
 		}
@@ -164,10 +125,9 @@ export const 	CBORFields: CBORField[] = [
 	{
 		id: 13,
 		label: 'Resident address',
-		path: '$.mdoc.resident_address',
 		value: {
 			path: [
-				'$.mdoc.resident_address'
+				"$['eu.europa.ec.eudiw.pid.1']['resident_address']"
 			],
 			intent_to_retain: false
 		}
@@ -175,10 +135,9 @@ export const 	CBORFields: CBORField[] = [
 	{
 		id: 14,
 		label: 'Resident country',
-		path: '$.mdoc.resident_country',
 		value: {
 			path: [
-				'$.mdoc.resident_country'
+				"$['eu.europa.ec.eudiw.pid.1']['resident_country']"
 			],
 			intent_to_retain: false
 		}
@@ -186,10 +145,9 @@ export const 	CBORFields: CBORField[] = [
 	{
 		id: 15,
 		label: 'Resident state',
-		path: '$.mdoc.resident_state',
 		value: {
 			path: [
-				'$.mdoc.resident_state'
+				"$['eu.europa.ec.eudiw.pid.1']['resident_state']"
 			],
 			intent_to_retain: false
 		}
@@ -197,10 +155,9 @@ export const 	CBORFields: CBORField[] = [
 	{
 		id: 16,
 		label: 'Resident city',
-		path: '$.mdoc.resident_city',
 		value: {
 			path: [
-				'$.mdoc.resident_city'
+				"$['eu.europa.ec.eudiw.pid.1']['resident_city']"
 			],
 			intent_to_retain: false
 		}
@@ -208,10 +165,9 @@ export const 	CBORFields: CBORField[] = [
 	{
 		id: 17,
 		label: 'Resident postal code',
-		path: '$.mdoc.resident_postal_code',
 		value: {
 			path: [
-				'$.mdoc.resident_postal_code'
+				"$['eu.europa.ec.eudiw.pid.1']['resident_postal_code']"
 			],
 			intent_to_retain: false
 		}
@@ -219,10 +175,9 @@ export const 	CBORFields: CBORField[] = [
 	{
 		id: 18,
 		label: 'Resident street',
-		path: '$.mdoc.resident_street',
 		value: {
 			path: [
-				'$.mdoc.resident_street'
+				"$['eu.europa.ec.eudiw.pid.1']['resident_street']"
 			],
 			intent_to_retain: false
 		}
@@ -230,10 +185,9 @@ export const 	CBORFields: CBORField[] = [
 	{
 		id: 19,
 		label: 'Resident house number',
-		path: '$.mdoc.resident_house_number',
 		value: {
 			path: [
-				'$.mdoc.resident_house_number'
+				"$['eu.europa.ec.eudiw.pid.1']['resident_house_number']"
 			],
 			intent_to_retain: false
 		}
@@ -241,10 +195,9 @@ export const 	CBORFields: CBORField[] = [
 	{
 		id: 20,
 		label: 'Gender',
-		path: '$.mdoc.gender',
 		value: {
 			path: [
-				'$.mdoc.gender'
+				"$['eu.europa.ec.eudiw.pid.1']['gender']"
 			],
 			intent_to_retain: false
 		}
@@ -252,10 +205,9 @@ export const 	CBORFields: CBORField[] = [
 	{
 		id: 21,
 		label: 'Nationality',
-		path: '$.mdoc.nationality',
 		value: {
 			path: [
-				'$.mdoc.nationality'
+				"$['eu.europa.ec.eudiw.pid.1']['nationality']"
 			],
 			intent_to_retain: false
 		}
@@ -263,10 +215,9 @@ export const 	CBORFields: CBORField[] = [
 	{
 		id: 22,
 		label: 'Issuance date',
-		path: '$.mdoc.issuance_date',
 		value: {
 			path: [
-				'$.mdoc.issuance_date'
+				"$['eu.europa.ec.eudiw.pid.1']['issuance_date']"
 			],
 			intent_to_retain: false
 		}
@@ -274,10 +225,9 @@ export const 	CBORFields: CBORField[] = [
 	{
 		id: 23,
 		label: 'Expiry date',
-		path: '$.mdoc.expiry_date',
 		value: {
 			path: [
-				'$.mdoc.expiry_date'
+				"$['eu.europa.ec.eudiw.pid.1']['expiry_date']"
 			],
 			intent_to_retain: false
 		}
@@ -285,10 +235,9 @@ export const 	CBORFields: CBORField[] = [
 	{
 		id: 24,
 		label: 'Issuing authority',
-		path: '$.mdoc.issuing_authority',
 		value: {
 			path: [
-				'$.mdoc.issuing_authority'
+				"$['eu.europa.ec.eudiw.pid.1']['issuing_authority']"
 			],
 			intent_to_retain: false
 		}
@@ -296,10 +245,9 @@ export const 	CBORFields: CBORField[] = [
 	{
 		id: 25,
 		label: 'Document number',
-		path: '$.mdoc.document_number',
 		value: {
 			path: [
-				'$.mdoc.document_number'
+				"$['eu.europa.ec.eudiw.pid.1']['document_number']"
 			],
 			intent_to_retain: false
 		}
@@ -307,10 +255,9 @@ export const 	CBORFields: CBORField[] = [
 	{
 		id: 26,
 		label: 'Administrative number',
-		path: '$.mdoc.administrative_number',
 		value: {
 			path: [
-				'$.mdoc.administrative_number'
+				"$['eu.europa.ec.eudiw.pid.1']['administrative_number']"
 			],
 			intent_to_retain: false
 		}
@@ -318,10 +265,9 @@ export const 	CBORFields: CBORField[] = [
 	{
 		id: 27,
 		label: 'Issuing country',
-		path: '$.mdoc.issuing_country',
 		value: {
 			path: [
-				'$.mdoc.issuing_country'
+				"$['eu.europa.ec.eudiw.pid.1']['issuing_country']"
 			],
 			intent_to_retain: false
 		}
@@ -329,10 +275,9 @@ export const 	CBORFields: CBORField[] = [
 	{
 		id: 28,
 		label: 'Issuing jurisdiction',
-		path: '$.mdoc.issuing_jurisdiction',
 		value: {
 			path: [
-				'$.mdoc.issuing_jurisdiction'
+				"$['eu.europa.ec.eudiw.pid.1']['issuing_jurisdiction']"
 			],
 			intent_to_retain: false
 		}
