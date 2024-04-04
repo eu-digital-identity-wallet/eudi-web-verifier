@@ -8,7 +8,7 @@ import { BodyActionsService } from './body-actions.service';
 	selector: 'vc-body-actions',
 	templateUrl: './body-actions.component.html',
 	styleUrls: ['./body-actions.component.scss'],
-	changeDetection: ChangeDetectionStrategy.OnPush
+	changeDetection: ChangeDetectionStrategy.Default
 })
 export class BodyActionsComponent implements OnInit {
 
