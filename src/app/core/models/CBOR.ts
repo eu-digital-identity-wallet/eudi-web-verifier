@@ -7,7 +7,7 @@ export type CBOR = {
 export type Document = {
   issuerSigned: {
     nameSpaces: {
-      'eu.europa.ec.eudiw.pid.1': TagValue
+      'eu.europa.ec.eudi.pid.1': TagValue
     }
   }
 }
