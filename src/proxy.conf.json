@@ -1,6 +1,6 @@
 {
   "/ui": {
-      "target": "https://dev.verifier.eudiw.dev/home",
+      "target": "https://dev.verifier-backend.eudiw.dev",
       "secure": false,
       "logLevel": "debug",
       "changeOrigin": true

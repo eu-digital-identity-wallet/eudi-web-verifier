@@ -23,6 +23,7 @@ import { RadioGroupModel } from './radio-group.model';
 	]
 })
 export class RadioGroupComponent {
+
 	chose!: string;
 	@Output() choseEvent: EventEmitter<string> = new EventEmitter();
 	@Input() options: RadioGroupModel[] = [];

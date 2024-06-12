@@ -1,8 +1,27 @@
 <vc-wallet-layout>
   <div body class="container ">
-    <h5 body-title >Authenticate by sharing your PID</h5>
-    <vc-input-scheme></vc-input-scheme>
-    <vc-radio-group [options]="options" (choseEvent)="navigate($event)"></vc-radio-group>
-    <vc-body-actions [actions]="actions" (clicked)="submit()"></vc-body-actions>
+    <mat-tab-group animationDuration="0ms" (selectedIndexChange)="selectedIndexChange($event)">
+      <mat-tab #authentication label="PID authentication">
+        <ng-container *ngIf="authentication.isActive">
+          <vc-input-scheme></vc-input-scheme>
+          <vc-radio-group [options]="optionsPIDAuthentication" (choseEvent)="navigate($event)"></vc-radio-group>
+          <vc-body-actions [actions]="actions" (clicked)="submit()"></vc-body-actions>
+        </ng-container>
+      </mat-tab>
+      <mat-tab #verification label="Age verification">
+        <ng-container *ngIf="verification.isActive">
+          <vc-input-scheme></vc-input-scheme>
+          <vc-radio-group [options]="optionsAgeVerification" (choseEvent)="navigate($event)"></vc-radio-group>
+          <vc-body-actions [actions]="actions" (clicked)="submit()"></vc-body-actions>
+        </ng-container>
+      </mat-tab>
+      <mat-tab #customRequest label="Custom request">
+        <ng-container *ngIf="customRequest.isActive">
+          <vc-input-scheme></vc-input-scheme>
+          <vc-radio-group [options]="optionsCustomRequest" (choseEvent)="navigate($event)"></vc-radio-group>
+          <vc-body-actions [actions]="actions" (clicked)="submit()"></vc-body-actions>
+        </ng-container>
+      </mat-tab>
+    </mat-tab-group>
   </div>
 </vc-wallet-layout>
