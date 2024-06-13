@@ -6,6 +6,8 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatInputModule } from '@angular/material/input';
 import { MatIconModule } from '@angular/material/icon';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 describe('InputSchemeComponent', () => {
   let component: InputSchemeComponent;
@@ -15,6 +17,8 @@ describe('InputSchemeComponent', () => {
     await TestBed.configureTestingModule({
       imports: [
         InputSchemeComponent,
+        BrowserAnimationsModule,
+        NoopAnimationsModule,
         MatExpansionModule, FormsModule, ReactiveFormsModule, MatInputModule, SharedModule, MatIconModule
       ],
     })

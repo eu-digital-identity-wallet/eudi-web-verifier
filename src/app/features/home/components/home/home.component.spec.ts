@@ -7,6 +7,8 @@ import { HomeService } from '../../services/home.service';
 import { OnlineAuthenticationSIOPService } from '@app/core/services/online-authentication-siop.service';
 import { DataService } from '@app/core/services/data.service';
 import { HttpClientModule } from '@angular/common/http';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { NoopAnimationsModule } from '@angular/platform-browser/animations';
 
 describe('CBOR HomeComponent', () => {
   let component: HomeComponent;
@@ -16,7 +18,7 @@ describe('CBOR HomeComponent', () => {
     await TestBed.configureTestingModule({
       // declarations: [ HomeComponent ]
       imports: [
-        SharedModule, WalletLayoutComponent, HttpClientModule
+        SharedModule, WalletLayoutComponent, HttpClientModule,BrowserAnimationsModule, NoopAnimationsModule
       ],
       providers: [
         // HttpService
