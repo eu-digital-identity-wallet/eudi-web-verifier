@@ -19,7 +19,7 @@ export class CborDecodeService {
 			preferWeb: true
 		}))
 			.pipe(
-				map((valueOut: any) => valueOut.documents[0].issuerSigned.nameSpaces['eu.europa.ec.eudiw.pid.1'] ),
+				map((valueOut: any) => valueOut.documents[0].issuerSigned.nameSpaces.entries().next().value ),
 				map((dataArray: TagValue[]) => {
 					const requestData: any[] = [];
 					dataArray.forEach((item: TagValue) => {
