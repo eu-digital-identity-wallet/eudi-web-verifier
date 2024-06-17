@@ -7,7 +7,7 @@ export const AGE_ATTESTATION_OVER_18_PD: Presentation = {
 		'id': '32f54163-7166-48f1-93d8-ff217bdb0653',
 		'input_descriptors': [
 			{
-				'id': 'eu.europa.ec.eudiw.pseudonym.age_over_18.1',
+				'id': 'eu.europa.ec.eudi.pseudonym.age_over_18.1',
 				'name': 'Age attestation',
 				'purpose': 'We need to verify you are over 18',
 				'format': {
@@ -23,7 +23,7 @@ export const AGE_ATTESTATION_OVER_18_PD: Presentation = {
 					'fields': [
 					  {
 							'path': [
-								"$['eu.europa.ec.eudiw.pseudonym.age_over_18.1']['age_over_18']"
+								"$['eu.europa.ec.eudi.pseudonym.age_over_18.1']['age_over_18']"
 							],
 							'intent_to_retain': false
 						}
