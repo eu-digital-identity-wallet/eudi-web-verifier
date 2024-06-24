@@ -16,6 +16,10 @@ const routes: Routes = [
 				component: CreateAScenarioComponent
 			},
 			{
+				path: 'pid-create',
+				component: CreateAScenarioComponent
+			},
+			{
 				path: 'verifiable',
 				loadComponent:
         () => import('../verifiable-credential/components/qr-code/qr-code.component').then(c => c.QrCodeComponent)

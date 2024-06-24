@@ -9,13 +9,13 @@ import { NavigateService } from './core/services/navigate.service';
 const routes: Routes = [
 	{ path: '', redirectTo: 'home', pathMatch: 'full' },
 	{ path: 'home', loadComponent: () => import('./features/home/components/home/home.component').then(c => c.HomeComponent) },
-	{ path: 'presentation',
+	{ path: 'custom-request',
 		loadChildren: () => import('./features/presentation-definition/presentation-definition.module').
 			then(m => m.PresentationDefinitionModule )},
-	{ path: 'siop',
-		loadChildren: () => import('./features/siop/siop.module').
-			then(m => m.SIOPModule )},
-	{ path: 'cbor',
+	// { path: 'siop',
+	// 	loadChildren: () => import('./features/siop/siop.module').
+	// 		then(m => m.SIOPModule )},
+	{ path: 'pid-full',
 		loadChildren: () => import('./features/cbor/cbor.module').
 			then(m => m.CborModule )},
 	{ path: 'cbor-selectable',
@@ -26,6 +26,14 @@ const routes: Routes = [
 			then(m => m.CborModule )
 	},
 	{ path: 'age-attestation',
+		loadChildren: () => import('./features/cbor/cbor.module').
+			then(m => m.CborModule )
+	},
+	{ path: 'mdl-selectable',
+    loadChildren: () => import('./features/siop-custom/cbor-selectable.module').
+    then(m => m.SiopCustomModule ),
+	},
+	{ path: 'mdl-full',
 		loadChildren: () => import('./features/cbor/cbor.module').
 			then(m => m.CborModule )
 	},

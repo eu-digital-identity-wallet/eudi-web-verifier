@@ -1,5 +1,5 @@
-import { DefinitionPath } from './DefinitionPath';
+import { FieldConstraint } from './FieldConstraint';
 
 export type Constraint = {
-  fields: DefinitionPath[]
+  fields: FieldConstraint[]
 }

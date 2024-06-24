@@ -1,72 +1,76 @@
 import { Component, OnInit, ChangeDetectorRef, Injector } from '@angular/core';
-import { FormGroup } from '@angular/forms';
 import { catchError } from 'rxjs';
 import { PresentationDefinitionResponse } from '@core/models/presentation-definition-response';
 import { PresentationDefinitionService } from '@app/core/services/presentation-definition.service';
-import { CreateFormService } from '../../services/create-form.service';
-import { PID_PRESENTATION_DEFINITION } from '@app/core/data/pid_presentation_definition';
-import { DefinitionPath } from '../../models/DefinitionPath';
+import { FieldConstraint } from '../../models/FieldConstraint';
 import { DataService } from '@app/core/services/data.service';
 import { NavigateService } from '@app/core/services/navigate.service';
-import { CBORFields } from '@app/core/data/cbor_fields';
-import { CBORField } from '@app/core/models/CBORFields';
+import { FormSelectableField } from '@features/siop-custom/models/FormSelectableField';
 import { HelperCborSelectableService } from '../../services/helper-cbor-selectable.service';
 import { LocalStorageService } from '@app/core/services/local-storage.service';
 import * as constants from '@core/constants/constants';
-import { uuidv4 } from '@app/core/utils/uuid';
 import { Modification } from '@app/shared/elements/body-actions/models/modification';
 import { BodyActionsService } from '@app/shared/elements/body-actions/body-actions.service';
 import { Presentation } from '../../models/Presentation';
+import { AttestationSelectableModelService } from "@app/core/services/attestation-selectable-model.service";
+import { MsoMdocPresentationService } from "@app/core/services/mso-mdoc-presentation.service";
+import { MsoMdoc } from "@core/models/msoMdoc";
+
 @Component({
 	selector: 'vc-create-a-scenario',
 	templateUrl: './create-a-scenario.component.html',
 	styleUrls: ['./create-a-scenario.component.scss'],
-	providers: [CreateFormService, PresentationDefinitionService]
+	providers: [PresentationDefinitionService]
 })
 export class CreateAScenarioComponent implements OnInit {
 
-	form!: FormGroup;
-	fields: CBORField[];
+	formFields!: FormSelectableField[];
 	requestGenerate = false;
 	buttonMode = 'none';
-	readonly initDefinitionObject = JSON.parse(JSON.stringify(PID_PRESENTATION_DEFINITION));
-	definition!: Presentation;
-	definitionText!: string;
-	definitionFields: DefinitionPath[] = [];
+  attestationModel!: MsoMdoc;
+	draftPresentation!: Presentation;
+	presentationDefinitionText!: string;
+	selectedFields: FieldConstraint[] = [];
 	private readonly navigateService!: NavigateService;
 	private readonly helperCborSelectableService!: HelperCborSelectableService;
 	private readonly localStorageService!: LocalStorageService;
 	private readonly bodyActionsService!: BodyActionsService;
 	constructor (
-    private readonly createFormService: CreateFormService,
     private readonly presentationDefinitionService: PresentationDefinitionService,
+    private readonly attestationSelectableModelService: AttestationSelectableModelService,
+    private readonly msoMdocPresentationService: MsoMdocPresentationService,
     private readonly dataService: DataService,
     private readonly changeDetectorRef: ChangeDetectorRef,
     private readonly injector: Injector,
 	) {
-		this.definition = this.initDefinitionObject;
-		this.definition.nonce = uuidv4();
 		this.navigateService = this.injector.get(NavigateService);
 		this.helperCborSelectableService = this.injector.get(HelperCborSelectableService);
 		this.localStorageService = this.injector.get(LocalStorageService);
 		this.bodyActionsService = this.injector.get(BodyActionsService);
-		this.form = this.createFormService.form;
-		this.fields = CBORFields;
+
+    this.enableNextButton();
 	}
+
 	ngOnInit (): void {
 		this.localStorageService.remove(constants.UI_PRESENTATION);
-		this.setNextButton();
-		this.setFields();
-		this.definitionText = this.convertJSONtoString(this.definition.presentation_definition);
+    this.initPresentationModel();
+    // Init form from model
+    this.formFields = this.extractFormFieldsFromModel()
 		this.helperCborSelectableService.goNextStep$.subscribe(_ => {
 			this.generateCode();
 		});
 	}
+
+  initPresentationModel() {
+    this.attestationModel = this.attestationSelectableModelService.getModel();
+    this.draftPresentation = this.msoMdocPresentationService.presentationOf(this.attestationModel, [])
+  }
+
 	generateCode () {
 		this.requestGenerate = true;
-		if (this.convertJSONtoString(this.definition)) {
+		if (this.convertJSONtoString(this.draftPresentation)) {
 			this.buttonMode = 'loading';
-			this.presentationDefinitionService.generateCode(this.convertJSONtoString(this.definition))
+			this.presentationDefinitionService.generateCode(this.convertJSONtoString(this.draftPresentation))
 				.pipe(
 					catchError((error) => {
 						return error;
@@ -83,40 +87,50 @@ export class CreateAScenarioComponent implements OnInit {
 			console.log('invalid JSON');
 		}
 	}
-	handle (data: CBORField) {
+	handle (data: FormSelectableField) {
 		const value = data?.value;
 		if (!this.isExist(value.path[0])) {
-			this.definitionFields.push(value);
+			this.selectedFields.push(value);
 		}	else if (this.isExist(value.path[0])) {
-			this.definitionFields = this.definitionFields.filter((item: DefinitionPath) => {
+			this.selectedFields = this.selectedFields.filter((item: FieldConstraint) => {
 				return String(item.path) !== String(value.path[0]);
 			});
 		}
-		this.setFields();
-		this.definitionText = this.convertJSONtoString(this.definition.presentation_definition);
-		this.setNextButton();
+    // Update draft presentation with selected fields
+		this.draftPresentation.presentation_definition.input_descriptors[0].constraints.fields = this.selectedFields;
+    // refresh PD text from model
+		this.presentationDefinitionText = this.convertJSONtoString(this.draftPresentation.presentation_definition);
+		this.enableNextButton();
 		this.changeDetectorRef.detectChanges();
 	}
-	setFields () {
-		this.definition.presentation_definition.input_descriptors[0].constraints.fields = this.definitionFields;
-	}
 
-	convertJSONtoString (obj: object) {
+  convertJSONtoString (obj: object) {
 		return JSON.stringify(obj, null, '\t');
 	}
+
 	isExist (path: string) {
-		const exists = this.definitionFields.filter((item) => item.path.includes(path));
+		const exists = this.selectedFields.filter((item) => item.path.includes(path));
 		return exists.length > 0;
 	}
-	setNextButton () {
+
+	enableNextButton () {
 		const modifyData: Modification = {
 			id: 'next_button',
-			disabled: this.definitionFields.length === 0
+			disabled: this.selectedFields == undefined || this.selectedFields.length === 0
 		};
 		this.bodyActionsService.handelButton$.next(modifyData);
 	}
 
-	trackByFn (_index: number, data: CBORField) {
+  extractFormFieldsFromModel(): FormSelectableField[] {
+    return this.attestationModel.attributes.map( (attr, index) => {
+      return {
+        id: index,
+        label: attr.text,
+        value: this.msoMdocPresentationService.fieldConstraint(this.attestationModel, attr.value, true)
+      }
+    })
+  }
+	trackByFn (_index: number, data: FormSelectableField) {
 		return data.id;
 	}
 }
