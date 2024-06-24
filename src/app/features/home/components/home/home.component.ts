@@ -76,31 +76,44 @@ export class HomeComponent implements OnInit {
 
   submit() {
     if (this.navTarget === 'pid-full') {
-      this.onlineAuthenticationSIOPService.initCborTransaction().subscribe((data) => {
+      let presentationPurpose = 'We need to verify your identity';
+      this.onlineAuthenticationSIOPService.initPIDPresentationTransaction(presentationPurpose).subscribe((data) => {
         this.dataService.setQRCode(data);
         this.navigateService.navigateTo(this.navTarget);
       });
+
     } else if (this.navTarget === 'cbor-selectable/pid-create') {
+      let presentationPurpose = 'We need to verify your identity';
+      this.attestationSelectableModelService.setPresentationPurpose(presentationPurpose)
       this.attestationSelectableModelService.setModel('PID')
       this.navigateService.navigateTo('cbor-selectable/create');
+
     } else if (this.navTarget === 'mdl-full') {
-        this.onlineAuthenticationSIOPService.initMDLTransaction().subscribe((data) => {
+      let presentationPurpose = 'We need to verify your mobile driving licence';
+        this.onlineAuthenticationSIOPService.initMDLPresentationTransaction(presentationPurpose).subscribe((data) => {
           this.dataService.setQRCode(data);
           this.navigateService.navigateTo(this.navTarget);
         });
+
     } else if (this.navTarget === 'cbor-selectable/mdl-create') {
+      let presentationPurpose = 'We need to verify your mobile driving licence';
+      this.attestationSelectableModelService.setPresentationPurpose(presentationPurpose)
       this.attestationSelectableModelService.setModel('MDL')
       this.navigateService.navigateTo('cbor-selectable/create');
+
     } else if (this.navTarget === 'pid-age-over-18') {
-      this.onlineAuthenticationSIOPService.initAgeOver18Transaction().subscribe((data) => {
+      let presentationPurpose = 'We need to verify you are over 18 using your PID';
+      this.onlineAuthenticationSIOPService.initPIDAgeOver18PresentationTransaction(presentationPurpose).subscribe((data) => {
         this.dataService.setQRCode(data);
         this.navigateService.navigateTo(this.navTarget);
       });
+
     } else if (this.navTarget === 'age-attestation') {
-      this.onlineAuthenticationSIOPService.initAgeOver18AttestationTransaction().subscribe((data) => {
+      this.onlineAuthenticationSIOPService.initAgeOver18AttestationPresentationTransaction().subscribe((data) => {
         this.dataService.setQRCode(data);
         this.navigateService.navigateTo(this.navTarget);
       });
+
     } else if (this.navTarget === 'custom-request') {
       this.navigateService.navigateTo(this.navTarget);
     }

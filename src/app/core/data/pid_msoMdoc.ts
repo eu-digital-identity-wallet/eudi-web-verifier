@@ -5,7 +5,6 @@ export const PID_MSO_MDOC: MsoMdoc = {
   name: 'EUDI PID',
   doctype: 'eu.europa.ec.eudi.pid.1',
   namespace: 'eu.europa.ec.eudi.pid.1',
-  presentationPurpose: 'We need to verify your identity',
   attributes: [
      { value: 'family_name', text: 'Family name'},
      { value: 'given_name', text: 'Given name'},

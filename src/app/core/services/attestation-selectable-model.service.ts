@@ -10,6 +10,11 @@ import {MsoMdoc} from "@core/models/msoMdoc";
 export class AttestationSelectableModelService {
 
   private selectableModel: MsoMdoc | null = null;
+  private presentationPurpose!: string;
+
+  setPresentationPurpose(presentationPurpose: string) {
+    this.presentationPurpose = presentationPurpose;
+  }
 
   setModel(attestation: string) {
     if (attestation == 'MDL') {
@@ -22,4 +27,6 @@ export class AttestationSelectableModelService {
   getModel(): MsoMdoc {
     return JSON.parse(JSON.stringify(this.selectableModel));
   }
+
+  getPresentationPurpose(): string { return this.presentationPurpose}
 }

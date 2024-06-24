@@ -9,7 +9,11 @@ import {uuidv4} from "@core/utils/uuid";
 })
 export class MsoMdocPresentationService {
 
-  fieldConstraint(document: MsoMdoc, attribute: string, intentToRetain: boolean): FieldConstraint {
+  fieldConstraint(document: MsoMdoc, attribute: string, intentToRetainOptional?: boolean): FieldConstraint {
+    var intentToRetain = false
+    if (typeof intentToRetainOptional !== 'undefined' && intentToRetainOptional) {
+      intentToRetain = true
+    }
     return {
       path: ['$[\''+document.namespace+'\'][\''+attribute+'\']'],
       intent_to_retain: intentToRetain
@@ -20,13 +24,13 @@ export class MsoMdocPresentationService {
     var fieldConstraints: FieldConstraint[] = []
     document.attributes.forEach((attribute: Attribute) => {
       if (typeof includeAttributes == 'undefined' || includeAttributes.includes(attribute.value)) {
-        fieldConstraints.push(this.fieldConstraint(document, attribute.value, false));
+        fieldConstraints.push(this.fieldConstraint(document, attribute.value));
       }
     })
     return fieldConstraints;
   }
 
-  presentationOf(document: MsoMdoc, includeAttributes?: string[]): Presentation {
+  presentationOf(document: MsoMdoc, presentationPurpose: string, includeAttributes?: string[]): Presentation {
     return {
       type: 'vp_token',
       presentation_definition: {
@@ -34,7 +38,7 @@ export class MsoMdocPresentationService {
         input_descriptors: [{
           id: document.doctype,
           name: document.name,
-          purpose: document.presentationPurpose,
+          purpose: presentationPurpose,
           format: {
             'mso_mdoc': {
               'alg': [

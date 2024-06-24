@@ -26,22 +26,10 @@ describe('OnlineAuthenticationSIOPService', () => {
   it('should be created', () => {
     expect(service).toBeTruthy();
   });
-  it('#init transaction for the siop should return expected an object of PresentationDefinitionResponse (called once)', (done: DoneFn) => {
-    HttpServiceSpy.post.and.returnValue(asyncData(mocResponseData));
-
-    service.initTransaction().subscribe(
-        res => {
-            expect(res).toEqual(mocResponseData);
-            done();
-        },
-        done.fail
-    );
-    expect(HttpServiceSpy.post.calls.count()).toBe(1, 'one call');
-  });
   it('#init transaction for the CBOR should return expected an object of PresentationDefinitionResponse (called once)', (done: DoneFn) => {
     HttpServiceSpy.post.and.returnValue(asyncData(mocResponseData));
 
-    service.initCborTransaction().subscribe(
+    service.initPIDPresentationTransaction(presentationPurpose).subscribe(
         res => {
             expect(res).toEqual(mocResponseData);
             done();

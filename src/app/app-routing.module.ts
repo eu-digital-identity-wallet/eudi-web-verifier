@@ -21,7 +21,7 @@ const routes: Routes = [
 	{ path: 'cbor-selectable',
 		loadChildren: () => import('./features/siop-custom/cbor-selectable.module').
 			then(m => m.SiopCustomModule )},
-	{ path: 'age-over-18',
+	{ path: 'pid-age-over-18',
 		loadChildren: () => import('./features/cbor/cbor.module').
 			then(m => m.CborModule )
 	},

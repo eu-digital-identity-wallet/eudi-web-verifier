@@ -3,7 +3,6 @@ export type MsoMdoc = {
   doctype: string,
   namespace: string,
   attributes: Attribute[]
-  presentationPurpose: string;
 }
 
 export type Attribute = {

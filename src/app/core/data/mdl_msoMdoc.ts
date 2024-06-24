@@ -7,7 +7,6 @@ export const MDL_MSO_MDOC: MsoMdoc = {
   name: 'Mobile Driving Licence',
   doctype: 'org.iso.18013.5.1.mDL',
   namespace: 'org.iso.18013.5.1',
-  presentationPurpose: 'We need to verify your mobile driving licence',
   attributes: [
     { value: 'family_name', text: 'Family name' },
     { value: 'given_name', text: 'Given name'},

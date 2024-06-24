@@ -63,7 +63,8 @@ export class CreateAScenarioComponent implements OnInit {
 
   initPresentationModel() {
     this.attestationModel = this.attestationSelectableModelService.getModel();
-    this.draftPresentation = this.msoMdocPresentationService.presentationOf(this.attestationModel, [])
+    var presentationPurpose = this.attestationSelectableModelService.getPresentationPurpose();
+    this.draftPresentation = this.msoMdocPresentationService.presentationOf(this.attestationModel, presentationPurpose, [])
   }
 
 	generateCode () {
@@ -126,7 +127,7 @@ export class CreateAScenarioComponent implements OnInit {
       return {
         id: index,
         label: attr.text,
-        value: this.msoMdocPresentationService.fieldConstraint(this.attestationModel, attr.value, true)
+        value: this.msoMdocPresentationService.fieldConstraint(this.attestationModel, attr.value)
       }
     })
   }
