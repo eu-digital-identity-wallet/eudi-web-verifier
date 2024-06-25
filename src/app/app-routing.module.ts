@@ -19,8 +19,8 @@ const routes: Routes = [
 		loadChildren: () => import('./features/cbor/cbor.module').
 			then(m => m.CborModule )},
 	{ path: 'cbor-selectable',
-		loadChildren: () => import('./features/siop-custom/cbor-selectable.module').
-			then(m => m.SiopCustomModule )},
+		loadChildren: () => import('@features/selectable-presentation/selectable-presentation.module').
+			then(m => m.SelectablePresentationModule )},
 	{ path: 'pid-age-over-18',
 		loadChildren: () => import('./features/cbor/cbor.module').
 			then(m => m.CborModule )
@@ -30,8 +30,8 @@ const routes: Routes = [
 			then(m => m.CborModule )
 	},
 	{ path: 'mdl-selectable',
-    loadChildren: () => import('./features/siop-custom/cbor-selectable.module').
-    then(m => m.SiopCustomModule ),
+    loadChildren: () => import('@features/selectable-presentation/selectable-presentation.module').
+    then(m => m.SelectablePresentationModule ),
 	},
 	{ path: 'mdl-full',
 		loadChildren: () => import('./features/cbor/cbor.module').

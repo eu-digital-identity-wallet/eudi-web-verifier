@@ -1,5 +1,3 @@
-import { Presentation } from '@app/features/siop-custom/models/Presentation';
-import {uuidv4} from "@core/utils/uuid";
 import {MsoMdoc} from "@core/models/msoMdoc";
 
 /* eslint-disable quotes */

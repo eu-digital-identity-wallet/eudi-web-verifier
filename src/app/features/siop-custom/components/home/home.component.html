@@ -1,9 +1,0 @@
-<vc-wallet-layout>
-  <div body class="container-responsive">
-    <h5 body-title >Proceed to authentication</h5>
-    <div [ngClass]="{'bg-panel': !isCreatePage}">
-        <router-outlet></router-outlet>
-    </div>
-    <vc-body-actions [actions]="actions" (clicked)="runActions($event)"></vc-body-actions>
-  </div>
-</vc-wallet-layout>

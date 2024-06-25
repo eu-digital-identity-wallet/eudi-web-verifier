@@ -1,7 +1,7 @@
 import {Injectable} from "@angular/core";
 import {Attribute, MsoMdoc} from "@core/models/msoMdoc";
-import {Presentation} from "@features/siop-custom/models/Presentation";
-import {FieldConstraint} from "@features/siop-custom/models/FieldConstraint";
+import {Presentation} from "@features/selectable-presentation/models/Presentation";
+import {FieldConstraint} from "@features/selectable-presentation/models/FieldConstraint";
 import {uuidv4} from "@core/utils/uuid";
 
 @Injectable({

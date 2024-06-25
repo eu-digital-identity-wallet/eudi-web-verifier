@@ -1,0 +1,23 @@
+<div class="bg-panel mb">
+  <div class="creation">
+    <div class="creation-header">
+      <h3>Select the information requested from the user</h3>
+      <span>{{selectedFields.length}} selected</span>
+    </div>
+      <ng-container  *ngFor="let field of formFields; index as idx; trackBy: trackByFn" >
+        <div class="controls">
+          <mat-checkbox (click)="handle(field)" color="primary">
+            {{field.label}}
+          </mat-checkbox>
+        </div>
+      </ng-container>
+  </div>
+</div>
+<mat-expansion-panel class="presentation-definition bg-panel">
+  <mat-expansion-panel-header>
+    <mat-panel-title>
+      Presentation definition
+    </mat-panel-title>
+  </mat-expansion-panel-header>
+  <vc-editor [code]="presentationDefinitionText"></vc-editor>
+</mat-expansion-panel>

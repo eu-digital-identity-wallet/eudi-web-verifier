@@ -1,5 +1,5 @@
 import {Injectable} from "@angular/core";
-import {Presentation} from "@features/siop-custom/models/Presentation";
+import {Presentation} from "@features/selectable-presentation/models/Presentation";
 import {PID_MSO_MDOC} from '@core/data/pid_msoMdoc';
 import {MDL_MSO_MDOC} from '@core/data/mdl_msoMdoc';
 import {MsoMdoc} from "@core/models/msoMdoc";

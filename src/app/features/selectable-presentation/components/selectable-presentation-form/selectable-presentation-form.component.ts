@@ -5,7 +5,7 @@ import { PresentationDefinitionService } from '@app/core/services/presentation-d
 import { FieldConstraint } from '../../models/FieldConstraint';
 import { DataService } from '@app/core/services/data.service';
 import { NavigateService } from '@app/core/services/navigate.service';
-import { FormSelectableField } from '@features/siop-custom/models/FormSelectableField';
+import { FormSelectableField } from '@features/selectable-presentation/models/FormSelectableField';
 import { HelperCborSelectableService } from '../../services/helper-cbor-selectable.service';
 import { LocalStorageService } from '@app/core/services/local-storage.service';
 import * as constants from '@core/constants/constants';
@@ -18,11 +18,11 @@ import { MsoMdoc } from "@core/models/msoMdoc";
 
 @Component({
 	selector: 'vc-create-a-scenario',
-	templateUrl: './create-a-scenario.component.html',
-	styleUrls: ['./create-a-scenario.component.scss'],
+	templateUrl: './selectable-presentation-form.component.html',
+	styleUrls: ['./selectable-presentation-form.component.scss'],
 	providers: [PresentationDefinitionService]
 })
-export class CreateAScenarioComponent implements OnInit {
+export class SelectablePresentationFormComponent implements OnInit {
 
 	formFields!: FormSelectableField[];
 	requestGenerate = false;

@@ -5,8 +5,8 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 
 
-import { SiopCustomRoutingModule } from './cbor-selectable-routing.module';
-import { CreateAScenarioComponent } from './components/create-a-scenario/create-a-scenario.component';
+import { SiopCustomRoutingModule } from './selectable-presentation-routing.module';
+import { SelectablePresentationFormComponent } from '@features/selectable-presentation/components/selectable-presentation-form/selectable-presentation-form.component';
 import { HomeComponent } from './components/home/home.component';
 import { SharedModule } from '@app/shared/shared.module';
 import { WalletLayoutComponent } from '@app/core/layout/wallet-layout/wallet-layout.component';
@@ -15,7 +15,7 @@ import { HelperCborSelectableService } from './services/helper-cbor-selectable.s
 
 @NgModule({
 	declarations: [
-		CreateAScenarioComponent,
+		SelectablePresentationFormComponent,
 		HomeComponent
 	],
 	imports: [
@@ -32,4 +32,4 @@ import { HelperCborSelectableService } from './services/helper-cbor-selectable.s
 		HelperCborSelectableService
 	]
 })
-export class SiopCustomModule { }
+export class SelectablePresentationModule { }
