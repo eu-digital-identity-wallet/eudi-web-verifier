@@ -67,7 +67,7 @@ export class HomeComponent implements OnInit, OnDestroy {
 				.subscribe((data) => {
 					this.hideNextStep();
 					this.dataService.setQRCode(data as PresentationDefinitionResponse);
-					this.navigateService.navigateTo('/presentation/verifiable');
+					this.navigateService.navigateTo('/custom-request/verifiable');
 					this.changeDetectorRef.detectChanges();
 				});
 		} else {
