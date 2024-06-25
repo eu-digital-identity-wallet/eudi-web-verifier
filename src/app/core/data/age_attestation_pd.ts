@@ -1,4 +1,4 @@
-import { Presentation } from '@app/features/siop-custom/models/Presentation';
+import { Presentation } from '@features/selectable-presentation/models/Presentation';
 
 /* eslint-disable quotes */
 export const AGE_ATTESTATION_OVER_18_PD: Presentation = {

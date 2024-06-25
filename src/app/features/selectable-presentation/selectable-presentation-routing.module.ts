@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { HomeComponent } from './components/home/home.component';
-import { CreateAScenarioComponent } from './components/create-a-scenario/create-a-scenario.component';
+import { SelectablePresentationFormComponent } from '@features/selectable-presentation/components/selectable-presentation-form/selectable-presentation-form.component';
 const routes: Routes = [
 	{
 		path: '',
@@ -13,7 +13,11 @@ const routes: Routes = [
 			},
 			{
 				path: 'create',
-				component: CreateAScenarioComponent
+				component: SelectablePresentationFormComponent
+			},
+			{
+				path: 'pid-create',
+				component: SelectablePresentationFormComponent
 			},
 			{
 				path: 'verifiable',
