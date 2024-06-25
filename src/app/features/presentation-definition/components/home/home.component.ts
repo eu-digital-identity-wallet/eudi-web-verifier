@@ -44,7 +44,7 @@ export class HomeComponent implements OnInit, OnDestroy {
 				filter((event): event is NavigationEnd => event instanceof NavigationEnd)
 			)
 			.subscribe((event) => {
-				if (event.url.includes('presentation/create')) {
+				if (event.url.includes('custom-request/create')) {
 					this.actions = PRESENTATION_ACTIONS;
 					this.requestCode = '';
 					this.disableNextButton(this.requestCode);
