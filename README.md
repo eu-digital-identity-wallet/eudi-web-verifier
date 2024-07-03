@@ -11,13 +11,15 @@ the [EUDI Wallet Reference Implementation project description](https://github.co
 * [Development server](#development-server)
 * [Code scaffolding](#code-scaffolding)
 * [Build](#build)
-* [How to run](#how-to-run)
+* [How to run for development](#how-to-run-for-development)
 * [Running tests](#running-tests)
 * [License](#license)
 
 ## Overview
 
 This is a WEB UI that provides functionality to interact with the Verifier/RP trusted end-point implemented [here](https://github.com/eu-digital-identity-wallet/eudi-srv-web-verifier-endpoint-23220-4-kt).
+Another way to think of this application is that it represents an arbitrary application that wants to delegate to the trusted end-point the burden of
+interacting with a wallet using OpenId4VP
 The project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 15.2.5.
 
 ## Development server
@@ -32,7 +34,7 @@ Run `ng generate component component-name` to generate a new component. You can 
 
 Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
 
-## How to run
+## How to run for development
 
 You need npm (node version 18.15.0) and [Angular CLI](https://github.com/angular/angular-cli) installed on your machine.
 
