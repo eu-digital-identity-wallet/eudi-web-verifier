@@ -63,7 +63,7 @@ export class SelectablePresentationFormComponent implements OnInit {
 
   initPresentationModel() {
     this.attestationModel = this.attestationSelectableModelService.getModel();
-    var presentationPurpose = this.attestationSelectableModelService.getPresentationPurpose();
+    const presentationPurpose = this.attestationSelectableModelService.getPresentationPurpose();
     this.draftPresentation = this.msoMdocPresentationService.presentationOf(this.attestationModel, presentationPurpose, [])
   }
 
