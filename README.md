@@ -42,7 +42,7 @@ In order to run Verifier UI run the following commands:
 
 ```
 npm install
-ng start
+ng serve --proxy-config src/proxy.conf.json
 ```
 The above command utilizes [proxy.conf.json](src/proxy.conf.json) that proxies the calls to the expected verifier backend service. 
 Update this file if you want your Verifier UI to point to a locally running verifier backend service.    
