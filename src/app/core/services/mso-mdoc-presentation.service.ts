@@ -10,7 +10,7 @@ import {uuidv4} from "@core/utils/uuid";
 export class MsoMdocPresentationService {
 
   fieldConstraint(document: MsoMdoc, attribute: string, intentToRetainOptional?: boolean): FieldConstraint {
-    var intentToRetain = false
+    let intentToRetain = false;
     if (typeof intentToRetainOptional !== 'undefined' && intentToRetainOptional) {
       intentToRetain = true
     }
@@ -21,7 +21,7 @@ export class MsoMdocPresentationService {
   }
 
   fieldConstraints(document: MsoMdoc, includeAttributes?: string[]): FieldConstraint[] {
-    var fieldConstraints: FieldConstraint[] = []
+    const fieldConstraints: FieldConstraint[] = [];
     document.attributes.forEach((attribute: Attribute) => {
       if (typeof includeAttributes == 'undefined' || includeAttributes.includes(attribute.value)) {
         fieldConstraints.push(this.fieldConstraint(document, attribute.value));
