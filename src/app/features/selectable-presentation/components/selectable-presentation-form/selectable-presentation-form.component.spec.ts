@@ -5,7 +5,7 @@ import { RouterModule } from '@angular/router';
 import { SharedModule } from '@app/shared/shared.module';
 import { SelectablePresentationFormComponent } from './selectable-presentation-form.component';
 import { HttpClientModule } from '@angular/common/http';
-import { HelperCborSelectableService } from '../../services/helper-cbor-selectable.service';
+import { SelectableFormNextAction } from '../../services/selectable-form-next-action.service';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MatCheckboxModule } from '@angular/material/checkbox';
@@ -28,7 +28,7 @@ describe('CBOR CreateAScenarioComponent', () => {
       ],
       declarations: [ SelectablePresentationFormComponent ],
       providers: [
-        HelperCborSelectableService
+        SelectableFormNextAction
       ]
     })
     .compileComponents();

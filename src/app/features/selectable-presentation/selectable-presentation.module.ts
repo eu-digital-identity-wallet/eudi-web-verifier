@@ -10,7 +10,7 @@ import { SelectablePresentationFormComponent } from '@features/selectable-presen
 import { HomeComponent } from './components/home/home.component';
 import { SharedModule } from '@app/shared/shared.module';
 import { WalletLayoutComponent } from '@app/core/layout/wallet-layout/wallet-layout.component';
-import { HelperCborSelectableService } from './services/helper-cbor-selectable.service';
+import { SelectableFormNextAction } from './services/selectable-form-next-action.service';
 
 
 @NgModule({
@@ -29,7 +29,7 @@ import { HelperCborSelectableService } from './services/helper-cbor-selectable.s
 		MatCheckboxModule,
 	],
 	providers: [
-		HelperCborSelectableService
+		SelectableFormNextAction
 	]
 })
 export class SelectablePresentationModule { }

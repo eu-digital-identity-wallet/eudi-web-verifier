@@ -1,15 +1,15 @@
 import { TestBed } from '@angular/core/testing';
 
-import { HelperCborSelectableService } from './helper-cbor-selectable.service';
+import { SelectableFormNextAction } from './selectable-form-next-action.service';
 
 describe('HelperCborSelectableService', () => {
-  let service: HelperCborSelectableService;
+  let service: SelectableFormNextAction;
 
   beforeEach(() => {
     TestBed.configureTestingModule({
-      providers: [HelperCborSelectableService]
+      providers: [SelectableFormNextAction]
     });
-    service = TestBed.inject(HelperCborSelectableService);
+    service = TestBed.inject(SelectableFormNextAction);
   });
 
   it('should be created', () => {

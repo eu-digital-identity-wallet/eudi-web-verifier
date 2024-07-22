@@ -1,5 +1,5 @@
 import { ChangeDetectionStrategy, Component, ChangeDetectorRef, OnInit, OnDestroy } from '@angular/core';
-import { Observable, Subject } from 'rxjs';
+import { Subject } from 'rxjs';
 import { takeUntil, filter } from 'rxjs/operators';
 import { PresentationDefinitionResponse } from '@core/models/presentation-definition-response';
 import { DataService } from '@app/core/services/data.service';
@@ -21,7 +21,6 @@ export class HomeComponent implements OnInit, OnDestroy {
 	destroy$ = new Subject();
 	actions: BodyAction[] = PRESENTATION_ACTIONS;
 	requestCode = '';
-	presentationDefinition$!: Observable<PresentationDefinitionResponse>;
 	constructor (
     private readonly changeDetectorRef: ChangeDetectorRef,
     private readonly router: Router,
