@@ -1,11 +1,11 @@
 import {Component, inject} from '@angular/core';
 import { NavigateService } from '@app/core/services/navigate.service';
-import {MatButtonModule} from "@angular/material/button";
-import {MatIconModule} from "@angular/material/icon";
-import {MatMenuModule} from "@angular/material/menu";
-import {MatToolbarModule} from '@angular/material/toolbar';
-import {OpenLogsComponent} from "@shared/elements/open-logs/open-logs.component";
-import {MatDialog} from "@angular/material/dialog";
+import { MatButtonModule } from "@angular/material/button";
+import { MatIconModule } from "@angular/material/icon";
+import { MatMenuModule } from "@angular/material/menu";
+import { MatToolbarModule } from '@angular/material/toolbar';
+import { OpenLogsComponent } from "@shared/elements/open-logs/open-logs.component";
+import { MatDialog, MatDialogModule } from "@angular/material/dialog";
 
 @Component({
     selector: 'vc-wallet-layout-header',
@@ -15,7 +15,8 @@ import {MatDialog} from "@angular/material/dialog";
         MatButtonModule,
         MatIconModule,
         MatMenuModule,
-        MatToolbarModule
+        MatToolbarModule,
+        MatDialogModule
     ],
     styleUrls: ['./wallet-layout-header.component.scss']
 })
