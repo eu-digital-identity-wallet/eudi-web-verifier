@@ -17,6 +17,14 @@
         padding: temp.$spaceBasic;
         position: relative;
     }
+
+    button {
+        cursor: pointer;
+        left: 45%;
+        position: relative;
+        overflow-clip-margin: content-box;
+    }
+
     @media (max-width: map-get(points.$breakpoints, xs)) and  (min-width: map-get(points.$breakpoints, sm)){
         img {
             left: 3%;

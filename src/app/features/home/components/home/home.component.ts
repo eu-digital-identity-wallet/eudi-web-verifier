@@ -17,7 +17,6 @@ import {MatTabsModule} from '@angular/material/tabs';
 import {AttestationSelectableModelService} from '@app/core/services/attestation-selectable-model.service';
 import { OpenLogsComponent } from '@app/shared/elements/open-logs/open-logs.component';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
-import { MatCardModule } from '@angular/material/card';
 @Component({
 	standalone: true,
 	imports: [
@@ -28,8 +27,7 @@ import { MatCardModule } from '@angular/material/card';
 		InputSchemeComponent,
 		WalletLayoutComponent,
 		OpenLogsComponent,
-		MatDialogModule,
-		MatCardModule
+		MatDialogModule
 	],
 	templateUrl: './home.component.html',
 	styleUrls: ['./home.component.scss'],
@@ -139,14 +137,4 @@ export class HomeComponent implements OnInit {
 			return item;
 		});
 	}
-	inspectLogs () {
-  	this.dialog.open(OpenLogsComponent, {
-  		data: {
-  			transactionId: '',
-  			label: 'Inspect transaction logs',
-				isInspectLogs: true
-  		},
-  	});
-	}
-
 }

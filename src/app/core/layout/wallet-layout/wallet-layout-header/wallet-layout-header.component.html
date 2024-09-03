@@ -1,1 +1,13 @@
-<img src="assets/ic-logo.svg" (click)="goHome()" alt="wallet-logo"/>
+
+  <img src="assets/ic-logo.svg" (click)="goHome()" alt="wallet-logo"/>
+
+
+  <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="menu">
+    <mat-icon>menu</mat-icon>
+  </button>
+
+  <mat-menu #menu="matMenu">
+    <button mat-menu-item>
+      <a id="inspectLogs" (click)="inspectLogs()">Inspect transaction logs</a>
+    </button>
+  </mat-menu>
