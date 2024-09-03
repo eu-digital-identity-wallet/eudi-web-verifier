@@ -1,13 +1,14 @@
 import { Injectable } from '@angular/core';
 import { HttpService } from '@app/core/network/http/http.service';
 import { Observable } from 'rxjs';
-import { tap } from 'rxjs/operators';
+import { tap, map } from 'rxjs/operators';
 import { isJSON } from '../utils/ValidationJSON';
 import { PresentationDefinitionResponse } from '../models/presentation-definition-response';
 import { PresentationsResponse } from '../models/presentations-response';
 import { LocalStorageService } from './local-storage.service';
 import * as constants from '@core/constants/constants';
 import { DeviceDetectorService } from './device-detector.service';
+import { EventLog } from '../models/event-log';
 
 @Injectable()
 export class PresentationDefinitionService {
@@ -43,5 +44,30 @@ export class PresentationDefinitionService {
 				subscriber.error({error: 'Invalid JSON'});
 			}
 		});
+	}
+	getsTransactionEventsLogs (transactionId: string): Observable<EventLog[]> {
+		return this.httpService.get(`ui/presentations/${transactionId}/events`)
+			.pipe(
+				map((data: any) => {
+					const events = data.events.map((event: EventLog) => {
+						this.getTransactionData(event).forEach((key: string) => {
+							const value = event[key as keyof EventLog] ?? {};
+							event.data = {
+								key: key,
+								value,
+							};
+						});
+						return event;
+					});
+					return events;
+				})
+			);
+	}
+	private getTransactionData (event: EventLog): string[] {
+		const objKeys = Object.keys(event);
+		objKeys.splice(objKeys.indexOf('timestamp'), 1);
+		objKeys.splice(objKeys.indexOf('event'), 1);
+		objKeys.splice(objKeys.indexOf('actor'), 1);
+		return objKeys;
 	}
 }

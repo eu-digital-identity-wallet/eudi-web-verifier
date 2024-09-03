@@ -16,6 +16,8 @@ import { PresentationsResultsComponent } from '../presentations-results/presenta
 import { DeviceDetectorService } from '@app/core/services/device-detector.service';
 import { LocalStorageService } from '@app/core/services/local-storage.service';
 import * as constants from '@core/constants/constants';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { OpenLogsComponent } from '@app/shared/elements/open-logs/open-logs.component';
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 declare let QRCode: any;
@@ -23,7 +25,7 @@ declare let QRCode: any;
 @Component({
 	selector: 'vc-qr-code',
 	standalone: true,
-	imports: [CommonModule, SharedModule, PresentationsResultsComponent],
+	imports: [CommonModule, SharedModule, PresentationsResultsComponent, OpenLogsComponent, MatDialogModule],
 	templateUrl: './qr-code.component.html',
 	styleUrls: ['./qr-code.component.scss'],
 	providers: [PresentationDefinitionService, CborDecodeService, JWTService],
@@ -49,6 +51,7 @@ export class QrCodeComponent implements OnInit, OnDestroy {
   private readonly deviceDetectorService!: DeviceDetectorService;
   private readonly jWTService!: JWTService;
   private readonly localStorageService!: LocalStorageService;
+  readonly dialog!: MatDialog;
   constructor (
     private readonly presentationDefinitionService: PresentationDefinitionService,
     private readonly dataService: DataService,
@@ -60,6 +63,7 @@ export class QrCodeComponent implements OnInit, OnDestroy {
   	this.deviceDetectorService = this.injector.get(DeviceDetectorService);
   	this.jWTService = this.injector.get(JWTService);
   	this.localStorageService = this.injector.get(LocalStorageService);
+  	this.dialog = this.injector.get(MatDialog);
   	this.isDesktop = this.deviceDetectorService.isDesktop();
   	if (this.localStorageService.get(constants.SCHEME)) {
   		this.scheme = this.localStorageService.get(constants.SCHEME)?? constants.DEFAULT_SCHEME;
@@ -141,6 +145,15 @@ export class QrCodeComponent implements OnInit, OnDestroy {
 
   goToLink (url: string) {
   	window.open(url, '_blank');
+  }
+  openLogs () {
+  	this.dialog.open(OpenLogsComponent, {
+  		data: {
+  			transactionId: this.presentationDefinition.presentation_id,
+  			label: 'Show Logs',
+  			isInspectLogs: false
+  		},
+  	});
   }
 
   ngOnDestroy (): void {

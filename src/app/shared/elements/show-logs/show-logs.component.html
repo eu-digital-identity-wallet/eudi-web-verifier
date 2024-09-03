@@ -1,0 +1,16 @@
+<mat-accordion>
+  <ng-container *ngFor="let log of logs$ | async; index as idx; trackBy: trackByFn" >
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title> <span>{{log.event}} </span></mat-panel-title>
+        <mat-panel-description>
+            <span>
+              {{log.actor}}
+           </span>
+            {{log.timestamp | date : 'YYYY-MM-dd HH:mm:SSS zzz'}}
+      </mat-panel-description>
+      </mat-expansion-panel-header>
+      <pre>{{log.data | json}}</pre>
+    </mat-expansion-panel>
+  </ng-container>
+</mat-accordion>

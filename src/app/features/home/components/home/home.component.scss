@@ -7,6 +7,14 @@
     margin-top: 5rem;
   }
   .container {
+    .show-logs {
+      display: flex;
+      margin-bottom: 1em;
+      .log-button {
+        display: flex;
+        justify-content: center;
+      }
+    }
     ::ng-deep {
       .mdc-tab {
         background: var(--background-paper) 0% 0% no-repeat padding-box;
