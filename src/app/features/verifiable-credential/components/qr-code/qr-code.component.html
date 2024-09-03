@@ -14,4 +14,7 @@
   <div *ngIf="!hasResult">
     <a class="authorize" [href]="redirectUrl">AUTHENTICATE WITH WALLET</a>
   </div>
+  <div class="show-logs">
+    <a (click)="openLogs()">View transaction logs</a>
+  </div>
 </div>

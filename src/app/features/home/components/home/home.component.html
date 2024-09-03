@@ -1,5 +1,10 @@
 <vc-wallet-layout>
   <div body class="container ">
+    <mat-card appearance="outlined" class="show-logs">
+      <mat-card-content> <div class="log-button">
+        <vc-button class="vc-button" name="Inspect transaction logs" id="inspectLogs" mode="none" color="primary" (clicked)="inspectLogs()"></vc-button>
+      </div> </mat-card-content>
+    </mat-card>
     <mat-tab-group animationDuration="0ms" (selectedIndexChange)="selectedIndexChange($event)">
       <mat-tab #pid label="PID authentication">
         <ng-container *ngIf="pid.isActive">

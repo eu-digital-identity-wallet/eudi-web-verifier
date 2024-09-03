@@ -1,4 +1,4 @@
-import { NgModule } from '@angular/core';
+import { NgModule, LOCALE_ID } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -16,7 +16,9 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 		CoreModule,
 		BrowserAnimationsModule
 	],
-	providers: [],
+	providers: [
+		{ provide: LOCALE_ID, useValue: 'en-US' }
+	],
 	bootstrap: [AppComponent]
 })
 export class AppModule { }
