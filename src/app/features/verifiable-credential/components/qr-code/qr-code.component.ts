@@ -83,7 +83,7 @@ export class QrCodeComponent implements OnInit, OnDestroy {
 
   		if (this.deviceDetectorService.isDesktop()) {
   			this.setUpQrCode(this.redirectUrl);
-  			this.pollingRequest(this.presentationDefinition.presentation_id);
+  			this.pollingRequest(this.presentationDefinition.transaction_id);
   		}
   	}
   }
@@ -95,7 +95,7 @@ export class QrCodeComponent implements OnInit, OnDestroy {
   	});
   }
 
-  pollingRequest (presentation_id: string) {
+  pollingRequest (transaction_id: string) {
   	const source = interval(2000);
   	source
   		.pipe(
@@ -103,7 +103,7 @@ export class QrCodeComponent implements OnInit, OnDestroy {
   			take(60)
   		)
   		.subscribe(() => {
-  		this.presentationDefinitionService.getWalletResponse(presentation_id).
+  		this.presentationDefinitionService.getWalletResponse(transaction_id).
   				pipe(
   					takeUntil(this.stopPlay$),
   					map((data) => data as WalletResponse),
@@ -137,7 +137,7 @@ export class QrCodeComponent implements OnInit, OnDestroy {
   		console.error('Failed to copy: ', err);
   	}
   }
-  private buildQrCode (data: {client_id: string, request_uri: string, presentation_id: string}): string {
+  private buildQrCode (data: {client_id: string, request_uri: string, transaction_id: string}): string {
   	let builtURL = `${environment.apiUrl}?client_id=${data.client_id}&request_uri=${encodeURIComponent(data.request_uri)}`;
   	builtURL = builtURL.replace('https://', this.scheme);
   	return builtURL;
@@ -149,7 +149,7 @@ export class QrCodeComponent implements OnInit, OnDestroy {
   openLogs () {
   	this.dialog.open(OpenLogsComponent, {
   		data: {
-  			transactionId: this.presentationDefinition.presentation_id,
+  			transactionId: this.presentationDefinition.transaction_id,
   			label: 'Show Logs',
   			isInspectLogs: false
   		},
