@@ -8,7 +8,7 @@ import { PresentationDefinitionResponse } from '../models/presentation-definitio
 const mocResponseData: PresentationDefinitionResponse = {
   client_id: 'client_id',
   request_uri: 'request_uri',
-  presentation_id: 'presentation_id'
+  transaction_id: 'transaction_id'
 }
 
 describe('OnlineAuthenticationSIOPService', () => {

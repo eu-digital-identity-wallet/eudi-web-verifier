@@ -27,7 +27,7 @@ export const WalletRedirectResolver: ResolveFn<{vpToken: KeyValue<string, string
     	const responseCode: string = route.queryParams['response_code'];
     	if (stData && responseCode) {
     		data = JSON.parse( stData );
-    		return services.definition.getWalletResponseWithCode(data.presentation_id, responseCode)
+    		return services.definition.getWalletResponseWithCode(data.transaction_id, responseCode)
     			.pipe(
     				switchMap((res: WalletResponse) => {
     					return forkJoin({

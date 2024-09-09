@@ -19,11 +19,11 @@ export class PresentationDefinitionService {
     private readonly deviceDetectorService: DeviceDetectorService
 	) { }
 
-	getWalletResponseWithCode (presentation_id: string, code: string) : Observable<PresentationsResponse> {
-		return this.httpService.get(`ui/presentations/${presentation_id}?response_code=${code}`);
+	getWalletResponseWithCode (transaction_id: string, code: string) : Observable<PresentationsResponse> {
+		return this.httpService.get(`ui/presentations/${transaction_id}?response_code=${code}`);
 	}
-	getWalletResponse (presentation_id: string) : Observable<PresentationsResponse> {
-		return this.httpService.get(`ui/presentations/${presentation_id}`);
+	getWalletResponse (transaction_id: string) : Observable<PresentationsResponse> {
+		return this.httpService.get(`ui/presentations/${transaction_id}`);
 	}
 
 	generateCode (requestCode: string): Observable<PresentationDefinitionResponse> {
