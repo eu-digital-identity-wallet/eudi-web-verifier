@@ -31,7 +31,7 @@ export const WalletRedirectResolver: ResolveFn<{vpToken: KeyValue<string, string
     			.pipe(
     				switchMap((res: WalletResponse) => {
     					return forkJoin({
-    						vpToken: res.vp_token ? services.cborDecode.decode(res.vp_token) : of([]),
+    						vpToken: res.vp_token ? services.cborDecode.decode(res.vp_token[0]) : of([]),
     						idToken: res.id_token ? services.jWT.decode(res.id_token) : of([]),
     					}).pipe(
     						take(1)
