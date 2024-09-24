@@ -1,8 +1,9 @@
 import {Injectable} from "@angular/core";
 import {Attribute, MsoMdoc} from "@core/models/msoMdoc";
-import {Presentation} from "@features/selectable-presentation/models/Presentation";
-import {FieldConstraint} from "@features/selectable-presentation/models/FieldConstraint";
+
 import {uuidv4} from "@core/utils/uuid";
+import {TransactionInitializationRequest} from "@core/models/TransactionInitializationRequest";
+import {FieldConstraint} from "@core/models/presentation/FieldConstraint";
 
 @Injectable({
   providedIn: 'root'
@@ -30,7 +31,7 @@ export class MsoMdocPresentationService {
     return fieldConstraints;
   }
 
-  presentationOf(document: MsoMdoc, presentationPurpose: string, includeAttributes?: string[]): Presentation {
+  presentationOf(document: MsoMdoc, presentationPurpose: string, includeAttributes?: string[]): TransactionInitializationRequest {
     return {
       type: 'vp_token',
       presentation_definition: {

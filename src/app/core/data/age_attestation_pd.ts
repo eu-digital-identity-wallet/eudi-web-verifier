@@ -1,7 +1,9 @@
-import { Presentation } from '@features/selectable-presentation/models/Presentation';
+
 
 /* eslint-disable quotes */
-export const AGE_ATTESTATION_OVER_18_PD: Presentation = {
+import {TransactionInitializationRequest} from "@core/models/TransactionInitializationRequest";
+
+export const AGE_ATTESTATION_OVER_18_PD: TransactionInitializationRequest = {
 	'type': 'vp_token',
 	'presentation_definition': {
 		'id': '32f54163-7166-48f1-93d8-ff217bdb0653',

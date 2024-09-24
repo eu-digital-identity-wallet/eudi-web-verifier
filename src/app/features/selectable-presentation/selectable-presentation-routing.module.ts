@@ -9,7 +9,7 @@ const routes: Routes = [
 		children: [
 			{
 				path: 'view',
-				loadComponent: () => import('../verifiable-credential/components/qr-code/qr-code.component').then(c => c.QrCodeComponent)
+        loadChildren: () => import('@features/invoke-wallet/invoke-wallet.module').then(m => m.InvokeWalletModule)
 			},
 			{
 				path: 'create',
@@ -21,8 +21,7 @@ const routes: Routes = [
 			},
 			{
 				path: 'verifiable',
-				loadComponent:
-        () => import('../verifiable-credential/components/qr-code/qr-code.component').then(c => c.QrCodeComponent)
+        loadChildren: () => import('@features/invoke-wallet/invoke-wallet.module').then(m => m.InvokeWalletModule)
 			},
 		]
 	}

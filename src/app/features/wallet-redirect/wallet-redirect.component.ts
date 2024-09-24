@@ -2,8 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute } from '@angular/router';
 import { WalletLayoutComponent } from '@app/core/layout/wallet-layout/wallet-layout.component';
-import { TransformedResponse } from '../verifiable-credential/models/TransformedResponse';
-import { PresentationsResultsComponent } from '../verifiable-credential/components/presentations-results/presentations-results.component';
+import { PresentationsResultsComponent } from '@features/invoke-wallet/components/presentations-results/presentations-results.component';
+import {ConcludedTransaction} from "@core/models/ConcludedTransaction";
 
 @Component({
 	selector: 'vc-wallet-redirect',
@@ -13,7 +13,7 @@ import { PresentationsResultsComponent } from '../verifiable-credential/componen
 	styleUrls: ['./wallet-redirect.component.scss']
 })
 export class WalletRedirectComponent implements OnInit {
-	data!: TransformedResponse;
+	data!: ConcludedTransaction;
 	constructor (
     private readonly activeRoute: ActivatedRoute
 	) {}

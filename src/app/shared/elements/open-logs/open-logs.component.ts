@@ -3,7 +3,7 @@ import { CommonModule } from '@angular/common';
 import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
 import { MatDialogModule, MAT_DIALOG_DATA } from '@angular/material/dialog';
-import { PresentationDefinitionService } from '@app/core/services/presentation-definition.service';
+
 import { ShowLogsComponent } from '../show-logs/show-logs.component';
 import { LogData } from './interfaces/LogData';
 import { FormControl, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
@@ -11,6 +11,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { SharedModule } from '@app/shared/shared.module';
 import { ErrorStateMatcher } from '@angular/material/core';
 import { MatExpansionModule } from '@angular/material/expansion';
+import {VerifierEndpointService} from "@core/services/verifier-endpoint.service";
 
 @Component({
 	selector: 'vc-open-logs',
@@ -29,7 +30,7 @@ import { MatExpansionModule } from '@angular/material/expansion';
 	],
 	templateUrl: './open-logs.component.html',
 	styleUrls: ['./open-logs.component.scss'],
-	providers: [PresentationDefinitionService]
+	providers: [VerifierEndpointService]
 })
 export class OpenLogsComponent implements OnInit {
 	readonly data = inject<LogData>(MAT_DIALOG_DATA);

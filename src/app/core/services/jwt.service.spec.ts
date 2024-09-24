@@ -21,7 +21,7 @@ describe('JWTService', () => {
   });
   it('should be decoded as a JWT token', (done: DoneFn) => {
     let result: KeyValue<string, string>[] = [];
-    service.decode(token).subscribe((decodedData) =>{
+    service.decodeToObservable(token).subscribe((decodedData) =>{
       result = decodedData;
       done();
     });

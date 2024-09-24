@@ -1,12 +1,12 @@
 {
   "/ui": {
-      "target": "http://localhost:8080",
+      "target": "https://dev.verifier-backend.eudiw.dev",
       "secure": false,
       "logLevel": "debug",
       "changeOrigin": true
   },
   "/wallet": {
-    "target": "http://localhost:8080",
+    "target": "https://dev.verifier-backend.eudiw.dev",
     "secure": false,
     "logLevel": "debug",
     "changeOrigin": true

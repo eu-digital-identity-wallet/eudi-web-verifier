@@ -1,0 +1,28 @@
+<div>
+  <div>
+    <mat-expansion-panel>
+      <mat-expansion-panel-header>
+        <mat-panel-title>You requested for...</mat-panel-title>
+      </mat-expansion-panel-header>
+      <vc-editor [editable]="false" [code]="presentationRequest"></vc-editor>
+    </mat-expansion-panel>
+
+    <div class="bg-panel">
+      ...and wallet responded with <strong>{{ attestations.length }}</strong> document(s) ...
+    </div>
+
+    <ng-container *ngFor="let attestation of attestations;">
+      <mat-card appearance="outlined">
+        <mat-card-header>
+          <mat-card-title>{{ attestation.name }}</mat-card-title>
+          <mat-card-subtitle> in <i> {{ attestation.format }} </i> format</mat-card-subtitle>
+        </mat-card-header>
+        <mat-card-actions align="end">
+          <button mat-button (click)="viewContents(attestation)">View Content</button>
+        </mat-card-actions>
+      </mat-card>
+      <br>
+    </ng-container>
+
+  </div>
+</div>
