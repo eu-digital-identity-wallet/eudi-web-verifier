@@ -8,7 +8,7 @@ export type InputDescriptors = {
   constraints: Constraint
 }
 
-type Format = {
+export type Format = {
   jwt_vc_json?: {
     proof_type: string[]
   },

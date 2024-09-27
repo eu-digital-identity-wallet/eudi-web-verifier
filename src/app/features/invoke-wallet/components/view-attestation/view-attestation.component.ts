@@ -2,7 +2,7 @@ import {ChangeDetectionStrategy, Component, inject, Input, OnInit} from "@angula
 import {CommonModule} from "@angular/common";
 import {SharedModule} from "@shared/shared.module";
 import {JWTService} from "@core/services/jwt.service";
-import {SharedAttestation, Single} from "@core/models/presentation/shared-attestation";
+import {SharedAttestation, Single} from "@core/models/presentation/SharedAttestation";
 import {MatExpansionModule} from "@angular/material/expansion";
 import {MatListModule} from "@angular/material/list";
 import {LogData} from "@shared/elements/open-logs/interfaces/LogData";

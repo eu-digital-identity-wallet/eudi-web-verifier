@@ -4,7 +4,7 @@ import {AttestationFormat} from "@core/models/AttestationFormat";
 import {decode} from "cbor-x";
 import {Buffer} from 'buffer';
 
-import {SharedAttestation, Single} from "@core/models/presentation/shared-attestation";
+import {SharedAttestation, Single} from "@core/models/presentation/SharedAttestation";
 import {KeyValue} from "@angular/common";
 
 @Injectable({
@@ -18,11 +18,7 @@ export class MsoMdocAttestationDecoder implements AttestationDecoder {
 
   decode(attestation: string): SharedAttestation {
     const buffer = this.decodeBase64OrHex(attestation);
-    console.log("decoding...")
     const decodedData = this.decodeCborData(buffer);
-    console.log("...decoded")
-    console.log(decodedData)
-
     if (decodedData.documents.length === 1) {
       return this.extractAttestationSingle(decodedData.documents[0])
     } else {

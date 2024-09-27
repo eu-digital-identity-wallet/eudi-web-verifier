@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { NavigationEnd, Router } from '@angular/router';
 import { filter } from 'rxjs/operators';
-import { CBOR_ACTIONS } from '@app/core/utils/pages-actions';
+import { CBOR_ACTIONS } from '@core/constants/pages-actions';
 import { ActionCode } from '@app/shared/elements/body-actions/models/ActionCode';
 import { BodyAction } from '@app/shared/elements/body-actions/models/BodyAction';
 import { SelectableFormNextAction } from '../../services/selectable-form-next-action.service';

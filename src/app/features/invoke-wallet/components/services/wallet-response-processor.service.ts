@@ -1,5 +1,5 @@
 import {Injectable} from "@angular/core";
-import {SharedAttestation} from "@core/models/presentation/shared-attestation";
+import {SharedAttestation} from "@core/models/presentation/SharedAttestation";
 import {AttestationFormat} from "@core/models/AttestationFormat";
 import {JSONPath} from "jsonpath-plus";
 import {ConcludedTransaction} from "@core/models/ConcludedTransaction";

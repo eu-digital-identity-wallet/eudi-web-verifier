@@ -9,7 +9,7 @@ import {HomeService} from '../../services/home.service';
 import {MenuOption} from '../../models/menu-option';
 import {WalletLayoutComponent} from '@app/core/layout/wallet-layout/wallet-layout.component';
 import {BodyAction} from '@app/shared/elements/body-actions/models/BodyAction';
-import {HOME_ACTIONS} from '@app/core/utils/pages-actions';
+import {HOME_ACTIONS} from '@core/constants/pages-actions';
 import {LocalStorageService} from '@app/core/services/local-storage.service';
 import * as constants from '@core/constants/constants';
 import {InputSchemeComponent} from '../input-scheme/input-scheme.component';
@@ -17,11 +17,10 @@ import {MatTabsModule} from '@angular/material/tabs';
 import {AttestationSelectableModelService} from '@app/core/services/attestation-selectable-model.service';
 import {OpenLogsComponent} from '@app/shared/elements/open-logs/open-logs.component';
 import {MatDialog, MatDialogModule} from '@angular/material/dialog';
-import {PID_MSO_MDOC} from "@core/data/pid_msoMdoc";
 import {MsoMdocPresentationService} from "@core/services/mso-mdoc-presentation.service";
-import {MDL_MSO_MDOC} from "@core/data/mdl_msoMdoc";
+import {MDL_MSO_MDOC, PID_MSO_MDOC} from "@core/data/MsoMdocDocuments";
 import {AGE_ATTESTATION_OVER_18_PD} from "@core/data/age_attestation_pd";
-import {uuidv4} from "@core/utils/uuid";
+import {v4 as uuidv4} from 'uuid';
 
 @Component({
   standalone: true,

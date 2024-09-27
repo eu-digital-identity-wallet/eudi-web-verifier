@@ -1,7 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
 import { DataService } from '@app/core/services/data.service';
-import { isJSON } from '@app/core/utils/ValidationJSON';
 import { SharedModule } from '@app/shared/shared.module';
 
 @Component({
@@ -19,8 +18,16 @@ export class CustomRequestEditorComponent {
 	) {}
 
 	onRequest (code: string) {
-		this.invalidJSON = code.length === 0 || isJSON(code);
+		this.invalidJSON = code.length === 0 || this.isJSON(code);
   	this.dataService.presentationDefinitionRequest$.next(code);
 	}
+
+  isJSON (requestCode: string) {
+    try {
+      return (JSON.parse(requestCode) && !!requestCode);
+    } catch (e) {
+      return false;
+    }
+  }
 
 }

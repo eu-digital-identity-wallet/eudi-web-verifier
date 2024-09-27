@@ -1,7 +1,7 @@
 import {Injectable} from "@angular/core";
-import {PID_MSO_MDOC} from '@core/data/pid_msoMdoc';
-import {MDL_MSO_MDOC} from '@core/data/mdl_msoMdoc';
-import {MsoMdoc} from "@core/models/msoMdoc";
+import {PID_MSO_MDOC} from '@core/data/MsoMdocDocuments';
+import {MDL_MSO_MDOC} from '@core/data/MsoMdocDocuments';
+import {MsoMdoc} from "@core/models/MsoMdoc";
 
 @Injectable({
   providedIn: 'root'

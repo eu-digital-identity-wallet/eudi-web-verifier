@@ -2,7 +2,7 @@ import {CommonModule} from '@angular/common';
 import {Component, Input, OnInit} from '@angular/core';
 import {SharedModule} from '@app/shared/shared.module';
 import {MatExpansionModule} from '@angular/material/expansion';
-import {EventLog} from '@app/core/models/event-log';
+import {EventLog} from '@core/models/EventLog';
 import {Observable, of} from 'rxjs';
 import {MatFormFieldModule} from '@angular/material/form-field';
 import {MatInputModule} from '@angular/material/input';

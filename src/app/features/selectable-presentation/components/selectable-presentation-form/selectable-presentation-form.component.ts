@@ -1,6 +1,4 @@
 import {ChangeDetectorRef, Component, Injector, OnInit} from '@angular/core';
-import {catchError} from 'rxjs';
-import {PresentationDefinitionResponse} from '@core/models/presentation-definition-response';
 import {DataService} from '@app/core/services/data.service';
 import {NavigateService} from '@app/core/services/navigate.service';
 import {SelectableFormNextAction} from '../../services/selectable-form-next-action.service';
@@ -10,7 +8,7 @@ import {Modification} from '@app/shared/elements/body-actions/models/modificatio
 import {BodyActionsService} from '@app/shared/elements/body-actions/body-actions.service';
 import {AttestationSelectableModelService} from "@app/core/services/attestation-selectable-model.service";
 import {MsoMdocPresentationService} from "@app/core/services/mso-mdoc-presentation.service";
-import {MsoMdoc} from "@core/models/msoMdoc";
+import {MsoMdoc} from "@core/models/MsoMdoc";
 import {VerifierEndpointService} from "@core/services/verifier-endpoint.service";
 import {TransactionInitializationRequest} from "@core/models/TransactionInitializationRequest";
 import {FieldConstraint} from "@core/models/presentation/FieldConstraint";

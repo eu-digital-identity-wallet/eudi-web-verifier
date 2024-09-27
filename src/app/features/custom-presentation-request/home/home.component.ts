@@ -6,7 +6,7 @@ import {DataService} from '@core/services/data.service';
 import {NavigateService} from '@core/services/navigate.service';
 import {NavigationEnd, Router} from '@angular/router';
 import {BodyAction} from '@shared/elements/body-actions/models/BodyAction';
-import {PRESENTATION_ACTIONS} from '@core/utils/pages-actions';
+import {PRESENTATION_ACTIONS} from '@core/constants/pages-actions';
 import {ActionCode} from '@shared/elements/body-actions/models/ActionCode';
 import {VerifierEndpointService} from "@core/services/verifier-endpoint.service";
 import {TransactionInitializationRequest} from "@core/models/TransactionInitializationRequest";

@@ -9,7 +9,7 @@ import {TransactionInitializationRequest} from "@core/models/TransactionInitiali
 import {InitializedTransaction} from "@core/models/InitializedTransaction";
 import {DataService} from "@core/services/data.service";
 import {WalletResponse} from "@core/models/WalletResponse";
-import {EventLog} from "@core/models/event-log";
+import {EventLog} from "@core/models/EventLog";
 
 @Injectable()
 export class VerifierEndpointService {

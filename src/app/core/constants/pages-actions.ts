@@ -1,5 +1,5 @@
-import { ActionCode } from '@app/shared/elements/body-actions/models/ActionCode';
-import { BodyAction } from '@app/shared/elements/body-actions/models/BodyAction';
+import { ActionCode } from '@shared/elements/body-actions/models/ActionCode';
+import { BodyAction } from '@shared/elements/body-actions/models/BodyAction';
 
 export const HOME_ACTIONS: BodyAction[] = [
 	{

@@ -6,7 +6,7 @@ import {MatExpansionModule} from "@angular/material/expansion";
 import {ConcludedTransaction} from "@core/models/ConcludedTransaction";
 import {PresentationDefinition} from "@core/models/presentation/PresentationDefinition";
 import {ViewAttestationComponent} from "@features/invoke-wallet/components/view-attestation/view-attestation.component";
-import {SharedAttestation, Single} from "@core/models/presentation/shared-attestation";
+import {SharedAttestation, Single} from "@core/models/presentation/SharedAttestation";
 import {WalletResponseProcessorService} from "@features/invoke-wallet/components/services/wallet-response-processor.service";
 import {MatCardModule} from "@angular/material/card";
 import {MatButtonModule} from "@angular/material/button";
