@@ -41,7 +41,7 @@ export class MsoMdocAttestationDecoder implements AttestationDecoder {
       for (const element of namespace) {
         const decodedElement = this.decodeCborData(element.value);
         attributes.push({
-          key: decodedElement.elementIdentifier.replaceAll('_', ' '),
+          key: it + ":" + decodedElement.elementIdentifier,
           value: this.asString(decodedElement.elementValue)
         });
       }
