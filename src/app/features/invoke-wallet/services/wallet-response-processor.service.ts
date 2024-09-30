@@ -4,7 +4,6 @@ import {AttestationFormat} from "@core/models/AttestationFormat";
 import {JSONPath} from "jsonpath-plus";
 import {ConcludedTransaction} from "@core/models/ConcludedTransaction";
 import {DecodersRegistryService} from "@core/services/decoders-registry.service";
-import {from, Observable} from "rxjs";
 
 @Injectable()
 export class WalletResponseProcessorService {
@@ -14,6 +13,7 @@ export class WalletResponseProcessorService {
   }
 
   mapVpTokenToAttestations(concludedTransaction: ConcludedTransaction): SharedAttestation[] {
+    console.log(concludedTransaction);
     let presentationSubmission = concludedTransaction.walletResponse.presentation_submission;
     let vpToken: string[] = concludedTransaction.walletResponse.vp_token!!;
     let arrayAsJson = JSON.parse(JSON.stringify(vpToken))

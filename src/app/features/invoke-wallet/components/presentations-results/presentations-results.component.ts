@@ -7,7 +7,7 @@ import {ConcludedTransaction} from "@core/models/ConcludedTransaction";
 import {PresentationDefinition} from "@core/models/presentation/PresentationDefinition";
 import {ViewAttestationComponent} from "@features/invoke-wallet/components/view-attestation/view-attestation.component";
 import {SharedAttestation, Single} from "@core/models/presentation/SharedAttestation";
-import {WalletResponseProcessorService} from "@features/invoke-wallet/components/services/wallet-response-processor.service";
+import {WalletResponseProcessorService} from "@features/invoke-wallet/services/wallet-response-processor.service";
 import {MatCardModule} from "@angular/material/card";
 import {MatButtonModule} from "@angular/material/button";
 import {MatDialog, MatDialogModule} from "@angular/material/dialog";
@@ -20,10 +20,10 @@ import {MatDialog, MatDialogModule} from "@angular/material/dialog";
     MatListModule,
     SharedModule,
     MatExpansionModule,
-    ViewAttestationComponent,
     MatCardModule,
     MatButtonModule,
-    MatDialogModule
+    MatDialogModule,
+    ViewAttestationComponent
   ],
   providers: [WalletResponseProcessorService],
   templateUrl: './presentations-results.component.html',
@@ -41,6 +41,9 @@ export class PresentationsResultsComponent implements OnInit {
   readonly dialog: MatDialog = inject(MatDialog);
 
   ngOnInit(): void {
+    console.log('Presentation results init with ')
+    console.log(this.concludedTransaction)
+
     this.presentationRequest = this.concludedTransaction.presentationDefinition;
     let sharedAttestations: SharedAttestation[] = this.responseProcessor.mapVpTokenToAttestations(this.concludedTransaction);
     this.attestations = this.flatten(sharedAttestations)
@@ -64,6 +67,8 @@ export class PresentationsResultsComponent implements OnInit {
       data: {
         attestation: attestation
       },
+      height: '40%',
+      width: '60%',
     });
   }
 }

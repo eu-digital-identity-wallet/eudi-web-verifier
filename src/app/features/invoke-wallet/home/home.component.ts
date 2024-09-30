@@ -12,7 +12,9 @@ export class HomeComponent {
 	constructor (
     private readonly navigateService: NavigateService,
 	) {}
+
 	actions: BodyAction[] = BACK_ONLY_ACTIONS;
+
 	runActions (data: BodyAction) {
 		if (data.code === ActionCode.BACK) {
 			this.navigateService.goBack();

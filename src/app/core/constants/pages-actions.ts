@@ -12,7 +12,7 @@ export const HOME_ACTIONS: BodyAction[] = [
 		code: ActionCode.NEXT
 	}
 ];
-export const CBOR_ACTIONS: BodyAction[] = [
+export const SELECTABLE_ACTIONS: BodyAction[] = [
 	{
 		label: 'Next',
 		id: 'next_button',

@@ -110,23 +110,26 @@ export class QrCodeComponent implements OnInit, OnDestroy {
           )
           .subscribe(
             (res: WalletResponse) => {
-              this.localStorageService.remove(constants.UI_PRESENTATION);
+              this.localStorageService.remove(constants.ACTIVE_TRANSACTION);
               this.stopPlay$.next(1);
-              this.emitTransactionConcludedEvent(this.concludeTransaction(res))
-              // Reset state
-              this.dataService.setInitializationRequest(null);
-              this.dataService.setInitializedTransaction(null);
+              let concludedTransaction = this.concludeTransaction(res);
+              this.emitTransactionConcludedEvent(concludedTransaction)
             },
           );
       });
   }
 
   private concludeTransaction(response: WalletResponse): ConcludedTransaction {
-    return {
+    let concludedTransaction = {
       transactionId: this.dataService.initializedTransaction!!.transaction_id,
       presentationDefinition: this.dataService.initializationRequest!!.presentation_definition,
       walletResponse: response,
     }
+    // Reset state
+    this.dataService.setInitializationRequest(null);
+    this.dataService.setInitializedTransaction(null);
+
+    return concludedTransaction;
   }
 
   private buildQrCode(data: { client_id: string, request_uri: string, transaction_id: string }): string {

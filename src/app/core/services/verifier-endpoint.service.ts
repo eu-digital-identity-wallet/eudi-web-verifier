@@ -30,7 +30,8 @@ export class VerifierEndpointService {
       this.httpService.post<InitializedTransaction, string>('ui/presentations', payload)
         .pipe(
           tap((res) => {
-            this.localStorageService.set(constants.UI_PRESENTATION, JSON.stringify(res));
+            this.localStorageService.set(constants.ACTIVE_TRANSACTION, JSON.stringify(res));
+            this.localStorageService.set(constants.ACTIVE_PRESENTATION_DEFINITION, JSON.stringify(initializationRequest.presentation_definition));
             this.dataService.setInitializationRequest(initializationRequest);
             this.dataService.setInitializedTransaction(res);
           })

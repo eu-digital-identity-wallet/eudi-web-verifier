@@ -16,7 +16,7 @@
       </mat-list>
     </mat-tab>
 
-    <mat-tab label="Metadata">
+    <mat-tab *ngIf="attestation.metadata && attestation.metadata.length > 0" label="Metadata">
       <mat-list>
         <mat-list-item *ngFor="let option of attestation.metadata">
           <span matListItemTitle>
@@ -33,6 +33,6 @@
 
 </mat-dialog-content>
 
-<mat-dialog-actions align="end">
+<mat-dialog-actions  align="end">
   <button mat-button mat-dialog-close>Close</button>
 </mat-dialog-actions>

@@ -49,7 +49,7 @@ export class SelectablePresentationFormComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.localStorageService.remove(constants.UI_PRESENTATION);
+    this.localStorageService.remove(constants.ACTIVE_TRANSACTION);
     this.initPresentationModel();
     // Init form from model
     this.formFields = this.extractFormFieldsFromModel()
@@ -70,7 +70,7 @@ export class SelectablePresentationFormComponent implements OnInit {
       let initializationRequest = JSON.parse(draftPresentationRequest) as TransactionInitializationRequest
       this.verifierEndpointService.initializeTransaction(initializationRequest, (data) => {
         this.buttonMode = 'none';
-        this.navigateService.navigateTo('/custom-request/verifiable');
+        this.navigateService.navigateTo('/invoke-wallet');
         this.changeDetectorRef.detectChanges();
       });
     } else {
@@ -117,7 +117,7 @@ export class SelectablePresentationFormComponent implements OnInit {
       return {
         id: index,
         label: attr.text,
-        value: this.msoMdocPresentationService.fieldConstraint(this.attestationModel, attr.value)
+        value: this.msoMdocPresentationService.fieldConstraint(this.attestationModel.namespace, attr.value)
       }
     })
   }

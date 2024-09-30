@@ -75,3 +75,19 @@ export const PID_MSO_MDOC: MsoMdoc = {
     { value: 'issuing_jurisdiction', text: 'Issuing jurisdiction'}
   ]
 }
+
+/* eslint-disable quotes */
+export const AGE_OVER_18_MSO_MDOC: MsoMdoc = {
+  name: 'Age Over 18 Attestation',
+  doctype: 'eu.europa.ec.eudi.pseudonym.age_over_18.1',
+  namespace: 'eu.europa.ec.eudi.pseudonym.age_over_18.1',
+  attributes: [
+    { value: 'age_over_18', text: 'Age over 18'},
+    { value: 'user_pseudonym', text: 'User pseudonym'},
+    { value: 'issuance_date', text: 'Issuance date'},
+    { value: 'expiry_date', text: 'Expiry date'},
+    { value: 'issuing_authority', text: 'Issuing authority'},
+    { value: 'issuing_jurisdiction', text: 'Issuing jurisdiction'},
+    { value: 'issuing_country', text: 'Issuing country'}
+  ]
+}

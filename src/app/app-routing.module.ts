@@ -1,8 +1,7 @@
-import { NgModule } from '@angular/core';
-import { PreloadAllModules, RouterModule, Routes } from '@angular/router';
-import { WalletRedirectResolver } from '@features/wallet-redirect/resolver/wallet-redirect-resolver';
-import { JWTService } from '@core/services/jwt.service';
-import { NavigateService } from '@core/services/navigate.service';
+import {NgModule} from '@angular/core';
+import {PreloadAllModules, RouterModule, Routes} from '@angular/router';
+import {WalletRedirectResolver} from '@features/wallet-redirect/resolver/wallet-redirect-resolver';
+import {NavigateService} from '@core/services/navigate.service';
 import {VerifierEndpointService} from "@core/services/verifier-endpoint.service";
 
 const routes: Routes = [
@@ -11,34 +10,22 @@ const routes: Routes = [
 	{ path: 'custom-request',
     loadChildren: () => import('@features/custom-presentation-request/custom-presentation-request.module').
     then(m => m.CustomPresentationRequestModule )},
-	{ path: 'pid-full',
-    loadChildren: () => import('@features/invoke-wallet/invoke-wallet.module').
-      then(m => m.InvokeWalletModule )
-  },
-	{ path: 'cbor-selectable',
+	{ path: 'selectable',
 		loadChildren: () => import('@features/selectable-presentation/selectable-presentation.module').
 			then(m => m.SelectablePresentationModule )
   },
-	{ path: 'pid-age-over-18',
+	{ path: 'invoke-wallet',
     loadChildren: () => import('@features/invoke-wallet/invoke-wallet.module').
 			then(m => m.InvokeWalletModule)
-	},
-	{ path: 'age-attestation',
-    loadChildren: () => import('@features/invoke-wallet/invoke-wallet.module').
-    then(m => m.InvokeWalletModule)
 	},
 	{ path: 'mdl-selectable',
     loadChildren: () => import('@features/selectable-presentation/selectable-presentation.module').
     then(m => m.SelectablePresentationModule ),
 	},
-	{ path: 'mdl-full',
-    loadChildren: () => import('@features/invoke-wallet/invoke-wallet.module').
-      then(m => m.InvokeWalletModule)
-	},
 	{
 		path: 'get-wallet-code',
 		loadComponent: () => import('./features/wallet-redirect/wallet-redirect.component').then(c => c.WalletRedirectComponent),
-		providers: [VerifierEndpointService, JWTService, NavigateService],
+		providers: [VerifierEndpointService, NavigateService],
 		resolve: {
 			data: WalletRedirectResolver
 		}

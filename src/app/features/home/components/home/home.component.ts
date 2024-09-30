@@ -18,9 +18,6 @@ import {AttestationSelectableModelService} from '@app/core/services/attestation-
 import {OpenLogsComponent} from '@app/shared/elements/open-logs/open-logs.component';
 import {MatDialog, MatDialogModule} from '@angular/material/dialog';
 import {MsoMdocPresentationService} from "@core/services/mso-mdoc-presentation.service";
-import {MDL_MSO_MDOC, PID_MSO_MDOC} from "@core/data/MsoMdocDocuments";
-import {AGE_ATTESTATION_OVER_18_PD} from "@core/data/age_attestation_pd";
-import {v4 as uuidv4} from 'uuid';
 
 @Component({
   standalone: true,
@@ -58,7 +55,7 @@ export class HomeComponent implements OnInit {
     private readonly localStorageService: LocalStorageService,
     private readonly msoMdocPresentationService: MsoMdocPresentationService
   ) {
-    this.localStorageService.remove(constants.UI_PRESENTATION);
+    this.localStorageService.remove(constants.ACTIVE_TRANSACTION);
   }
 
   ngOnInit(): void {
@@ -74,13 +71,13 @@ export class HomeComponent implements OnInit {
     if (choose === 'PID_full') {
       this.navTarget = 'pid-full';
     } else if (choose === 'PID_Selectable') {
-      this.navTarget = 'cbor-selectable/pid-create';
+      this.navTarget = 'selectable/pid-create';
     } else if (choose === 'AgeOver18_attestation') {
       this.navTarget = 'age-attestation';
     } else if (choose === 'AgeOver18_pid') {
       this.navTarget = 'pid-age-over-18';
     } else if (choose === 'MDL_Selectable') {
-      this.navTarget = 'cbor-selectable/mdl-create';
+      this.navTarget = 'selectable/mdl-create';
     } else if (choose === 'MDL_Full') {
       this.navTarget = 'mdl-full';
     } else if (choose === 'PD_Custom_Request') {
@@ -94,48 +91,45 @@ export class HomeComponent implements OnInit {
 
   submit() {
     if (this.navTarget === 'pid-full') {
-      const presentationPurpose = 'We need to verify your identity';
-      let presentationRequest = this.msoMdocPresentationService.presentationOf(PID_MSO_MDOC, presentationPurpose)
+      let presentationRequest = this.msoMdocPresentationService.presentationOfFullPid();
       this.verifierEndpointService.initializeTransaction(presentationRequest, (data) => {
-        this.navigateService.navigateTo(this.navTarget);
+        this.navigateService.navigateTo('invoke-wallet');
       });
 
-    } else if (this.navTarget === 'cbor-selectable/pid-create') {
-      const presentationPurpose = 'We need to verify your identity';
-      this.attestationSelectableModelService.setPresentationPurpose(presentationPurpose);
-      this.attestationSelectableModelService.setModel('PID');
-      this.navigateService.navigateTo('cbor-selectable/create');
+    } else if (this.navTarget === 'selectable/pid-create') {
+      this.prepareDataForSelectableView('PID', 'We need to verify your identity')
+      this.navigateService.navigateTo('selectable/create');
 
     } else if (this.navTarget === 'mdl-full') {
-      const presentationPurpose = 'We need to verify your mobile driving licence';
-      let presentationRequest = this.msoMdocPresentationService.presentationOf(MDL_MSO_MDOC, presentationPurpose)
+      let presentationRequest = this.msoMdocPresentationService.presentationOfFullMdl();
       this.verifierEndpointService.initializeTransaction(presentationRequest, (data) => {
-        this.navigateService.navigateTo(this.navTarget);
+        this.navigateService.navigateTo('invoke-wallet');
       });
 
-    } else if (this.navTarget === 'cbor-selectable/mdl-create') {
-      const presentationPurpose = 'We need to verify your mobile driving licence';
-      this.attestationSelectableModelService.setPresentationPurpose(presentationPurpose);
-      this.attestationSelectableModelService.setModel('MDL');
-      this.navigateService.navigateTo('cbor-selectable/create');
+    } else if (this.navTarget === 'selectable/mdl-create') {
+      this.prepareDataForSelectableView('MDL', 'We need to verify your mobile driving licence')
+      this.navigateService.navigateTo('selectable/create');
 
     } else if (this.navTarget === 'pid-age-over-18') {
-      const presentationPurpose = 'We need to verify you are over 18 using your PID';
-      let presentationRequest = this.msoMdocPresentationService.presentationOf(PID_MSO_MDOC, presentationPurpose, ["age_over_18"])
+      let presentationRequest = this.msoMdocPresentationService.presentationOfPidOver18();
       this.verifierEndpointService.initializeTransaction(presentationRequest, (data) => {
-        this.navigateService.navigateTo(this.navTarget);
+        this.navigateService.navigateTo('invoke-wallet');
       });
 
     } else if (this.navTarget === 'age-attestation') {
-      const presentationRequest: any = {...AGE_ATTESTATION_OVER_18_PD};
-      presentationRequest.nonce = uuidv4();
+      let presentationRequest = this.msoMdocPresentationService.presentationOfAgeAttestationOver18();
       this.verifierEndpointService.initializeTransaction(presentationRequest, (data) => {
-        this.navigateService.navigateTo(this.navTarget);
+        this.navigateService.navigateTo('invoke-wallet');
       });
 
     } else if (this.navTarget === 'custom-request') {
-      this.navigateService.navigateTo(this.navTarget);
+      this.navigateService.navigateTo('/custom-request');
     }
+  }
+
+  prepareDataForSelectableView(selectableModel: string, presentationPurpose: string) {
+    this.attestationSelectableModelService.setPresentationPurpose(presentationPurpose);
+    this.attestationSelectableModelService.setModel(selectableModel);
   }
 
   selectedIndexChange(_event: number) {

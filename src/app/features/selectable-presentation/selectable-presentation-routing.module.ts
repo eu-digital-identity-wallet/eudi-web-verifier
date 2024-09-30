@@ -7,22 +7,9 @@ const routes: Routes = [
 		path: '',
 		component: HomeComponent,
 		children: [
-			{
-				path: 'view',
-        loadChildren: () => import('@features/invoke-wallet/invoke-wallet.module').then(m => m.InvokeWalletModule)
-			},
-			{
-				path: 'create',
+      { path: 'create',
 				component: SelectablePresentationFormComponent
-			},
-			{
-				path: 'pid-create',
-				component: SelectablePresentationFormComponent
-			},
-			{
-				path: 'verifiable',
-        loadChildren: () => import('@features/invoke-wallet/invoke-wallet.module').then(m => m.InvokeWalletModule)
-			},
+			}
 		]
 	}
 ];
