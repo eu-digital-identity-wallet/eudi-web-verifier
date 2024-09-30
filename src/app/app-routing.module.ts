@@ -9,7 +9,7 @@ const routes: Routes = [
 	{ path: 'home', loadComponent: () => import('./features/home/components/home/home.component').then(c => c.HomeComponent) },
 	{ path: 'custom-request',
     loadChildren: () => import('@features/custom-presentation-request/custom-presentation-request.module').
-    then(m => m.CustomPresentationRequestModule )},
+      then(m => m.CustomPresentationRequestModule )},
 	{ path: 'selectable',
 		loadChildren: () => import('@features/selectable-presentation/selectable-presentation.module').
 			then(m => m.SelectablePresentationModule )
@@ -20,7 +20,7 @@ const routes: Routes = [
 	},
 	{ path: 'mdl-selectable',
     loadChildren: () => import('@features/selectable-presentation/selectable-presentation.module').
-    then(m => m.SelectablePresentationModule ),
+      then(m => m.SelectablePresentationModule ),
 	},
 	{
 		path: 'get-wallet-code',
