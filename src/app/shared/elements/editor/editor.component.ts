@@ -32,7 +32,7 @@ export class EditorComponent implements AfterViewInit, OnChanges {
 
   @Input()	mode: CodeEditorMode = 'json';
 
-  @Input() set code (value: string | undefined) {
+  @Input() set code (value: any | undefined) {
   	if (value) {
   		this.inputCode = JSON.stringify(value, null, '\t');
   	}

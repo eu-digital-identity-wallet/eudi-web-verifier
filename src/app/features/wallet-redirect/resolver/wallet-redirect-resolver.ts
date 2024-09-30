@@ -1,44 +1,50 @@
-import { inject } from '@angular/core';
-import { KeyValue } from '@angular/common';
-import { ActivatedRouteSnapshot, ResolveFn, RouterStateSnapshot } from '@angular/router';
-import { LocalStorageService } from '@app/core/services/local-storage.service';
-import { PresentationDefinitionService } from '@app/core/services/presentation-definition.service';
-import { of, Observable, forkJoin, EMPTY } from 'rxjs';
-import { switchMap, take } from 'rxjs/operators';
-import * as constants from '@core/constants/constants';
-import { PresentationDefinitionResponse } from '@app/core/models/presentation-definition-response';
-import { WalletResponse } from '@app/features/verifiable-credential/models/WalletResponse';
-import { JWTService } from '@app/core/services/jwt.service';
-import { CborDecodeService } from '@app/core/services/cbor/cbor-decode.service';
+import {inject} from '@angular/core';
+import {ActivatedRouteSnapshot, ResolveFn, RouterStateSnapshot} from '@angular/router';
+import {EMPTY, Observable} from 'rxjs';
+import {InitializedTransaction} from '@core/models/InitializedTransaction';
+import {VerifierEndpointService} from "@core/services/verifier-endpoint.service";
+import {ConcludedTransaction} from "@core/models/ConcludedTransaction";
+import {map} from "rxjs/operators";
+import {WalletResponse} from "@core/models/WalletResponse";
+import {LocalStorageService} from "@core/services/local-storage.service";
+import {ACTIVE_PRESENTATION_DEFINITION, ACTIVE_TRANSACTION} from "@core/constants/constants";
+import {PresentationDefinition} from "@core/models/presentation/PresentationDefinition";
 
-export const WalletRedirectResolver: ResolveFn<{vpToken: KeyValue<string, string>[], idToken: KeyValue<string, string>[]}> =
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    (route: ActivatedRouteSnapshot, _state: RouterStateSnapshot):
-    Observable<{vpToken: KeyValue<string, string>[], idToken: KeyValue<string, string>[]}> => {
-    	const services = {
-    		definition: inject(PresentationDefinitionService),
-    		localStorage: inject(LocalStorageService),
-    		cborDecode: inject(CborDecodeService),
-    		jWT: inject(JWTService),
-    	};
+export const WalletRedirectResolver: ResolveFn<ConcludedTransaction> =
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  (route: ActivatedRouteSnapshot, _state: RouterStateSnapshot): Observable<ConcludedTransaction> => {
 
-    	let data: PresentationDefinitionResponse;
-    	const stData: string | null = services.localStorage.get(constants.UI_PRESENTATION);
-    	const responseCode: string = route.queryParams['response_code'];
-    	if (stData && responseCode) {
-    		data = JSON.parse( stData );
-    		return services.definition.getWalletResponseWithCode(data.transaction_id, responseCode)
-    			.pipe(
-    				switchMap((res: WalletResponse) => {
-    					return forkJoin({
-    						vpToken: res.vp_token ? services.cborDecode.decode(res.vp_token) : of([]),
-    						idToken: res.id_token ? services.jWT.decode(res.id_token) : of([]),
-    					}).pipe(
-    						take(1)
-    					);
-    				}),
-    			);
-    	} else {
-    		return EMPTY;
-    	}
+    const services = {
+      verifierEndpointService: inject(VerifierEndpointService),
+      localStorage: inject(LocalStorageService)
     };
+
+    let data: InitializedTransaction = JSON.parse(
+      services.localStorage.get(ACTIVE_TRANSACTION)!!
+    );
+    let pd: PresentationDefinition = JSON.parse(
+      services.localStorage.get(ACTIVE_PRESENTATION_DEFINITION)!!
+    );
+
+    function concludeTransaction(walletResponse: WalletResponse): ConcludedTransaction {
+      return  {
+        transactionId: data.transaction_id,
+        presentationDefinition: pd,
+        walletResponse: walletResponse,
+      }
+    }
+
+
+    const responseCode: string = route.queryParams['response_code'];
+    console.log(data);
+    if (data && responseCode) {
+      return services.verifierEndpointService.getWalletResponse(data.transaction_id, responseCode)
+        .pipe(
+          map((walletResponse) => {
+            return concludeTransaction(walletResponse)
+          })
+        )
+    } else {
+      return EMPTY;
+    }
+  };

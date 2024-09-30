@@ -1,0 +1,38 @@
+
+<h2 mat-dialog-title>{{attestation.name}}</h2>
+
+<mat-dialog-content class="mat-typography">
+  <mat-tab-group>
+    <mat-tab label="Attributes">
+      <mat-list>
+        <mat-list-item *ngFor="let option of attestation.attributes">
+          <span matListItemTitle>
+            <strong> {{ option.key }} </strong>
+          </span>
+          <span matListItemLine>
+            <span [innerHTML]="option.value"></span>
+          </span>
+        </mat-list-item>
+      </mat-list>
+    </mat-tab>
+
+    <mat-tab *ngIf="attestation.metadata && attestation.metadata.length > 0" label="Metadata">
+      <mat-list>
+        <mat-list-item *ngFor="let option of attestation.metadata">
+          <span matListItemTitle>
+            <strong> {{ option.key }} </strong>
+          </span>
+          <span matListItemLine>
+            <span [innerHTML]="option.value"></span>
+          </span>
+        </mat-list-item>
+      </mat-list>
+    </mat-tab>
+
+  </mat-tab-group>
+
+</mat-dialog-content>
+
+<mat-dialog-actions  align="end">
+  <button mat-button mat-dialog-close>Close</button>
+</mat-dialog-actions>

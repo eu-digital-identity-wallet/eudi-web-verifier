@@ -7,23 +7,9 @@ const routes: Routes = [
 		path: '',
 		component: HomeComponent,
 		children: [
-			{
-				path: 'view',
-				loadComponent: () => import('../verifiable-credential/components/qr-code/qr-code.component').then(c => c.QrCodeComponent)
-			},
-			{
-				path: 'create',
+      { path: 'create',
 				component: SelectablePresentationFormComponent
-			},
-			{
-				path: 'pid-create',
-				component: SelectablePresentationFormComponent
-			},
-			{
-				path: 'verifiable',
-				loadComponent:
-        () => import('../verifiable-credential/components/qr-code/qr-code.component').then(c => c.QrCodeComponent)
-			},
+			}
 		]
 	}
 ];

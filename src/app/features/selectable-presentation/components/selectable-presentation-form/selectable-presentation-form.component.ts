@@ -1,33 +1,31 @@
 import {ChangeDetectorRef, Component, Injector, OnInit} from '@angular/core';
-import {catchError} from 'rxjs';
-import {PresentationDefinitionResponse} from '@core/models/presentation-definition-response';
-import {PresentationDefinitionService} from '@app/core/services/presentation-definition.service';
-import {FieldConstraint} from '../../models/FieldConstraint';
 import {DataService} from '@app/core/services/data.service';
 import {NavigateService} from '@app/core/services/navigate.service';
-import {FormSelectableField} from '@features/selectable-presentation/models/FormSelectableField';
 import {SelectableFormNextAction} from '../../services/selectable-form-next-action.service';
 import {LocalStorageService} from '@app/core/services/local-storage.service';
 import * as constants from '@core/constants/constants';
 import {Modification} from '@app/shared/elements/body-actions/models/modification';
 import {BodyActionsService} from '@app/shared/elements/body-actions/body-actions.service';
-import {Presentation} from '../../models/Presentation';
 import {AttestationSelectableModelService} from "@app/core/services/attestation-selectable-model.service";
 import {MsoMdocPresentationService} from "@app/core/services/mso-mdoc-presentation.service";
-import {MsoMdoc} from "@core/models/msoMdoc";
+import {MsoMdoc} from "@core/models/MsoMdoc";
+import {VerifierEndpointService} from "@core/services/verifier-endpoint.service";
+import {TransactionInitializationRequest} from "@core/models/TransactionInitializationRequest";
+import {FieldConstraint} from "@core/models/presentation/FieldConstraint";
+import {FormSelectableField} from "@core/models/FormSelectableField";
 
 @Component({
   selector: 'vc-create-a-scenario',
   templateUrl: './selectable-presentation-form.component.html',
   styleUrls: ['./selectable-presentation-form.component.scss'],
-  providers: [PresentationDefinitionService]
+  providers: [VerifierEndpointService]
 })
 export class SelectablePresentationFormComponent implements OnInit {
 
   formFields!: FormSelectableField[];
   buttonMode = 'none';
   attestationModel!: MsoMdoc;
-  draftPresentation!: Presentation;
+  draftPresentation!: TransactionInitializationRequest;
   presentationDefinitionText!: string;
   selectedFields: FieldConstraint[] = [];
   private readonly navigateService!: NavigateService;
@@ -36,7 +34,7 @@ export class SelectablePresentationFormComponent implements OnInit {
 
   constructor(
     private readonly selectableFormNextAction: SelectableFormNextAction,
-    private readonly presentationDefinitionService: PresentationDefinitionService,
+    private readonly verifierEndpointService: VerifierEndpointService,
     private readonly attestationSelectableModelService: AttestationSelectableModelService,
     private readonly msoMdocPresentationService: MsoMdocPresentationService,
     private readonly dataService: DataService,
@@ -51,12 +49,12 @@ export class SelectablePresentationFormComponent implements OnInit {
   }
 
   ngOnInit(): void {
-    this.localStorageService.remove(constants.UI_PRESENTATION);
+    this.localStorageService.remove(constants.ACTIVE_TRANSACTION);
     this.initPresentationModel();
     // Init form from model
     this.formFields = this.extractFormFieldsFromModel()
     this.selectableFormNextAction.subscribe(_ => {
-      this.generateCode();
+      this.initializePresentationTransaction()
     });
   }
 
@@ -66,23 +64,17 @@ export class SelectablePresentationFormComponent implements OnInit {
     this.draftPresentation = this.msoMdocPresentationService.presentationOf(this.attestationModel, presentationPurpose, [])
   }
 
-  generateCode() {
-    if (this.convertJSONtoString(this.draftPresentation)) {
-      this.buttonMode = 'loading';
-      this.presentationDefinitionService.generateCode(this.convertJSONtoString(this.draftPresentation))
-        .pipe(
-          catchError((error) => {
-            return error;
-          })
-        )
-        .subscribe((data) => {
-          this.buttonMode = 'none';
-          this.dataService.setQRCode(data as PresentationDefinitionResponse);
-          this.navigateService.navigateTo('/cbor-selectable/verifiable');
-          this.changeDetectorRef.detectChanges();
-        });
+  initializePresentationTransaction() {
+    let draftPresentationRequest = this.convertJSONtoString(this.draftPresentation);
+    if (draftPresentationRequest) {
+      let initializationRequest = JSON.parse(draftPresentationRequest) as TransactionInitializationRequest
+      this.verifierEndpointService.initializeTransaction(initializationRequest, (data) => {
+        this.buttonMode = 'none';
+        this.navigateService.navigateTo('/invoke-wallet');
+        this.changeDetectorRef.detectChanges();
+      });
     } else {
-      console.log('invalid JSON');
+      console.error('invalid JSON format');
     }
   }
 
@@ -125,7 +117,7 @@ export class SelectablePresentationFormComponent implements OnInit {
       return {
         id: index,
         label: attr.text,
-        value: this.msoMdocPresentationService.fieldConstraint(this.attestationModel, attr.value)
+        value: this.msoMdocPresentationService.fieldConstraint(this.attestationModel.namespace, attr.value)
       }
     })
   }

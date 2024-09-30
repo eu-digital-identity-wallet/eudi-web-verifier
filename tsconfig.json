@@ -48,11 +48,12 @@
     },
     "types": [
       "jest",
-      "node_modules/@types"
+      "node_modules/@types",
+      "node"
     ]
   },
   "exclude": [
-    "node_modules",
+
     "coverage"
   ],
   "angularCompilerOptions": {
