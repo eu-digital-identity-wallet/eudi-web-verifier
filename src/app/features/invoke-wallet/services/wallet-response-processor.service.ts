@@ -13,7 +13,6 @@ export class WalletResponseProcessorService {
   }
 
   mapVpTokenToAttestations(concludedTransaction: ConcludedTransaction): SharedAttestation[] {
-    console.log(concludedTransaction);
     let presentationSubmission = concludedTransaction.walletResponse.presentation_submission;
     let vpToken: string[] = concludedTransaction.walletResponse.vp_token!!;
     let arrayAsJson = JSON.parse(JSON.stringify(vpToken))
@@ -21,7 +20,12 @@ export class WalletResponseProcessorService {
     return presentationSubmission.descriptor_map.map((descriptor) => {
       let format = descriptor.format as AttestationFormat;
       // locate item in vp_token array
-      let sharedStr = JSONPath({path: descriptor.path, json: arrayAsJson})[0]
+      let sharedStr;
+      if (descriptor.path === "$") {
+        sharedStr = vpToken[0]
+      } else {
+        sharedStr = JSONPath({path: descriptor.path, json: arrayAsJson})[0]
+      }
       // get appropriate decoder
       let decoder = this.decoders.decoderOf(format);
       // decode to SharedAttestation
