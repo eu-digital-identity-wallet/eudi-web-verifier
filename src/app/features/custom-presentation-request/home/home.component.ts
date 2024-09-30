@@ -70,7 +70,7 @@ export class HomeComponent implements OnInit, OnDestroy {
       let request = JSON.parse(this.requestCode) as TransactionInitializationRequest
       this.verifierEndpointService.initializeTransaction(request, (data) => {
         this.hideNextStep();
-        this.navigateService.navigateTo('/custom-request/verifiable');
+        this.navigateService.navigateTo('/custom-request/invoke');
         this.changeDetectorRef.detectChanges();
       });
     } else {

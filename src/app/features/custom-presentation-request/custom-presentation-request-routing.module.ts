@@ -13,7 +13,13 @@ const routes: Routes = [
 			{
 				path: 'create',
 				loadComponent:
-        () => import('@features/custom-presentation-request/components/custom-request-editor/custom-request-editor.component').then(c => c.CustomRequestEditorComponent)
+        () => import('@features/custom-presentation-request/components/custom-request-editor/custom-request-editor.component')
+          .then(c => c.CustomRequestEditorComponent)
+			},
+			{
+				path: 'invoke',
+				loadComponent: () => import('@features/invoke-wallet/components/invoker/invoker.component')
+          .then(c => c.InvokerComponent)
 			}
 		]
 	},
