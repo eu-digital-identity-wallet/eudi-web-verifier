@@ -7,7 +7,7 @@
       <mat-list>
         <mat-list-item *ngFor="let option of attestation.attributes">
           <span matListItemTitle>
-            <strong> {{ option.key }} </strong>
+            <strong>{{option.key}}</strong>
           </span>
           <span matListItemLine>
             <span [innerHTML]="option.value"></span>
@@ -20,7 +20,7 @@
       <mat-list>
         <mat-list-item *ngFor="let option of attestation.metadata">
           <span matListItemTitle>
-            <strong> {{ option.key }} </strong>
+            <strong>{{option.key}}</strong>
           </span>
           <span matListItemLine>
             <span [innerHTML]="option.value"></span>

@@ -41,9 +41,6 @@ export class PresentationsResultsComponent implements OnInit {
   readonly dialog: MatDialog = inject(MatDialog);
 
   ngOnInit(): void {
-    console.log('Presentation results init with ')
-    console.log(this.concludedTransaction)
-
     this.presentationRequest = this.concludedTransaction.presentationDefinition;
     let sharedAttestations: SharedAttestation[] = this.responseProcessor.mapVpTokenToAttestations(this.concludedTransaction);
     this.attestations = this.flatten(sharedAttestations)
