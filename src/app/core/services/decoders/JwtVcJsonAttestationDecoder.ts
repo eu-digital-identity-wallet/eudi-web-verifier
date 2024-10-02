@@ -26,8 +26,6 @@ export class JwtVcJsonAttestationDecoder implements AttestationDecoder {
     let vp = this.jWTService.decodeToObject(attestation);
     let sharedCredentials = this.unWrapCredentials(vp)
 
-    console.log(sharedCredentials)
-
     if (sharedCredentials.length == 1) {
       return this.toSinge(sharedCredentials[0])
 
@@ -42,8 +40,6 @@ export class JwtVcJsonAttestationDecoder implements AttestationDecoder {
 
   toSinge(vcJwt: string): Single {
     let vc = this.jWTService.decodeToObject(vcJwt) as any;
-    console.log(vc);
-
     return {
       kind: "single",
       format: AttestationFormat.JWT_VC_JSON,
