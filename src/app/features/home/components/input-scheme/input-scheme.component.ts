@@ -7,7 +7,7 @@ import { MatInputModule } from '@angular/material/input';
 import { ErrorStateMatcher } from './error-state-matcher';
 import { SharedModule } from '@app/shared/shared.module';
 import { LocalStorageService } from '@app/core/services/local-storage.service';
-import { DEFAULT_SCHEME, SCHEME } from '@app/core/constants/constants';
+import { DEFAULT_SCHEME, SCHEME } from '@core/constants/general';
 
 @Component({
 	selector: 'vc-input-scheme',

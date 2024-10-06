@@ -1,7 +1,7 @@
 import {Injectable} from "@angular/core";
 import {AttestationDecoder} from "@core/services/decoders/AttestationDecoder";
 import {SharedAttestation, Single} from "@core/models/presentation/SharedAttestation";
-import {AttestationFormat} from "@core/models/AttestationFormat";
+import {AttestationFormat} from "@core/models/attestation/AttestationFormat";
 import {JWTService} from "@core/services/jwt.service";
 import {KeyValue} from "@angular/common";
 

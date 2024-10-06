@@ -1,0 +1,23 @@
+<div>
+  <div>
+
+    <mat-form-field [formControl]="scenarioFormControl">
+      <mat-label>select scenario</mat-label>
+      <mat-select matNativeControl [(value)]="selectedScenario" (selectionChange)="clearSelections()">
+        <ng-container *ngFor="let scenario of scenarios">
+          <mat-option [value]="scenario">{{ scenario.name }}</mat-option>
+        </ng-container>
+      </mat-select>
+    </mat-form-field>
+  </div>
+
+  <ng-container *ngIf="this.selectedScenario !== null">
+    <div>
+      <mat-accordion>
+        <ng-container *ngFor="let attestation of selectedScenario?.attestations">
+          <vc-scenario-attestation [attestation]="attestation" (attestationSelectionEvent)="handleAttestationSelectionEvent($event)"></vc-scenario-attestation>
+        </ng-container>
+      </mat-accordion>
+    </div>
+  </ng-container>
+</div>

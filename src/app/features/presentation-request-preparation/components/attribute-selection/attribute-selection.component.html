@@ -1,0 +1,16 @@
+<ng-container *ngFor="let selection of scenarioSelection.selections">
+
+  <mat-card appearance="outlined">
+    <mat-card-header>
+      <mat-card-title>{{ nameOf(selection.attestation) }}</mat-card-title>
+      <mat-card-subtitle> in <i> {{ selection.format }} </i> format</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-actions align="end" *ngIf="isSelectable(selection)">
+      <button mat-button (click)="popAttributesSelector()">Select Attributes</button>
+    </mat-card-actions>
+    <mat-card-actions align="end" *ngIf="!isSelectable(selection)">
+      <span>All fields will be added</span>
+    </mat-card-actions>
+  </mat-card>
+  <br>
+</ng-container>

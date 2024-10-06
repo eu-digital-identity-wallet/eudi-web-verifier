@@ -1,0 +1,48 @@
+
+<vc-wallet-layout>
+<div body class="container ">
+  <h4>Define your presentation request</h4>
+  <p>
+    Follow the steps to specify what will be requested from the wallet to present.
+  </p>
+  <mat-stepper orientation="vertical" linear="true" #stepper>
+    <form>
+
+      <mat-step>
+        <div style="padding: 2px">
+          <ng-template matStepLabel>... select custom scheme</ng-template>
+          <vc-input-scheme></vc-input-scheme>
+        </div>
+        <div style="padding-top: 10px">
+          <button mat-button matStepperNext type="button">Next</button>
+        </div>
+      </mat-step>
+
+      <mat-step>
+        <div style="padding: 2px">
+          <ng-template matStepLabel>... specify presentation scenario</ng-template>
+          <vc-presentation-scenario (selectionChangedEvent)="handleSelectionChangedEvent($event)"></vc-presentation-scenario>
+        </div>
+        <div style="padding-top: 10px">
+          <button mat-button matStepperPrevious type="button">Back</button>
+          <button mat-button matStepperNext type="button">Next</button>
+        </div>
+      </mat-step>
+
+      <mat-step>
+        <div style="padding: 2px">
+          <ng-template matStepLabel>...select attestation(s) attributes</ng-template>
+          <vc-attribute-selection *ngIf="scenarioSelection !== null" [scenarioSelection]="scenarioSelection" ></vc-attribute-selection>
+        </div>
+        <div style="padding-top: 10px">
+          <button mat-button matStepperPrevious type="button">Back</button>
+          <button mat-button matStepperNext type="button" (click)="submit()">Next</button>
+        </div>
+      </mat-step>
+
+
+    </form>
+  </mat-stepper>
+
+</div>
+</vc-wallet-layout>

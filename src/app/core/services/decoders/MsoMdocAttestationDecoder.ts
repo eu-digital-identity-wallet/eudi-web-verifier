@@ -1,6 +1,6 @@
 import {Injectable} from "@angular/core";
 import {AttestationDecoder} from "@core/services/decoders/AttestationDecoder";
-import {AttestationFormat} from "@core/models/AttestationFormat";
+import {AttestationFormat} from "@core/models/attestation/AttestationFormat";
 import {decode} from "cbor-x";
 import {Buffer} from 'buffer';
 

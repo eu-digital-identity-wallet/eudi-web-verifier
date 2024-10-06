@@ -18,7 +18,7 @@ import {InitializedTransaction} from '@core/models/InitializedTransaction';
 import {PresentationsResultsComponent} from '../presentations-results/presentations-results.component';
 import {DeviceDetectorService} from '@core/services/device-detector.service';
 import {LocalStorageService} from '@core/services/local-storage.service';
-import * as constants from '@core/constants/constants';
+import * as constants from '@core/constants/general';
 import {MatDialog, MatDialogModule} from '@angular/material/dialog';
 import {OpenLogsComponent} from '@shared/elements/open-logs/open-logs.component';
 import {VerifierEndpointService} from "@core/services/verifier-endpoint.service";

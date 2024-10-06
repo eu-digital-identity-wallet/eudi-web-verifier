@@ -1,4 +1,4 @@
-import {ChangeDetectionStrategy, Component, inject, OnInit} from '@angular/core';
+import {ChangeDetectionStrategy, Component, OnInit} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {DataService} from '@app/core/services/data.service';
 import {NavigateService} from '@app/core/services/navigate.service';
@@ -11,7 +11,7 @@ import {WalletLayoutComponent} from '@app/core/layout/wallet-layout/wallet-layou
 import {BodyAction} from '@app/shared/elements/body-actions/models/BodyAction';
 import {HOME_ACTIONS} from '@core/constants/pages-actions';
 import {LocalStorageService} from '@app/core/services/local-storage.service';
-import * as constants from '@core/constants/constants';
+import * as constants from '@core/constants/general';
 import {InputSchemeComponent} from '../input-scheme/input-scheme.component';
 import {MatTabsModule} from '@angular/material/tabs';
 import {AttestationSelectableModelService} from '@app/core/services/attestation-selectable-model.service';
@@ -43,8 +43,6 @@ export class HomeComponent implements OnInit {
   optionsPIDAuthentication: MenuOption[] = [];
   optionsMDLAuthentication: MenuOption[] = [];
   optionsAgeVerification: MenuOption[] = [];
-
-  private dialog: MatDialog = inject(MatDialog);
 
   constructor(
     private navigateService: NavigateService,

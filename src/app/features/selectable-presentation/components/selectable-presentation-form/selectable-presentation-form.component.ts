@@ -3,12 +3,12 @@ import {DataService} from '@app/core/services/data.service';
 import {NavigateService} from '@app/core/services/navigate.service';
 import {SelectableFormNextAction} from '../../services/selectable-form-next-action.service';
 import {LocalStorageService} from '@app/core/services/local-storage.service';
-import * as constants from '@core/constants/constants';
+import * as constants from '@core/constants/general';
 import {Modification} from '@app/shared/elements/body-actions/models/modification';
 import {BodyActionsService} from '@app/shared/elements/body-actions/body-actions.service';
 import {AttestationSelectableModelService} from "@app/core/services/attestation-selectable-model.service";
 import {MsoMdocPresentationService} from "@app/core/services/mso-mdoc-presentation.service";
-import {MsoMdoc} from "@core/models/MsoMdoc";
+import {MsoMdocAttestation} from "@core/models/attestation/MsoMdocAttestation";
 import {VerifierEndpointService} from "@core/services/verifier-endpoint.service";
 import {TransactionInitializationRequest} from "@core/models/TransactionInitializationRequest";
 import {FieldConstraint} from "@core/models/presentation/FieldConstraint";
@@ -24,7 +24,7 @@ export class SelectablePresentationFormComponent implements OnInit {
 
   formFields!: FormSelectableField[];
   buttonMode = 'none';
-  attestationModel!: MsoMdoc;
+  attestationModel!: MsoMdocAttestation;
   draftPresentation!: TransactionInitializationRequest;
   presentationDefinitionText!: string;
   selectedFields: FieldConstraint[] = [];
@@ -113,11 +113,11 @@ export class SelectablePresentationFormComponent implements OnInit {
   }
 
   extractFormFieldsFromModel(): FormSelectableField[] {
-    return this.attestationModel.attributes.map((attr, index) => {
+    return this.attestationModel.attestation.dataSet.map((attr, index) => {
       return {
         id: index,
-        label: attr.text,
-        value: this.msoMdocPresentationService.fieldConstraint(this.attestationModel.namespace, attr.value)
+        label: attr.attribute,
+        value: this.msoMdocPresentationService.fieldConstraint(this.attestationModel.namespace, attr.identifier)
       }
     })
   }

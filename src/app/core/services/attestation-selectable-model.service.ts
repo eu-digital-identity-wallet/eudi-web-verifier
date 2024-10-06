@@ -1,14 +1,14 @@
 import {Injectable} from "@angular/core";
 import {PID_MSO_MDOC} from '@core/data/MsoMdocDocuments';
 import {MDL_MSO_MDOC} from '@core/data/MsoMdocDocuments';
-import {MsoMdoc} from "@core/models/MsoMdoc";
+import {MsoMdocAttestation} from "@core/models/attestation/MsoMdocAttestation";
 
 @Injectable({
   providedIn: 'root'
 })
 export class AttestationSelectableModelService {
 
-  private selectableModel: MsoMdoc | null = null;
+  private selectableModel: MsoMdocAttestation | null = null;
   private presentationPurpose!: string;
 
   setPresentationPurpose(presentationPurpose: string) {
@@ -23,7 +23,7 @@ export class AttestationSelectableModelService {
     }
   }
 
-  getModel(): MsoMdoc {
+  getModel(): MsoMdocAttestation {
     return JSON.parse(JSON.stringify(this.selectableModel));
   }
 

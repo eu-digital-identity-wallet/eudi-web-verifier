@@ -3,7 +3,7 @@ import {Observable} from 'rxjs';
 import {map, tap} from 'rxjs/operators';
 import {HttpService} from '@network/http/http.service';
 import {LocalStorageService} from './local-storage.service';
-import * as constants from '@core/constants/constants';
+import * as constants from '@core/constants/general';
 import {DeviceDetectorService} from './device-detector.service';
 import {TransactionInitializationRequest} from "@core/models/TransactionInitializationRequest";
 import {InitializedTransaction} from "@core/models/InitializedTransaction";

@@ -6,7 +6,8 @@ import {VerifierEndpointService} from "@core/services/verifier-endpoint.service"
 
 const routes: Routes = [
 	{ path: '', redirectTo: 'home', pathMatch: 'full' },
-	{ path: 'home', loadComponent: () => import('./features/home/components/home/home.component').then(c => c.HomeComponent) },
+	{ path: 'home', loadComponent: () => import('@features/presentation-request-preparation/home/home.component')
+      .then(c => c.HomeComponent) },
 	{ path: 'custom-request',
     loadChildren: () => import('@features/custom-presentation-request/custom-presentation-request.module').
       then(m => m.CustomPresentationRequestModule )},

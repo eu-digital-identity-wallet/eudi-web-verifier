@@ -1,4 +1,4 @@
-import {AttestationFormat} from "@core/models/AttestationFormat";
+import {AttestationFormat} from "@core/models/attestation/AttestationFormat";
 import {SharedAttestation} from "@core/models/presentation/SharedAttestation";
 
 export interface AttestationDecoder {
