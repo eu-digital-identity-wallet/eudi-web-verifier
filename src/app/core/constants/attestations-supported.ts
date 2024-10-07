@@ -3,7 +3,7 @@ import {AttestationType} from "@core/models/attestation/AttestationType";
 import {AttestationFormat} from "@core/models/attestation/AttestationFormat";
 
 export const PID_ATTESTATION: Attestation = {
-  name: "Person Identification Data",
+  name: "Person Identification Data (PID)",
   type: AttestationType.PID,
   dataSet: [
     { identifier: 'family_name', attribute: 'Family name'},
@@ -38,7 +38,7 @@ export const PID_ATTESTATION: Attestation = {
 }
 
 export const MDL_ATTESTATION: Attestation = {
-  name: "Mobile Driving Licence",
+  name: "Mobile Driving Licence (MDL)",
   type: AttestationType.MDL,
   dataSet: [
     { identifier: 'family_name', attribute: 'Family name' },
@@ -76,7 +76,7 @@ export const MDL_ATTESTATION: Attestation = {
 }
 
 export const AGE_OVER_18_ATTESTATION: Attestation = {
-  name: "Age Over 18 Attestation",
+  name: "Age Over 18",
   type: AttestationType.AGE_OVER_18,
   dataSet: [
     { identifier: 'age_over_18', attribute: 'Age over 18'},
@@ -90,7 +90,7 @@ export const AGE_OVER_18_ATTESTATION: Attestation = {
 }
 
 export const PHOTO_ID_ATTESTATION: Attestation = {
-  name: "Photo Identifier",
+  name: "Photo ID",
   type: AttestationType.PHOTO_ID,
   dataSet: [
     { identifier: 'portrait', attribute: 'portrait'},

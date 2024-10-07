@@ -1,6 +1,6 @@
 import { Constraint } from './Constraint';
 
-export type InputDescriptors = {
+export type InputDescriptor = {
   id: string,
   name?: string,
   purpose?: string,

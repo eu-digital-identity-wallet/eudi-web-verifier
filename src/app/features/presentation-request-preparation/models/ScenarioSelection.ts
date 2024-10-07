@@ -7,7 +7,7 @@ export type ScenarioSelection = {
 }
 
 export type AttestationSelection = {
-  attestation: AttestationType,
+  type: AttestationType,
   format: AttestationFormat | null,
   attributeSelectionMethod: AttributeSelectionMethod | null
 

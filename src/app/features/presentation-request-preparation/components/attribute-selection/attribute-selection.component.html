@@ -2,14 +2,14 @@
 
   <mat-card appearance="outlined">
     <mat-card-header>
-      <mat-card-title>{{ nameOf(selection.attestation) }}</mat-card-title>
+      <mat-card-title>{{ nameOf(selection.type) }}</mat-card-title>
       <mat-card-subtitle> in <i> {{ selection.format }} </i> format</mat-card-subtitle>
     </mat-card-header>
     <mat-card-actions align="end" *ngIf="isSelectable(selection)">
-      <button mat-button (click)="popAttributesSelector()">Select Attributes</button>
+      <button mat-button (click)="popAttributesSelector(selection.format!, selection.type, nameOf(selection.type))">Select Attributes</button>
     </mat-card-actions>
     <mat-card-actions align="end" *ngIf="!isSelectable(selection)">
-      <span>All fields will be added</span>
+      <span>All Attributes</span>
     </mat-card-actions>
   </mat-card>
   <br>

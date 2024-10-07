@@ -48,7 +48,7 @@ export class ScenarioComponent implements OnInit {
   }
 
   handleAttestationSelectionEvent($event: AttestationSelection) {
-    this.attestationSelections[$event.attestation as string] = $event;
+    this.attestationSelections[$event.type as string] = $event;
     this.selectionChangedEvent.emit(
       this.constructScenarioSelection()
     )

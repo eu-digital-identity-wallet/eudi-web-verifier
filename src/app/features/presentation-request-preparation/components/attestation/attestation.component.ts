@@ -62,7 +62,7 @@ export class AttestationComponent {
 
   emit() {
     this.attestationSelectionEvent.emit({
-      attestation: this.attestation.attestationType,
+      type: this.attestation.attestationType,
       format: this.selectedFormat,
       attributeSelectionMethod: this.selectedMethod
     });

@@ -1,5 +1,6 @@
 import {MsoMdocAttestation} from "@core/models/attestation/MsoMdocAttestation";
 import {AGE_OVER_18_ATTESTATION, MDL_ATTESTATION, PHOTO_ID_ATTESTATION, PID_ATTESTATION} from "@core/constants/attestations-supported";
+import {Attestation} from "@core/models/attestation/Attestation";
 
 /* eslint-disable quotes */
 export const MDL_MSO_MDOC: MsoMdocAttestation = {
@@ -27,4 +28,11 @@ export const PHOTO_ID_MSO_MDOC: MsoMdocAttestation = {
   attestation: PHOTO_ID_ATTESTATION,
   doctype: 'org.iso.23220.2.photoid.1',
   namespace: 'org.iso.23220.2.photoid.1'
+}
+
+export const MSO_MDOC_BY_TYPE: { [id: string]: MsoMdocAttestation } = {
+  "pid": PID_MSO_MDOC,
+  "mdl": MDL_MSO_MDOC,
+  "photo_id": PHOTO_ID_MSO_MDOC,
+  "age_over_18": AGE_OVER_18_MSO_MDOC,
 }
