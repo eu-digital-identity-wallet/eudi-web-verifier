@@ -1,5 +1,5 @@
 import {Component, EventEmitter, inject, Input, OnChanges, OnInit, Output, SimpleChanges} from "@angular/core";
-import {CommonModule, KeyValue} from "@angular/common";
+import {CommonModule} from "@angular/common";
 import {SharedModule} from "@shared/shared.module";
 import {WalletLayoutComponent} from "@core/layout/wallet-layout/wallet-layout.component";
 import {AttestationSelection, ScenarioSelection} from "@features/presentation-request-preparation/models/ScenarioSelection";
@@ -17,6 +17,7 @@ import {InputDescriptor} from "@core/models/presentation/InputDescriptor";
 import {DialogResult} from "@features/selectable-presentation/components/selectable-attestation-attributes/model/DialogResult";
 import {MSO_MDOC_BY_TYPE} from "@core/data/MsoMdocDocuments";
 import {MsoMdocPresentationService} from "@core/services/mso-mdoc-presentation.service";
+import {MatBadgeModule} from "@angular/material/badge";
 
 @Component({
   selector: 'vc-attribute-selection',
@@ -27,15 +28,17 @@ import {MsoMdocPresentationService} from "@core/services/mso-mdoc-presentation.s
     WalletLayoutComponent,
     MatButtonModule,
     MatCardModule,
+    MatBadgeModule,
   ],
-  providers: [ MsoMdocPresentationService],
+  providers: [MsoMdocPresentationService],
   templateUrl: './attribute-selection.component.html'
 })
 export class AttributeSelectionComponent implements OnInit, OnChanges {
 
   constructor(
     private readonly msoMdocPresentationService: MsoMdocPresentationService,
-  ) { }
+  ) {
+  }
 
   @Input() scenarioSelection!: ScenarioSelection;
   @Output() attributesCollectedEvent =
@@ -112,4 +115,17 @@ export class AttributeSelectionComponent implements OnInit, OnChanges {
     this.emitDescriptorsEvent();
   }
 
+  fieldsSelected(type: AttestationType): number {
+    if (this.inputDescriptorsByType[type as string])
+      return this.inputDescriptorsByType[type as string].constraints.fields.length;
+    else
+      return 0;
+  }
+
+  showFieldsSelected(type: AttestationType): boolean {
+    if (this.inputDescriptorsByType[type as string])
+      return this.inputDescriptorsByType[type as string].constraints.fields.length > 0;
+    else
+      return false;
+  }
 }
