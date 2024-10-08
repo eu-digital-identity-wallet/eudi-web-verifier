@@ -7,14 +7,12 @@ import {CommonModule} from "@angular/common";
 import {MatTabsModule} from "@angular/material/tabs";
 import {RadioGroupComponent} from "@shared/elements/radio-group/radio-group.component";
 import {SharedModule} from "@shared/shared.module";
-import {InputSchemeComponent} from "@features/home/components/input-scheme/input-scheme.component";
+import {InputSchemeComponent} from "@shared/elements/input-scheme/input-scheme.component";
 import {WalletLayoutComponent} from "@core/layout/wallet-layout/wallet-layout.component";
 import {OpenLogsComponent} from "@shared/elements/open-logs/open-logs.component";
 import {MatDialogModule} from "@angular/material/dialog";
 import {RouterOutlet} from "@angular/router";
-import {
-  ScenarioComponent
-} from "@features/presentation-request-preparation/components/scenario/scenario.component";
+import {ScenarioComponent} from "@features/presentation-request-preparation/components/scenario/scenario.component";
 import {MatStepperModule} from "@angular/material/stepper";
 import {FormBuilder, ReactiveFormsModule, Validators} from "@angular/forms";
 import {MatButtonModule} from "@angular/material/button";
@@ -22,6 +20,11 @@ import {ScenarioSelection} from "@features/presentation-request-preparation/mode
 import {
   AttributeSelectionComponent
 } from "@features/presentation-request-preparation/components/attribute-selection/attribute-selection.component";
+import {TransactionInitializationRequest} from "@core/models/TransactionInitializationRequest";
+import {InputDescriptor} from "@core/models/presentation/InputDescriptor";
+import {v4 as uuidv4} from "uuid";
+import {VerifierEndpointService} from "@core/services/verifier-endpoint.service";
+import {MatExpansionModule} from "@angular/material/expansion";
 
 @Component({
   standalone: true,
@@ -39,17 +42,20 @@ import {
     MatStepperModule,
     ReactiveFormsModule,
     MatButtonModule,
-    AttributeSelectionComponent
+    AttributeSelectionComponent,
+    MatExpansionModule
   ],
-	selector: 'vc-presentation-preparation-home',
-	templateUrl: './home.component.html'
+  providers: [VerifierEndpointService],
+  selector: 'vc-presentation-preparation-home',
+  templateUrl: './home.component.html'
 })
 export class HomeComponent {
-	constructor (
+  constructor(
     private readonly navigateService: NavigateService,
-	) {}
+    private readonly verifierEndpointService: VerifierEndpointService,
+  ) { }
 
-	actions: BodyAction[] = HOME_ACTIONS;
+  actions: BodyAction[] = HOME_ACTIONS;
 
   private _formBuilder = inject(FormBuilder);
   formGroup = this._formBuilder.group({
@@ -57,19 +63,41 @@ export class HomeComponent {
   });
 
   scenarioSelection: ScenarioSelection | null = null;
-
-  submit () {
-
-  }
+  initializationRequest: TransactionInitializationRequest | null = null;
 
   handleSelectionChangedEvent($event: ScenarioSelection) {
     this.scenarioSelection = $event;
-    console.log(this.scenarioSelection);
   }
 
-	runActions (data: BodyAction) {
-		if (data.code === ActionCode.BACK) {
-			this.navigateService.goBack();
-		}
-	}
+  handleAttributesCollectedEvent($event: InputDescriptor[]) {
+    if ($event != null && $event.length > 0) {
+      this.initializationRequest = this.prepareInitializationRequest($event);
+    } else
+      this.initializationRequest = null
+  }
+
+  prepareInitializationRequest(inputDescriptors: InputDescriptor[]): TransactionInitializationRequest {
+    return {
+      type: "vp_token",
+      presentation_definition: {
+        id: uuidv4(),
+        input_descriptors: inputDescriptors
+      },
+      nonce: uuidv4()
+    }
+  }
+
+  proceedToInvokeWallet() {
+    if (this.initializationRequest != null) {
+      this.verifierEndpointService.initializeTransaction(this.initializationRequest, (_) => {
+        this.navigateService.navigateTo('invoke-wallet');
+      });
+    } else {
+      alert("nothing to submit")
+    }
+  }
+
+  canProceed() {
+    return this.initializationRequest !== null;
+  }
 }

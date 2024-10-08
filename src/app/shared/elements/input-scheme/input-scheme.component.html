@@ -1,0 +1,26 @@
+<h2 mat-dialog-title>Change default custom scheme</h2>
+
+<mat-dialog-content class="mat-typography">
+
+  <div style="padding: 2px;">
+    <span>Current custom scheme value is:&nbsp;<strong> {{ schemeValue }} </strong> </span>
+  </div>
+
+  <div style="padding: 2px;">
+    <form>
+      <mat-form-field class="example-full-width">
+        <mat-label>Scheme</mat-label>
+        <input type="scheme" matInput [formControl]="schemeControl" [pattern]="schemePattern" [errorStateMatcher]="matcher"
+               placeholder="https://">
+        <mat-error *ngIf="schemeControl.hasError('scheme') && !schemeControl.hasError('required')">Please enter a valid scheme</mat-error>
+        <mat-error *ngIf="schemeControl.hasError('required')">scheme is <strong>required</strong></mat-error>
+      </mat-form-field>
+    </form>
+  </div>
+
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close (click)="save()" [disabled]="schemeControl.invalid">Save</button>
+  <button mat-button mat-dialog-close>Close</button>
+</mat-dialog-actions>

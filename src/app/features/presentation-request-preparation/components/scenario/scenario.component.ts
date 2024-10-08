@@ -30,14 +30,11 @@ import {AttestationSelection, ScenarioSelection} from "@features/presentation-re
   templateUrl: './scenario.component.html'
 })
 export class ScenarioComponent implements OnInit {
-  constructor(
-  ) { }
 
   @Output() selectionChangedEvent = new EventEmitter<ScenarioSelection>();
 
   scenarios!: PresentationScenario[];
   selectedScenario: PresentationScenario | null = null;
-
   attestationSelections: {[id: string]: AttestationSelection} = {};
 
   scenarioFormControl =
@@ -48,7 +45,11 @@ export class ScenarioComponent implements OnInit {
   }
 
   handleAttestationSelectionEvent($event: AttestationSelection) {
-    this.attestationSelections[$event.type as string] = $event;
+    if ($event.format != null && $event.attributeSelectionMethod != null) {
+      this.attestationSelections[$event.type as string] = $event;
+    } else {
+      delete this.attestationSelections[$event.type as string];
+    }
     this.selectionChangedEvent.emit(
       this.constructScenarioSelection()
     )
@@ -66,5 +67,8 @@ export class ScenarioComponent implements OnInit {
 
   clearSelections() {
     this.attestationSelections = {}
+    this.selectionChangedEvent.emit(
+      this.constructScenarioSelection()
+    )
   }
 }

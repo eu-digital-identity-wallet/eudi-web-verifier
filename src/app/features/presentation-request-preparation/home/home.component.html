@@ -7,17 +7,6 @@
   </p>
   <mat-stepper orientation="vertical" linear="true" #stepper>
     <form>
-
-      <mat-step>
-        <div style="padding: 2px">
-          <ng-template matStepLabel>... select custom scheme</ng-template>
-          <vc-input-scheme></vc-input-scheme>
-        </div>
-        <div style="padding-top: 10px">
-          <button mat-button matStepperNext type="button">Next</button>
-        </div>
-      </mat-step>
-
       <mat-step>
         <div style="padding: 2px">
           <ng-template matStepLabel>... specify presentation scenario</ng-template>
@@ -32,15 +21,33 @@
       <mat-step>
         <div style="padding: 2px">
           <ng-template matStepLabel>...select attestation(s) attributes</ng-template>
-          <vc-attribute-selection *ngIf="scenarioSelection !== null" [scenarioSelection]="scenarioSelection" ></vc-attribute-selection>
+          <vc-attribute-selection *ngIf="scenarioSelection !== null"
+                   [scenarioSelection]="scenarioSelection"
+                   (attributesCollectedEvent)="handleAttributesCollectedEvent($event)"
+          ></vc-attribute-selection>
         </div>
         <div style="padding-top: 10px">
           <button mat-button matStepperPrevious type="button">Back</button>
-          <button mat-button matStepperNext type="button" (click)="submit()">Next</button>
+          <button mat-button matStepperNext type="button">Next</button>
         </div>
       </mat-step>
 
-
+      <mat-step>
+        <div style="padding: 2px">
+          <ng-template matStepLabel>...review and proceed</ng-template>
+          <mat-expansion-panel>
+            <mat-expansion-panel-header>
+              <mat-panel-title> <span>Your presentation request so far...</span></mat-panel-title>
+            </mat-expansion-panel-header>
+            <pre *ngIf="canProceed()">{{initializationRequest | json}}</pre>
+            <pre *ngIf="!canProceed()">..nothing prepared yet...</pre>
+          </mat-expansion-panel>
+        </div>
+        <div style="padding-top: 10px">
+          <button mat-button matStepperPrevious type="button">Back</button>
+          <button mat-button matStepperNext type="button" (click)="proceedToInvokeWallet()" [disabled]="!canProceed()">Next</button>
+        </div>
+      </mat-step>
     </form>
   </mat-stepper>
 

@@ -10,7 +10,7 @@ import {MatExpansionModule} from "@angular/material/expansion";
 import {SharedModule} from "@shared/shared.module";
 import {AttestationType} from "@core/models/attestation/AttestationType";
 import {MSO_MDOC_BY_TYPE} from "@core/data/MsoMdocDocuments";
-import {MAT_DIALOG_DATA, MatDialogModule} from "@angular/material/dialog";
+import {MAT_DIALOG_DATA, MatDialogModule, MatDialogRef} from "@angular/material/dialog";
 import {DialogData} from "@features/selectable-presentation/components/selectable-attestation-attributes/model/DialogData";
 import {CommonModule} from "@angular/common";
 import {MatButtonModule} from "@angular/material/button";
@@ -45,6 +45,7 @@ export class SelectableAttestationAttributesComponent implements OnInit {
   constructor(
     private readonly msoMdocPresentationService: MsoMdocPresentationService,
     private readonly changeDetectorRef: ChangeDetectorRef,
+    private dialogRef: MatDialogRef<InputDescriptor>
   ) { }
 
   ngOnInit(): void {
@@ -118,5 +119,14 @@ export class SelectableAttestationAttributesComponent implements OnInit {
 
   trackByFn(_index: number, data: FormSelectableField) {
     return data.id;
+  }
+
+  saveSelection() {
+     this.dialogRef.close({
+       data: {
+         attestationType: this.attestationType,
+         inputDescriptor: this.draftInputDescriptor
+       }
+     });
   }
 }

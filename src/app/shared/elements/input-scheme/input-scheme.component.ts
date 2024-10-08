@@ -5,14 +5,16 @@ import { MatIconModule } from '@angular/material/icon';
 import { FormControl, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
 import { MatInputModule } from '@angular/material/input';
 import { ErrorStateMatcher } from './error-state-matcher';
-import { SharedModule } from '@app/shared/shared.module';
-import { LocalStorageService } from '@app/core/services/local-storage.service';
+import { SharedModule } from '@shared/shared.module';
+import { LocalStorageService } from '@core/services/local-storage.service';
 import { DEFAULT_SCHEME, SCHEME } from '@core/constants/general';
+import {MatDialogModule} from "@angular/material/dialog";
+import {MatButtonModule} from "@angular/material/button";
 
 @Component({
 	selector: 'vc-input-scheme',
 	standalone: true,
-	imports: [CommonModule, MatExpansionModule, FormsModule, ReactiveFormsModule, MatInputModule, SharedModule, MatIconModule],
+  imports: [CommonModule, MatExpansionModule, FormsModule, ReactiveFormsModule, MatInputModule, SharedModule, MatIconModule, MatDialogModule, MatButtonModule],
 	templateUrl: './input-scheme.component.html',
 	styleUrls: ['./input-scheme.component.scss']
 })
