@@ -11,7 +11,7 @@ import {InputSchemeComponent} from "@shared/elements/input-scheme/input-scheme.c
 import {WalletLayoutComponent} from "@core/layout/wallet-layout/wallet-layout.component";
 import {OpenLogsComponent} from "@shared/elements/open-logs/open-logs.component";
 import {MatDialogModule} from "@angular/material/dialog";
-import {RouterOutlet} from "@angular/router";
+import {RouterLink, RouterLinkActive, RouterOutlet} from "@angular/router";
 import {ScenarioComponent} from "@features/presentation-request-preparation/components/scenario/scenario.component";
 import {MatStepperModule} from "@angular/material/stepper";
 import {FormBuilder, ReactiveFormsModule, Validators} from "@angular/forms";
@@ -43,7 +43,9 @@ import {MatExpansionModule} from "@angular/material/expansion";
     ReactiveFormsModule,
     MatButtonModule,
     AttributeSelectionComponent,
-    MatExpansionModule
+    MatExpansionModule,
+    RouterLinkActive,
+    RouterLink
   ],
   providers: [VerifierEndpointService],
   selector: 'vc-presentation-preparation-home',
