@@ -37,12 +37,10 @@ export class AttributeSelectionComponent implements OnInit, OnChanges {
 
   constructor(
     private readonly msoMdocPresentationService: MsoMdocPresentationService,
-  ) {
-  }
+  ) {}
 
   @Input() scenarioSelection!: ScenarioSelection;
-  @Output() attributesCollectedEvent =
-    new EventEmitter<InputDescriptor[]>();
+  @Output() attributesCollectedEvent = new EventEmitter<InputDescriptor[]>();
 
   readonly dialog: MatDialog = inject(MatDialog);
 
@@ -56,8 +54,6 @@ export class AttributeSelectionComponent implements OnInit, OnChanges {
     let allAttributesSelections = this.scenarioSelection.selections.filter((selection: AttestationSelection) =>
       selection.attributeSelectionMethod === AttributeSelectionMethod.ALL_ATTRIBUTES
     )
-    console.log(allAttributesSelections);
-
     allAttributesSelections.forEach((selection: AttestationSelection) => {
       switch (selection.format) {
         case AttestationFormat.MSO_MDOC:
@@ -98,10 +94,10 @@ export class AttributeSelectionComponent implements OnInit, OnChanges {
 
   updateInputDescriptorsDictionary(dialogResult: DialogResult) {
     this.inputDescriptorsByType[dialogResult.attestationType as string] = dialogResult.inputDescriptor;
-    this.emitDescriptorsEvent();
+    this.emitAttributesCollectedEvent();
   }
 
-  emitDescriptorsEvent() {
+  emitAttributesCollectedEvent() {
     let result: InputDescriptor[] = [];
     Object.keys(this.inputDescriptorsByType).forEach((item) => {
       result.push(this.inputDescriptorsByType[item]);
@@ -110,22 +106,58 @@ export class AttributeSelectionComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    this.inputDescriptorsByType = {};
+    console.log("Attribute selection component ==> Changes detected")
+    console.log(changes)
+    if (!changes["scenarioSelection"].firstChange) {
+      let currentSelection = changes["scenarioSelection"].currentValue as ScenarioSelection;
+      let previousSelection = changes["scenarioSelection"].previousValue as ScenarioSelection;
+      if (currentSelection.scenarioName !== previousSelection.scenarioName) {
+        this.inputDescriptorsByType = {};
+      } else {
+        Object.keys(this.inputDescriptorsByType).forEach((item) => {
+          if (this.attributeSelectionChanged(currentSelection, previousSelection, item)) {
+            delete this.inputDescriptorsByType[item];
+          }
+        });
+      }
+    }
     this.prepareDescriptorsForNonSelectable();
-    this.emitDescriptorsEvent();
+    this.emitAttributesCollectedEvent();
   }
 
-  fieldsSelected(type: AttestationType): number {
+  fieldsSelectedNo(type: AttestationType): number {
     if (this.inputDescriptorsByType[type as string])
       return this.inputDescriptorsByType[type as string].constraints.fields.length;
     else
       return 0;
   }
 
-  showFieldsSelected(type: AttestationType): boolean {
+  canShowFieldsSelected(type: AttestationType): boolean {
     if (this.inputDescriptorsByType[type as string])
       return this.inputDescriptorsByType[type as string].constraints.fields.length > 0;
     else
       return false;
+  }
+
+  private attributeSelectionChanged(
+    currentSelection: ScenarioSelection,
+    previousSelection: ScenarioSelection,
+    attestationType: string
+  ): boolean {
+    let current = currentSelection.selections.filter((selection: AttestationSelection) =>
+      selection.type === attestationType
+    )
+    let previous = previousSelection.selections.filter((selection: AttestationSelection) =>
+      selection.type === attestationType
+    )
+    // Previously existed and now removed
+    if (previous && previous.length >= 1 && (!current || current.length >= 1)) {
+      return true
+    }
+    // Selection method or format changed
+    if (previous && previous.length >= 1 && current && current.length >= 1) {
+      return previous[0].attributeSelectionMethod != current[0].attributeSelectionMethod || previous[0].format != current[0].format;
+    }
+    return false;
   }
 }

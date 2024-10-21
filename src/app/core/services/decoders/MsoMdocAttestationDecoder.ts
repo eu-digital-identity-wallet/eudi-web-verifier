@@ -6,6 +6,7 @@ import {Buffer} from 'buffer';
 
 import {SharedAttestation, Single} from "@core/models/presentation/SharedAttestation";
 import {KeyValue} from "@angular/common";
+import {elementAsString} from "@core/services/decoders/DecodingUtils";
 
 @Injectable({
   providedIn: 'root'
@@ -42,7 +43,7 @@ export class MsoMdocAttestationDecoder implements AttestationDecoder {
         const decodedElement = this.decodeCborData(element.value);
         attributes.push({
           key: it + ":" + decodedElement.elementIdentifier,
-          value: this.asString(decodedElement.elementValue)
+          value: elementAsString(decodedElement.elementValue)
         });
       }
 
@@ -73,32 +74,5 @@ export class MsoMdocAttestationDecoder implements AttestationDecoder {
       return null;
     }
   }
-
-  asString(element: any, prepend?: string): string {
-    if ((typeof element) === "object") {
-
-      if (Array.isArray(element)) {
-        return (element as string[]).map((it) => {
-          return JSON.stringify(it);
-        }).join(', ')
-
-      } else {
-        let str = ""
-        if (typeof prepend !== 'undefined') {
-          str += "<br/>"
-        } else {
-          prepend = ""
-        }
-        return str + Object.keys(element).map((it) => {
-          return prepend + "&nbsp;&nbsp;" + it + ": " + this.asString(element[it], "&nbsp;&nbsp;").toString()
-        }).join("<br/>");
-      }
-
-    } else {
-      return element.toString();
-    }
-  }
-
-
 
 }

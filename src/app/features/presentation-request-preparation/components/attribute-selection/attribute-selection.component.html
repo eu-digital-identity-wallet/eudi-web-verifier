@@ -5,10 +5,10 @@
       <mat-card-subtitle> in <i> {{ selection.format }} </i> format</mat-card-subtitle>
     </mat-card-header>
     <mat-card-actions align="end" *ngIf="isSelectable(selection)">
-      <button matBadge="{{fieldsSelected(selection.type)}}" [matBadgeHidden]="!showFieldsSelected(selection.type)" matBadgeColor="accent" mat-button (click)="popAttributesSelector(selection.format!, selection.type, nameOf(selection.type))">Select Attributes</button>
+      <button matBadge="{{fieldsSelectedNo(selection.type)}}" [matBadgeHidden]="!canShowFieldsSelected(selection.type)" matBadgeColor="accent" mat-button (click)="popAttributesSelector(selection.format!, selection.type, nameOf(selection.type))">Select Attributes</button>
     </mat-card-actions>
     <mat-card-actions align="end" *ngIf="!isSelectable(selection)">
-      <span matBadge="{{fieldsSelected(selection.type)}}" [matBadgeHidden]="!showFieldsSelected(selection.type)" matBadgeColor="accent">All Attributes</span>
+      <span matBadge="{{fieldsSelectedNo(selection.type)}}" [matBadgeHidden]="!canShowFieldsSelected(selection.type)" matBadgeColor="accent">All Attributes</span>
     </mat-card-actions>
   </mat-card>
   <br>

@@ -4,6 +4,7 @@ import {SharedAttestation, Single} from "@core/models/presentation/SharedAttesta
 import {AttestationFormat} from "@core/models/attestation/AttestationFormat";
 import {JWTService} from "@core/services/jwt.service";
 import {KeyValue} from "@angular/common";
+import {elementAsString} from "@core/services/decoders/DecodingUtils";
 
 const TYPE_VerifiableAttestation = "VerifiableAttestation"
 const TYPE_VerifiableCredential = "VerifiableCredential"
@@ -64,7 +65,7 @@ export class JwtVcJsonAttestationDecoder implements AttestationDecoder {
     Object.keys(credentialSubject).forEach((item) => {
       result.push({
         key: item.replaceAll('_', ' '),
-        value: this.asString(credentialSubject[item])
+        value: elementAsString(credentialSubject[item])
       });
     });
     return result;
@@ -77,35 +78,11 @@ export class JwtVcJsonAttestationDecoder implements AttestationDecoder {
       if (item !== "credentialSubject") {
         result.push({
           key: item.replaceAll('_', ' '),
-          value: this.asString(vcElement[item])
+          value: elementAsString(vcElement[item])
         });
       }
     });
     return result;
   }
 
-  asString(element: any, prepend?: string): string {
-    if ((typeof element) === "object") {
-
-      if (Array.isArray(element)) {
-        return (element as string[]).map((it) => {
-          return JSON.stringify(it);
-        }).join(', ')
-
-      } else {
-        let str = ""
-        if (typeof prepend !== 'undefined') {
-          str += "<br/>"
-        } else {
-          prepend = ""
-        }
-        return str + Object.keys(element).map((it) => {
-          return prepend + "&nbsp;&nbsp;" + it + ": " + this.asString(element[it], "&nbsp;&nbsp;").toString()
-        }).join("<br/>");
-      }
-
-    } else {
-      return element.toString();
-    }
-  }
 }

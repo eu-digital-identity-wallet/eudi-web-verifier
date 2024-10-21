@@ -46,13 +46,21 @@ export class ScenarioComponent implements OnInit {
 
   handleAttestationSelectionEvent($event: AttestationSelection) {
     if ($event.format != null && $event.attributeSelectionMethod != null) {
-      this.attestationSelections[$event.type as string] = $event;
+      if (this.newSelectionOrAttestationSelectionChanged($event)) {
+        this.attestationSelections[$event.type as string] = $event;
+        this.selectionChangedEvent.emit( this.constructScenarioSelection() )
+      }
     } else {
       delete this.attestationSelections[$event.type as string];
+      this.selectionChangedEvent.emit( this.constructScenarioSelection() )
     }
-    this.selectionChangedEvent.emit(
-      this.constructScenarioSelection()
-    )
+  }
+
+  newSelectionOrAttestationSelectionChanged($event: AttestationSelection): boolean {
+    let attestationSelection = this.attestationSelections[$event.type as string];
+    return !attestationSelection || (attestationSelection &&
+      (attestationSelection.format != $event.format ||
+        attestationSelection.attributeSelectionMethod != $event.attributeSelectionMethod))
   }
 
   constructScenarioSelection(): ScenarioSelection {
@@ -61,6 +69,7 @@ export class ScenarioComponent implements OnInit {
       selections.push(this.attestationSelections[item])
     })
     return {
+      scenarioName: this.selectedScenario!.name,
       selections: selections
     }
   }

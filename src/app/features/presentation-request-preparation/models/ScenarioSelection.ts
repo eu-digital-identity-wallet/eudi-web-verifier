@@ -3,6 +3,7 @@ import {AttestationFormat} from "@core/models/attestation/AttestationFormat";
 import {AttributeSelectionMethod} from "@features/presentation-request-preparation/models/ScenarioAttestation";
 
 export type ScenarioSelection = {
+  scenarioName: string,
   selections: AttestationSelection[]
 }
 
