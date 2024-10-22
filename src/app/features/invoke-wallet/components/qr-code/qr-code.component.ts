@@ -91,7 +91,7 @@ export class QrCodeComponent implements OnInit, OnDestroy {
 
   ngAfterViewInit() {
     if (this.isCrossDevice) {
-      new QRCode(this.qrCode.nativeElement, this.redirectUrl);
+      new QRCode(this.qrCode.nativeElement, this.redirectUrl.padEnd(300));
     }
   }
 
