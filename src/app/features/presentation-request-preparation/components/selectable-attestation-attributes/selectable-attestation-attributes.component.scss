@@ -1,5 +1,5 @@
 @use '/src/template' as temp;
-@use '/src//layout-breakpoint' as points;
+@use '/src/layout-breakpoint' as points;
 
 :host {
     max-width: 40rem;
