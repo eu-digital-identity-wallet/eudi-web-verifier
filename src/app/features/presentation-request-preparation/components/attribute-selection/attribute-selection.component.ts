@@ -11,10 +11,10 @@ import {MatCardModule} from "@angular/material/card";
 import {MatDialog} from "@angular/material/dialog";
 import {
   SelectableAttestationAttributesComponent
-} from "@features/selectable-presentation/components/selectable-attestation-attributes/selectable-attestation-attributes.component";
+} from "@features/presentation-request-preparation/components/selectable-attestation-attributes/selectable-attestation-attributes.component";
 import {AttestationFormat} from "@core/models/attestation/AttestationFormat";
 import {InputDescriptor} from "@core/models/presentation/InputDescriptor";
-import {DialogResult} from "@features/selectable-presentation/components/selectable-attestation-attributes/model/DialogResult";
+import {DialogResult} from "@features/presentation-request-preparation/components/selectable-attestation-attributes/model/DialogResult";
 import {MSO_MDOC_BY_TYPE} from "@core/data/MsoMdocDocuments";
 import {MsoMdocPresentationService} from "@core/services/mso-mdoc-presentation.service";
 import {MatBadgeModule} from "@angular/material/badge";

@@ -11,9 +11,9 @@ import {SharedModule} from "@shared/shared.module";
 import {AttestationType} from "@core/models/attestation/AttestationType";
 import {MSO_MDOC_BY_TYPE} from "@core/data/MsoMdocDocuments";
 import {MAT_DIALOG_DATA, MatDialogModule, MatDialogRef} from "@angular/material/dialog";
-import {DialogData} from "@features/selectable-presentation/components/selectable-attestation-attributes/model/DialogData";
 import {CommonModule} from "@angular/common";
 import {MatButtonModule} from "@angular/material/button";
+import {DialogData} from "@features/presentation-request-preparation/components/selectable-attestation-attributes/model/DialogData";
 
 @Component({
   standalone: true,

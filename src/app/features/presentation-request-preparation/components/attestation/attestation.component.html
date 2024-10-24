@@ -7,7 +7,7 @@
 
   <div>
       <mat-form-field>
-        <mat-label>-- attributes --</mat-label>
+        <mat-label>-- attributes by --</mat-label>
         <mat-select matNativeControl [(value)]="selectedMethod" [formControl]="methodControl" (selectionChange)="emit()">
           <ng-container *ngFor="let method of attestation.attributeSelectionMethods">
             <mat-option [value]="method">{{ labelOf(method) }}</mat-option>
