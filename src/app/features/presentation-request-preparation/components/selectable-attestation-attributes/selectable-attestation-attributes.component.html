@@ -10,7 +10,7 @@
       </div>
       <ng-container *ngFor="let field of formFields; index as idx; trackBy: trackByFn">
         <div class="controls">
-          <mat-checkbox (click)="handle(field)" color="primary">
+          <mat-checkbox (click)="handle(field)" color="primary" [checked]="isChecked(field)">
             {{ field.label }}
           </mat-checkbox>
         </div>
@@ -29,6 +29,6 @@
 </mat-dialog-content>
 
 <mat-dialog-actions align="end">
-  <button mat-button mat-dialog-close (click)="saveSelection()" >Save</button>
+  <button mat-button mat-dialog-close (click)="saveSelection()">Select</button>
   <button mat-button mat-dialog-close>Close</button>
 </mat-dialog-actions>

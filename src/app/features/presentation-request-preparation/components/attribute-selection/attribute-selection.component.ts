@@ -4,7 +4,7 @@ import {SharedModule} from "@shared/shared.module";
 import {WalletLayoutComponent} from "@core/layout/wallet-layout/wallet-layout.component";
 import {AttestationSelection, ScenarioSelection} from "@features/presentation-request-preparation/models/ScenarioSelection";
 import {AttestationType} from "@core/models/attestation/AttestationType";
-import {SUPPORTED_ATTESTATIONS} from "@core/constants/attestations-supported";
+import {SUPPORTED_ATTESTATIONS} from "@core/constants/attestations";
 import {AttributeSelectionMethod} from "@features/presentation-request-preparation/models/ScenarioAttestation";
 import {MatButtonModule} from "@angular/material/button";
 import {MatCardModule} from "@angular/material/card";
@@ -37,7 +37,8 @@ export class AttributeSelectionComponent implements OnInit, OnChanges {
 
   constructor(
     private readonly msoMdocPresentationService: MsoMdocPresentationService,
-  ) {}
+  ) {
+  }
 
   @Input() scenarioSelection!: ScenarioSelection;
   @Output() attributesCollectedEvent = new EventEmitter<InputDescriptor[]>();
@@ -84,16 +85,24 @@ export class AttributeSelectionComponent implements OnInit, OnChanges {
       data: {
         type: type,
         format: format,
-        attestationName: attestationName
+        attestationName: attestationName,
+        seed: this.inputDescriptorsByType[type as string]
       }
     });
     dialogRef.afterClosed().subscribe(result => {
-      this.updateInputDescriptorsDictionary(result.data as DialogResult);
+      // result can be null or undefined if popup is closed without saving selection (clicking on 'close' button or focus lost)
+      if (result) {
+        this.updateInputDescriptorsDictionary(result.data as DialogResult);
+      }
     });
   }
 
   updateInputDescriptorsDictionary(dialogResult: DialogResult) {
-    this.inputDescriptorsByType[dialogResult.attestationType as string] = dialogResult.inputDescriptor;
+    if (dialogResult.inputDescriptor) {
+      this.inputDescriptorsByType[dialogResult.attestationType as string] = dialogResult.inputDescriptor;
+    } else {
+      delete this.inputDescriptorsByType[dialogResult.attestationType as string]
+    }
     this.emitAttributesCollectedEvent();
   }
 
@@ -106,16 +115,15 @@ export class AttributeSelectionComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    console.log("Attribute selection component ==> Changes detected")
-    console.log(changes)
     if (!changes["scenarioSelection"].firstChange) {
       let currentSelection = changes["scenarioSelection"].currentValue as ScenarioSelection;
       let previousSelection = changes["scenarioSelection"].previousValue as ScenarioSelection;
       if (currentSelection.scenarioName !== previousSelection.scenarioName) {
+        console.log("scenario changed...re-setting everything")
         this.inputDescriptorsByType = {};
       } else {
         Object.keys(this.inputDescriptorsByType).forEach((item) => {
-          if (this.attributeSelectionChanged(currentSelection, previousSelection, item)) {
+          if (this.attributeSelectionChanged(currentSelection, previousSelection, item as AttestationType)) {
             delete this.inputDescriptorsByType[item];
           }
         });
@@ -140,18 +148,18 @@ export class AttributeSelectionComponent implements OnInit, OnChanges {
   }
 
   private attributeSelectionChanged(
-    currentSelection: ScenarioSelection,
-    previousSelection: ScenarioSelection,
-    attestationType: string
+    currentScenario: ScenarioSelection,
+    previousScenario: ScenarioSelection,
+    attestationType: AttestationType
   ): boolean {
-    let current = currentSelection.selections.filter((selection: AttestationSelection) =>
+    let current = currentScenario.selections.filter((selection: AttestationSelection) =>
       selection.type === attestationType
     )
-    let previous = previousSelection.selections.filter((selection: AttestationSelection) =>
+    let previous = previousScenario.selections.filter((selection: AttestationSelection) =>
       selection.type === attestationType
     )
     // Previously existed and now removed
-    if (previous && previous.length >= 1 && (!current || current.length >= 1)) {
+    if (previous && previous.length >= 1 && (!current || current.length == 0)) {
       return true
     }
     // Selection method or format changed

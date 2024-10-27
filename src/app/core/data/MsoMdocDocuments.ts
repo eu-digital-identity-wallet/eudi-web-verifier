@@ -1,6 +1,5 @@
 import {MsoMdocAttestation} from "@core/models/attestation/MsoMdocAttestation";
-import {AGE_OVER_18_ATTESTATION, MDL_ATTESTATION, PHOTO_ID_ATTESTATION, PID_ATTESTATION} from "@core/constants/attestations-supported";
-import {Attestation} from "@core/models/attestation/Attestation";
+import {AGE_OVER_18_ATTESTATION, MDL_ATTESTATION, PHOTO_ID_ATTESTATION, PID_ATTESTATION} from "@core/constants/attestations";
 
 /* eslint-disable quotes */
 export const MDL_MSO_MDOC: MsoMdocAttestation = {

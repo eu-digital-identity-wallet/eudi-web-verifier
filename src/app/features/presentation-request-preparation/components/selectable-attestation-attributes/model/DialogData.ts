@@ -1,8 +1,10 @@
 import {AttestationFormat} from "@core/models/attestation/AttestationFormat";
 import {AttestationType} from "@core/models/attestation/AttestationType";
+import {InputDescriptor} from "@core/models/presentation/InputDescriptor";
 
 export interface DialogData {
-  format: AttestationFormat,
   type: AttestationType,
-  attestationName: string
+  format: AttestationFormat,
+  attestationName: string,
+  seed?: InputDescriptor
 }

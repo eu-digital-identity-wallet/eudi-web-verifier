@@ -1,7 +1,7 @@
-import {ChangeDetectorRef, Component, inject, Input, OnInit} from '@angular/core';
+import {ChangeDetectorRef, Component, inject, OnInit} from '@angular/core';
 import {MsoMdocPresentationService} from "@app/core/services/mso-mdoc-presentation.service";
 import {VerifierEndpointService} from "@core/services/verifier-endpoint.service";
-import {FieldConstraint} from "@core/models/presentation/FieldConstraint";
+import {FieldConstraint, Filter} from "@core/models/presentation/FieldConstraint";
 import {FormSelectableField} from "@core/models/FormSelectableField";
 import {InputDescriptor} from "@core/models/presentation/InputDescriptor";
 import {AttestationFormat} from "@core/models/attestation/AttestationFormat";
@@ -34,8 +34,9 @@ export class SelectableAttestationAttributesComponent implements OnInit {
 
   readonly data = inject<DialogData>(MAT_DIALOG_DATA);
 
-  @Input() attestationType!: AttestationType;
-  @Input() attestationFormat!: AttestationFormat;
+  attestationType!: AttestationType;
+  attestationFormat!: AttestationFormat;
+  seed: InputDescriptor | undefined;
 
   formFields!: FormSelectableField[];
   draftInputDescriptor!: InputDescriptor;
@@ -46,22 +47,27 @@ export class SelectableAttestationAttributesComponent implements OnInit {
     private readonly msoMdocPresentationService: MsoMdocPresentationService,
     private readonly changeDetectorRef: ChangeDetectorRef,
     private dialogRef: MatDialogRef<InputDescriptor>
-  ) { }
+  ) {
+  }
 
   ngOnInit(): void {
     this.attestationFormat = this.data.format;
     this.attestationType = this.data.type;
-    this.initPresentationModel();
-    // Init form from model
+    this.seed = this.data.seed;
     this.formFields = this.extractFormFieldsFromModel()
-
+    if (this.seed) {
+      this.selectedFields = this.seed.constraints.fields
+      this.draftInputDescriptor = this.seed
+    } else {
+      this.initEmptyInputDecriptor();
+    }
   }
 
-  initPresentationModel() {
+  initEmptyInputDecriptor() {
     switch (this.attestationFormat) {
       case AttestationFormat.MSO_MDOC:
         let msomdoc = MSO_MDOC_BY_TYPE[this.attestationType as string];
-        this.draftInputDescriptor = this.msoMdocPresentationService.msoMdocInputDescriptorOf(msomdoc, "")
+        this.draftInputDescriptor = this.msoMdocPresentationService.msoMdocInputDescriptorOf(msomdoc, "", [])
         return
       case AttestationFormat.SD_JWT_VC:
         console.error("Format " + AttestationFormat.SD_JWT_VC + " not suppoerted  yet");
@@ -122,11 +128,38 @@ export class SelectableAttestationAttributesComponent implements OnInit {
   }
 
   saveSelection() {
-     this.dialogRef.close({
-       data: {
-         attestationType: this.attestationType,
-         inputDescriptor: this.draftInputDescriptor
-       }
-     });
+    this.dialogRef.close({
+      data: {
+        attestationType: this.attestationType,
+        inputDescriptor: this.selectedFields.length == 0 ? null : this.draftInputDescriptor
+      }
+    });
+  }
+
+  isChecked(field: FormSelectableField) {
+    return this.selectedFields.filter((item: FieldConstraint) => {
+      return this.areEqualConstraints(item, field.value);
+    }).length > 0
+  }
+
+  areEqualConstraints(one: FieldConstraint, other: FieldConstraint): boolean {
+    function pathsAreEqual(a: string[], b: string[]): boolean {
+      if (a === b) return true;
+      if (a == null || b == null) return false;
+      if (a.length !== b.length) return false;
+
+      return JSON.stringify(a) == JSON.stringify(b);
+    }
+
+    function filtersAreEqual(a: Filter | undefined, b: Filter | undefined): boolean {
+      if (a === b) return true;
+      if (a == null || b == null) return false;
+
+      return a.type == b.type && JSON.stringify(a.contains) == JSON.stringify(b.contains);
+    }
+
+    return one.intent_to_retain === other.intent_to_retain &&
+      pathsAreEqual(one.path, other.path) &&
+      filtersAreEqual(one.filter, other.filter)
   }
 }

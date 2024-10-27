@@ -7,7 +7,7 @@ import {MatSelectModule} from "@angular/material/select";
 import {MatRadioModule} from "@angular/material/radio";
 import {FormControl, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
 import {AttributeSelectionMethod, ScenarioAttestation} from "@features/presentation-request-preparation/models/ScenarioAttestation";
-import {SUPPORTED_ATTESTATIONS, SUPPORTED_FORMATS} from "@core/constants/attestations-supported";
+import {SUPPORTED_ATTESTATIONS, SUPPORTED_FORMATS} from "@core/constants/attestations";
 import {MatExpansionModule} from "@angular/material/expansion";
 import {AttestationFormat} from "@core/models/attestation/AttestationFormat";
 import {AttestationSelection} from "@features/presentation-request-preparation/models/ScenarioSelection";
