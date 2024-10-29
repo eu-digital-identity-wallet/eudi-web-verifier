@@ -11,6 +11,7 @@ import {SUPPORTED_ATTESTATIONS, SUPPORTED_FORMATS} from "@core/constants/attesta
 import {MatExpansionModule} from "@angular/material/expansion";
 import {AttestationFormat} from "@core/models/attestation/AttestationFormat";
 import {AttestationSelection} from "@features/presentation-request-preparation/models/ScenarioSelection";
+import {FormatSelectOption} from "@features/presentation-request-preparation/components/attestation/model/format-select-option";
 
 @Component({
   selector: 'vc-scenario-attestation',
@@ -33,7 +34,7 @@ export class AttestationComponent {
   @Input() attestation!: ScenarioAttestation;
   @Output() attestationSelectionEvent = new EventEmitter<AttestationSelection>();
 
-  protected readonly supportedFormats: KeyValue<string, string>[] = this.formats(SUPPORTED_FORMATS)
+  protected readonly supportedFormats: FormatSelectOption[] = this.formatOptions()
 
   methodControl = new FormControl<AttributeSelectionMethod | null>(null, Validators.required);
   formatControl = new FormControl<AttestationFormat | null>(null, Validators.required);
@@ -49,15 +50,21 @@ export class AttestationComponent {
     }
   }
 
-  formats(formats: { [p: string]: AttestationFormat }) {
-    let result: KeyValue<string, string>[] = [];
-    Object.keys(formats).forEach((item) => {
+  formatOptions(): FormatSelectOption[] {
+    function enumKeys<O extends object, K extends keyof O = keyof O>(obj: O): K[] {
+      return Object.keys(obj).filter(k => !Number.isNaN(k)) as K[]
+    }
+
+    let result: FormatSelectOption[] = [];
+    for (const enumKey of enumKeys(AttestationFormat)) {
+      const format = AttestationFormat[enumKey];
       result.push({
-        key: item,
-        value: formats[item]
-      });
-    });
-    return result;
+        key: format,
+        value: format,
+        disabled: !SUPPORTED_FORMATS.includes(format)
+      })
+    }
+    return result
   }
 
   emit() {
@@ -72,4 +79,5 @@ export class AttestationComponent {
     return SUPPORTED_ATTESTATIONS[attestation.attestationType as string].name
   }
 
+  protected readonly frameElement = frameElement;
 }

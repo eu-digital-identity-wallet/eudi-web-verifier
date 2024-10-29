@@ -135,9 +135,7 @@ export const SUPPORTED_ATTESTATIONS: { [id: string]: Attestation } = {
   "age_over_18": AGE_OVER_18_ATTESTATION,
 }
 
-export const SUPPORTED_FORMATS: { [id: string]: AttestationFormat } = {
-  "mso_mdoc": AttestationFormat.MSO_MDOC,
-  "vc+sd-jwt": AttestationFormat.SD_JWT_VC,
-  "jwt_vc_json": AttestationFormat.JWT_VC_JSON,
-}
+export const SUPPORTED_FORMATS: AttestationFormat[] = [
+  AttestationFormat.MSO_MDOC
+]
 

@@ -29,6 +29,6 @@
 </mat-dialog-content>
 
 <mat-dialog-actions align="end">
-  <button mat-button mat-dialog-close (click)="saveSelection()">Select</button>
+  <button mat-button mat-dialog-close (click)="saveSelection()" [disabled]="!isSomethingSelected()">Select</button>
   <button mat-button mat-dialog-close>Close</button>
 </mat-dialog-actions>

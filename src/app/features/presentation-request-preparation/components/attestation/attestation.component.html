@@ -20,7 +20,7 @@
         <mat-label>-- format --</mat-label>
         <mat-select matNativeControl [(value)]="selectedFormat" [formControl]="formatControl" (selectionChange)="emit()">
           <ng-container *ngFor="let format of supportedFormats">
-            <mat-option [value]="format.key">{{ format.value }}</mat-option>
+            <mat-option [value]="format.key" disabled="{{format.disabled}}">{{ format.value }}</mat-option>
           </ng-container>
         </mat-select>
         <mat-error *ngIf="formatControl.hasError('required')">Please choose an format</mat-error>

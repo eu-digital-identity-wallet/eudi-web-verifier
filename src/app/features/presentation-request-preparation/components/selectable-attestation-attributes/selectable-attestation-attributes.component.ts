@@ -1,4 +1,4 @@
-import {ChangeDetectorRef, Component, inject, OnInit} from '@angular/core';
+import {Component, inject, OnInit} from '@angular/core';
 import {MsoMdocPresentationService} from "@app/core/services/mso-mdoc-presentation.service";
 import {VerifierEndpointService} from "@core/services/verifier-endpoint.service";
 import {FieldConstraint, Filter} from "@core/models/presentation/FieldConstraint";
@@ -45,7 +45,6 @@ export class SelectableAttestationAttributesComponent implements OnInit {
 
   constructor(
     private readonly msoMdocPresentationService: MsoMdocPresentationService,
-    private readonly changeDetectorRef: ChangeDetectorRef,
     private dialogRef: MatDialogRef<InputDescriptor>
   ) {
   }
@@ -59,11 +58,12 @@ export class SelectableAttestationAttributesComponent implements OnInit {
       this.selectedFields = this.seed.constraints.fields
       this.draftInputDescriptor = this.seed
     } else {
-      this.initEmptyInputDecriptor();
+      this.initEmptyInputDescriptor();
     }
+    this.inputDescriptorText = this.convertJSONtoString(this.draftInputDescriptor);
   }
 
-  initEmptyInputDecriptor() {
+  initEmptyInputDescriptor() {
     switch (this.attestationFormat) {
       case AttestationFormat.MSO_MDOC:
         let msomdoc = MSO_MDOC_BY_TYPE[this.attestationType as string];
@@ -91,7 +91,6 @@ export class SelectableAttestationAttributesComponent implements OnInit {
     this.draftInputDescriptor.constraints.fields = this.selectedFields;
     // refresh descriptor text from model
     this.inputDescriptorText = this.convertJSONtoString(this.draftInputDescriptor);
-    this.changeDetectorRef.detectChanges();
   }
 
   convertJSONtoString(obj: object) {
@@ -140,6 +139,10 @@ export class SelectableAttestationAttributesComponent implements OnInit {
     return this.selectedFields.filter((item: FieldConstraint) => {
       return this.areEqualConstraints(item, field.value);
     }).length > 0
+  }
+
+  isSomethingSelected(): boolean {
+    return this.selectedFields.length > 0;
   }
 
   areEqualConstraints(one: FieldConstraint, other: FieldConstraint): boolean {
