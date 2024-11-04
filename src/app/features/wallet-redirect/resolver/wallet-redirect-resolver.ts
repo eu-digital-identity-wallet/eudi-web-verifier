@@ -7,7 +7,7 @@ import {ConcludedTransaction} from "@core/models/ConcludedTransaction";
 import {map} from "rxjs/operators";
 import {WalletResponse} from "@core/models/WalletResponse";
 import {LocalStorageService} from "@core/services/local-storage.service";
-import {ACTIVE_PRESENTATION_DEFINITION, ACTIVE_TRANSACTION} from "@core/constants/constants";
+import {ACTIVE_PRESENTATION_DEFINITION, ACTIVE_TRANSACTION} from "@core/constants/general";
 import {PresentationDefinition} from "@core/models/presentation/PresentationDefinition";
 
 export const WalletRedirectResolver: ResolveFn<ConcludedTransaction> =

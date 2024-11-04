@@ -18,20 +18,27 @@ import {InitializedTransaction} from '@core/models/InitializedTransaction';
 import {PresentationsResultsComponent} from '../presentations-results/presentations-results.component';
 import {DeviceDetectorService} from '@core/services/device-detector.service';
 import {LocalStorageService} from '@core/services/local-storage.service';
-import * as constants from '@core/constants/constants';
+import * as constants from '@core/constants/general';
 import {MatDialog, MatDialogModule} from '@angular/material/dialog';
 import {OpenLogsComponent} from '@shared/elements/open-logs/open-logs.component';
 import {VerifierEndpointService} from "@core/services/verifier-endpoint.service";
 import {WalletResponse} from "@core/models/WalletResponse";
 import {ConcludedTransaction} from "@core/models/ConcludedTransaction";
+import { QRCodeModule } from 'angularx-qrcode';
+import {SafeUrl} from "@angular/platform-browser";
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-declare let QRCode: any;
 
 @Component({
   selector: 'vc-qr-code',
   standalone: true,
-  imports: [CommonModule, SharedModule, PresentationsResultsComponent, OpenLogsComponent, MatDialogModule],
+  imports: [
+    CommonModule,
+    SharedModule,
+    PresentationsResultsComponent,
+    OpenLogsComponent,
+    MatDialogModule,
+    QRCodeModule
+  ],
   templateUrl: './qr-code.component.html',
   styleUrls: ['./qr-code.component.scss'],
   providers: [VerifierEndpointService],
@@ -44,13 +51,13 @@ export class QrCodeComponent implements OnInit, OnDestroy {
 
   destroy$ = new Subject();
   stopPlay$ = new ReplaySubject(1);
-  @ViewChild('qrCode') qrCode!: ElementRef;
 
   isCrossDevice = true;
   transaction!: InitializedTransaction;
 
-  redirectUrl!: string;
+  deepLinkTxt!: string;
   scheme!: string;
+  qrCodeDownloadLink!: SafeUrl;
   readonly dialog!: MatDialog;
 
   @Output() transactionConcludedEvent = new EventEmitter<ConcludedTransaction>();
@@ -82,18 +89,17 @@ export class QrCodeComponent implements OnInit, OnDestroy {
     if (!this.transaction) {
       this.navigateService.goHome();
     } else {
-      this.redirectUrl = this.buildQrCode(this.transaction);
+      this.deepLinkTxt = this.buildQrCode(this.transaction);
       if (this.isCrossDevice) {
         this.pollingRequest(this.transaction.transaction_id);
       }
     }
   }
 
-  ngAfterViewInit() {
-    if (this.isCrossDevice) {
-      new QRCode(this.qrCode.nativeElement, this.redirectUrl);
-    }
+  onChangeURL(url: SafeUrl) {
+    this.qrCodeDownloadLink = url;
   }
+
 
   pollingRequest(transaction_id: string) {
     const source = interval(2000);

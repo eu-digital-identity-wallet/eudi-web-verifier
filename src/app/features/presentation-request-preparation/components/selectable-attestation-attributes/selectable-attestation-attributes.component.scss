@@ -1,0 +1,73 @@
+@use '/src/template' as temp;
+@use '/src/layout-breakpoint' as points;
+
+:host {
+    max-width: 40rem;
+
+    ::ng-deep {
+        .mat-expansion-panel {
+            padding: 0 !important;
+        }
+
+    }
+
+    .mb {
+        margin-bottom: temp.$spaceBasic;
+    }
+
+    .creation {
+        display: flex;
+        flex-direction: column;
+        height: temp.$body-height;
+        overflow-y: auto;
+
+        .creation-header {
+            align-items: baseline;
+            background: temp.$backgroundDefault;
+            display: flex;
+            flex-direction: row;
+            justify-content: space-between;
+            position: sticky;
+            top: 0;
+            z-index: 50;
+
+            h3 {
+                color: temp.$textDarkSecondary;
+                font-size: 16px;
+                -webkit-font-smoothing: antialiased;
+                letter-spacing: 0;
+                line-height: 20px;
+                overflow-wrap: break-word;
+                text-decoration: none;
+                word-break: break-word;
+            }
+
+            span {
+                color: temp.$textDarkSecondary;
+                padding-right: temp.$spaceBasic;
+            }
+        }
+
+        .controls {
+            display: flex;
+            flex-direction: row;
+        }
+
+        .presentation-definition {
+            margin-top: 1rem;
+        }
+    }
+    @media (max-width: map-get(points.$breakpoints, xs)) and  (min-width: map-get(points.$breakpoints, sm)){
+        .creation {
+            height: 24.25rem;
+            width: temp.$body-width-xs;
+        }
+    }
+    @media (max-width: map-get(points.$breakpoints, sm)) {
+        .creation {
+            height: 24.25rem;
+            width: temp.$body-width-sm;
+        }
+    }
+
+}

@@ -1,6 +1,6 @@
 import {Injectable} from "@angular/core";
 import {SharedAttestation} from "@core/models/presentation/SharedAttestation";
-import {AttestationFormat} from "@core/models/AttestationFormat";
+import {AttestationFormat} from "@core/models/attestation/AttestationFormat";
 import {JSONPath} from "jsonpath-plus";
 import {ConcludedTransaction} from "@core/models/ConcludedTransaction";
 import {DecodersRegistryService} from "@core/services/decoders-registry.service";

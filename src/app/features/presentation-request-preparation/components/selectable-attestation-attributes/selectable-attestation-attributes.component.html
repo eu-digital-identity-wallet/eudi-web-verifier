@@ -1,0 +1,34 @@
+<h2 mat-dialog-title>{{ data.attestationName }}</h2>
+
+<mat-dialog-content class="mat-typography">
+
+  <div class="bg-panel mb">
+    <div class="creation">
+      <div class="creation-header">
+        <h3>Select attributes of the attestation to be included in the request</h3>
+        <span>{{ selectedFields.length }} selected</span>
+      </div>
+      <ng-container *ngFor="let field of formFields; index as idx; trackBy: trackByFn">
+        <div class="controls">
+          <mat-checkbox (click)="handle(field)" color="primary" [checked]="isChecked(field)">
+            {{ field.label }}
+          </mat-checkbox>
+        </div>
+      </ng-container>
+    </div>
+  </div>
+  <mat-expansion-panel class="presentation-definition bg-panel">
+    <mat-expansion-panel-header>
+      <mat-panel-title>
+        Input descriptor
+      </mat-panel-title>
+    </mat-expansion-panel-header>
+    <vc-editor [code]="inputDescriptorText"></vc-editor>
+  </mat-expansion-panel>
+
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close (click)="saveSelection()" [disabled]="!isSomethingSelected()">Select</button>
+  <button mat-button mat-dialog-close>Close</button>
+</mat-dialog-actions>

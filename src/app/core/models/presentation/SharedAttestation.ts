@@ -1,5 +1,5 @@
 import {KeyValue} from "@angular/common";
-import {AttestationFormat} from "@core/models/AttestationFormat";
+import {AttestationFormat} from "@core/models/attestation/AttestationFormat";
 
 export type SharedAttestation = Single | Enveloped
 

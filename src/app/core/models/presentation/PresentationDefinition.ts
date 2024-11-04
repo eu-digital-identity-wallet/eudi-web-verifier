@@ -1,6 +1,6 @@
-import { InputDescriptors } from './InputDescriptors';
+import { InputDescriptor } from './InputDescriptor';
 
 export type PresentationDefinition = {
   id: string,
-  input_descriptors: InputDescriptors[]
+  input_descriptors: InputDescriptor[]
 }

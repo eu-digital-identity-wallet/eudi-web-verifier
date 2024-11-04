@@ -44,10 +44,7 @@
               "includePaths": [
                 "src/template.sass"
               ]
-            },
-            "scripts": [
-              "./node_modules/qrcodejs/qrcode.min.js"
-            ]
+            }
           },
           "configurations": {
             "production": {

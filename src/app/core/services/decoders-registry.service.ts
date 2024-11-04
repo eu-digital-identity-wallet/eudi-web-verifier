@@ -1,5 +1,5 @@
 import {Injectable} from "@angular/core";
-import {AttestationFormat} from "@core/models/AttestationFormat";
+import {AttestationFormat} from "@core/models/attestation/AttestationFormat";
 import {AttestationDecoder} from "@core/services/decoders/AttestationDecoder";
 import {MsoMdocAttestationDecoder} from "@core/services/decoders/MsoMdocAttestationDecoder";
 import {JwtVcJsonAttestationDecoder} from "@core/services/decoders/JwtVcJsonAttestationDecoder";

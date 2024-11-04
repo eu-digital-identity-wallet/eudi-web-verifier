@@ -1,0 +1,15 @@
+<ng-container *ngFor="let selection of scenarioSelection.selections">
+  <mat-card appearance="outlined">
+    <mat-card-header>
+      <mat-card-title>{{ nameOf(selection.type) }}</mat-card-title>
+      <mat-card-subtitle> in <i> {{ selection.format }} </i> format</mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-actions align="end" *ngIf="isSelectable(selection)">
+      <button matBadge="{{fieldsSelectedNo(selection.type)}}" [matBadgeHidden]="!canShowFieldsSelected(selection.type)" matBadgeColor="accent" mat-button (click)="popAttributesSelector(selection.format!, selection.type, nameOf(selection.type))">Select Attributes</button>
+    </mat-card-actions>
+    <mat-card-actions align="end" *ngIf="!isSelectable(selection)">
+      <span matBadge="{{fieldsSelectedNo(selection.type)}}" [matBadgeHidden]="!canShowFieldsSelected(selection.type)" matBadgeColor="accent">All Attributes</span>
+    </mat-card-actions>
+  </mat-card>
+  <br>
+</ng-container>
