@@ -1,17 +1,30 @@
 <div class="vc-verifiable-credential">
   <div *ngIf="isCrossDevice">
     <div class="qr-info" style="text-align: center">
-      <p>Scan the QR code with your phone's camera app</p>
+      <p>Scan the
+        <a [href]="qrCodeDownloadLink" download="qrcode" title="download as image">QR code</a>
+        below with your phone</p>
     </div>
     <div class="qr-code body" [ngClass]="{'green-bg': true}">
-      <div #qrCode id="qrcode"></div>
+      <qrcode
+        [qrdata]="deepLinkTxt"
+        [allowEmptyString]="false"
+        [ariaLabel]="'QR Code image with the following content...'"
+        [cssClass]="'center'"
+        [elementType]="'canvas'"
+        [errorCorrectionLevel]="'L'"
+        [margin]="2"
+        [title]="deepLinkTxt"
+        [width]="300"
+        (qrCodeURL)="onChangeURL($event)"
+      ></qrcode>
     </div>
     <div class="qr-info" style="text-align: center">
       <p> - OR - </p>
     </div>
   </div>
   <div>
-    <a class="authorize" [href]="redirectUrl">AUTHENTICATE WITH WALLET</a>
+    <a class="authorize" [href]="deepLinkTxt">OPEN WITH YOUR WALLET</a>
   </div>
   <div class="show-logs">
     <a (click)="openLogs()">View transaction logs</a>
