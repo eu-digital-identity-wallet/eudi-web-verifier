@@ -1,60 +1,58 @@
-
 <vc-wallet-layout>
-<div body class="container ">
-  <h4>Define your presentation request</h4>
-  <p>
-    Follow the steps to specify what will be requested from the wallet to present.
-  </p>
-  <mat-stepper orientation="vertical" linear="true" #stepper>
-    <form>
-      <mat-step>
-        <div style="padding: 2px">
-          <ng-template matStepLabel>... specify presentation scenario</ng-template>
-          <vc-presentation-scenario (selectionChangedEvent)="handleSelectionChangedEvent($event)"></vc-presentation-scenario>
-        </div>
-        <div style="padding-top: 10px">
-          <button mat-button matStepperPrevious type="button">Back</button>
-          <button mat-button matStepperNext type="button">Next</button>
-        </div>
-      </mat-step>
+  <div body class="container ">
+    <h4>Define your presentation request</h4>
+    <p>
+      Follow the steps to specify what will be requested from the wallet to present.
+    </p>
+    <mat-stepper orientation="vertical" linear #stepper>
+      <form>
+        <mat-step>
+          <div>
+            <ng-template matStepLabel>... select attestation(s)</ng-template>
+            <vc-supported-attestations (selectionChangedEvent)="handleSelectionChangedEvent($event)"></vc-supported-attestations>
+          </div>
+          <div class="button-container">
+            <button mat-raised-button matStepperNext>Next</button>
+          </div>
+        </mat-step>
 
-      <mat-step>
-        <div style="padding: 2px">
-          <ng-template matStepLabel>...select attestation(s) attributes</ng-template>
-          <vc-attribute-selection *ngIf="scenarioSelection !== null"
-                   [scenarioSelection]="scenarioSelection"
-                   (attributesCollectedEvent)="handleAttributesCollectedEvent($event)"
-          ></vc-attribute-selection>
-        </div>
-        <div style="padding-top: 10px">
-          <button mat-button matStepperPrevious type="button">Back</button>
-          <button mat-button matStepperNext type="button">Next</button>
-        </div>
-      </mat-step>
+        <mat-step>
+          <div>
+            <ng-template matStepLabel>...select attestation(s) attributes</ng-template>
+            <vc-attribute-selection *ngIf="attestationsSelection !== null"
+                                    [attestationsSelection]="attestationsSelection"
+                                    (attributesCollectedEvent)="handleAttributesCollectedEvent($event)"
+            ></vc-attribute-selection>
+          </div>
+          <div class="button-container">
+            <button mat-raised-button matStepperPrevious>Back</button>
+            <button mat-raised-button matStepperNext>Next</button>
+          </div>
+        </mat-step>
 
-      <mat-step>
-        <div style="padding: 2px">
-          <ng-template matStepLabel>...review and proceed</ng-template>
-          <mat-expansion-panel>
-            <mat-expansion-panel-header>
-              <mat-panel-title> <span>Your presentation request so far...</span></mat-panel-title>
-            </mat-expansion-panel-header>
-            <pre *ngIf="canProceed()">{{initializationRequest | json}}</pre>
-            <pre *ngIf="!canProceed()">..nothing prepared yet...</pre>
-          </mat-expansion-panel>
-        </div>
-        <div style="padding-top: 10px">
-          <button mat-button matStepperPrevious type="button">Back</button>
-          <button mat-button matStepperNext type="button" (click)="proceedToInvokeWallet()" [disabled]="!canProceed()">Next</button>
-        </div>
-      </mat-step>
-    </form>
-  </mat-stepper>
+        <mat-step>
+          <div style="padding-top: 10px">
+            <ng-template matStepLabel>...review and proceed</ng-template>
+            <mat-expansion-panel>
+              <mat-expansion-panel-header>
+                <mat-panel-title><span>Your presentation request so far...</span></mat-panel-title>
+              </mat-expansion-panel-header>
+              <pre *ngIf="canProceed()">{{ initializationRequest | json }}</pre>
+              <pre *ngIf="!canProceed()">..nothing prepared yet...</pre>
+            </mat-expansion-panel>
+          </div>
+          <div class="button-container">
+            <button mat-raised-button matStepperPrevious type="button">Back</button>
+            <button mat-raised-button matStepperNext type="button" (click)="proceedToInvokeWallet()" [disabled]="!canProceed()">Next</button>
+          </div>
+        </mat-step>
+      </form>
+    </mat-stepper>
 
-  <p>
-    Or, if this doesn't work for you, go straight to defining your presentation request
-    <a routerLink="/custom-request" routerLinkActive="active">here</a>
-  </p>
+    <p>
+      Or, if this doesn't work for you, go straight to defining your presentation request
+      <a routerLink="/custom-request" routerLinkActive="active">here</a>
+    </p>
 
-</div>
+  </div>
 </vc-wallet-layout>

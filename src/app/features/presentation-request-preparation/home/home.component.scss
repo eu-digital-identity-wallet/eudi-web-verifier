@@ -1,0 +1,19 @@
+
+:host {
+
+  .button-container {
+    padding-top: 10px;
+    text-align: end;
+
+    button {
+      margin: 8px 8px 8px 0;
+    }
+  }
+
+  mat-step {
+    div {
+      display: block;
+      padding: 2px;
+    }
+  }
+}

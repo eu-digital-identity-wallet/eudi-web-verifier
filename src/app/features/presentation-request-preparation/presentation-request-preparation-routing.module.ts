@@ -9,8 +9,8 @@ const routes: Routes = [
     children: [
       {
         path: '',
-        loadComponent: () => import('@features/presentation-request-preparation/components/scenario/scenario.component')
-          .then(c => c.ScenarioComponent)
+        loadComponent: () => import('@features/presentation-request-preparation/components/supported-attestations/supported-attestations.component')
+          .then(c => c.SupportedAttestationsComponent)
       }
     ]
   }

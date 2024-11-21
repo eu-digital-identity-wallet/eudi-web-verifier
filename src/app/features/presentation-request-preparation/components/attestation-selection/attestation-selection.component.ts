@@ -1,20 +1,21 @@
 import {Component, EventEmitter, Input, Output} from "@angular/core";
-import {CommonModule, KeyValue} from "@angular/common";
+import {CommonModule} from "@angular/common";
 import {SharedModule} from "@shared/shared.module";
 import {WalletLayoutComponent} from "@core/layout/wallet-layout/wallet-layout.component";
 import {MatInputModule} from "@angular/material/input";
 import {MatSelectModule} from "@angular/material/select";
 import {MatRadioModule} from "@angular/material/radio";
 import {FormControl, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
-import {AttributeSelectionMethod, ScenarioAttestation} from "@features/presentation-request-preparation/models/ScenarioAttestation";
-import {SUPPORTED_ATTESTATIONS, SUPPORTED_FORMATS} from "@core/constants/attestations";
+import {AttributeSelectionMethod} from "@features/presentation-request-preparation/models/AttestationSelection";
+import {SUPPORTED_FORMATS} from "@core/constants/attestations";
 import {MatExpansionModule} from "@angular/material/expansion";
 import {AttestationFormat} from "@core/models/attestation/AttestationFormat";
-import {AttestationSelection} from "@features/presentation-request-preparation/models/ScenarioSelection";
-import {FormatSelectOption} from "@features/presentation-request-preparation/components/attestation/model/format-select-option";
+import {AttestationSelection} from "@features/presentation-request-preparation/models/AttestationSelection";
+import {FormatSelectOption} from "@features/presentation-request-preparation/components/attestation-selection/model/format-select-option";
+import {Attestation} from "@core/models/attestation/Attestation";
 
 @Component({
-  selector: 'vc-scenario-attestation',
+  selector: 'vc-attestation-selection',
   standalone: true,
   imports: [
     CommonModule,
@@ -27,18 +28,18 @@ import {FormatSelectOption} from "@features/presentation-request-preparation/com
     FormsModule,
     MatExpansionModule,
   ],
-  templateUrl: './attestation.component.html'
+  templateUrl: './attestation-selection.component.html'
 })
-export class AttestationComponent {
+export class AttestationSelectionComponent {
 
-  @Input() attestation!: ScenarioAttestation;
+  @Input() attestation!: Attestation;
   @Output() attestationSelectionEvent = new EventEmitter<AttestationSelection>();
 
   protected readonly supportedFormats: FormatSelectOption[] = this.formatOptions()
 
+  attributeSelectionMethods = [AttributeSelectionMethod.SELECTABLE, AttributeSelectionMethod.ALL_ATTRIBUTES]
   methodControl = new FormControl<AttributeSelectionMethod | null>(null, Validators.required);
   formatControl = new FormControl<AttestationFormat | null>(null, Validators.required);
-
   selectedMethod: AttributeSelectionMethod | null = null;
   selectedFormat: AttestationFormat | null = null;
 
@@ -69,15 +70,10 @@ export class AttestationComponent {
 
   emit() {
     this.attestationSelectionEvent.emit({
-      type: this.attestation.attestationType,
+      type: this.attestation.type,
       format: this.selectedFormat,
       attributeSelectionMethod: this.selectedMethod
     });
   }
 
-  nameOf(attestation: ScenarioAttestation): string {
-    return SUPPORTED_ATTESTATIONS[attestation.attestationType as string].name
-  }
-
-  protected readonly frameElement = frameElement;
 }

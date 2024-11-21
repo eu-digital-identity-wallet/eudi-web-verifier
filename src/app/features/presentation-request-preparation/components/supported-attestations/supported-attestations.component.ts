@@ -1,19 +1,19 @@
 import {CommonModule} from '@angular/common';
 import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {SharedModule} from "@shared/shared.module";
-import {PresentationScenario} from "@features/presentation-request-preparation/models/PresentationScenario";
-import {PRESENTATION_SCENARIOS} from "@core/constants/presentation-scenarios";
 import {MatInputModule} from "@angular/material/input";
 import {MatSelectModule} from "@angular/material/select";
-import {FormControl, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
+import {FormsModule, ReactiveFormsModule} from "@angular/forms";
 import {WalletLayoutComponent} from "@core/layout/wallet-layout/wallet-layout.component";
 import {MatRadioModule} from "@angular/material/radio";
-import {AttestationComponent} from "@features/presentation-request-preparation/components/attestation/attestation.component";
+import {AttestationSelectionComponent} from "@features/presentation-request-preparation/components/attestation-selection/attestation-selection.component";
 import {MatExpansionModule} from "@angular/material/expansion";
-import {AttestationSelection, ScenarioSelection} from "@features/presentation-request-preparation/models/ScenarioSelection";
+import {AttestationSelection} from "@features/presentation-request-preparation/models/AttestationSelection";
+import {Attestation} from "@core/models/attestation/Attestation";
+import {SUPPORTED_ATTESTATIONS} from "@core/constants/attestations";
 
 @Component({
-  selector: 'vc-presentation-scenario',
+  selector: 'vc-supported-attestations',
   standalone: true,
   imports: [
     CommonModule,
@@ -24,35 +24,34 @@ import {AttestationSelection, ScenarioSelection} from "@features/presentation-re
     MatRadioModule,
     ReactiveFormsModule,
     FormsModule,
-    AttestationComponent,
+    AttestationSelectionComponent,
     MatExpansionModule,
   ],
-  templateUrl: './scenario.component.html'
+  templateUrl: './supported-attestations.component.html',
+  styleUrls: ['./supported-attestations.component.css']
 })
-export class ScenarioComponent implements OnInit {
+export class SupportedAttestationsComponent implements OnInit {
 
-  @Output() selectionChangedEvent = new EventEmitter<ScenarioSelection>();
+  @Output() selectionChangedEvent = new EventEmitter<AttestationSelection[]>();
 
-  scenarios!: PresentationScenario[];
-  selectedScenario: PresentationScenario | null = null;
+  attestations: Attestation[] = []
   attestationSelections: {[id: string]: AttestationSelection} = {};
 
-  scenarioFormControl =
-    new FormControl('', Validators.required);
-
   ngOnInit(): void {
-    this.scenarios = Object.assign([], PRESENTATION_SCENARIOS);
+    Object.keys(SUPPORTED_ATTESTATIONS).forEach((item) => {
+      this.attestations.push(SUPPORTED_ATTESTATIONS[item]);
+    });
   }
 
   handleAttestationSelectionEvent($event: AttestationSelection) {
     if ($event.format != null && $event.attributeSelectionMethod != null) {
       if (this.newSelectionOrAttestationSelectionChanged($event)) {
         this.attestationSelections[$event.type as string] = $event;
-        this.selectionChangedEvent.emit( this.constructScenarioSelection() )
+        this.selectionChangedEvent.emit( this.constructAttestationsSelectionEventPayload() )
       }
     } else {
       delete this.attestationSelections[$event.type as string];
-      this.selectionChangedEvent.emit( this.constructScenarioSelection() )
+      this.selectionChangedEvent.emit( this.constructAttestationsSelectionEventPayload() )
     }
   }
 
@@ -63,21 +62,12 @@ export class ScenarioComponent implements OnInit {
         attestationSelection.attributeSelectionMethod != $event.attributeSelectionMethod))
   }
 
-  constructScenarioSelection(): ScenarioSelection {
+  constructAttestationsSelectionEventPayload(): AttestationSelection[] {
     let selections: AttestationSelection[] = [];
     Object.keys(this.attestationSelections).forEach((item ) => {
       selections.push(this.attestationSelections[item])
     })
-    return {
-      scenarioName: this.selectedScenario!.name,
-      selections: selections
-    }
+    return  selections
   }
 
-  clearSelections() {
-    this.attestationSelections = {}
-    this.selectionChangedEvent.emit(
-      this.constructScenarioSelection()
-    )
-  }
 }
