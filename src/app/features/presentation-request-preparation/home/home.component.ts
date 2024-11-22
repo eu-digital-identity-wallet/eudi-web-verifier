@@ -1,7 +1,6 @@
 import {Component, inject} from '@angular/core';
 import {NavigateService} from '@app/core/services/navigate.service';
 import {HOME_ACTIONS} from '@core/constants/pages-actions';
-import {ActionCode} from '@app/shared/elements/body-actions/models/ActionCode';
 import {BodyAction} from '@app/shared/elements/body-actions/models/BodyAction';
 import {CommonModule} from "@angular/common";
 import {MatTabsModule} from "@angular/material/tabs";
@@ -12,11 +11,13 @@ import {WalletLayoutComponent} from "@core/layout/wallet-layout/wallet-layout.co
 import {OpenLogsComponent} from "@shared/elements/open-logs/open-logs.component";
 import {MatDialogModule} from "@angular/material/dialog";
 import {RouterLink, RouterLinkActive, RouterOutlet} from "@angular/router";
-import {ScenarioComponent} from "@features/presentation-request-preparation/components/scenario/scenario.component";
+import {
+  SupportedAttestationsComponent
+} from "@features/presentation-request-preparation/components/supported-attestations/supported-attestations.component";
 import {MatStepperModule} from "@angular/material/stepper";
 import {FormBuilder, ReactiveFormsModule, Validators} from "@angular/forms";
 import {MatButtonModule} from "@angular/material/button";
-import {ScenarioSelection} from "@features/presentation-request-preparation/models/ScenarioSelection";
+import {AttestationSelection} from "@features/presentation-request-preparation/models/AttestationSelection";
 import {
   AttributeSelectionComponent
 } from "@features/presentation-request-preparation/components/attribute-selection/attribute-selection.component";
@@ -25,31 +26,34 @@ import {InputDescriptor} from "@core/models/presentation/InputDescriptor";
 import {v4 as uuidv4} from "uuid";
 import {VerifierEndpointService} from "@core/services/verifier-endpoint.service";
 import {MatExpansionModule} from "@angular/material/expansion";
+import {AttestationSelectionComponent} from "@features/presentation-request-preparation/components/attestation-selection/attestation-selection.component";
 
 @Component({
   standalone: true,
-  imports: [
-    CommonModule,
-    MatTabsModule,
-    RadioGroupComponent,
-    SharedModule,
-    InputSchemeComponent,
-    WalletLayoutComponent,
-    OpenLogsComponent,
-    MatDialogModule,
-    RouterOutlet,
-    ScenarioComponent,
-    MatStepperModule,
-    ReactiveFormsModule,
-    MatButtonModule,
-    AttributeSelectionComponent,
-    MatExpansionModule,
-    RouterLinkActive,
-    RouterLink
-  ],
+    imports: [
+        CommonModule,
+        MatTabsModule,
+        RadioGroupComponent,
+        SharedModule,
+        InputSchemeComponent,
+        WalletLayoutComponent,
+        OpenLogsComponent,
+        MatDialogModule,
+        RouterOutlet,
+        SupportedAttestationsComponent,
+        MatStepperModule,
+        ReactiveFormsModule,
+        MatButtonModule,
+        AttributeSelectionComponent,
+        MatExpansionModule,
+        RouterLinkActive,
+        RouterLink,
+        AttestationSelectionComponent
+    ],
   providers: [VerifierEndpointService],
   selector: 'vc-presentation-preparation-home',
-  templateUrl: './home.component.html'
+  templateUrl: './home.component.html',
+  styleUrls: ['./home.component.scss'],
 })
 export class HomeComponent {
   constructor(
@@ -64,11 +68,11 @@ export class HomeComponent {
     selectAttestationCtrl: ['', Validators.required]
   });
 
-  scenarioSelection: ScenarioSelection | null = null;
+  attestationsSelection: AttestationSelection[] | null = null;
   initializationRequest: TransactionInitializationRequest | null = null;
 
-  handleSelectionChangedEvent($event: ScenarioSelection) {
-    this.scenarioSelection = $event;
+  handleSelectionChangedEvent($event: AttestationSelection[]) {
+    this.attestationsSelection = $event;
   }
 
   handleAttributesCollectedEvent($event: InputDescriptor[]) {

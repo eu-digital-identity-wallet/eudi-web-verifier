@@ -2,10 +2,9 @@ import {Component, EventEmitter, inject, Input, OnChanges, OnInit, Output, Simpl
 import {CommonModule} from "@angular/common";
 import {SharedModule} from "@shared/shared.module";
 import {WalletLayoutComponent} from "@core/layout/wallet-layout/wallet-layout.component";
-import {AttestationSelection, ScenarioSelection} from "@features/presentation-request-preparation/models/ScenarioSelection";
+import {AttestationSelection, AttributeSelectionMethod} from "@features/presentation-request-preparation/models/AttestationSelection";
 import {AttestationType} from "@core/models/attestation/AttestationType";
 import {SUPPORTED_ATTESTATIONS} from "@core/constants/attestations";
-import {AttributeSelectionMethod} from "@features/presentation-request-preparation/models/ScenarioAttestation";
 import {MatButtonModule} from "@angular/material/button";
 import {MatCardModule} from "@angular/material/card";
 import {MatDialog} from "@angular/material/dialog";
@@ -31,16 +30,16 @@ import {MatBadgeModule} from "@angular/material/badge";
     MatBadgeModule,
   ],
   providers: [MsoMdocPresentationService],
-  templateUrl: './attribute-selection.component.html'
+  templateUrl: './attribute-selection.component.html',
+  styleUrls: ['./attribute-selection.component.scss'],
 })
 export class AttributeSelectionComponent implements OnInit, OnChanges {
 
   constructor(
     private readonly msoMdocPresentationService: MsoMdocPresentationService,
-  ) {
-  }
+  ) { }
 
-  @Input() scenarioSelection!: ScenarioSelection;
+  @Input() attestationsSelection!: AttestationSelection[];
   @Output() attributesCollectedEvent = new EventEmitter<InputDescriptor[]>();
 
   readonly dialog: MatDialog = inject(MatDialog);
@@ -52,7 +51,7 @@ export class AttributeSelectionComponent implements OnInit, OnChanges {
   }
 
   prepareDescriptorsForNonSelectable() {
-    let allAttributesSelections = this.scenarioSelection.selections.filter((selection: AttestationSelection) =>
+    let allAttributesSelections = this.attestationsSelection.filter((selection: AttestationSelection) =>
       selection.attributeSelectionMethod === AttributeSelectionMethod.ALL_ATTRIBUTES
     )
     allAttributesSelections.forEach((selection: AttestationSelection) => {
@@ -115,19 +114,14 @@ export class AttributeSelectionComponent implements OnInit, OnChanges {
   }
 
   ngOnChanges(changes: SimpleChanges): void {
-    if (!changes["scenarioSelection"].firstChange) {
-      let currentSelection = changes["scenarioSelection"].currentValue as ScenarioSelection;
-      let previousSelection = changes["scenarioSelection"].previousValue as ScenarioSelection;
-      if (currentSelection.scenarioName !== previousSelection.scenarioName) {
-        console.log("scenario changed...re-setting everything")
-        this.inputDescriptorsByType = {};
-      } else {
-        Object.keys(this.inputDescriptorsByType).forEach((item) => {
-          if (this.attributeSelectionChanged(currentSelection, previousSelection, item as AttestationType)) {
-            delete this.inputDescriptorsByType[item];
-          }
-        });
-      }
+    if (!changes["attestationsSelection"].firstChange) {
+      let currentSelection = changes["attestationsSelection"].currentValue as AttestationSelection[];
+      let previousSelection = changes["attestationsSelection"].previousValue as AttestationSelection[];
+      Object.keys(this.inputDescriptorsByType).forEach((item) => {
+        if (this.attributeSelectionChanged(currentSelection, previousSelection, item as AttestationType)) {
+          delete this.inputDescriptorsByType[item];
+        }
+      });
     }
     this.prepareDescriptorsForNonSelectable();
     this.emitAttributesCollectedEvent();
@@ -148,14 +142,14 @@ export class AttributeSelectionComponent implements OnInit, OnChanges {
   }
 
   private attributeSelectionChanged(
-    currentScenario: ScenarioSelection,
-    previousScenario: ScenarioSelection,
+    currentSelection: AttestationSelection[],
+    previousSelection: AttestationSelection[],
     attestationType: AttestationType
   ): boolean {
-    let current = currentScenario.selections.filter((selection: AttestationSelection) =>
+    let current = currentSelection.filter((selection: AttestationSelection) =>
       selection.type === attestationType
     )
-    let previous = previousScenario.selections.filter((selection: AttestationSelection) =>
+    let previous = previousSelection.filter((selection: AttestationSelection) =>
       selection.type === attestationType
     )
     // Previously existed and now removed

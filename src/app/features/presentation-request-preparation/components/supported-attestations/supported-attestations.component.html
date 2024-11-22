@@ -1,0 +1,8 @@
+<div class="component-root">
+  <mat-accordion>
+    <ng-container *ngFor="let attestation of attestations">
+      <vc-attestation-selection [attestation]="attestation"
+                               (attestationSelectionEvent)="handleAttestationSelectionEvent($event)"></vc-attestation-selection>
+    </ng-container>
+  </mat-accordion>
+</div>

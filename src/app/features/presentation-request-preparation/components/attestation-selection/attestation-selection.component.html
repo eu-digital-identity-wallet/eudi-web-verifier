@@ -1,7 +1,7 @@
 <mat-expansion-panel>
   <mat-expansion-panel-header>
     <mat-panel-title>
-      {{ nameOf(attestation) }}
+      {{ attestation.name }}
     </mat-panel-title>
   </mat-expansion-panel-header>
 
@@ -9,7 +9,7 @@
       <mat-form-field>
         <mat-label>-- attributes by --</mat-label>
         <mat-select matNativeControl [(value)]="selectedMethod" [formControl]="methodControl" (selectionChange)="emit()">
-          <ng-container *ngFor="let method of attestation.attributeSelectionMethods">
+          <ng-container *ngFor="let method of attributeSelectionMethods">
             <mat-option [value]="method">{{ labelOf(method) }}</mat-option>
           </ng-container>
         </mat-select>
