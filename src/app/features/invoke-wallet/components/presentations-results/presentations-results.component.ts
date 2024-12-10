@@ -6,7 +6,7 @@ import {MatExpansionModule} from "@angular/material/expansion";
 import {ConcludedTransaction} from "@core/models/ConcludedTransaction";
 import {PresentationDefinition} from "@core/models/presentation/PresentationDefinition";
 import {ViewAttestationComponent} from "@features/invoke-wallet/components/view-attestation/view-attestation.component";
-import {SharedAttestation, Single} from "@core/models/presentation/SharedAttestation";
+import {PresentedAttestation, Single} from "@core/models/presentation/PresentedAttestation";
 import {WalletResponseProcessorService} from "@features/invoke-wallet/services/wallet-response-processor.service";
 import {MatCardModule} from "@angular/material/card";
 import {MatButtonModule} from "@angular/material/button";
@@ -42,11 +42,11 @@ export class PresentationsResultsComponent implements OnInit {
 
   ngOnInit(): void {
     this.presentationRequest = this.concludedTransaction.presentationDefinition;
-    let sharedAttestations: SharedAttestation[] = this.responseProcessor.mapVpTokenToAttestations(this.concludedTransaction);
+    let sharedAttestations: PresentedAttestation[] = this.responseProcessor.mapVpTokenToAttestations(this.concludedTransaction);
     this.attestations = this.flatten(sharedAttestations)
   }
 
-  flatten(sharedAttestations: SharedAttestation[]): Single[] {
+  flatten(sharedAttestations: PresentedAttestation[]): Single[] {
     let singles: Single[] = []
     sharedAttestations.forEach(it => {
       switch (it.kind) {

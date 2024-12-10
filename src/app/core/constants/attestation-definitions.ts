@@ -1,8 +1,7 @@
-import {Attestation} from "@core/models/attestation/Attestation";
+import {AttestationDefinition} from "@core/models/attestation/AttestationDefinition";
 import {AttestationType} from "@core/models/attestation/AttestationType";
-import {AttestationFormat} from "@core/models/attestation/AttestationFormat";
 
-export const PID_ATTESTATION: Attestation = {
+export const PID_ATTESTATION: AttestationDefinition = {
   name: "Person Identification Data (PID)",
   type: AttestationType.PID,
   dataSet: [
@@ -37,7 +36,7 @@ export const PID_ATTESTATION: Attestation = {
   ]
 }
 
-export const MDL_ATTESTATION: Attestation = {
+export const MDL_ATTESTATION: AttestationDefinition = {
   name: "Mobile Driving Licence (MDL)",
   type: AttestationType.MDL,
   dataSet: [
@@ -75,7 +74,7 @@ export const MDL_ATTESTATION: Attestation = {
   ]
 }
 
-export const AGE_OVER_18_ATTESTATION: Attestation = {
+export const AGE_OVER_18_ATTESTATION: AttestationDefinition = {
   name: "Age Over 18",
   type: AttestationType.AGE_OVER_18,
   dataSet: [
@@ -89,7 +88,7 @@ export const AGE_OVER_18_ATTESTATION: Attestation = {
   ]
 }
 
-export const PHOTO_ID_ATTESTATION: Attestation = {
+export const PHOTO_ID_ATTESTATION: AttestationDefinition = {
   name: "Photo ID",
   type: AttestationType.PHOTO_ID,
   dataSet: [
@@ -128,14 +127,10 @@ export const PHOTO_ID_ATTESTATION: Attestation = {
   ]
 }
 
-export const SUPPORTED_ATTESTATIONS: { [id: string]: Attestation } = {
+export const SUPPORTED_ATTESTATIONS: { [id: string]: AttestationDefinition } = {
   "pid": PID_ATTESTATION,
   "mdl": MDL_ATTESTATION,
   "photo_id": PHOTO_ID_ATTESTATION,
   "age_over_18": AGE_OVER_18_ATTESTATION,
 }
-
-export const SUPPORTED_FORMATS: AttestationFormat[] = [
-  AttestationFormat.MSO_MDOC
-]
 

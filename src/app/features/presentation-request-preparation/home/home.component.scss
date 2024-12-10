@@ -16,4 +16,13 @@
       padding: 2px;
     }
   }
+
+  span#as-pre {
+    white-space: pre-wrap;
+    word-break: break-word;
+    font-family: inherit;
+    unicode-bidi: isolate;
+    margin: 1em 0;
+  }
+
 }

@@ -1,5 +1,5 @@
 import {Injectable} from "@angular/core";
-import {SharedAttestation} from "@core/models/presentation/SharedAttestation";
+import {PresentedAttestation} from "@core/models/presentation/PresentedAttestation";
 import {AttestationFormat} from "@core/models/attestation/AttestationFormat";
 import {JSONPath} from "jsonpath-plus";
 import {ConcludedTransaction} from "@core/models/ConcludedTransaction";
@@ -13,11 +13,11 @@ export class WalletResponseProcessorService {
   ) {
   }
 
-  mapVpTokenToAttestations(concludedTransaction: ConcludedTransaction): SharedAttestation[] {
+  mapVpTokenToAttestations(concludedTransaction: ConcludedTransaction): PresentedAttestation[] {
     let presentationSubmission = concludedTransaction.walletResponse.presentation_submission;
     let vpToken: string[] = concludedTransaction.walletResponse.vp_token!!;
     let arrayAsJson = JSON.parse(JSON.stringify(vpToken))
-    let result: SharedAttestation[] = []
+    let result: PresentedAttestation[] = []
 
     let formatsPerPath = this.deductVpTokenItemsFormats(presentationSubmission.descriptor_map)
     for (let [path, format] of Object.entries(formatsPerPath)) {

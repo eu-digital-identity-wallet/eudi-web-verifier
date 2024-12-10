@@ -6,5 +6,6 @@ export type FieldConstraint = {
 
 export type Filter = {
   type: string,
-  contains: any
+  contains?: any,
+  const?: string
 }
