@@ -4,7 +4,7 @@ import {AttestationFormat} from "@core/models/attestation/AttestationFormat";
 import {decode} from "cbor-x";
 import {Buffer} from 'buffer';
 
-import {SharedAttestation, Single} from "@core/models/presentation/SharedAttestation";
+import {PresentedAttestation, Single} from "@core/models/presentation/PresentedAttestation";
 import {KeyValue} from "@angular/common";
 import {elementAsString} from "@core/services/decoders/DecodingUtils";
 
@@ -17,7 +17,7 @@ export class MsoMdocAttestationDecoder implements AttestationDecoder {
     return format === AttestationFormat.MSO_MDOC;
   }
 
-  decode(attestation: string): SharedAttestation {
+  decode(attestation: string): PresentedAttestation {
     const buffer = this.decodeBase64OrHex(attestation);
     const decodedData = this.decodeCborData(buffer);
     if (decodedData.documents.length === 1) {

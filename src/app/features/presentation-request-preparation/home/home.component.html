@@ -37,13 +37,21 @@
               <mat-expansion-panel-header>
                 <mat-panel-title><span>Your presentation request so far...</span></mat-panel-title>
               </mat-expansion-panel-header>
-              <pre *ngIf="canProceed()">{{ initializationRequest | json }}</pre>
+
+              <button mat-button matTooltip="Copy content"  style="float: right"
+                      *ngIf="canProceed()"
+                      [cdkCopyToClipboard]="initializationRequest | json">
+                <mat-icon>content_copy</mat-icon>
+              </button>
+              <span id="as-pre" *ngIf="canProceed()">{{ initializationRequest | json }}</span>
+
               <pre *ngIf="!canProceed()">..nothing prepared yet...</pre>
             </mat-expansion-panel>
           </div>
           <div class="button-container">
             <button mat-raised-button matStepperPrevious type="button">Back</button>
-            <button mat-raised-button matStepperNext type="button" (click)="proceedToInvokeWallet()" [disabled]="!canProceed()">Next</button>
+            <button mat-raised-button matStepperNext type="button" (click)="proceedToInvokeWallet()" [disabled]="!canProceed()">Next
+            </button>
           </div>
         </mat-step>
       </form>

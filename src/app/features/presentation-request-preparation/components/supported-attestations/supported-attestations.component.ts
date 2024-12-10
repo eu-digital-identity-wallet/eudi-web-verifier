@@ -9,8 +9,8 @@ import {MatRadioModule} from "@angular/material/radio";
 import {AttestationSelectionComponent} from "@features/presentation-request-preparation/components/attestation-selection/attestation-selection.component";
 import {MatExpansionModule} from "@angular/material/expansion";
 import {AttestationSelection} from "@features/presentation-request-preparation/models/AttestationSelection";
-import {Attestation} from "@core/models/attestation/Attestation";
-import {SUPPORTED_ATTESTATIONS} from "@core/constants/attestations";
+import {AttestationDefinition} from "@core/models/attestation/AttestationDefinition";
+import {SUPPORTED_ATTESTATIONS} from "@core/constants/attestation-definitions";
 
 @Component({
   selector: 'vc-supported-attestations',
@@ -34,7 +34,7 @@ export class SupportedAttestationsComponent implements OnInit {
 
   @Output() selectionChangedEvent = new EventEmitter<AttestationSelection[]>();
 
-  attestations: Attestation[] = []
+  attestations: AttestationDefinition[] = []
   attestationSelections: {[id: string]: AttestationSelection} = {};
 
   ngOnInit(): void {

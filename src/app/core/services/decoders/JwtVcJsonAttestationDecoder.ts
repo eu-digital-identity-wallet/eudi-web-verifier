@@ -1,6 +1,6 @@
 import {Injectable} from "@angular/core";
 import {AttestationDecoder} from "@core/services/decoders/AttestationDecoder";
-import {SharedAttestation, Single} from "@core/models/presentation/SharedAttestation";
+import {PresentedAttestation, Single} from "@core/models/presentation/PresentedAttestation";
 import {AttestationFormat} from "@core/models/attestation/AttestationFormat";
 import {JWTService} from "@core/services/jwt.service";
 import {KeyValue} from "@angular/common";
@@ -23,7 +23,7 @@ export class JwtVcJsonAttestationDecoder implements AttestationDecoder {
     return format === AttestationFormat.JWT_VC_JSON;
   }
 
-  decode(attestation: string): SharedAttestation {
+  decode(attestation: string): PresentedAttestation {
     let vp = this.jWTService.decodeToObject(attestation);
     let sharedCredentials = this.unWrapCredentials(vp)
 

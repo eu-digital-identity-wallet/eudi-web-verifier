@@ -7,12 +7,12 @@ import {MatSelectModule} from "@angular/material/select";
 import {MatRadioModule} from "@angular/material/radio";
 import {FormControl, FormsModule, ReactiveFormsModule, Validators} from "@angular/forms";
 import {AttributeSelectionMethod} from "@features/presentation-request-preparation/models/AttestationSelection";
-import {SUPPORTED_FORMATS} from "@core/constants/attestations";
 import {MatExpansionModule} from "@angular/material/expansion";
 import {AttestationFormat} from "@core/models/attestation/AttestationFormat";
 import {AttestationSelection} from "@features/presentation-request-preparation/models/AttestationSelection";
 import {FormatSelectOption} from "@features/presentation-request-preparation/components/attestation-selection/model/format-select-option";
-import {Attestation} from "@core/models/attestation/Attestation";
+import {AttestationDefinition} from "@core/models/attestation/AttestationDefinition";
+import {SUPPORTED_FORMATS} from "@core/constants/attestations-per-format";
 
 @Component({
   selector: 'vc-attestation-selection',
@@ -32,7 +32,7 @@ import {Attestation} from "@core/models/attestation/Attestation";
 })
 export class AttestationSelectionComponent {
 
-  @Input() attestation!: Attestation;
+  @Input() attestation!: AttestationDefinition;
   @Output() attestationSelectionEvent = new EventEmitter<AttestationSelection>();
 
   protected readonly supportedFormats: FormatSelectOption[] = this.formatOptions()

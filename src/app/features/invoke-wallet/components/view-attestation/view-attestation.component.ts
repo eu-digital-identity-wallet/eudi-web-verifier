@@ -1,11 +1,10 @@
-import {ChangeDetectionStrategy, Component, inject, Input, OnInit} from "@angular/core";
+import {ChangeDetectionStrategy, Component, inject, OnInit} from "@angular/core";
 import {CommonModule} from "@angular/common";
 import {SharedModule} from "@shared/shared.module";
 import {JWTService} from "@core/services/jwt.service";
-import {SharedAttestation, Single} from "@core/models/presentation/SharedAttestation";
+import {Single} from "@core/models/presentation/PresentedAttestation";
 import {MatExpansionModule} from "@angular/material/expansion";
 import {MatListModule} from "@angular/material/list";
-import {LogData} from "@shared/elements/open-logs/interfaces/LogData";
 import {MAT_DIALOG_DATA, MatDialogModule} from "@angular/material/dialog";
 import {DialogData} from "@features/invoke-wallet/components/view-attestation/model/DialogData";
 import {MatButtonModule} from "@angular/material/button";

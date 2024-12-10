@@ -1,7 +1,7 @@
 import {KeyValue} from "@angular/common";
 import {AttestationFormat} from "@core/models/attestation/AttestationFormat";
 
-export type SharedAttestation = Single | Enveloped
+export type PresentedAttestation = Single | Enveloped
 
 export type Single  = {
   kind: 'single',
