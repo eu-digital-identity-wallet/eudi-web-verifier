@@ -19,7 +19,7 @@ export const MDL_MSO_MDOC: MsoMdocAttestation = {
 }
 export const MDL_SD_JWT_VC: SdJwtVcAttestation = {
   format: AttestationFormat.SD_JWT_VC,
-  vct: "urn:eu.europa.ec.eudi:pid:1",
+  vct: "urn:org.iso.18013.5.1:mDL:1",
   attestationDef: MDL_ATTESTATION,
   attributePath: (attribute: DataElement) => { return sdJwtVcAttributePath(attribute, AttestationType.MDL) }
 }
@@ -49,7 +49,7 @@ export const AGE_OVER_18_MSO_MDOC: MsoMdocAttestation = {
 }
 export const AGE_OVER_18_SD_JWT_VC: SdJwtVcAttestation = {
   format: AttestationFormat.SD_JWT_VC,
-  vct: "urn:eu.europa.ec.eudi:pid:1",
+  vct: "urn:eu.europa.ec.eudi.pseudonym:age_over_18:1",
   attestationDef: AGE_OVER_18_ATTESTATION,
   attributePath: (attribute: DataElement) => { return sdJwtVcAttributePath(attribute, AttestationType.AGE_OVER_18) }
 }
@@ -59,12 +59,12 @@ export const PHOTO_ID_MSO_MDOC: MsoMdocAttestation = {
   format: AttestationFormat.MSO_MDOC,
   attestationDef: PHOTO_ID_ATTESTATION,
   doctype: 'org.iso.23220.2.photoid.1',
-  namespace: 'org.iso.23220.2.photoid.1',
-  attributePath: (attribute: DataElement) => { return msoMdocAttributePath(attribute, 'org.iso.23220.2.photoid.1') }
+  namespace: 'org.iso.23220.photoid.1',
+  attributePath: (attribute: DataElement) => { return msoMdocAttributePath(attribute, 'org.iso.23220.photoid.1') }
 }
 export const PHOTO_ID_SD_JWT_VC: SdJwtVcAttestation = {
   format: AttestationFormat.SD_JWT_VC,
-  vct: "urn:eu.europa.ec.eudi:pid:1",
+  vct: "urn:org.iso.23220.2:photoid:1",
   attestationDef: PHOTO_ID_ATTESTATION,
   attributePath: (attribute: DataElement) => { return sdJwtVcAttributePath(attribute, AttestationType.PHOTO_ID) }
 }
@@ -85,7 +85,6 @@ function sdJwtVcAttributePath(attribute: DataElement, attestationType: Attestati
 export const PID_SD_JWT_VC_ATTRIBUTE_MAP: { [id: string]: string } = {
   "birth_date": "birthdate",
   "age_over_18": "age_equal_or_over.18",
-  "age_over_NN": "age_equal_or_over.NN",
   "family_name_birth": "birth_family_name",
   "given_name_birth": "birth_given_name",
   "birth_place": "place_of_birth.locality",
