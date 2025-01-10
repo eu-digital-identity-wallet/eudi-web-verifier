@@ -10,6 +10,7 @@ import {VerifierEndpointService} from "@core/services/verifier-endpoint.service"
 import {DecodersRegistryService} from "@core/services/decoders-registry.service";
 import {MsoMdocAttestationDecoder} from "@core/services/decoders/MsoMdocAttestationDecoder";
 import {JwtVcJsonAttestationDecoder} from "@core/services/decoders/JwtVcJsonAttestationDecoder";
+import {SdJwtVcAttestationDecoder} from "@core/services/decoders/SdJwtVcAttestationDecoder";
 
 @Component({
 	selector: 'vc-wallet-redirect',
@@ -25,6 +26,7 @@ import {JwtVcJsonAttestationDecoder} from "@core/services/decoders/JwtVcJsonAtte
     DecodersRegistryService,
     MsoMdocAttestationDecoder,
     JwtVcJsonAttestationDecoder,
+    SdJwtVcAttestationDecoder,
     JWTService
   ],
 	templateUrl: './wallet-redirect.component.html',

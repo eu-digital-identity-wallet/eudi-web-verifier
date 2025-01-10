@@ -17,12 +17,6 @@ export const MDL_MSO_MDOC: MsoMdocAttestation = {
   namespace: 'org.iso.18013.5.1',
   attributePath: (attribute: DataElement) => { return msoMdocAttributePath(attribute, 'org.iso.18013.5.1') }
 }
-export const MDL_SD_JWT_VC: SdJwtVcAttestation = {
-  format: AttestationFormat.SD_JWT_VC,
-  vct: "urn:org.iso.18013.5.1:mDL:1",
-  attestationDef: MDL_ATTESTATION,
-  attributePath: (attribute: DataElement) => { return sdJwtVcAttributePath(attribute, AttestationType.MDL) }
-}
 
 /*---- PID ATTESTATION INSTANCES PER FORMAT ----*/
 export const PID_MSO_MDOC: MsoMdocAttestation = {
@@ -47,12 +41,6 @@ export const AGE_OVER_18_MSO_MDOC: MsoMdocAttestation = {
   namespace: 'eu.europa.ec.eudi.pseudonym.age_over_18.1',
   attributePath: (attribute: DataElement) => { return msoMdocAttributePath(attribute, 'eu.europa.ec.eudi.pseudonym.age_over_18.1') }
 }
-export const AGE_OVER_18_SD_JWT_VC: SdJwtVcAttestation = {
-  format: AttestationFormat.SD_JWT_VC,
-  vct: "urn:eu.europa.ec.eudi.pseudonym:age_over_18:1",
-  attestationDef: AGE_OVER_18_ATTESTATION,
-  attributePath: (attribute: DataElement) => { return sdJwtVcAttributePath(attribute, AttestationType.AGE_OVER_18) }
-}
 
 /*---- PHOTO ID ATTESTATION INSTANCES PER FORMAT ----*/
 export const PHOTO_ID_MSO_MDOC: MsoMdocAttestation = {
@@ -61,12 +49,6 @@ export const PHOTO_ID_MSO_MDOC: MsoMdocAttestation = {
   doctype: 'org.iso.23220.2.photoid.1',
   namespace: 'org.iso.23220.photoid.1',
   attributePath: (attribute: DataElement) => { return msoMdocAttributePath(attribute, 'org.iso.23220.photoid.1') }
-}
-export const PHOTO_ID_SD_JWT_VC: SdJwtVcAttestation = {
-  format: AttestationFormat.SD_JWT_VC,
-  vct: "urn:org.iso.23220.2:photoid:1",
-  attestationDef: PHOTO_ID_ATTESTATION,
-  attributePath: (attribute: DataElement) => { return sdJwtVcAttributePath(attribute, AttestationType.PHOTO_ID) }
 }
 
 function msoMdocAttributePath(attribute: DataElement, namespace: string): string {
@@ -104,24 +86,9 @@ export const PID_SD_JWT_VC_ATTRIBUTE_MAP: { [id: string]: string } = {
   "expiry_date": "exp"
 }
 
-
-export const MSO_MDOC_ATTESTATIONS: { [id: string]: MsoMdocAttestation } = {
-  "pid": PID_MSO_MDOC,
-  "mdl": MDL_MSO_MDOC,
-  "photo_id": PHOTO_ID_MSO_MDOC,
-  "age_over_18": AGE_OVER_18_MSO_MDOC,
-}
-
-export const ATTESTATIONS_BY_TYPE: { [id: string]: Attestation[] } = {
-  "pid": [PID_MSO_MDOC, PID_SD_JWT_VC],
-  "mdl": [MDL_MSO_MDOC, MDL_SD_JWT_VC],
-  "photo_id": [PHOTO_ID_MSO_MDOC, PHOTO_ID_SD_JWT_VC],
-  "age_over_18": [AGE_OVER_18_MSO_MDOC, AGE_OVER_18_SD_JWT_VC],
-}
-
 export const ATTESTATIONS_BY_FORMAT: { [id: string]: Attestation[] } = {
   "mso_mdoc": [PID_MSO_MDOC, MDL_MSO_MDOC, PHOTO_ID_MSO_MDOC, AGE_OVER_18_MSO_MDOC],
-  "vc+sd-jwt": [PID_SD_JWT_VC, MDL_SD_JWT_VC, PHOTO_ID_SD_JWT_VC, AGE_OVER_18_SD_JWT_VC]
+  "vc+sd-jwt": [PID_SD_JWT_VC]
 }
 
 export const getAttestationByFormatAndType =

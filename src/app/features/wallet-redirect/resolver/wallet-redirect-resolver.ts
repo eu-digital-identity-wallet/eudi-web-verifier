@@ -1,14 +1,14 @@
 import {inject} from '@angular/core';
 import {ActivatedRouteSnapshot, ResolveFn, RouterStateSnapshot} from '@angular/router';
 import {EMPTY, Observable} from 'rxjs';
-import {InitializedTransaction} from '@core/models/InitializedTransaction';
 import {VerifierEndpointService} from "@core/services/verifier-endpoint.service";
 import {ConcludedTransaction} from "@core/models/ConcludedTransaction";
 import {map} from "rxjs/operators";
 import {WalletResponse} from "@core/models/WalletResponse";
 import {LocalStorageService} from "@core/services/local-storage.service";
-import {ACTIVE_PRESENTATION_DEFINITION, ACTIVE_TRANSACTION} from "@core/constants/general";
-import {PresentationDefinition} from "@core/models/presentation/PresentationDefinition";
+import * as constants from "@core/constants/general";
+import {ACTIVE_TRANSACTION} from "@core/constants/general";
+import {ActiveTransaction} from "@core/models/ActiveTransaction";
 
 export const WalletRedirectResolver: ResolveFn<ConcludedTransaction> =
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -16,29 +16,30 @@ export const WalletRedirectResolver: ResolveFn<ConcludedTransaction> =
 
     const services = {
       verifierEndpointService: inject(VerifierEndpointService),
-      localStorage: inject(LocalStorageService)
+      localStorageService: inject(LocalStorageService)
     };
 
-    let data: InitializedTransaction = JSON.parse(
-      services.localStorage.get(ACTIVE_TRANSACTION)!!
-    );
-    let pd: PresentationDefinition = JSON.parse(
-      services.localStorage.get(ACTIVE_PRESENTATION_DEFINITION)!!
+    let activeTransaction: ActiveTransaction = JSON.parse(
+      services.localStorageService.get(ACTIVE_TRANSACTION)!!
     );
 
     function concludeTransaction(walletResponse: WalletResponse): ConcludedTransaction {
-      return  {
-        transactionId: data.transaction_id,
-        presentationDefinition: pd,
+      let concludedTransaction: ConcludedTransaction =  {
+        transactionId: activeTransaction.initialized_transaction.transaction_id,
+        presentationDefinition: activeTransaction.initialization_request.presentation_definition,
         walletResponse: walletResponse,
+        nonce: activeTransaction.initialization_request.nonce
       }
+      // Clear local storage
+      services.localStorageService.remove(constants.ACTIVE_TRANSACTION);
+
+      return concludedTransaction;
     }
 
-
     const responseCode: string = route.queryParams['response_code'];
-    console.log(data);
-    if (data && responseCode) {
-      return services.verifierEndpointService.getWalletResponse(data.transaction_id, responseCode)
+    console.log(activeTransaction);
+    if (activeTransaction && responseCode) {
+      return services.verifierEndpointService.getWalletResponse(activeTransaction.initialized_transaction.transaction_id, responseCode)
         .pipe(
           map((walletResponse) => {
             return concludeTransaction(walletResponse)

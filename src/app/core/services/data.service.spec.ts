@@ -18,13 +18,4 @@ describe('DataService', () => {
   it('should be created', () => {
     expect(service).toBeTruthy();
   });
-  it('set data to QR', () => {
-    service.setInitializedTransaction(qrData);
-    expect(service['initializedTransaction']).toEqual(qrData)
-  })
-  it('get QR data', () => {
-    service.setInitializedTransaction(qrData);
-    const data = service.initializedTransaction;
-    expect(data).toEqual(qrData)
-  })
 });
