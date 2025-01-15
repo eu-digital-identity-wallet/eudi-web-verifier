@@ -139,7 +139,7 @@ export class QrCodeComponent implements OnInit, OnDestroy {
   }
 
   private buildQrCode(data: { client_id: string, request_uri: string, transaction_id: string }): string {
-    return `${this.scheme}?client_id=${data.client_id}&request_uri=${encodeURIComponent(data.request_uri)}`;
+    return `${this.scheme}?client_id=${encodeURIComponent(data.client_id)}&request_uri=${encodeURIComponent(data.request_uri)}`;
   }
 
   openLogs() {
