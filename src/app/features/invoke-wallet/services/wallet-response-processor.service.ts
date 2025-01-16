@@ -7,11 +7,13 @@ import {DecodersRegistryService} from "@core/services/decoders-registry.service"
 import {DescriptorMap} from "@core/models/presentation/PresentationSubmission";
 import {forkJoin, Observable, of} from "rxjs";
 import {catchError} from "rxjs/operators";
+import { ToastrService } from 'ngx-toastr';
 
 @Injectable()
 export class WalletResponseProcessorService {
   constructor(
     private readonly decoders: DecodersRegistryService,
+    private readonly toastrService: ToastrService,
   ) {
   }
 
@@ -46,10 +48,11 @@ export class WalletResponseProcessorService {
       .pipe(
         catchError( error => {
           console.error(`Error decoding wallet's response for input descriptor ${entry[0]}:`,error)
+          this.toastrService.error(error.error, `Error decoding document in ${entry[1]}`)
           return of({
             kind: "error" as const,
             format: entry[1] as AttestationFormat,
-            reason: error.toString()
+            reason: error.error
           })
         })
       )

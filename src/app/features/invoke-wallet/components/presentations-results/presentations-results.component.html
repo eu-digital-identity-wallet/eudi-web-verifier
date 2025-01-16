@@ -18,7 +18,7 @@
       <ng-container *ngFor="let attestation of attestations;">
         <mat-card *ngIf="isErrored(attestation)" appearance="outlined">
           <mat-card-header>
-            <mat-card-title>Error:{{ attestation.reason }}</mat-card-title>
+            <mat-card-title>Error: {{ attestation.reason }}</mat-card-title>
             <mat-card-subtitle> in <i> {{ attestation.format }} </i> format</mat-card-subtitle>
           </mat-card-header>
         </mat-card>
