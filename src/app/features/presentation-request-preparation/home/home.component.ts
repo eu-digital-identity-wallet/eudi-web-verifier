@@ -27,29 +27,35 @@ import {v4 as uuidv4} from "uuid";
 import {VerifierEndpointService} from "@core/services/verifier-endpoint.service";
 import {MatExpansionModule} from "@angular/material/expansion";
 import {AttestationSelectionComponent} from "@features/presentation-request-preparation/components/attestation-selection/attestation-selection.component";
+import {MatIconModule} from "@angular/material/icon";
+import {ClipboardModule} from "@angular/cdk/clipboard";
+import {MatTooltipModule} from "@angular/material/tooltip";
 
 @Component({
   standalone: true,
-    imports: [
-        CommonModule,
-        MatTabsModule,
-        RadioGroupComponent,
-        SharedModule,
-        InputSchemeComponent,
-        WalletLayoutComponent,
-        OpenLogsComponent,
-        MatDialogModule,
-        RouterOutlet,
-        SupportedAttestationsComponent,
-        MatStepperModule,
-        ReactiveFormsModule,
-        MatButtonModule,
-        AttributeSelectionComponent,
-        MatExpansionModule,
-        RouterLinkActive,
-        RouterLink,
-        AttestationSelectionComponent
-    ],
+  imports: [
+    CommonModule,
+    MatTabsModule,
+    RadioGroupComponent,
+    SharedModule,
+    InputSchemeComponent,
+    WalletLayoutComponent,
+    OpenLogsComponent,
+    MatDialogModule,
+    RouterOutlet,
+    SupportedAttestationsComponent,
+    MatStepperModule,
+    ReactiveFormsModule,
+    MatButtonModule,
+    AttributeSelectionComponent,
+    MatExpansionModule,
+    RouterLinkActive,
+    RouterLink,
+    AttestationSelectionComponent,
+    MatIconModule,
+    ClipboardModule,
+    MatTooltipModule
+  ],
   providers: [VerifierEndpointService],
   selector: 'vc-presentation-preparation-home',
   templateUrl: './home.component.html',

@@ -1,7 +1,6 @@
 import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit} from '@angular/core';
 import {Subject} from 'rxjs';
 import {filter, takeUntil} from 'rxjs/operators';
-import {InitializedTransaction} from '@core/models/InitializedTransaction';
 import {DataService} from '@core/services/data.service';
 import {NavigateService} from '@core/services/navigate.service';
 import {NavigationEnd, Router} from '@angular/router';
@@ -68,7 +67,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   initializePresentationTransaction() {
     if (this.requestCode) {
       let request = JSON.parse(this.requestCode) as TransactionInitializationRequest
-      this.verifierEndpointService.initializeTransaction(request, (data) => {
+      this.verifierEndpointService.initializeTransaction(request, (_) => {
         this.hideNextStep();
         this.navigateService.navigateTo('/custom-request/invoke');
         this.changeDetectorRef.detectChanges();

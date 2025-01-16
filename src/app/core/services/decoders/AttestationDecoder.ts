@@ -1,7 +1,8 @@
 import {AttestationFormat} from "@core/models/attestation/AttestationFormat";
-import {SharedAttestation} from "@core/models/presentation/SharedAttestation";
+import {PresentedAttestation} from "@core/models/presentation/PresentedAttestation";
+import {Observable} from "rxjs";
 
 export interface AttestationDecoder {
   supports(format: AttestationFormat): boolean;
-  decode(attestation: string): SharedAttestation
+  decode(attestation: string, nonce: string): Observable<PresentedAttestation>
 }

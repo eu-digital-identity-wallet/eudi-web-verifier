@@ -4,9 +4,10 @@ import {AttestationFormat} from "@core/models/attestation/AttestationFormat";
 import {decode} from "cbor-x";
 import {Buffer} from 'buffer';
 
-import {SharedAttestation, Single} from "@core/models/presentation/SharedAttestation";
+import {PresentedAttestation, Single} from "@core/models/presentation/PresentedAttestation";
 import {KeyValue} from "@angular/common";
 import {elementAsString} from "@core/services/decoders/DecodingUtils";
+import {Observable, of} from "rxjs";
 
 @Injectable({
   providedIn: 'root'
@@ -17,19 +18,20 @@ export class MsoMdocAttestationDecoder implements AttestationDecoder {
     return format === AttestationFormat.MSO_MDOC;
   }
 
-  decode(attestation: string): SharedAttestation {
+  decode(attestation: string, nonce: string): Observable<PresentedAttestation> {
     const buffer = this.decodeBase64OrHex(attestation);
     const decodedData = this.decodeCborData(buffer);
     if (decodedData.documents.length === 1) {
-      return this.extractAttestationSingle(decodedData.documents[0])
+      return of(this.extractAttestationSingle(decodedData.documents[0]))
+
     } else {
       let attestations: Single[] = decodedData.documents.map((doc: any) => {
         return this.extractAttestationSingle(doc)
       })
-      return {
+      return of({
         kind: "enveloped",
         attestations: attestations
-      }
+      })
     }
   }
 

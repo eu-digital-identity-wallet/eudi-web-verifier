@@ -8,7 +8,7 @@
   <div>
       <mat-form-field>
         <mat-label>-- attributes by --</mat-label>
-        <mat-select matNativeControl [(value)]="selectedMethod" [formControl]="methodControl" (selectionChange)="emit()">
+        <mat-select matNativeControl [(value)]="selectedMethod" [formControl]="methodControl" (selectionChange)="emitAttestationSelectionChanged()">
           <ng-container *ngFor="let method of attributeSelectionMethods">
             <mat-option [value]="method">{{ labelOf(method) }}</mat-option>
           </ng-container>
@@ -18,7 +18,7 @@
 
       <mat-form-field>
         <mat-label>-- format --</mat-label>
-        <mat-select matNativeControl [(value)]="selectedFormat" [formControl]="formatControl" (selectionChange)="emit()">
+        <mat-select matNativeControl [(value)]="selectedFormat" [formControl]="formatControl" (selectionChange)="emitAttestationSelectionChanged()">
           <ng-container *ngFor="let format of supportedFormats">
             <mat-option [value]="format.key" disabled="{{format.disabled}}">{{ format.value }}</mat-option>
           </ng-container>

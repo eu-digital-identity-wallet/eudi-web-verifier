@@ -4,5 +4,6 @@ import {PresentationDefinition} from "@core/models/presentation/PresentationDefi
 export type ConcludedTransaction = {
   transactionId: string,
   presentationDefinition: PresentationDefinition,
-  walletResponse: WalletResponse
+  walletResponse: WalletResponse,
+  nonce: string
 }

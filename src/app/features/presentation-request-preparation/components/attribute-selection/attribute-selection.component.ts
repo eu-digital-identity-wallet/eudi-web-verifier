@@ -4,7 +4,7 @@ import {SharedModule} from "@shared/shared.module";
 import {WalletLayoutComponent} from "@core/layout/wallet-layout/wallet-layout.component";
 import {AttestationSelection, AttributeSelectionMethod} from "@features/presentation-request-preparation/models/AttestationSelection";
 import {AttestationType} from "@core/models/attestation/AttestationType";
-import {SUPPORTED_ATTESTATIONS} from "@core/constants/attestations";
+import {SUPPORTED_ATTESTATIONS} from "@core/constants/attestation-definitions";
 import {MatButtonModule} from "@angular/material/button";
 import {MatCardModule} from "@angular/material/card";
 import {MatDialog} from "@angular/material/dialog";
@@ -14,11 +14,11 @@ import {
 import {AttestationFormat} from "@core/models/attestation/AttestationFormat";
 import {InputDescriptor} from "@core/models/presentation/InputDescriptor";
 import {DialogResult} from "@features/presentation-request-preparation/components/selectable-attestation-attributes/model/DialogResult";
-import {MSO_MDOC_BY_TYPE} from "@core/data/MsoMdocDocuments";
-import {MsoMdocPresentationService} from "@core/services/mso-mdoc-presentation.service";
 import {MatBadgeModule} from "@angular/material/badge";
+import {PresentationDefinitionService} from "@core/services/presentation-definition-service";
 
 @Component({
+  templateUrl: './attribute-selection.component.html',
   selector: 'vc-attribute-selection',
   standalone: true,
   imports: [
@@ -27,16 +27,14 @@ import {MatBadgeModule} from "@angular/material/badge";
     WalletLayoutComponent,
     MatButtonModule,
     MatCardModule,
-    MatBadgeModule,
+    MatBadgeModule
   ],
-  providers: [MsoMdocPresentationService],
-  templateUrl: './attribute-selection.component.html',
-  styleUrls: ['./attribute-selection.component.scss'],
+  styleUrls: ['./attribute-selection.component.scss']
 })
 export class AttributeSelectionComponent implements OnInit, OnChanges {
 
   constructor(
-    private readonly msoMdocPresentationService: MsoMdocPresentationService,
+    private readonly presentationDefinitionService: PresentationDefinitionService,
   ) { }
 
   @Input() attestationsSelection!: AttestationSelection[];
@@ -54,20 +52,16 @@ export class AttributeSelectionComponent implements OnInit, OnChanges {
     let allAttributesSelections = this.attestationsSelection.filter((selection: AttestationSelection) =>
       selection.attributeSelectionMethod === AttributeSelectionMethod.ALL_ATTRIBUTES
     )
-    allAttributesSelections.forEach((selection: AttestationSelection) => {
-      switch (selection.format) {
-        case AttestationFormat.MSO_MDOC:
-          let msoMdoc = MSO_MDOC_BY_TYPE[selection.type as string];
-          let inputDescriptor = this.msoMdocPresentationService.msoMdocInputDescriptorOf(msoMdoc, "")
-          this.inputDescriptorsByType[selection.type] = inputDescriptor;
-          break;
-        case AttestationFormat.SD_JWT_VC:
-          console.error("Format " + AttestationFormat.SD_JWT_VC + " not suppoerted  yet");
-          break;
-        case AttestationFormat.JWT_VC_JSON:
-          console.error("Format " + AttestationFormat.JWT_VC_JSON + " not suppoerted  yet");
-          break;
-      }
+    allAttributesSelections.forEach((selectedAttestation: AttestationSelection) => {
+      let inputDescriptor = this.presentationDefinitionService.inputDescriptorOf(
+        selectedAttestation.type,
+        selectedAttestation.format!,
+        ""
+      )
+      inputDescriptor
+        ? this.inputDescriptorsByType[selectedAttestation.type] = inputDescriptor
+        : console.warn("No input descriptor created for selection " + selectedAttestation + ".");
+
     })
   }
 

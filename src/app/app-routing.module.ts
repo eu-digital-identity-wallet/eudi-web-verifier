@@ -14,10 +14,11 @@ const routes: Routes = [
     loadChildren: () => import('@features/custom-presentation-request/custom-presentation-request.module').
       then(m => m.CustomPresentationRequestModule )},
   { path: 'invoke-wallet',
-    loadChildren: () => import('@features/invoke-wallet/invoke-wallet.module').
-			then(m => m.InvokeWalletModule) },
+    loadChildren: () => import('@features/invoke-wallet/invoke-wallet.module')
+      .then(m => m.InvokeWalletModule) },
 	{ path: 'get-wallet-code',
-		loadComponent: () => import('./features/wallet-redirect/wallet-redirect.component').then(c => c.WalletRedirectComponent),
+		loadComponent: () => import('./features/wallet-redirect/wallet-redirect.component')
+      .then(c => c.WalletRedirectComponent),
 		providers: [VerifierEndpointService, NavigateService],
 		resolve: {
 			data: WalletRedirectResolver

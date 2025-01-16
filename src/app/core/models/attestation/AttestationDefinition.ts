@@ -1,6 +1,6 @@
 import {AttestationType} from "@core/models/attestation/AttestationType";
 
-export type Attestation = {
+export type AttestationDefinition = {
   type: AttestationType,
   name: string,
   dataSet: DataElement[]

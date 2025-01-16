@@ -1,4 +1,4 @@
-import {Single} from "@core/models/presentation/SharedAttestation";
+import {Single} from "@core/models/presentation/PresentedAttestation";
 
 export interface DialogData {
   attestation: Single
