@@ -26,6 +26,7 @@ import {InputDescriptor} from "@core/models/presentation/InputDescriptor";
 import {v4 as uuidv4} from "uuid";
 import {VerifierEndpointService} from "@core/services/verifier-endpoint.service";
 import {MatExpansionModule} from "@angular/material/expansion";
+import {MatButtonToggleModule} from "@angular/material/button-toggle";
 import {AttestationSelectionComponent} from "@features/presentation-request-preparation/components/attestation-selection/attestation-selection.component";
 import {MatIconModule} from "@angular/material/icon";
 import {ClipboardModule} from "@angular/cdk/clipboard";
@@ -54,7 +55,8 @@ import {MatTooltipModule} from "@angular/material/tooltip";
     AttestationSelectionComponent,
     MatIconModule,
     ClipboardModule,
-    MatTooltipModule
+    MatTooltipModule,
+        MatButtonToggleModule
   ],
   providers: [VerifierEndpointService],
   selector: 'vc-presentation-preparation-home',
@@ -75,6 +77,7 @@ export class HomeComponent {
   });
 
   attestationsSelection: AttestationSelection[] | null = null;
+  presentationQueryType: "dcql" | "prex" | null = null;
   initializationRequest: TransactionInitializationRequest | null = null;
 
   handleSelectionChangedEvent($event: AttestationSelection[]) {
@@ -86,6 +89,10 @@ export class HomeComponent {
       this.initializationRequest = this.prepareInitializationRequest($event);
     } else
       this.initializationRequest = null
+  }
+
+  handlePresentationQueryTypeSelectedEvent($event: string) {
+
   }
 
   prepareInitializationRequest(inputDescriptors: InputDescriptor[]): TransactionInitializationRequest {

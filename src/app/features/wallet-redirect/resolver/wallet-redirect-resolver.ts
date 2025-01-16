@@ -26,7 +26,7 @@ export const WalletRedirectResolver: ResolveFn<ConcludedTransaction> =
     function concludeTransaction(walletResponse: WalletResponse): ConcludedTransaction {
       let concludedTransaction: ConcludedTransaction =  {
         transactionId: activeTransaction.initialized_transaction.transaction_id,
-        presentationDefinition: activeTransaction.initialization_request.presentation_definition,
+        presentationQuery: activeTransaction.initialization_request.presentation_definition, // TODO add dcql
         walletResponse: walletResponse,
         nonce: activeTransaction.initialization_request.nonce
       }
