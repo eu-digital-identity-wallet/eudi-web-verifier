@@ -140,7 +140,7 @@
 							}
 						],
 						"url": {
-							"raw": "http://localhost:8080/ui/presentations/{{presentation_id}}?nonce={{nonce}}",
+							"raw": "http://localhost:8080/ui/presentations/{{transaction_id}}?nonce={{nonce}}",
 							"protocol": "http",
 							"host": [
 								"localhost"
@@ -149,7 +149,7 @@
 							"path": [
 								"ui",
 								"presentations",
-								"{{presentation_id}}"
+								"{{transaction_id}}"
 							],
 							"query": [
 								{
@@ -213,7 +213,7 @@
 					"script": {
 						"exec": [
 							"var jsonData = JSON.parse(responseBody);\r",
-							"postman.setEnvironmentVariable(\"presentation_id\", jsonData.presentation_id);\r",
+							"postman.setEnvironmentVariable(\"transaction_id\", jsonData.transaction_id);\r",
 							"postman.setEnvironmentVariable(\"request_uri\", jsonData.request_uri);\r",
 							" let state = \"\";\r",
 							"if ( jsonData.request_uri ) {\r",
@@ -293,7 +293,7 @@
 					"script": {
 						"exec": [
 							"var jsonData = JSON.parse(responseBody);\r",
-							"postman.setEnvironmentVariable(\"presentation_id\", jsonData.presentation_id);\r",
+							"postman.setEnvironmentVariable(\"transaction_id\", jsonData.transaction_id);\r",
 							"postman.setEnvironmentVariable(\"request_uri\", jsonData.request_uri);\r",
 							" let state = \"\";\r",
 							"if ( jsonData.request_uri ) {\r",
@@ -487,7 +487,7 @@
 				"method": "GET",
 				"header": [],
 				"url": {
-					"raw": "http://localhost:8080/wallet/request.jwt/{{presentation_id}}",
+					"raw": "http://localhost:8080/wallet/request.jwt/{{transaction_id}}",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -496,7 +496,7 @@
 					"path": [
 						"wallet",
 						"request.jwt",
-						"{{presentation_id}}"
+						"{{transaction_id}}"
 					]
 				}
 			},
@@ -514,7 +514,7 @@
 					}
 				],
 				"url": {
-					"raw": "http://localhost:8080/ui/presentations/{{presentation_id}}?nonce={{nonce}}",
+					"raw": "http://localhost:8080/ui/presentations/{{transaction_id}}?nonce={{nonce}}",
 					"protocol": "http",
 					"host": [
 						"localhost"
@@ -523,7 +523,7 @@
 					"path": [
 						"ui",
 						"presentations",
-						"{{presentation_id}}"
+						"{{transaction_id}}"
 					],
 					"query": [
 						{

@@ -38,16 +38,14 @@
             "styles": [
               "src/custom-theme.scss",
               "src/styles.scss",
-              "src/reset.scss"
+              "src/reset.scss",
+              "node_modules/ngx-toastr/toastr.css"
             ],
             "stylePreprocessorOptions": {
               "includePaths": [
                 "src/template.sass"
               ]
-            },
-            "scripts": [
-              "./node_modules/qrcodejs/qrcode.min.js"
-            ]
+            }
           },
           "configurations": {
             "production": {

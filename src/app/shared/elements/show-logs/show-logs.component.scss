@@ -1,0 +1,9 @@
+:host ::ng-deep {
+  span {
+    font-weight: 600;
+  }
+  .mat-expansion-panel-header-description {
+    justify-content: space-between;
+    align-items: center;
+  }
+}

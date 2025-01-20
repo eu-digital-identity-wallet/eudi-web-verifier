@@ -1,0 +1,31 @@
+<mat-expansion-panel>
+  <mat-expansion-panel-header>
+    <mat-panel-title>
+      {{ attestation.name }}
+    </mat-panel-title>
+  </mat-expansion-panel-header>
+
+  <div>
+      <mat-form-field>
+        <mat-label>-- attributes by --</mat-label>
+        <mat-select matNativeControl [(value)]="selectedMethod" [formControl]="methodControl" (selectionChange)="emitAttestationSelectionChanged()">
+          <ng-container *ngFor="let method of attributeSelectionMethods">
+            <mat-option [value]="method">{{ labelOf(method) }}</mat-option>
+          </ng-container>
+        </mat-select>
+        <mat-error *ngIf="methodControl.hasError('required')">Please choose a method</mat-error>
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>-- format --</mat-label>
+        <mat-select matNativeControl [(value)]="selectedFormat" [formControl]="formatControl" (selectionChange)="emitAttestationSelectionChanged()">
+          <ng-container *ngFor="let format of supportedFormats">
+            <mat-option [value]="format.key" disabled="{{format.disabled}}">{{ format.value }}</mat-option>
+          </ng-container>
+        </mat-select>
+        <mat-error *ngIf="formatControl.hasError('required')">Please choose an format</mat-error>
+      </mat-form-field>
+  </div>
+
+</mat-expansion-panel>
+

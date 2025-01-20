@@ -1,7 +1,7 @@
 <vc-wallet-layout>
-  <div body class="container ">
-    <div class="display-container">
-      <vc-presentations-results [results]="data" *ngIf="data"></vc-presentations-results>
+  <div body class="container">
+    <div class="bg-panel">
+      <vc-presentations-results [concludedTransaction]="concludedTransaction" *ngIf="concludedTransaction"></vc-presentations-results>
     </div>
   </div>
 </vc-wallet-layout>

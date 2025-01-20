@@ -1,0 +1,28 @@
+<div class="component-root">
+  <ng-container *ngFor="let selection of attestationsSelection">
+    <mat-card appearance="outlined">
+      <mat-card-header>
+        <mat-card-title>{{ nameOf(selection.type) }}</mat-card-title>
+        <mat-card-subtitle> in <i> {{ selection.format }} </i> format</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-actions align="end" *ngIf="isSelectable(selection)">
+        <button mat-stroked-button
+                matBadgeColor="accent"
+                matBadge="{{fieldsSelectedNo(selection.type)}}"
+                [matBadgeHidden]="!canShowFieldsSelected(selection.type)"
+                (click)="popAttributesSelector(selection.format!, selection.type, nameOf(selection.type))"
+        >
+          Select Attributes
+        </button>
+      </mat-card-actions>
+      <mat-card-actions align="end" *ngIf="!isSelectable(selection)">
+      <button mat-button [disabled]="true"
+            matBadge="{{fieldsSelectedNo(selection.type)}}"
+            [matBadgeHidden]="!canShowFieldsSelected(selection.type)"
+            matBadgeColor="accent">
+        All Attributes selected
+      </button>
+      </mat-card-actions>
+    </mat-card>
+  </ng-container>
+</div>

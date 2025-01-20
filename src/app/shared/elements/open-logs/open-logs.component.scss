@@ -1,0 +1,13 @@
+:host {
+  .dialog-container {
+    min-width: 50em;
+    min-height: 25em;
+    padding: 1em;
+    .inspect-logs {
+      margin-bottom: 1em;
+    }
+    .example-full-width {
+      width: 100%;
+    }
+  }
+}
