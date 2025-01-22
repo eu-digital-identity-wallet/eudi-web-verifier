@@ -16,6 +16,9 @@ import {InputDescriptor} from "@core/models/presentation/InputDescriptor";
 import {DialogResult} from "@features/presentation-request-preparation/components/selectable-attestation-attributes/model/DialogResult";
 import {MatBadgeModule} from "@angular/material/badge";
 import {PresentationDefinitionService} from "@core/services/presentation-definition-service";
+import {CredentialQuery} from "@app/core/models/dcql/DCQL";
+import { AttributesSelectionEvent } from "../../models/AttributesSelection";
+import { DCQLService } from "@app/core/services/dcql-service";
 
 @Component({
   templateUrl: './attribute-selection.component.html',
@@ -35,14 +38,16 @@ export class AttributeSelectionComponent implements OnInit, OnChanges {
 
   constructor(
     private readonly presentationDefinitionService: PresentationDefinitionService,
+    private readonly dcqlService: DCQLService,
   ) { }
 
   @Input() attestationsSelection!: AttestationSelection[];
-  @Output() attributesCollectedEvent = new EventEmitter<InputDescriptor[]>();
+  @Output() attributesCollectedEvent = new EventEmitter<AttributesSelectionEvent>();
 
   readonly dialog: MatDialog = inject(MatDialog);
 
   inputDescriptorsByType: { [id: string]: InputDescriptor } = {}
+  dcqlQueriesByType: { [id: string]: CredentialQuery } = {}
 
   ngOnInit(): void {
     this.prepareDescriptorsForNonSelectable()
@@ -58,10 +63,19 @@ export class AttributeSelectionComponent implements OnInit, OnChanges {
         selectedAttestation.format!,
         ""
       )
+
       inputDescriptor
         ? this.inputDescriptorsByType[selectedAttestation.type] = inputDescriptor
         : console.warn("No input descriptor created for selection " + selectedAttestation + ".");
 
+        console.log(inputDescriptor)
+      let dcqlQuery = this.dcqlService.dcqlQueryOf(
+        "my_query",
+        selectedAttestation!.type,
+        selectedAttestation.format!,
+        true,
+      )
+      dcqlQuery ? this.dcqlQueriesByType[selectedAttestation.type] = dcqlQuery : console.warn("No dcql query created for selection " + selectedAttestation + ".");
     })
   }
 
@@ -79,7 +93,10 @@ export class AttributeSelectionComponent implements OnInit, OnChanges {
         type: type,
         format: format,
         attestationName: attestationName,
-        seed: this.inputDescriptorsByType[type as string]
+        seed: {
+          inputDescriptor: this.inputDescriptorsByType[type as string],
+          dcqlQuery: this.dcqlQueriesByType[type as string]
+        },
       }
     });
     dialogRef.afterClosed().subscribe(result => {
@@ -90,19 +107,27 @@ export class AttributeSelectionComponent implements OnInit, OnChanges {
     });
   }
 
-  updateInputDescriptorsDictionary(dialogResult: DialogResult) {
+  private updateInputDescriptorsDictionary(dialogResult: DialogResult) {
+    console.log("Dialog result: ", dialogResult);
     if (dialogResult.inputDescriptor) {
       this.inputDescriptorsByType[dialogResult.attestationType as string] = dialogResult.inputDescriptor;
+      this.dcqlQueriesByType[dialogResult.attestationType as string] = dialogResult.dcqlQuery;
     } else {
       delete this.inputDescriptorsByType[dialogResult.attestationType as string]
+      delete this.dcqlQueriesByType[dialogResult.attestationType as string]
     }
     this.emitAttributesCollectedEvent();
   }
 
-  emitAttributesCollectedEvent() {
-    let result: InputDescriptor[] = [];
+  private emitAttributesCollectedEvent() {
+    let result: AttributesSelectionEvent = {
+      inputDescriptors: [],
+      dcqlQueries: []
+    };
+
     Object.keys(this.inputDescriptorsByType).forEach((item) => {
-      result.push(this.inputDescriptorsByType[item]);
+      result.inputDescriptors.push(this.inputDescriptorsByType[item]);
+      result.dcqlQueries.push(this.dcqlQueriesByType[item]);
     });
     this.attributesCollectedEvent.emit(result);
   }

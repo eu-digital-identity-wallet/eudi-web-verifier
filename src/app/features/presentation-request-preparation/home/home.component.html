@@ -35,7 +35,9 @@
           <div style="padding-top: 10px">
             <ng-template matStepLabel>...select query type</ng-template>
 
-            <mat-button-toggle-group name="fontStyle" aria-label="Presentation query type" [value]="presentationQueryType" >
+            <mat-button-toggle-group [formControl]="queryTypeControl" 
+              (valueChange)="handleQueryTypeChangedEvent($event)"  
+              name="fontStyle" aria-label="Presentation query type" >
               <mat-button-toggle value="dcql">DCQL Query</mat-button-toggle>
               <mat-button-toggle value="prex">Presentation Exchange</mat-button-toggle>
             </mat-button-toggle-group>

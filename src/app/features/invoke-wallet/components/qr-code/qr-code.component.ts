@@ -121,9 +121,9 @@ export class QrCodeComponent implements OnInit, OnDestroy {
   private concludeTransaction(response: WalletResponse): ConcludedTransaction {
     let concludedTransaction = {
       transactionId: this.transaction.initialized_transaction.transaction_id,
-      presentationQuery: isDCQLTransactionRequest(this.dataService.initializationRequest!!) ?
-                this.dataService.initializationRequest!!.dcql_query
-              : this.dataService.initializationRequest!!.presentation_definition,
+      presentationQuery: isDCQLTransactionRequest(this.transaction.initialization_request!!) ?
+                this.transaction.initialization_request!!.dcql_query
+              : this.transaction.initialization_request!!.presentation_definition,
       walletResponse: response,
       nonce: this.transaction.initialization_request.nonce
     }

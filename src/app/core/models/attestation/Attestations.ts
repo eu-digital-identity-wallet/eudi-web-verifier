@@ -1,5 +1,6 @@
 import {AttestationDefinition, DataElement} from "@core/models/attestation/AttestationDefinition";
 import {AttestationFormat} from "@core/models/attestation/AttestationFormat";
+import { ClaimsQuery } from "../dcql/DCQL";
 
 export type Attestation = MsoMdocAttestation | SdJwtVcAttestation;
 
@@ -9,6 +10,7 @@ export type MsoMdocAttestation  = {
   namespace: string,
   attestationDef: AttestationDefinition,
   attributePath: (attribute: DataElement) => string,
+  claimPath: (attribute: DataElement) => ClaimsQuery,
 }
 
 export type SdJwtVcAttestation = {
@@ -16,4 +18,5 @@ export type SdJwtVcAttestation = {
   vct: string,
   attestationDef: AttestationDefinition
   attributePath: (attribute: DataElement) => string,
+  claimPath: (attribute: DataElement) => ClaimsQuery,
 }

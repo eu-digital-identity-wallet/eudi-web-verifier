@@ -23,12 +23,12 @@ export type BaseClaimQuery = {
 };
 
 export type JsonClaimQuery = {
-  path: ClaimPath[];
+  path: string[];
 };
 
 export type MsoMdocClaimQueryExtension = {
   namespace: string;
-  claimName: string;
+  claim_name: string;
 };
 
 export type ClaimsQuery = BaseClaimQuery &
@@ -37,5 +37,5 @@ export type ClaimsQuery = BaseClaimQuery &
 export type QueryId = string;
 export type ClaimId = string;
 export type ClaimSet = ClaimId[];
-export type ClaimPath = ClaimPathElement[];
-export type ClaimPathElement = {};
+export type ClaimPath = string[];
+export type ClaimPathElement = {}; // TODO

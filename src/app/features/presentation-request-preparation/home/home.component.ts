@@ -15,7 +15,7 @@ import {
   SupportedAttestationsComponent
 } from "@features/presentation-request-preparation/components/supported-attestations/supported-attestations.component";
 import {MatStepperModule} from "@angular/material/stepper";
-import {FormBuilder, ReactiveFormsModule, Validators} from "@angular/forms";
+import {FormBuilder, FormControl, ReactiveFormsModule, Validators} from "@angular/forms";
 import {MatButtonModule} from "@angular/material/button";
 import {AttestationSelection} from "@features/presentation-request-preparation/models/AttestationSelection";
 import {
@@ -31,6 +31,8 @@ import {AttestationSelectionComponent} from "@features/presentation-request-prep
 import {MatIconModule} from "@angular/material/icon";
 import {ClipboardModule} from "@angular/cdk/clipboard";
 import {MatTooltipModule} from "@angular/material/tooltip";
+import {CredentialQuery} from "@core/models/dcql/DCQL";
+import { AttributesSelectionEvent } from '../models/AttributesSelection';
 
 @Component({
   standalone: true,
@@ -56,7 +58,7 @@ import {MatTooltipModule} from "@angular/material/tooltip";
     MatIconModule,
     ClipboardModule,
     MatTooltipModule,
-        MatButtonToggleModule
+    MatButtonToggleModule
   ],
   providers: [VerifierEndpointService],
   selector: 'vc-presentation-preparation-home',
@@ -71,42 +73,71 @@ export class HomeComponent {
 
   actions: BodyAction[] = HOME_ACTIONS;
 
+  queryTypeControl = new FormControl('dcql'); // TODO validate
+
   private _formBuilder = inject(FormBuilder);
   formGroup = this._formBuilder.group({
     selectAttestationCtrl: ['', Validators.required]
   });
 
   attestationsSelection: AttestationSelection[] | null = null;
-  presentationQueryType: "dcql" | "prex" | null = null;
+  
+  inputDescriptors: InputDescriptor[] | null = null;
+  dcqlQueries: CredentialQuery[] | null = null;
+
   initializationRequest: TransactionInitializationRequest | null = null;
 
   handleSelectionChangedEvent($event: AttestationSelection[]) {
     this.attestationsSelection = $event;
   }
 
-  handleAttributesCollectedEvent($event: InputDescriptor[]) {
-    if ($event != null && $event.length > 0) {
-      this.initializationRequest = this.prepareInitializationRequest($event);
-    } else
+  handleAttributesCollectedEvent($event: AttributesSelectionEvent) {
+    if ($event != null && $event.inputDescriptors.length > 0) {
+      this.inputDescriptors = $event.inputDescriptors;
+      this.dcqlQueries = $event.dcqlQueries;
+    } else {
+      this.inputDescriptors = null;
+      this.dcqlQueries = null;
+    }
+    this.initializationRequest = this.prepareInitializationRequest();
+  }
+
+  handleQueryTypeChangedEvent($event: string) {
+    console.log(`presentationQueryType: ${$event}`)
+    if(this.inputDescriptors != null && this.inputDescriptors.length > 0) {
+      this.initializationRequest = this.prepareInitializationRequest();
+    } else {
       this.initializationRequest = null
+    }
   }
 
-  handlePresentationQueryTypeSelectedEvent($event: string) {
-
-  }
-
-  prepareInitializationRequest(inputDescriptors: InputDescriptor[]): TransactionInitializationRequest {
-    return {
-      type: "vp_token",
-      presentation_definition: {
-        id: uuidv4(),
-        input_descriptors: inputDescriptors
-      },
-      nonce: uuidv4()
+  prepareInitializationRequest(): TransactionInitializationRequest {
+    console.log(`presentationQueryType: ${this.queryTypeControl.value}`)
+    if(this.queryTypeControl.value === 'dcql') {
+      return {
+        type: "vp_token",
+        dcql_query: {
+          credentials: this.dcqlQueries!.map((q, index) => {
+            q.id = `query_${index}`
+            return q
+          }),
+        },
+        nonce: uuidv4()
+      }
+    } else {
+      return {
+        type: "vp_token",
+        presentation_definition: {
+          id: uuidv4(),
+          input_descriptors: this.inputDescriptors!
+        },
+        nonce: uuidv4()
+      }
     }
   }
 
   proceedToInvokeWallet() {
+    console.log(`presentationQueryType: ${this.queryTypeControl.value}`)
     if (this.initializationRequest != null) {
       this.verifierEndpointService.initializeTransaction(this.initializationRequest, (_) => {
         this.navigateService.navigateTo('invoke-wallet');

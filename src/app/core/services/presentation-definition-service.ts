@@ -2,7 +2,6 @@ import {AttestationType} from "@core/models/attestation/AttestationType";
 import {InputDescriptor} from "@core/models/presentation/InputDescriptor";
 import {Injectable} from "@angular/core";
 import {Attestation, MsoMdocAttestation, SdJwtVcAttestation} from "@core/models/attestation/Attestations";
-import {TransactionInitializationRequest} from "@core/models/TransactionInitializationRequest";
 import {v4 as uuidv4} from "uuid";
 import {FieldConstraint} from "@core/models/presentation/FieldConstraint";
 import {DataElement} from "@core/models/attestation/AttestationDefinition";
@@ -13,23 +12,6 @@ import {getAttestationByFormatAndType} from "@core/constants/attestations-per-fo
   providedIn: 'root'
 })
 export class PresentationDefinitionService {
-
-  presentationDefinitionOf(
-    document: MsoMdocAttestation,
-    presentationPurpose: string,
-    includeAttributes?: string[]
-  ): TransactionInitializationRequest {
-    return {
-      type: 'vp_token',
-      presentation_definition: {
-        id: uuidv4(),
-        input_descriptors: [
-          this.msoMdocInputDescriptorOf(document, presentationPurpose, includeAttributes)
-        ]
-      },
-      nonce: uuidv4()
-    };
-  }
 
   inputDescriptorOf(
     type: AttestationType,
