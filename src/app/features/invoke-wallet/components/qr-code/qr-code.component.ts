@@ -1,11 +1,9 @@
 import {ChangeDetectionStrategy, Component, EventEmitter, Injector, OnDestroy, OnInit, Output} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {SharedModule} from '@shared/shared.module';
-import {DataService} from '@core/services/data.service';
 import {interval, ReplaySubject, Subject, take, takeUntil} from 'rxjs';
 import {map} from 'rxjs/operators';
 import {NavigateService} from '@core/services/navigate.service';
-import {PresentationsResultsComponent} from '../presentations-results/presentations-results.component';
 import {DeviceDetectorService} from '@core/services/device-detector.service';
 import {LocalStorageService} from '@core/services/local-storage.service';
 import * as constants from '@core/constants/general';
@@ -27,8 +25,6 @@ import { isDCQLTransactionRequest } from '@app/core/models/TransactionInitializa
   imports: [
     CommonModule,
     SharedModule,
-    PresentationsResultsComponent,
-    OpenLogsComponent,
     MatDialogModule,
     QRCodeModule
   ],
@@ -61,7 +57,6 @@ export class QrCodeComponent implements OnInit, OnDestroy {
 
   constructor(
     private readonly verifierEndpointService: VerifierEndpointService,
-    private readonly dataService: DataService,
     private readonly navigateService: NavigateService,
     private readonly injector: Injector,
   ) {

@@ -4,11 +4,8 @@ import {HOME_ACTIONS} from '@core/constants/pages-actions';
 import {BodyAction} from '@app/shared/elements/body-actions/models/BodyAction';
 import {CommonModule} from "@angular/common";
 import {MatTabsModule} from "@angular/material/tabs";
-import {RadioGroupComponent} from "@shared/elements/radio-group/radio-group.component";
 import {SharedModule} from "@shared/shared.module";
-import {InputSchemeComponent} from "@shared/elements/input-scheme/input-scheme.component";
 import {WalletLayoutComponent} from "@core/layout/wallet-layout/wallet-layout.component";
-import {OpenLogsComponent} from "@shared/elements/open-logs/open-logs.component";
 import {MatDialogModule} from "@angular/material/dialog";
 import {RouterLink, RouterLinkActive, RouterOutlet} from "@angular/router";
 import {
@@ -27,7 +24,6 @@ import {v4 as uuidv4} from "uuid";
 import {VerifierEndpointService} from "@core/services/verifier-endpoint.service";
 import {MatExpansionModule} from "@angular/material/expansion";
 import {MatButtonToggleModule} from "@angular/material/button-toggle";
-import {AttestationSelectionComponent} from "@features/presentation-request-preparation/components/attestation-selection/attestation-selection.component";
 import {MatIconModule} from "@angular/material/icon";
 import {ClipboardModule} from "@angular/cdk/clipboard";
 import {MatTooltipModule} from "@angular/material/tooltip";
@@ -39,13 +35,9 @@ import { AttributesSelectionEvent } from '../models/AttributesSelection';
   imports: [
     CommonModule,
     MatTabsModule,
-    RadioGroupComponent,
     SharedModule,
-    InputSchemeComponent,
     WalletLayoutComponent,
-    OpenLogsComponent,
     MatDialogModule,
-    RouterOutlet,
     SupportedAttestationsComponent,
     MatStepperModule,
     ReactiveFormsModule,
@@ -54,7 +46,6 @@ import { AttributesSelectionEvent } from '../models/AttributesSelection';
     MatExpansionModule,
     RouterLinkActive,
     RouterLink,
-    AttestationSelectionComponent,
     MatIconModule,
     ClipboardModule,
     MatTooltipModule,

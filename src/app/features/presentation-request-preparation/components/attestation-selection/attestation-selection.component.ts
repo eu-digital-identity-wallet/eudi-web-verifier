@@ -1,7 +1,6 @@
 import {Component, EventEmitter, Input, OnInit, Output} from "@angular/core";
 import {CommonModule} from "@angular/common";
 import {SharedModule} from "@shared/shared.module";
-import {WalletLayoutComponent} from "@core/layout/wallet-layout/wallet-layout.component";
 import {MatInputModule} from "@angular/material/input";
 import {MatSelectModule} from "@angular/material/select";
 import {MatRadioModule} from "@angular/material/radio";
@@ -21,7 +20,6 @@ import {AttestationType} from "@core/models/attestation/AttestationType";
   imports: [
     CommonModule,
     SharedModule,
-    WalletLayoutComponent,
     MatInputModule,
     MatSelectModule,
     MatRadioModule,

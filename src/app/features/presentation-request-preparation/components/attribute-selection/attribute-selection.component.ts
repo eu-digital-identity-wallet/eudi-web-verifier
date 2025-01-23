@@ -1,7 +1,6 @@
 import {Component, EventEmitter, inject, Input, OnChanges, OnInit, Output, SimpleChanges} from "@angular/core";
 import {CommonModule} from "@angular/common";
 import {SharedModule} from "@shared/shared.module";
-import {WalletLayoutComponent} from "@core/layout/wallet-layout/wallet-layout.component";
 import {AttestationSelection, AttributeSelectionMethod} from "@features/presentation-request-preparation/models/AttestationSelection";
 import {AttestationType} from "@core/models/attestation/AttestationType";
 import {SUPPORTED_ATTESTATIONS} from "@core/constants/attestation-definitions";
@@ -27,7 +26,6 @@ import { DCQLService } from "@app/core/services/dcql-service";
   imports: [
     CommonModule,
     SharedModule,
-    WalletLayoutComponent,
     MatButtonModule,
     MatCardModule,
     MatBadgeModule
