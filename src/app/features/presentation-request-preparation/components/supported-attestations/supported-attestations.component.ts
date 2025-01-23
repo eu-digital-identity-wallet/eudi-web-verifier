@@ -4,7 +4,6 @@ import {SharedModule} from "@shared/shared.module";
 import {MatInputModule} from "@angular/material/input";
 import {MatSelectModule} from "@angular/material/select";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
-import {WalletLayoutComponent} from "@core/layout/wallet-layout/wallet-layout.component";
 import {MatRadioModule} from "@angular/material/radio";
 import {AttestationSelectionComponent} from "@features/presentation-request-preparation/components/attestation-selection/attestation-selection.component";
 import {MatExpansionModule} from "@angular/material/expansion";
@@ -18,7 +17,6 @@ import {SUPPORTED_ATTESTATIONS} from "@core/constants/attestation-definitions";
   imports: [
     CommonModule,
     SharedModule,
-    WalletLayoutComponent,
     MatInputModule,
     MatSelectModule,
     MatRadioModule,

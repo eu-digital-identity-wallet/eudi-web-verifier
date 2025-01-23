@@ -1,43 +1,18 @@
-@use '/src/template' as temp;
-@use '/src/layout-breakpoint' as points;
+@use "/src/template" as temp;
 
 :host {
-    align-items: center;
-    border-bottom: 1px;
-    border-color: map-get(map-get(map-get(temp.$palette, general), divider), dark);
-    border-style: solid;
-    border-top: none;
+  border: none;
+  border-bottom: 1px;
+  border-bottom-color: map-get(
+    map-get(map-get(temp.$palette, general), divider),
+    dark
+  );
+  border-bottom-style: solid;
+  align-items: center;
+  box-shadow: 0px 1px 20px rgb(207, 207, 207);
+
+  header {
     display: flex;
-    height: 5rem;
-    width: inherit;
-
-    img {
-        cursor: pointer;
-        left: temp.$left;
-        padding: temp.$spaceBasic;
-        position: relative;
-    }
-
-    button {
-        cursor: pointer;
-        left: 45%;
-        position: relative;
-        overflow-clip-margin: content-box;
-    }
-
-    @media (max-width: map-get(points.$breakpoints, xs)) and  (min-width: map-get(points.$breakpoints, sm)){
-        img {
-            left: 3%;
-        }
-    }
-    @media (max-width: map-get(points.$breakpoints, sm)) {
-        img {
-            left: 3%;
-        }
-    }
-    @media (max-width: map-get(points.$breakpoints, md)) and (min-width: map-get(points.$breakpoints, sm)){
-        img {
-            left: 15%;
-        }
-    }
+    justify-content: space-between;
+  }
 }

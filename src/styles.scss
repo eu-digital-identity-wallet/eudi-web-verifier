@@ -11,7 +11,6 @@ body {
     background: map-get(map-get(map-get(temp.$palette, general), bg), paper);
     height: inherit;
     overflow-x: hidden;
-    width: inherit;
 }
 
 main {
@@ -19,9 +18,12 @@ main {
     margin: 0;
     overflow: hidden auto;
     padding: 0;
-    width: 100vw;
 }
 
+.container {
+    max-width: temp.$body-width;
+    margin: 0 auto;
+}
 .bg-panel {
     background-color: temp.$backgroundDefault;
     border-radius: 16px;

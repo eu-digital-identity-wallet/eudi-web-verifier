@@ -14,7 +14,7 @@ import {MatButtonModule} from "@angular/material/button";
 import {DialogData} from "@features/presentation-request-preparation/components/selectable-attestation-attributes/model/DialogData";
 import {PresentationDefinitionService} from "@core/services/presentation-definition-service";
 import {SdJwtVcAttestation} from "@core/models/attestation/Attestations";
-import { CredentialQuery, DCQL } from '@app/core/models/dcql/DCQL';
+import { CredentialQuery } from '@app/core/models/dcql/DCQL';
 import { DCQLService } from '@app/core/services/dcql-service';
 
 @Component({
