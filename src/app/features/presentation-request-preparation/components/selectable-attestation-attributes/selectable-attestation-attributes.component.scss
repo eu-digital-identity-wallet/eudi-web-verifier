@@ -18,7 +18,7 @@
     .creation {
         display: flex;
         flex-direction: column;
-        height: temp.$body-height;
+        max-height: temp.$body-height;
         overflow-y: auto;
 
         .creation-header {

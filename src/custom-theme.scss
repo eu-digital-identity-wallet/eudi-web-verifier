@@ -50,14 +50,3 @@ $verifier-ui-theme: mat.define-light-theme((
 }
 
 body { font-family: Roboto, "Helvetica Neue", sans-serif; margin: 0; }
-
-.show-logs {
-  //display: flex;
-  a {
-    color: map-get(map-get(temp.$palette, color), primary);
-    cursor: pointer;
-    font-size: 16px;
-    margin-top: 2rem;
-    text-decoration: underline;
-  }
-}

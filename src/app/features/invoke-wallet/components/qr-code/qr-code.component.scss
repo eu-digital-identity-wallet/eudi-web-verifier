@@ -63,16 +63,7 @@
                 }
             }
         }
-        .show-logs {
-          display: flex;
-          a {
-            color: map-get(map-get(temp.$palette, color), primary);
-            cursor: pointer;
-            font-size: 16px;
-            margin-top: 2rem;
-            text-decoration: underline;
-          }
-        }
+
     }
     @media (max-width: map-get(points.$breakpoints, xs)) and  (min-width: map-get(points.$breakpoints, sm)){
         .vc-verifiable-credential {

@@ -17,6 +17,7 @@ import {QRCodeModule} from 'angularx-qrcode';
 import {SafeUrl} from "@angular/platform-browser";
 import {ActiveTransaction} from "@core/models/ActiveTransaction";
 import { isDCQLTransactionRequest } from '@app/core/models/TransactionInitializationRequest';
+import { MatButtonModule } from '@angular/material/button';
 
 
 @Component({
@@ -26,7 +27,8 @@ import { isDCQLTransactionRequest } from '@app/core/models/TransactionInitializa
     CommonModule,
     SharedModule,
     MatDialogModule,
-    QRCodeModule
+    QRCodeModule,
+    MatButtonModule
   ],
   templateUrl: './qr-code.component.html',
   styleUrls: ['./qr-code.component.scss'],
