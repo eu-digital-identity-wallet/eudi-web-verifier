@@ -4,7 +4,7 @@ import { QrCodeComponent } from './qr-code.component';
 import { SharedModule } from '@shared/shared.module';
 import { WalletLayoutComponent } from '@core/layout/wallet-layout/wallet-layout.component';
 import { RouterModule } from '@angular/router';
-import { HttpClientModule } from '@angular/common/http';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { DataService } from '@core/services/data.service';
 import { NavigateService } from '@core/services/navigate.service';
 
@@ -20,17 +20,15 @@ describe('QrCodeComponent', () => {
   let service: DataService;
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [
-        WalletLayoutComponent,
-				RouterModule,
-				SharedModule,
-        HttpClientModule,
-       ],
-       providers: [
+    imports: [WalletLayoutComponent,
+        RouterModule,
+        SharedModule],
+    providers: [
         DataService,
-        NavigateService
-       ]
-    })
+        NavigateService,
+        provideHttpClient(withInterceptorsFromDi())
+    ]
+})
     .compileComponents();
 
     fixture = TestBed.createComponent(QrCodeComponent);

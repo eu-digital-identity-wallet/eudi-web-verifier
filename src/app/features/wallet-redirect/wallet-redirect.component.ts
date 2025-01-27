@@ -12,23 +12,22 @@ import {JwtVcJsonAttestationDecoder} from "@core/services/decoders/JwtVcJsonAtte
 import {SdJwtVcAttestationDecoder} from "@core/services/decoders/SdJwtVcAttestationDecoder";
 
 @Component({
-	selector: 'vc-wallet-redirect',
-	standalone: true,
-	imports: [
-    CommonModule,
-    WalletLayoutComponent,
-    PresentationsResultsComponent
-  ],
-  providers: [
-    VerifierEndpointService,
-    DecodersRegistryService,
-    MsoMdocAttestationDecoder,
-    JwtVcJsonAttestationDecoder,
-    SdJwtVcAttestationDecoder,
-    JWTService
-  ],
-	templateUrl: './wallet-redirect.component.html',
-	styleUrls: ['./wallet-redirect.component.scss']
+    selector: 'vc-wallet-redirect',
+    imports: [
+        CommonModule,
+        WalletLayoutComponent,
+        PresentationsResultsComponent
+    ],
+    providers: [
+        VerifierEndpointService,
+        DecodersRegistryService,
+        MsoMdocAttestationDecoder,
+        JwtVcJsonAttestationDecoder,
+        SdJwtVcAttestationDecoder,
+        JWTService
+    ],
+    templateUrl: './wallet-redirect.component.html',
+    styleUrls: ['./wallet-redirect.component.scss']
 })
 export class WalletRedirectComponent implements OnInit {
 

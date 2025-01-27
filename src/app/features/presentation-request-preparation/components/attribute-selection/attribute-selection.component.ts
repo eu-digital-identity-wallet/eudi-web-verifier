@@ -20,17 +20,16 @@ import { AttributesSelectionEvent } from "../../models/AttributesSelection";
 import { DCQLService } from "@app/core/services/dcql-service";
 
 @Component({
-  templateUrl: './attribute-selection.component.html',
-  selector: 'vc-attribute-selection',
-  standalone: true,
-  imports: [
-    CommonModule,
-    SharedModule,
-    MatButtonModule,
-    MatCardModule,
-    MatBadgeModule
-  ],
-  styleUrls: ['./attribute-selection.component.scss']
+    templateUrl: './attribute-selection.component.html',
+    selector: 'vc-attribute-selection',
+    imports: [
+        CommonModule,
+        SharedModule,
+        MatButtonModule,
+        MatCardModule,
+        MatBadgeModule
+    ],
+    styleUrls: ['./attribute-selection.component.scss']
 })
 export class AttributeSelectionComponent implements OnInit, OnChanges {
 

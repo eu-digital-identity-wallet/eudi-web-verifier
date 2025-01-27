@@ -31,30 +31,29 @@ import {CredentialQuery} from "@core/models/dcql/DCQL";
 import { AttributesSelectionEvent } from '../models/AttributesSelection';
 
 @Component({
-  standalone: true,
-  imports: [
-    CommonModule,
-    MatTabsModule,
-    SharedModule,
-    WalletLayoutComponent,
-    MatDialogModule,
-    SupportedAttestationsComponent,
-    MatStepperModule,
-    ReactiveFormsModule,
-    MatButtonModule,
-    AttributeSelectionComponent,
-    MatExpansionModule,
-    RouterLinkActive,
-    RouterLink,
-    MatIconModule,
-    ClipboardModule,
-    MatTooltipModule,
-    MatButtonToggleModule
-  ],
-  providers: [VerifierEndpointService],
-  selector: 'vc-presentation-preparation-home',
-  templateUrl: './home.component.html',
-  styleUrls: ['./home.component.scss'],
+    imports: [
+        CommonModule,
+        MatTabsModule,
+        SharedModule,
+        WalletLayoutComponent,
+        MatDialogModule,
+        SupportedAttestationsComponent,
+        MatStepperModule,
+        ReactiveFormsModule,
+        MatButtonModule,
+        AttributeSelectionComponent,
+        MatExpansionModule,
+        RouterLinkActive,
+        RouterLink,
+        MatIconModule,
+        ClipboardModule,
+        MatTooltipModule,
+        MatButtonToggleModule
+    ],
+    providers: [VerifierEndpointService],
+    selector: 'vc-presentation-preparation-home',
+    templateUrl: './home.component.html',
+    styleUrls: ['./home.component.scss']
 })
 export class HomeComponent {
   constructor(

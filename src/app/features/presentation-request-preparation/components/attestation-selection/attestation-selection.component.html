@@ -5,7 +5,6 @@
     </mat-panel-title>
   </mat-expansion-panel-header>
 
-  <div>
       <mat-form-field>
         <mat-label>-- attributes by --</mat-label>
         <mat-select matNativeControl [(value)]="selectedMethod" [formControl]="methodControl" (selectionChange)="emitAttestationSelectionChanged()">
@@ -25,7 +24,6 @@
         </mat-select>
         <mat-error *ngIf="formatControl.hasError('required')">Please choose an format</mat-error>
       </mat-form-field>
-  </div>
 
 </mat-expansion-panel>
 

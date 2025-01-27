@@ -12,21 +12,20 @@ import {AttestationDefinition} from "@core/models/attestation/AttestationDefinit
 import {SUPPORTED_ATTESTATIONS} from "@core/constants/attestation-definitions";
 
 @Component({
-  selector: 'vc-supported-attestations',
-  standalone: true,
-  imports: [
-    CommonModule,
-    SharedModule,
-    MatInputModule,
-    MatSelectModule,
-    MatRadioModule,
-    ReactiveFormsModule,
-    FormsModule,
-    AttestationSelectionComponent,
-    MatExpansionModule,
-  ],
-  templateUrl: './supported-attestations.component.html',
-  styleUrls: ['./supported-attestations.component.css']
+    selector: 'vc-supported-attestations',
+    imports: [
+        CommonModule,
+        SharedModule,
+        MatInputModule,
+        MatSelectModule,
+        MatRadioModule,
+        ReactiveFormsModule,
+        FormsModule,
+        AttestationSelectionComponent,
+        MatExpansionModule,
+    ],
+    templateUrl: './supported-attestations.component.html',
+    styleUrls: ['./supported-attestations.component.css']
 })
 export class SupportedAttestationsComponent implements OnInit {
 

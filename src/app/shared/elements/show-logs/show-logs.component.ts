@@ -9,18 +9,17 @@ import {MatInputModule} from '@angular/material/input';
 import {VerifierEndpointService} from "@core/services/verifier-endpoint.service";
 
 @Component({
-	selector: 'vc-show-logs',
-	standalone: true,
-	imports: [
-		CommonModule,
-		SharedModule,
-		MatExpansionModule,
-		MatFormFieldModule,
-		MatInputModule
-	],
-	templateUrl: './show-logs.component.html',
-	styleUrls: ['./show-logs.component.scss'],
-	providers: [VerifierEndpointService]
+    selector: 'vc-show-logs',
+    imports: [
+        CommonModule,
+        SharedModule,
+        MatExpansionModule,
+        MatFormFieldModule,
+        MatInputModule
+    ],
+    templateUrl: './show-logs.component.html',
+    styleUrls: ['./show-logs.component.scss'],
+    providers: [VerifierEndpointService]
 })
 export class ShowLogsComponent implements OnInit {
   @Input() transactionId!: string;

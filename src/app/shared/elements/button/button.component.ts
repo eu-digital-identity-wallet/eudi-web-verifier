@@ -2,9 +2,10 @@ import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { TypeOfColor } from './enums/type-of-color';
 
 @Component({
-	selector: 'vc-button',
-	templateUrl: './button.component.html',
-	styleUrls: ['./button.component.scss']
+    selector: 'vc-button',
+    templateUrl: './button.component.html',
+    styleUrls: ['./button.component.scss'],
+    standalone: false
 })
 export class ButtonComponent {
 

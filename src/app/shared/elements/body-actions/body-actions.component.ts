@@ -5,10 +5,11 @@ import { Modification } from './models/modification';
 import { BodyActionsService } from './body-actions.service';
 
 @Component({
-	selector: 'vc-body-actions',
-	templateUrl: './body-actions.component.html',
-	styleUrls: ['./body-actions.component.scss'],
-	changeDetection: ChangeDetectionStrategy.Default
+    selector: 'vc-body-actions',
+    templateUrl: './body-actions.component.html',
+    styleUrls: ['./body-actions.component.scss'],
+    changeDetection: ChangeDetectionStrategy.Default,
+    standalone: false
 })
 export class BodyActionsComponent implements OnInit {
 

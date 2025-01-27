@@ -15,7 +15,7 @@
       "prefix": "vc",
       "architect": {
         "build": {
-          "builder": "@angular-devkit/build-angular:browser",
+          "builder": "@angular-devkit/build-angular:application",
           "options": {
             "allowedCommonJsDependencies": [
               "crypto-js",
@@ -23,9 +23,10 @@
               "cbor-bigdecimal",
               "buffer"
             ],
-            "outputPath": "dist/verifier-ui",
+            "outputPath": {
+              "base": "dist/verifier-ui"
+            },
             "index": "src/index.html",
-            "main": "src/main.ts",
             "polyfills": [
               "zone.js"
             ],
@@ -43,9 +44,11 @@
             ],
             "stylePreprocessorOptions": {
               "includePaths": [
-                "src/template.sass"
+                "src/template.sass",
+                "."
               ]
-            }
+            },
+            "browser": "src/main.ts"
           },
           "configurations": {
             "production": {
@@ -64,9 +67,7 @@
               "outputHashing": "all"
             },
             "development": {
-              "buildOptimizer": false,
               "optimization": false,
-              "vendorChunk": true,
               "extractLicenses": false,
               "sourceMap": true,
               "namedChunks": true,
@@ -83,15 +84,15 @@
         "serve": {
           "builder": "@angular-devkit/build-angular:dev-server",
           "options": {
-            "browserTarget": "verifier-ui:build",
-            "proxyConfig": "src/proxy.conf.json"
+            "proxyConfig": "src/proxy.conf.json",
+            "buildTarget": "verifier-ui:build"
           },
           "configurations": {
             "production": {
-              "browserTarget": "verifier-ui:build:production"
+              "buildTarget": "verifier-ui:build:production"
             },
             "development": {
-              "browserTarget": "verifier-ui:build:development"
+              "buildTarget": "verifier-ui:build:development"
             }
           },
           "defaultConfiguration": "development"
@@ -99,7 +100,7 @@
         "extract-i18n": {
           "builder": "@angular-devkit/build-angular:extract-i18n",
           "options": {
-            "browserTarget": "verifier-ui:build"
+            "buildTarget": "verifier-ui:build"
           }
         },
         "test": {

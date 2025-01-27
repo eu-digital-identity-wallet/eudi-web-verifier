@@ -21,10 +21,11 @@ import {
 import { smoothy } from 'thememirror';
 
 @Component({
-	selector: 'vc-editor',
-	templateUrl: './editor.component.html',
-	styleUrls: ['./editor.component.scss'],
-	changeDetection: ChangeDetectionStrategy.OnPush
+    selector: 'vc-editor',
+    templateUrl: './editor.component.html',
+    styleUrls: ['./editor.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class EditorComponent implements AfterViewInit, OnChanges {
 

@@ -16,20 +16,19 @@ import {map} from "rxjs/operators";
 import { PresentationQuery } from '@app/core/models/TransactionInitializationRequest';
 
 @Component({
-  selector: 'vc-presentations-results',
-  standalone: true,
-  imports: [
-    CommonModule,
-    MatListModule,
-    SharedModule,
-    MatExpansionModule,
-    MatCardModule,
-    MatButtonModule,
-    MatDialogModule
-  ],
-  providers: [WalletResponseProcessorService],
-  templateUrl: './presentations-results.component.html',
-  styleUrls: ['./presentations-results.component.scss']
+    selector: 'vc-presentations-results',
+    imports: [
+        CommonModule,
+        MatListModule,
+        SharedModule,
+        MatExpansionModule,
+        MatCardModule,
+        MatButtonModule,
+        MatDialogModule
+    ],
+    providers: [WalletResponseProcessorService],
+    templateUrl: './presentations-results.component.html',
+    styleUrls: ['./presentations-results.component.scss']
 })
 export class PresentationsResultsComponent implements OnInit {
   constructor(

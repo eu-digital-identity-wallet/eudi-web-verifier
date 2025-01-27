@@ -11,12 +11,11 @@ import {MatButtonModule} from "@angular/material/button";
 import {MatTabsModule} from "@angular/material/tabs";
 
 @Component({
-  selector: 'vc-view-attestation',
-  standalone: true,
-  imports: [CommonModule, SharedModule, MatExpansionModule, MatListModule, MatDialogModule, MatButtonModule, MatTabsModule],
-  templateUrl: './view-attestation.component.html',
-  providers: [JWTService],
-  changeDetection: ChangeDetectionStrategy.OnPush
+    selector: 'vc-view-attestation',
+    imports: [CommonModule, SharedModule, MatExpansionModule, MatListModule, MatDialogModule, MatButtonModule, MatTabsModule],
+    templateUrl: './view-attestation.component.html',
+    providers: [JWTService],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ViewAttestationComponent implements OnInit{
 

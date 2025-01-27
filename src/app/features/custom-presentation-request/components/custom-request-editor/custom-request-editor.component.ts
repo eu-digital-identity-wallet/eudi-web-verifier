@@ -4,11 +4,10 @@ import { DataService } from '@app/core/services/data.service';
 import { SharedModule } from '@app/shared/shared.module';
 
 @Component({
-	selector: 'vc-presentation-request-editor',
-	standalone: true,
-	imports: [ CommonModule, SharedModule],
-	templateUrl: './custom-request-editor.component.html',
-	styleUrls: ['./custom-request-editor.component.scss']
+    selector: 'vc-presentation-request-editor',
+    imports: [CommonModule, SharedModule],
+    templateUrl: './custom-request-editor.component.html',
+    styleUrls: ['./custom-request-editor.component.scss']
 })
 export class CustomRequestEditorComponent {
 

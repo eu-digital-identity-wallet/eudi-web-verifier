@@ -19,19 +19,18 @@ import { DCQLService } from '@app/core/services/dcql-service';
 import { MatTabsModule } from '@angular/material/tabs';
 
 @Component({
-  standalone: true,
-  selector: 'vc-selectable-attestation-attributes',
-  templateUrl: './selectable-attestation-attributes.component.html',
-  styleUrls: ['./selectable-attestation-attributes.component.scss'],
-  imports: [
-    CommonModule,
-    MatCheckboxModule,
-    MatExpansionModule,
-    SharedModule,
-    MatDialogModule,
-    MatButtonModule,
-    MatTabsModule
-  ]
+    selector: 'vc-selectable-attestation-attributes',
+    templateUrl: './selectable-attestation-attributes.component.html',
+    styleUrls: ['./selectable-attestation-attributes.component.scss'],
+    imports: [
+        CommonModule,
+        MatCheckboxModule,
+        MatExpansionModule,
+        SharedModule,
+        MatDialogModule,
+        MatButtonModule,
+        MatTabsModule
+    ]
 })
 export class SelectableAttestationAttributesComponent implements OnInit {
 

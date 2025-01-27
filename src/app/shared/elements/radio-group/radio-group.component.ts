@@ -5,22 +5,21 @@ import { FormsModule } from '@angular/forms';
 import { RadioGroupModel } from './radio-group.model';
 
 @Component({
-	selector: 'vc-radio-group',
-	standalone: true,
-	imports: [
-		CommonModule,
-		MatRadioModule,
-		FormsModule,
-	],
-	templateUrl: './radio-group.component.html',
-	styleUrls: ['./radio-group.component.scss'],
-	changeDetection: ChangeDetectionStrategy.OnPush,
-	providers: [
-		{
-			provide: MAT_RADIO_DEFAULT_OPTIONS,
-			useValue: { color: 'primary' },
-		}
-	]
+    selector: 'vc-radio-group',
+    imports: [
+        CommonModule,
+        MatRadioModule,
+        FormsModule,
+    ],
+    templateUrl: './radio-group.component.html',
+    styleUrls: ['./radio-group.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    providers: [
+        {
+            provide: MAT_RADIO_DEFAULT_OPTIONS,
+            useValue: { color: 'primary' },
+        }
+    ]
 })
 export class RadioGroupComponent {
 

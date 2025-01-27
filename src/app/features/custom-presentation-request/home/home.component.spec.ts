@@ -1,7 +1,7 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { HomeComponent } from './home.component';
-import { HttpClientModule } from '@angular/common/http';
+import { provideHttpClient, withInterceptorsFromDi } from '@angular/common/http';
 import { WalletLayoutComponent } from '@core/layout/wallet-layout/wallet-layout.component';
 import { RouterModule } from '@angular/router';
 import { SharedModule } from '@shared/shared.module';
@@ -13,17 +13,15 @@ describe('Presentation Definition HomeComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [
-        HttpClientModule,
-        WalletLayoutComponent,
+    declarations: [HomeComponent],
+    imports: [WalletLayoutComponent,
         RouterModule,
-        SharedModule
-      ],
-      declarations: [ HomeComponent ],
-      providers: [
-        VerifierEndpointService!
-      ]
-    })
+        SharedModule],
+    providers: [
+        VerifierEndpointService!,
+        provideHttpClient(withInterceptorsFromDi())
+    ]
+})
     .compileComponents();
 
     fixture = TestBed.createComponent(HomeComponent);

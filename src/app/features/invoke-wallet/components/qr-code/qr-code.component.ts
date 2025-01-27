@@ -13,7 +13,7 @@ import {OpenLogsComponent} from '@shared/elements/open-logs/open-logs.component'
 import {VerifierEndpointService} from "@core/services/verifier-endpoint.service";
 import {WalletResponse} from "@core/models/WalletResponse";
 import {ConcludedTransaction} from "@core/models/ConcludedTransaction";
-import {QRCodeModule} from 'angularx-qrcode';
+import {QRCodeComponent} from 'angularx-qrcode';
 import {SafeUrl} from "@angular/platform-browser";
 import {ActiveTransaction} from "@core/models/ActiveTransaction";
 import { isDCQLTransactionRequest } from '@app/core/models/TransactionInitializationRequest';
@@ -23,22 +23,21 @@ import { MatDividerModule } from '@angular/material/divider';
 import {MatProgressBarModule} from '@angular/material/progress-bar';
 
 @Component({
-  selector: 'vc-qr-code',
-  standalone: true,
-  imports: [
-    CommonModule,
-    SharedModule,
-    MatDialogModule,
-    QRCodeModule,
-    MatButtonModule,
-    MatCardModule,
-    MatDividerModule,
-    MatProgressBarModule
-  ],
-  templateUrl: './qr-code.component.html',
-  styleUrls: ['./qr-code.component.scss'],
-  providers: [VerifierEndpointService],
-  changeDetection: ChangeDetectionStrategy.OnPush
+    selector: 'vc-qr-code',
+    imports: [
+        CommonModule,
+        SharedModule,
+        MatDialogModule,
+        MatButtonModule,
+        MatCardModule,
+        MatDividerModule,
+        MatProgressBarModule,
+        QRCodeComponent
+    ],
+    templateUrl: './qr-code.component.html',
+    styleUrls: ['./qr-code.component.scss'],
+    providers: [VerifierEndpointService],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class QrCodeComponent implements OnInit, OnDestroy {
 

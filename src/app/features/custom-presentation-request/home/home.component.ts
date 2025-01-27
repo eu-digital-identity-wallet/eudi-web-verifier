@@ -11,10 +11,11 @@ import {VerifierEndpointService} from "@core/services/verifier-endpoint.service"
 import {TransactionInitializationRequest} from "@core/models/TransactionInitializationRequest";
 
 @Component({
-  selector: 'vc-home',
-  templateUrl: './home.component.html',
-  styleUrls: ['./home.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush
+    selector: 'vc-home',
+    templateUrl: './home.component.html',
+    styleUrls: ['./home.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: false
 })
 export class HomeComponent implements OnInit, OnDestroy {
 

@@ -12,11 +12,10 @@ import {MatDialogModule} from "@angular/material/dialog";
 import {MatButtonModule} from "@angular/material/button";
 
 @Component({
-	selector: 'vc-input-scheme',
-	standalone: true,
-  imports: [CommonModule, MatExpansionModule, FormsModule, ReactiveFormsModule, MatInputModule, SharedModule, MatIconModule, MatDialogModule, MatButtonModule],
-	templateUrl: './input-scheme.component.html',
-	styleUrls: ['./input-scheme.component.scss']
+    selector: 'vc-input-scheme',
+    imports: [CommonModule, MatExpansionModule, FormsModule, ReactiveFormsModule, MatInputModule, SharedModule, MatIconModule, MatDialogModule, MatButtonModule],
+    templateUrl: './input-scheme.component.html',
+    styleUrls: ['./input-scheme.component.scss']
 })
 export class InputSchemeComponent implements OnInit {
 

@@ -14,23 +14,22 @@ import { MatExpansionModule } from '@angular/material/expansion';
 import {VerifierEndpointService} from "@core/services/verifier-endpoint.service";
 
 @Component({
-	selector: 'vc-open-logs',
-	standalone: true,
-	imports: [
-		MatDialogModule,
-		CommonModule,
-		MatButtonModule,
-		ShowLogsComponent,
-		MatInputModule,
-		FormsModule,
-		ReactiveFormsModule,
-		MatIconModule,
-		SharedModule,
-		MatExpansionModule
-	],
-	templateUrl: './open-logs.component.html',
-	styleUrls: ['./open-logs.component.scss'],
-	providers: [VerifierEndpointService]
+    selector: 'vc-open-logs',
+    imports: [
+        MatDialogModule,
+        CommonModule,
+        MatButtonModule,
+        ShowLogsComponent,
+        MatInputModule,
+        FormsModule,
+        ReactiveFormsModule,
+        MatIconModule,
+        SharedModule,
+        MatExpansionModule
+    ],
+    templateUrl: './open-logs.component.html',
+    styleUrls: ['./open-logs.component.scss'],
+    providers: [VerifierEndpointService]
 })
 export class OpenLogsComponent implements OnInit {
 	readonly data = inject<LogData>(MAT_DIALOG_DATA);

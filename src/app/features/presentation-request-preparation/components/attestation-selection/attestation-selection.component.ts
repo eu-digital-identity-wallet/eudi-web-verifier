@@ -15,19 +15,18 @@ import {Attestation} from "@core/models/attestation/Attestations";
 import {AttestationType} from "@core/models/attestation/AttestationType";
 
 @Component({
-  selector: 'vc-attestation-selection',
-  standalone: true,
-  imports: [
-    CommonModule,
-    SharedModule,
-    MatInputModule,
-    MatSelectModule,
-    MatRadioModule,
-    ReactiveFormsModule,
-    FormsModule,
-    MatExpansionModule,
-  ],
-  templateUrl: './attestation-selection.component.html'
+    selector: 'vc-attestation-selection',
+    imports: [
+        CommonModule,
+        SharedModule,
+        MatInputModule,
+        MatSelectModule,
+        MatRadioModule,
+        ReactiveFormsModule,
+        FormsModule,
+        MatExpansionModule,
+    ],
+    templateUrl: './attestation-selection.component.html'
 })
 export class AttestationSelectionComponent implements OnInit {
 
