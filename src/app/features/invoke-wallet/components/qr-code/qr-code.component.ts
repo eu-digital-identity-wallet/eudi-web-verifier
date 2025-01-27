@@ -79,7 +79,7 @@ export class QrCodeComponent implements OnInit, OnDestroy {
       this.localStorageService.get(ACTIVE_TRANSACTION)!!
     );
     if (!this.transaction) {
-      this.navigateService.goHome();
+      //this.navigateService.goHome();
     } else {
       this.deepLinkTxt = this.buildQrCode(this.transaction.initialized_transaction);
       if (this.isCrossDevice) {

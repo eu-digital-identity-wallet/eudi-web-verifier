@@ -64,7 +64,7 @@ export class HomeComponent {
 
   actions: BodyAction[] = HOME_ACTIONS;
 
-  queryTypeControl = new FormControl('dcql'); // TODO validate
+  queryTypeControl = new FormControl('prex');
 
   private _formBuilder = inject(FormBuilder);
   formGroup = this._formBuilder.group({
@@ -94,7 +94,6 @@ export class HomeComponent {
   }
 
   handleQueryTypeChangedEvent($event: string) {
-    console.log(`presentationQueryType: ${$event}`)
     if(this.inputDescriptors != null && this.inputDescriptors.length > 0) {
       this.initializationRequest = this.prepareInitializationRequest();
     } else {
@@ -103,7 +102,6 @@ export class HomeComponent {
   }
 
   prepareInitializationRequest(): TransactionInitializationRequest {
-    console.log(`presentationQueryType: ${this.queryTypeControl.value}`)
     if(this.queryTypeControl.value === 'dcql') {
       return {
         type: "vp_token",
@@ -128,7 +126,6 @@ export class HomeComponent {
   }
 
   proceedToInvokeWallet() {
-    console.log(`presentationQueryType: ${this.queryTypeControl.value}`)
     if (this.initializationRequest != null) {
       this.verifierEndpointService.initializeTransaction(this.initializationRequest, (_) => {
         this.navigateService.navigateTo('invoke-wallet');

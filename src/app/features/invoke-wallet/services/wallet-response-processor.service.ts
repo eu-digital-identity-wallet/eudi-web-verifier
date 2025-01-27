@@ -20,8 +20,7 @@ export class WalletResponseProcessorService {
   mapVpTokenToAttestations(concludedTransaction: ConcludedTransaction): Observable<PresentedAttestation[]> {
     let presentationSubmission = concludedTransaction.walletResponse.presentation_submission;
     let vpToken: string[] = concludedTransaction.walletResponse.vp_token!!;
-    let result: PresentedAttestation[] = []
-
+    
     let formatsPerPath = this.deductVpTokenItemsFormats(presentationSubmission.descriptor_map)
     let decodings$: Observable<PresentedAttestation>[] = Object.entries(formatsPerPath)
       .map( entry => {
@@ -31,7 +30,7 @@ export class WalletResponseProcessorService {
     return forkJoin(decodings$)
   }
 
-  mapAttestation(entry: [string, string], vpToken: string[], concludedTransaction: ConcludedTransaction): Observable<PresentedAttestation> {
+  private mapAttestation(entry: [string, string], vpToken: string[], concludedTransaction: ConcludedTransaction): Observable<PresentedAttestation> {
     let sharedAttestation = this.locateInVpToken(entry[0], vpToken)
     if (sharedAttestation === null || typeof sharedAttestation === 'undefined' || sharedAttestation === "") {
       console.log(`Could not match path ${entry[0]} to vp_token array`)
@@ -59,7 +58,7 @@ export class WalletResponseProcessorService {
     }
   }
 
-  deductVpTokenItemsFormats(descriptorMaps: DescriptorMap[]): { [id: string]: string; } {
+  private deductVpTokenItemsFormats(descriptorMaps: DescriptorMap[]): { [id: string]: string; } {
     let vpTokenFormatsByPath: { [id: string]: string; } = {};
     descriptorMaps.forEach((descriptor) => {
       if (typeof vpTokenFormatsByPath[descriptor.path] === 'undefined' || vpTokenFormatsByPath[descriptor.path] === null) {

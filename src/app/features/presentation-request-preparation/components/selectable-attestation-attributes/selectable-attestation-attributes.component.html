@@ -17,25 +17,12 @@
       </ng-container>
     </div>
   </div>
-  <mat-accordion>
-  <mat-expansion-panel class="presentation-definition bg-panel">
-    <mat-expansion-panel-header>
-      <mat-panel-title>
-        Input descriptor
-      </mat-panel-title>
-    </mat-expansion-panel-header>
-    <vc-editor [code]="inputDescriptorText"></vc-editor>
-  </mat-expansion-panel>
 
-  <mat-expansion-panel class="presentation-definition bg-panel">
-    <mat-expansion-panel-header>
-      <mat-panel-title>
-        DCQL
-      </mat-panel-title>
-    </mat-expansion-panel-header>
-    <vc-editor [code]="dcqlQueryText"></vc-editor>
-  </mat-expansion-panel>
-</mat-accordion>
+  <mat-tab-group>
+    <mat-tab label="Presentation Exchange"><vc-editor [code]="inputDescriptorText"></vc-editor></mat-tab>
+    <mat-tab label="Credential Query"><vc-editor [code]="dcqlQueryText"></vc-editor></mat-tab>
+  </mat-tab-group>
+
 </mat-dialog-content>
 
 <mat-dialog-actions align="end">

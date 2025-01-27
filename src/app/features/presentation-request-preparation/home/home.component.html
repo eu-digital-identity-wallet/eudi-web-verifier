@@ -31,28 +31,20 @@
         </mat-step>
 
         <mat-step>
-          
           <div style="padding-top: 10px">
-            <ng-template matStepLabel>...select query type</ng-template>
-
-            <mat-button-toggle-group [formControl]="queryTypeControl" 
-              (valueChange)="handleQueryTypeChangedEvent($event)"  
-              name="fontStyle" aria-label="Presentation query type" >
-              <mat-button-toggle value="dcql">DCQL Query</mat-button-toggle>
-              <mat-button-toggle value="prex">Presentation Exchange</mat-button-toggle>
-            </mat-button-toggle-group>
-          </div>
+            <ng-template matStepLabel>...select presentation query type and submit</ng-template>
             
-          <div class="button-container">
-            <button mat-raised-button matStepperPrevious>Back</button>
-            <button mat-raised-button matStepperNext>Next</button>
-          </div>
-        </mat-step>
-        
-        <mat-step>
-          <div style="padding-top: 10px">
-            <ng-template matStepLabel>...review and proceed</ng-template>
+            <div class="query-type-container">
+              <mat-button-toggle-group [formControl]="queryTypeControl" 
+                (valueChange)="handleQueryTypeChangedEvent($event)"  
+                name="fontStyle" aria-label="Presentation query type" >
+                <mat-button-toggle value="prex">Presentation Exchange</mat-button-toggle>
+                <mat-button-toggle value="dcql">Credential Query</mat-button-toggle>
+              </mat-button-toggle-group>
+            </div>
+
             <mat-expansion-panel>
+
               <mat-expansion-panel-header>
                 <mat-panel-title><span>Your presentation request so far...</span></mat-panel-title>
               </mat-expansion-panel-header>

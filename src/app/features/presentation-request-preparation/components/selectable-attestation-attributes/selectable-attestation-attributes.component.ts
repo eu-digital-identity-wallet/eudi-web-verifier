@@ -1,4 +1,4 @@
-import {Component, inject, OnInit} from '@angular/core';
+import {AfterViewInit, Component, inject, OnInit} from '@angular/core';
 import {FieldConstraint, Filter} from "@core/models/presentation/FieldConstraint";
 import {FormSelectableField} from "@core/models/FormSelectableField";
 import {InputDescriptor} from "@core/models/presentation/InputDescriptor";
@@ -16,6 +16,7 @@ import {PresentationDefinitionService} from "@core/services/presentation-definit
 import {SdJwtVcAttestation} from "@core/models/attestation/Attestations";
 import { CredentialQuery } from '@app/core/models/dcql/DCQL';
 import { DCQLService } from '@app/core/services/dcql-service';
+import { MatTabsModule } from '@angular/material/tabs';
 
 @Component({
   standalone: true,
@@ -28,7 +29,8 @@ import { DCQLService } from '@app/core/services/dcql-service';
     MatExpansionModule,
     SharedModule,
     MatDialogModule,
-    MatButtonModule
+    MatButtonModule,
+    MatTabsModule
   ]
 })
 export class SelectableAttestationAttributesComponent implements OnInit {
@@ -83,7 +85,8 @@ export class SelectableAttestationAttributesComponent implements OnInit {
     let inputDescriptorMaybe = this.presentationDefinitionService.inputDescriptorOf(
       this.attestationType,
       this.attestationFormat,
-      ""
+      "",
+      []
     );
     if (inputDescriptorMaybe) {
       this.draftInputDescriptor = inputDescriptorMaybe

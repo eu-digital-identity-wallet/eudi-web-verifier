@@ -21,8 +21,9 @@ main {
 }
 
 .container {
-    max-width: temp.$body-width;
+    max-width: 36em;
     margin: 0 auto;
+    padding: 0 0.2rem;
 }
 .bg-panel {
     background-color: temp.$backgroundDefault;

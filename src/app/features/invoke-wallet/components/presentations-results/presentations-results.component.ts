@@ -25,8 +25,7 @@ import { PresentationQuery } from '@app/core/models/TransactionInitializationReq
     MatExpansionModule,
     MatCardModule,
     MatButtonModule,
-    MatDialogModule,
-    ViewAttestationComponent
+    MatDialogModule
   ],
   providers: [WalletResponseProcessorService],
   templateUrl: './presentations-results.component.html',
