@@ -18,7 +18,9 @@ import {SafeUrl} from "@angular/platform-browser";
 import {ActiveTransaction} from "@core/models/ActiveTransaction";
 import { isDCQLTransactionRequest } from '@app/core/models/TransactionInitializationRequest';
 import { MatButtonModule } from '@angular/material/button';
-
+import { MatCardModule } from '@angular/material/card';
+import { MatDividerModule } from '@angular/material/divider';
+import {MatProgressBarModule} from '@angular/material/progress-bar';
 
 @Component({
   selector: 'vc-qr-code',
@@ -28,7 +30,10 @@ import { MatButtonModule } from '@angular/material/button';
     SharedModule,
     MatDialogModule,
     QRCodeModule,
-    MatButtonModule
+    MatButtonModule,
+    MatCardModule,
+    MatDividerModule,
+    MatProgressBarModule
   ],
   templateUrl: './qr-code.component.html',
   styleUrls: ['./qr-code.component.scss'],
@@ -79,7 +84,7 @@ export class QrCodeComponent implements OnInit, OnDestroy {
       this.localStorageService.get(ACTIVE_TRANSACTION)!!
     );
     if (!this.transaction) {
-      //this.navigateService.goHome();
+      this.navigateService.goHome();
     } else {
       this.deepLinkTxt = this.buildQrCode(this.transaction.initialized_transaction);
       if (this.isCrossDevice) {
@@ -92,7 +97,7 @@ export class QrCodeComponent implements OnInit, OnDestroy {
     this.qrCodeDownloadLink = url;
   }
 
-  pollingRequest(transaction_id: string) {
+  private pollingRequest(transaction_id: string) {
     const source = interval(2000);
     source
       .pipe(

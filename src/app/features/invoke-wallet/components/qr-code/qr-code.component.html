@@ -1,33 +1,53 @@
 <div class="vc-verifiable-credential">
-  <div *ngIf="isCrossDevice">
-    <div class="qr-info" style="text-align: center">
-      <p>Scan the
-        <a [href]="qrCodeDownloadLink" download="qrcode" title="download as image">QR code</a>
-        below with your phone</p>
-    </div>
-    <div class="qr-code body" [ngClass]="{'green-bg': true}">
-      <qrcode
-        [qrdata]="deepLinkTxt"
-        [allowEmptyString]="false"
-        [ariaLabel]="'QR Code image with the following content...'"
-        [cssClass]="'center'"
-        [elementType]="'canvas'"
-        [errorCorrectionLevel]="'L'"
-        [margin]="2"
-        [title]="deepLinkTxt"
-        [width]="300"
-        (qrCodeURL)="onChangeURL($event)"
-      ></qrcode>
-    </div>
-    <div class="qr-info" style="text-align: center">
-      <p> - OR - </p>
-    </div>
-  </div>
   <div>
-    <a mat-flat-button class="authorize" [href]="deepLinkTxt">OPEN WITH YOUR WALLET</a>
-  </div>
-  <div class="show-logs">
-    <a mat-button (click)="openLogs()">View transaction logs</a>
+    <mat-card class="example-card">
+      <mat-card-header>
+        <mat-card-title *ngIf="isCrossDevice"
+          >Scan the
+          <a
+            [href]="qrCodeDownloadLink"
+            download="qrcode"
+            title="download as image"
+            >QR code</a
+          >
+          below with your phone</mat-card-title
+        >
+      </mat-card-header>
+      <mat-card-content>
+        <div *ngIf="isCrossDevice">
+          <qrcode
+            [qrdata]="deepLinkTxt"
+            [allowEmptyString]="false"
+            [ariaLabel]="'QR Code image with the following content...'"
+            [cssClass]="'center'"
+            [elementType]="'canvas'"
+            [errorCorrectionLevel]="'L'"
+            [margin]="2"
+            [title]="deepLinkTxt"
+            [width]="300"
+            (qrCodeURL)="onChangeURL($event)"
+          />
+          <mat-divider />
+          <div class="qr-info" style="text-align: center">
+            <p>- OR -</p>
+          </div>
+        </div>
+        <div class="qr-code body" [ngClass]="{ 'green-bg': true }">
+          <div>
+            <a mat-flat-button class="authorize" [href]="deepLinkTxt"
+              >OPEN WITH YOUR WALLET</a
+            >
+          </div>
+        </div>
+
+        <mat-divider />
+      </mat-card-content>
+      <mat-card-actions>
+        <button mat-button (click)="openLogs()">View transaction logs</button>
+      </mat-card-actions>
+      <mat-card-footer>
+        <mat-progress-bar mode="indeterminate" />
+      </mat-card-footer>
+    </mat-card>
   </div>
 </div>
-

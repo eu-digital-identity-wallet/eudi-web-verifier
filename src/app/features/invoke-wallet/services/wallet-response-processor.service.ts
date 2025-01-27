@@ -8,6 +8,8 @@ import {DescriptorMap} from "@core/models/presentation/PresentationSubmission";
 import {forkJoin, Observable, of} from "rxjs";
 import {catchError} from "rxjs/operators";
 import { ToastrService } from 'ngx-toastr';
+import { PrExWalletResponse, WalletResponse } from "@app/core/models/WalletResponse";
+import { DCQL } from "@app/core/models/dcql/DCQL";
 
 @Injectable()
 export class WalletResponseProcessorService {
@@ -18,44 +20,58 @@ export class WalletResponseProcessorService {
   }
 
   mapVpTokenToAttestations(concludedTransaction: ConcludedTransaction): Observable<PresentedAttestation[]> {
-    let presentationSubmission = concludedTransaction.walletResponse.presentation_submission;
-    let vpToken: string[] = concludedTransaction.walletResponse.vp_token!!;
-    
-    let formatsPerPath = this.deductVpTokenItemsFormats(presentationSubmission.descriptor_map)
-    let decodings$: Observable<PresentedAttestation>[] = Object.entries(formatsPerPath)
-      .map( entry => {
-          return this.mapAttestation(entry, vpToken, concludedTransaction)
-      }
-    )
+    let decodings$: Observable<PresentedAttestation>[] = [];
+
+    if(this.isPrExWalletResponse(concludedTransaction.walletResponse)) {
+      let presentationSubmission = concludedTransaction.walletResponse.presentation_submission;
+      let vpToken: string[] = concludedTransaction.walletResponse.vp_token;
+      let formatsPerPath = this.deductVpTokenItemsFormats(presentationSubmission.descriptor_map)
+      
+      decodings$ = Object.entries(formatsPerPath)
+        .map( entry => {
+            return this.mapAttestation(entry[0], entry[1], vpToken, concludedTransaction)
+        }
+      )
+    } else {
+      const dcqlQuery = (concludedTransaction.presentationQuery as DCQL)
+      let vpToken: { [id: string]: string } = concludedTransaction.walletResponse.vp_token;
+      
+      dcqlQuery.credentials.forEach((credential, index) => {
+        decodings$.push(this.decodeAttestation(vpToken[credential.id], dcqlQuery.credentials[index].format as AttestationFormat, concludedTransaction.nonce))
+      });
+    }
     return forkJoin(decodings$)
   }
 
-  private mapAttestation(entry: [string, string], vpToken: string[], concludedTransaction: ConcludedTransaction): Observable<PresentedAttestation> {
-    let sharedAttestation = this.locateInVpToken(entry[0], vpToken)
+  private mapAttestation(path: string, format: string, vpToken: string[], concludedTransaction: ConcludedTransaction): Observable<PresentedAttestation> {
+    let sharedAttestation = this.locateInVpToken(path, vpToken)
     if (sharedAttestation === null || typeof sharedAttestation === 'undefined' || sharedAttestation === "") {
-      console.log(`Could not match path ${entry[0]} to vp_token array`)
+      console.log(`Could not match path ${path} to vp_token array`)
       return of({
         kind: "error" as const,
-        format: entry[1] as AttestationFormat,
-        reason: `Could not match path ${entry[0]} to vp_token array`
+        format: format as AttestationFormat,
+        reason: `Could not match path ${path} to vp_token array`
       })
     } else {
-      // locate appropriate decoder
-      let decoder = this.decoders.decoderOf(entry[1] as AttestationFormat);
-      // decode to SharedAttestation
-      return decoder.decode(sharedAttestation, concludedTransaction.nonce)
-      .pipe(
-        catchError( error => {
-          console.error(`Error decoding wallet's response for input descriptor ${entry[0]}:`,error)
-          this.toastrService.error(error.error, `Error decoding document in ${entry[1]}`)
-          return of({
-            kind: "error" as const,
-            format: entry[1] as AttestationFormat,
-            reason: error.error
-          })
-        })
-      )
+      return this.decodeAttestation(sharedAttestation, format as AttestationFormat, concludedTransaction.nonce)
     }
+  }
+
+  private decodeAttestation(attestation: any, format: AttestationFormat, nonce: string): Observable<PresentedAttestation> {
+    // locate appropriate decoder
+    let decoder = this.decoders.decoderOf(format as AttestationFormat);
+    // decode to SharedAttestation
+    return decoder.decode(attestation, nonce)
+    .pipe(
+      catchError( error => {
+        this.toastrService.error(error.error, `Error decoding document in ${format}`)
+        return of({
+          kind: "error" as const,
+          format: format as AttestationFormat,
+          reason: error.error
+        })
+      })
+    )
   }
 
   private deductVpTokenItemsFormats(descriptorMaps: DescriptorMap[]): { [id: string]: string; } {
@@ -78,5 +94,9 @@ export class WalletResponseProcessorService {
       let arrayAsJson = JSON.parse(JSON.stringify(vpToken))
       return JSONPath({path: path, json: arrayAsJson})[0];
     }
+  }
+  
+  private isPrExWalletResponse(response: WalletResponse): response is PrExWalletResponse {
+    return 'vp_token' in response && Array.isArray(response.vp_token);
   }
 }
