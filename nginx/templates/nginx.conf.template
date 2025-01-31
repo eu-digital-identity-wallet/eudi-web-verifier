@@ -1,5 +1,9 @@
 # http {
     include /etc/nginx/mime.types;
+    upstream backend {
+        server $API_SERVER;
+    }
+
     server {
         listen 4300;
         server_name localhost;
@@ -10,6 +14,15 @@
             sub_filter_types text/xml application/javascript text/javascript;
             sub_filter 'http://localhost:8080' $HOST_API;
             sub_filter_once on;
+        }
+        location /ui {
+            proxy_pass http://backend;
+        }
+        location /wallet {
+            proxy_pass http://backend;
+        }
+        location /utilities {
+            proxy_pass http://backend;
         }
     }
 # }

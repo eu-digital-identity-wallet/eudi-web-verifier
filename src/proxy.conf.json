@@ -1,18 +1,18 @@
 {
   "/ui": {
-    "target": "https://dev.verifier-backend.eudiw.dev",
+    "target": "https://verifier-api.eudiw-lt.lengor.dev",
     "secure": false,
     "logLevel": "debug",
     "changeOrigin": true
   },
   "/wallet": {
-    "target": "https://dev.verifier-backend.eudiw.dev",
+    "target": "https://verifier-api.eudiw-lt.lengor.dev",
     "secure": false,
     "logLevel": "debug",
     "changeOrigin": true
   },
   "/utilities": {
-    "target": "https://dev.verifier-backend.eudiw.dev",
+    "target": "https://verifier-api.eudiw-lt.lengor.dev",
     "secure": false,
     "logLevel": "debug",
     "changeOrigin": true
