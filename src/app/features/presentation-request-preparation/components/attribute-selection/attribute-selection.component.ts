@@ -11,13 +11,9 @@ import {
   SelectableAttestationAttributesComponent
 } from "@features/presentation-request-preparation/components/selectable-attestation-attributes/selectable-attestation-attributes.component";
 import {AttestationFormat} from "@core/models/attestation/AttestationFormat";
-import {InputDescriptor} from "@core/models/presentation/InputDescriptor";
 import {DialogResult} from "@features/presentation-request-preparation/components/selectable-attestation-attributes/model/DialogResult";
 import {MatBadgeModule} from "@angular/material/badge";
-import {PresentationDefinitionService} from "@core/services/presentation-definition-service";
-import {CredentialQuery} from "@app/core/models/dcql/DCQL";
 import { AttributesSelectionEvent } from "../../models/AttributesSelection";
-import { DCQLService } from "@app/core/services/dcql-service";
 
 @Component({
     templateUrl: './attribute-selection.component.html',

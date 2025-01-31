@@ -2,12 +2,10 @@
 :host {
 
   .button-container {
-    padding-top: 10px;
-    text-align: end;
-
-    button {
-      margin: 8px 8px 8px 0;
-    }
+    display: flex;
+    justify-content: end;
+    gap: 8px;
+    margin-top: 20px;
   }
 
   mat-step {

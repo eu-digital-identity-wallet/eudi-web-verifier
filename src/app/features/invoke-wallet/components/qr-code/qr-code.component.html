@@ -1,20 +1,8 @@
 <div class="vc-verifiable-credential">
   <div>
     <mat-card class="example-card">
-      <mat-card-header>
-        <mat-card-title *ngIf="isCrossDevice"
-          >Scan the
-          <a
-            [href]="qrCodeDownloadLink"
-            download="qrcode"
-            title="download as image"
-            >QR code</a
-          >
-          below with your phone</mat-card-title
-        >
-      </mat-card-header>
       <mat-card-content>
-        <div *ngIf="isCrossDevice">
+        <p *ngIf="isCrossDevice" style="text-align: center">
           <qrcode
             [qrdata]="deepLinkTxt"
             [allowEmptyString]="false"
@@ -27,17 +15,24 @@
             [width]="300"
             (qrCodeURL)="onChangeURL($event)"
           />
-          <mat-divider />
-          <div class="qr-info" style="text-align: center">
-            <p>- OR -</p>
-          </div>
-        </div>
-        <div class="qr-code body" [ngClass]="{ 'green-bg': true }">
-          <div>
-            <a mat-flat-button class="authorize" [href]="deepLinkTxt"
-              >OPEN WITH YOUR WALLET</a
+        </p>
+
+        <mat-divider *ngIf="isCrossDevice" />
+        <div class="below-qr-code">
+          <span *ngIf="isCrossDevice"
+            >Scan the
+            <a
+              [href]="qrCodeDownloadLink"
+              download="qrcode"
+              title="download as image"
+              >QR code</a
             >
-          </div>
+            above with your phone
+          </span>
+          <p *ngIf="isCrossDevice">- OR -</p>
+          <a mat-raised-button class="authorize" [href]="deepLinkTxt"
+            >OPEN WITH YOUR WALLET</a
+          >
         </div>
 
         <mat-divider />
@@ -46,7 +41,7 @@
         <button mat-button (click)="openLogs()">View transaction logs</button>
       </mat-card-actions>
       <mat-card-footer>
-        <mat-progress-bar mode="indeterminate" />
+        <mat-progress-bar *ngIf="isCrossDevice" mode="indeterminate" />
       </mat-card-footer>
     </mat-card>
   </div>

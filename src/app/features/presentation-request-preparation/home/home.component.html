@@ -1,5 +1,5 @@
 <vc-wallet-layout>
-  <div body class="container ">
+  <div body>
     <h4>Define your presentation request</h4>
     <p>
       Follow the steps to specify what will be requested from the wallet to present.
@@ -11,9 +11,11 @@
             <ng-template matStepLabel>... select attestation(s)</ng-template>
             <vc-supported-attestations (selectionChangedEvent)="handleSelectionChangedEvent($event)"></vc-supported-attestations>
           </div>
+          
           <div class="button-container">
             <button mat-raised-button matStepperNext>Next</button>
           </div>
+        
         </mat-step>
 
         <mat-step>
@@ -37,9 +39,9 @@
             <div class="query-type-container">
               <mat-button-toggle-group [formControl]="queryTypeControl" 
                 (valueChange)="handleQueryTypeChangedEvent($event)"  
-                name="fontStyle" aria-label="Presentation query type" >
+                aria-label="Presentation query type" >
                 <mat-button-toggle value="prex">Presentation Exchange</mat-button-toggle>
-                <mat-button-toggle value="dcql">Credential Query</mat-button-toggle>
+                <mat-button-toggle value="dcql">DCQL</mat-button-toggle>
               </mat-button-toggle-group>
             </div>
 

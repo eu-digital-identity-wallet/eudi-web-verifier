@@ -1,13 +1,10 @@
 <h2 mat-dialog-title>{{ data.attestationName }}</h2>
 
 <mat-dialog-content class="mat-typography">
-  <div class="bg-panel mb">
-    <div class="creation">
-      <div class="creation-header">
-        <h3>
+  <div>
+    <div>
+      <div>
           Select attributes of the attestation to be included in the request
-        </h3>
-        <span>{{ selectedFields.length }} selected</span>
       </div>
       <ng-container
         *ngFor="let field of formFields; index as idx; trackBy: trackByFn"
