@@ -31,11 +31,9 @@ import { DCQLService } from "@app/core/services/dcql-service";
     ],
     styleUrls: ['./attribute-selection.component.scss']
 })
-export class AttributeSelectionComponent implements OnInit, OnChanges {
+export class AttributeSelectionComponent implements OnChanges {
 
   constructor(
-    private readonly presentationDefinitionService: PresentationDefinitionService,
-    private readonly dcqlService: DCQLService,
   ) { }
 
   @Input() attestationsSelection!: AttestationSelection[];
@@ -43,38 +41,7 @@ export class AttributeSelectionComponent implements OnInit, OnChanges {
 
   readonly dialog: MatDialog = inject(MatDialog);
 
-  inputDescriptorsByType: { [id: string]: InputDescriptor } = {}
-  dcqlQueriesByType: { [id: string]: CredentialQuery } = {}
-
-  ngOnInit(): void {
-    this.prepareDescriptorsForNonSelectable()
-  }
-
-  prepareDescriptorsForNonSelectable() {
-    let allAttributesSelections = this.attestationsSelection.filter((selection: AttestationSelection) =>
-      selection.attributeSelectionMethod === AttributeSelectionMethod.ALL_ATTRIBUTES
-    )
-    allAttributesSelections.forEach((selectedAttestation: AttestationSelection) => {
-      let inputDescriptor = this.presentationDefinitionService.inputDescriptorOf(
-        selectedAttestation.type,
-        selectedAttestation.format!,
-        ""
-      )
-
-      inputDescriptor
-        ? this.inputDescriptorsByType[selectedAttestation.type] = inputDescriptor
-        : console.warn("No input descriptor created for selection " + selectedAttestation + ".");
-
-        console.log(inputDescriptor)
-      let dcqlQuery = this.dcqlService.dcqlQueryOf(
-        "my_query",
-        selectedAttestation!.type,
-        selectedAttestation.format!,
-        true,
-      )
-      dcqlQuery ? this.dcqlQueriesByType[selectedAttestation.type] = dcqlQuery : console.warn("No dcql query created for selection " + selectedAttestation + ".");
-    })
-  }
+  selectedFieldsByType: { [id: string]: string[] } = {}
 
   nameOf(attestationType: AttestationType) {
     return SUPPORTED_ATTESTATIONS[attestationType as string].name;
@@ -91,41 +58,32 @@ export class AttributeSelectionComponent implements OnInit, OnChanges {
         format: format,
         attestationName: attestationName,
         seed: {
-          inputDescriptor: this.inputDescriptorsByType[type as string],
-          dcqlQuery: this.dcqlQueriesByType[type as string]
+          selectedFields: this.selectedFieldsByType[type as string]
         },
       }
     });
     dialogRef.afterClosed().subscribe(result => {
       // result can be null or undefined if popup is closed without saving selection (clicking on 'close' button or focus lost)
       if (result) {
-        this.updateInputDescriptorsDictionary(result.data as DialogResult);
+        this.updateSelectionMap(result.data as DialogResult);
       }
     });
   }
 
-  private updateInputDescriptorsDictionary(dialogResult: DialogResult) {
+  private updateSelectionMap(dialogResult: DialogResult) {
     console.log("Dialog result: ", dialogResult);
-    if (dialogResult.inputDescriptor) {
-      this.inputDescriptorsByType[dialogResult.attestationType as string] = dialogResult.inputDescriptor;
-      this.dcqlQueriesByType[dialogResult.attestationType as string] = dialogResult.dcqlQuery;
+    if (dialogResult.selectedFields.length > 0) {
+      this.selectedFieldsByType[dialogResult.attestationType as string] = dialogResult.selectedFields;
     } else {
-      delete this.inputDescriptorsByType[dialogResult.attestationType as string]
-      delete this.dcqlQueriesByType[dialogResult.attestationType as string]
+      delete this.selectedFieldsByType[dialogResult.attestationType as string]
     }
     this.emitAttributesCollectedEvent();
   }
 
   private emitAttributesCollectedEvent() {
     let result: AttributesSelectionEvent = {
-      inputDescriptors: [],
-      dcqlQueries: []
+      selectedAttributes: this.selectedFieldsByType
     };
-
-    Object.keys(this.inputDescriptorsByType).forEach((item) => {
-      result.inputDescriptors.push(this.inputDescriptorsByType[item]);
-      result.dcqlQueries.push(this.dcqlQueriesByType[item]);
-    });
     this.attributesCollectedEvent.emit(result);
   }
 
@@ -133,26 +91,25 @@ export class AttributeSelectionComponent implements OnInit, OnChanges {
     if (!changes["attestationsSelection"].firstChange) {
       let currentSelection = changes["attestationsSelection"].currentValue as AttestationSelection[];
       let previousSelection = changes["attestationsSelection"].previousValue as AttestationSelection[];
-      Object.keys(this.inputDescriptorsByType).forEach((item) => {
+      Object.keys(this.selectedFieldsByType).forEach((item) => {
         if (this.attributeSelectionChanged(currentSelection, previousSelection, item as AttestationType)) {
-          delete this.inputDescriptorsByType[item];
+          delete this.selectedFieldsByType[item];
         }
       });
     }
-    this.prepareDescriptorsForNonSelectable();
     this.emitAttributesCollectedEvent();
   }
 
   fieldsSelectedNo(type: AttestationType): number {
-    if (this.inputDescriptorsByType[type as string])
-      return this.inputDescriptorsByType[type as string].constraints.fields.length;
+    if (this.selectedFieldsByType[type as string])
+      return this.selectedFieldsByType[type as string].length;
     else
       return 0;
   }
 
   canShowFieldsSelected(type: AttestationType): boolean {
-    if (this.inputDescriptorsByType[type as string])
-      return this.inputDescriptorsByType[type as string].constraints.fields.length > 0;
+    if (this.selectedFieldsByType[type as string])
+      return this.selectedFieldsByType[type as string].length > 0;
     else
       return false;
   }

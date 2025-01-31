@@ -1,65 +1,67 @@
-import {Component, inject} from '@angular/core';
-import {NavigateService} from '@app/core/services/navigate.service';
-import {HOME_ACTIONS} from '@core/constants/pages-actions';
-import {BodyAction} from '@app/shared/elements/body-actions/models/BodyAction';
-import {CommonModule} from "@angular/common";
-import {MatTabsModule} from "@angular/material/tabs";
-import {SharedModule} from "@shared/shared.module";
-import {WalletLayoutComponent} from "@core/layout/wallet-layout/wallet-layout.component";
-import {MatDialogModule} from "@angular/material/dialog";
-import {RouterLink, RouterLinkActive, RouterOutlet} from "@angular/router";
+import { Component, inject } from '@angular/core';
+import { NavigateService } from '@app/core/services/navigate.service';
+import { HOME_ACTIONS } from '@core/constants/pages-actions';
+import { BodyAction } from '@app/shared/elements/body-actions/models/BodyAction';
+import { CommonModule } from '@angular/common';
+import { MatTabsModule } from '@angular/material/tabs';
+import { SharedModule } from '@shared/shared.module';
+import { WalletLayoutComponent } from '@core/layout/wallet-layout/wallet-layout.component';
+import { MatDialogModule } from '@angular/material/dialog';
+import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
+import { SupportedAttestationsComponent } from '@features/presentation-request-preparation/components/supported-attestations/supported-attestations.component';
+import { MatStepperModule } from '@angular/material/stepper';
 import {
-  SupportedAttestationsComponent
-} from "@features/presentation-request-preparation/components/supported-attestations/supported-attestations.component";
-import {MatStepperModule} from "@angular/material/stepper";
-import {FormBuilder, FormControl, ReactiveFormsModule, Validators} from "@angular/forms";
-import {MatButtonModule} from "@angular/material/button";
-import {AttestationSelection} from "@features/presentation-request-preparation/models/AttestationSelection";
-import {
-  AttributeSelectionComponent
-} from "@features/presentation-request-preparation/components/attribute-selection/attribute-selection.component";
-import {TransactionInitializationRequest} from "@core/models/TransactionInitializationRequest";
-import {InputDescriptor} from "@core/models/presentation/InputDescriptor";
-import {v4 as uuidv4} from "uuid";
-import {VerifierEndpointService} from "@core/services/verifier-endpoint.service";
-import {MatExpansionModule} from "@angular/material/expansion";
-import {MatButtonToggleModule} from "@angular/material/button-toggle";
-import {MatIconModule} from "@angular/material/icon";
-import {ClipboardModule} from "@angular/cdk/clipboard";
-import {MatTooltipModule} from "@angular/material/tooltip";
-import {CredentialQuery} from "@core/models/dcql/DCQL";
+  FormBuilder,
+  FormControl,
+  ReactiveFormsModule,
+  Validators,
+} from '@angular/forms';
+import { MatButtonModule } from '@angular/material/button';
+import { AttestationSelection } from '@features/presentation-request-preparation/models/AttestationSelection';
+import { AttributeSelectionComponent } from '@features/presentation-request-preparation/components/attribute-selection/attribute-selection.component';
+import { TransactionInitializationRequest } from '@core/models/TransactionInitializationRequest';
+import { VerifierEndpointService } from '@core/services/verifier-endpoint.service';
+import { MatExpansionModule } from '@angular/material/expansion';
+import { MatButtonToggleModule } from '@angular/material/button-toggle';
+import { MatIconModule } from '@angular/material/icon';
+import { ClipboardModule } from '@angular/cdk/clipboard';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { AttributesSelectionEvent } from '../models/AttributesSelection';
+import { PresentationDefinitionService } from '@app/core/services/presentation-definition-service';
+import { DCQLService } from '@app/core/services/dcql-service';
 
 @Component({
-    imports: [
-        CommonModule,
-        MatTabsModule,
-        SharedModule,
-        WalletLayoutComponent,
-        MatDialogModule,
-        SupportedAttestationsComponent,
-        MatStepperModule,
-        ReactiveFormsModule,
-        MatButtonModule,
-        AttributeSelectionComponent,
-        MatExpansionModule,
-        RouterLinkActive,
-        RouterLink,
-        MatIconModule,
-        ClipboardModule,
-        MatTooltipModule,
-        MatButtonToggleModule
-    ],
-    providers: [VerifierEndpointService],
-    selector: 'vc-presentation-preparation-home',
-    templateUrl: './home.component.html',
-    styleUrls: ['./home.component.scss']
+  imports: [
+    CommonModule,
+    MatTabsModule,
+    SharedModule,
+    WalletLayoutComponent,
+    MatDialogModule,
+    SupportedAttestationsComponent,
+    MatStepperModule,
+    ReactiveFormsModule,
+    MatButtonModule,
+    AttributeSelectionComponent,
+    MatExpansionModule,
+    RouterLinkActive,
+    RouterLink,
+    MatIconModule,
+    ClipboardModule,
+    MatTooltipModule,
+    MatButtonToggleModule,
+  ],
+  providers: [VerifierEndpointService],
+  selector: 'vc-presentation-preparation-home',
+  templateUrl: './home.component.html',
+  styleUrls: ['./home.component.scss'],
 })
 export class HomeComponent {
   constructor(
     private readonly navigateService: NavigateService,
     private readonly verifierEndpointService: VerifierEndpointService,
-  ) { }
+    private readonly presentationDefinitionService: PresentationDefinitionService,
+    private readonly dcqlService: DCQLService
+  ) {}
 
   actions: BodyAction[] = HOME_ACTIONS;
 
@@ -67,70 +69,69 @@ export class HomeComponent {
 
   private _formBuilder = inject(FormBuilder);
   formGroup = this._formBuilder.group({
-    selectAttestationCtrl: ['', Validators.required]
+    selectAttestationCtrl: ['', Validators.required],
   });
 
-  attestationsSelection: AttestationSelection[] | null = null;
-  
-  inputDescriptors: InputDescriptor[] | null = null;
-  dcqlQueries: CredentialQuery[] | null = null;
+  selectedAttestations: AttestationSelection[] | null = null;
+  selectedAttributes: { [id: string]: string[] } | null = null;
+  selectedPresentationType: 'dcql' | 'prex' = 'prex';
 
   initializationRequest: TransactionInitializationRequest | null = null;
 
   handleSelectionChangedEvent($event: AttestationSelection[]) {
-    this.attestationsSelection = $event;
+    this.selectedAttestations = $event;
   }
 
   handleAttributesCollectedEvent($event: AttributesSelectionEvent) {
-    if ($event != null && $event.inputDescriptors.length > 0) {
-      this.inputDescriptors = $event.inputDescriptors;
-      this.dcqlQueries = $event.dcqlQueries;
+    if ($event != null && $event.selectedAttributes != null) {
+      this.selectedAttributes = $event.selectedAttributes;
+
+      this.initializationRequest = this.prepareInitializationRequest(
+        this.selectedPresentationType,
+        this.selectedAttestations!,
+        this.selectedAttributes
+      );
     } else {
-      this.inputDescriptors = null;
-      this.dcqlQueries = null;
+      this.selectedAttributes = null;
     }
-    this.initializationRequest = this.prepareInitializationRequest();
   }
 
   handleQueryTypeChangedEvent($event: string) {
-    if(this.inputDescriptors != null && this.inputDescriptors.length > 0) {
-      this.initializationRequest = this.prepareInitializationRequest();
+    this.selectedPresentationType = $event as 'dcql' | 'prex';
+
+    if (this.selectedAttestations && this.selectedAttributes) {
+      this.initializationRequest = this.prepareInitializationRequest(
+        this.selectedPresentationType,
+        this.selectedAttestations!,
+        this.selectedAttributes
+      );
     } else {
-      this.initializationRequest = null
+      this.initializationRequest = null;
     }
   }
 
-  prepareInitializationRequest(): TransactionInitializationRequest {
-    if(this.queryTypeControl.value === 'dcql') {
-      return {
-        type: "vp_token",
-        dcql_query: {
-          credentials: this.dcqlQueries!.map((q, index) => {
-            q.id = `query_${index}`
-            return q
-          }),
-        },
-        nonce: uuidv4()
-      }
+  private prepareInitializationRequest(
+    presentationQueryType: 'dcql' | 'prex',
+    selectedAttestations: AttestationSelection[],
+    selectedAttributes: { [id: string]: string[] }
+  ): TransactionInitializationRequest {
+    if (presentationQueryType === 'dcql') {
+      return this.dcqlService.dcqlPresentationRequest(selectedAttestations, selectedAttributes);
     } else {
-      return {
-        type: "vp_token",
-        presentation_definition: {
-          id: uuidv4(),
-          input_descriptors: this.inputDescriptors!
-        },
-        nonce: uuidv4()
-      }
+      return this.presentationDefinitionService.presentationDefinitionRequest(selectedAttestations, selectedAttributes);
     }
   }
 
   proceedToInvokeWallet() {
     if (this.initializationRequest != null) {
-      this.verifierEndpointService.initializeTransaction(this.initializationRequest, (_) => {
-        this.navigateService.navigateTo('invoke-wallet');
-      });
+      this.verifierEndpointService.initializeTransaction(
+        this.initializationRequest,
+        (_) => {
+          this.navigateService.navigateTo('invoke-wallet');
+        }
+      );
     } else {
-      alert("nothing to submit")
+      alert('nothing to submit');
     }
   }
 

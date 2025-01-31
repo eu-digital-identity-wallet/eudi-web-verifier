@@ -19,8 +19,8 @@
         <mat-step>
           <div>
             <ng-template matStepLabel>...select attestation(s) attributes</ng-template>
-            <vc-attribute-selection *ngIf="attestationsSelection !== null"
-                                    [attestationsSelection]="attestationsSelection"
+            <vc-attribute-selection *ngIf="selectedAttestations !== null"
+                                    [attestationsSelection]="selectedAttestations"
                                     (attributesCollectedEvent)="handleAttributesCollectedEvent($event)"
             ></vc-attribute-selection>
           </div>

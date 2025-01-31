@@ -1,31 +1,42 @@
 <h2 mat-dialog-title>{{ data.attestationName }}</h2>
 
 <mat-dialog-content class="mat-typography">
-
   <div class="bg-panel mb">
     <div class="creation">
       <div class="creation-header">
-        <h3>Select attributes of the attestation to be included in the request</h3>
+        <h3>
+          Select attributes of the attestation to be included in the request
+        </h3>
         <span>{{ selectedFields.length }} selected</span>
       </div>
-      <ng-container *ngFor="let field of formFields; index as idx; trackBy: trackByFn">
+      <ng-container
+        *ngFor="let field of formFields; index as idx; trackBy: trackByFn"
+      >
         <div class="controls">
-          <mat-checkbox (click)="handle(field)" color="primary" [checked]="isChecked(field)">
+          <mat-checkbox
+            (click)="handle(field)"
+            color="primary"
+            [checked]="isChecked(field.value)"
+          >
             {{ field.label }}
           </mat-checkbox>
         </div>
       </ng-container>
     </div>
   </div>
-
-  <mat-tab-group>
-    <mat-tab label="Presentation Exchange"><vc-editor [code]="inputDescriptorText"></vc-editor></mat-tab>
-    <mat-tab label="Credential Query"><vc-editor [code]="dcqlQueryText"></vc-editor></mat-tab>
-  </mat-tab-group>
-
 </mat-dialog-content>
 
 <mat-dialog-actions align="end">
-  <button mat-stroked-button mat-dialog-close (click)="saveSelection()" [disabled]="!isSomethingSelected()">Select</button>
+  <button
+    mat-stroked-button
+    mat-dialog-close
+    (click)="saveSelection()"
+    [disabled]="!isSomethingSelected()"
+    matBadge="{{ selectedFields.length }}"
+    matBadgeHidden="{{ selectedFields.length === 0 }}"
+    matBadgeColor="accent"
+  >
+    Select
+  </button>
   <button mat-stroked-button mat-dialog-close>Close</button>
 </mat-dialog-actions>

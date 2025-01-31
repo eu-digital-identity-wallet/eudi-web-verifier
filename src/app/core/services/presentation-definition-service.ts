@@ -7,11 +7,49 @@ import {FieldConstraint} from "@core/models/presentation/FieldConstraint";
 import {DataElement} from "@core/models/attestation/AttestationDefinition";
 import {AttestationFormat} from "@core/models/attestation/AttestationFormat";
 import {getAttestationByFormatAndType} from "@core/constants/attestations-per-format";
+import { AttestationSelection, AttributeSelectionMethod } from "@app/features/presentation-request-preparation/models/AttestationSelection";
+import { PresentationDefinitionTransactionRequest } from "../models/TransactionInitializationRequest";
 
 @Injectable({
   providedIn: 'root'
 })
 export class PresentationDefinitionService {
+  presentationDefinitionRequest(
+    selectedAttestations: AttestationSelection[],
+    selectedAttributes: { [id: string]: string[] }
+  ): PresentationDefinitionTransactionRequest {
+
+      let inputDescriptors: InputDescriptor[] = [];
+
+      selectedAttestations.map((attestation) => {
+        const selectedAttributesForAttestation =
+          selectedAttributes[attestation.type];
+
+        const inputDescriptor =
+          this.inputDescriptorOf(
+            attestation.type,
+            attestation.format!!,
+            '',
+            attestation.attributeSelectionMethod ===
+              AttributeSelectionMethod.ALL_ATTRIBUTES
+              ? undefined
+              : selectedAttributesForAttestation
+          );
+
+        if (inputDescriptor) {
+          inputDescriptors.push(inputDescriptor);
+        }
+      });
+
+      return {
+        type: 'vp_token',
+        presentation_definition: {
+          id: uuidv4(),
+          input_descriptors: inputDescriptors!,
+        },
+        nonce: uuidv4(),
+      };
+  }
 
   inputDescriptorOf(
     type: AttestationType,
@@ -82,7 +120,7 @@ export class PresentationDefinitionService {
     };
   }
 
-  sdJwtVCVctFieldConstraint(attestation: SdJwtVcAttestation): FieldConstraint {
+  private sdJwtVCVctFieldConstraint(attestation: SdJwtVcAttestation): FieldConstraint {
     return {
       path: ["$.vct"],
       filter: {
@@ -102,7 +140,7 @@ export class PresentationDefinitionService {
     return fieldConstraints;
   }
 
-  fieldConstraint(path: string, intentToRetainOptional?: boolean): FieldConstraint {
+  private fieldConstraint(path: string, intentToRetainOptional?: boolean): FieldConstraint {
     let intentToRetain = false;
     if (typeof intentToRetainOptional !== 'undefined' && intentToRetainOptional) {
       intentToRetain = true

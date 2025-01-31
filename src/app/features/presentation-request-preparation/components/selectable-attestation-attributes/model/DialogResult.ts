@@ -4,6 +4,5 @@ import {InputDescriptor} from "@core/models/presentation/InputDescriptor";
 
 export interface DialogResult {
   attestationType: AttestationType,
-  inputDescriptor: InputDescriptor,
-  dcqlQuery: CredentialQuery
+  selectedFields: string[]
 }

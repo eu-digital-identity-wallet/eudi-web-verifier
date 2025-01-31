@@ -8,7 +8,6 @@ export interface DialogData {
   format: AttestationFormat,
   attestationName: string,
   seed?: {
-    inputDescriptor: InputDescriptor,
-    dcqlQuery: CredentialQuery
+    selectedFields: string[]
   }
 }
