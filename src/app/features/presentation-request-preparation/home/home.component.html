@@ -13,7 +13,7 @@
           </div>
           
           <div class="button-container">
-            <button mat-raised-button matStepperNext>Next</button>
+            <button mat-raised-button matStepperNext [disabled]="!attestationsSelected()">Next</button>
           </div>
         
         </mat-step>
@@ -28,7 +28,7 @@
           </div>
           <div class="button-container">
             <button mat-raised-button matStepperPrevious>Back</button>
-            <button mat-raised-button matStepperNext>Next</button>
+            <button mat-raised-button matStepperNext [disabled]="!attributesSelected()">Next</button>
           </div>
         </mat-step>
 

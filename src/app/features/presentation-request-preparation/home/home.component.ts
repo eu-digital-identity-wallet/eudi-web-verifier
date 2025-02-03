@@ -17,7 +17,7 @@ import {
   Validators,
 } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
-import { AttestationSelection } from '@features/presentation-request-preparation/models/AttestationSelection';
+import { AttestationSelection, AttributeSelectionMethod } from '@features/presentation-request-preparation/models/AttestationSelection';
 import { AttributeSelectionComponent } from '@features/presentation-request-preparation/components/attribute-selection/attribute-selection.component';
 import { TransactionInitializationRequest } from '@core/models/TransactionInitializationRequest';
 import { VerifierEndpointService } from '@core/services/verifier-endpoint.service';
@@ -133,6 +133,28 @@ export class HomeComponent {
     } else {
       alert('nothing to submit');
     }
+  }
+
+  attestationsSelected(): boolean {
+    return this.selectedAttestations !== null
+      && this.selectedAttestations
+      .filter((attestation) => 
+        attestation.format !== null && attestation.attributeSelectionMethod !== null
+      ).
+      length > 0;
+  }
+
+  attributesSelected(): boolean {
+    return this.selectedAttestations !== null 
+    && this.selectedAttestations.filter((attestation) => {
+      if(attestation.attributeSelectionMethod === AttributeSelectionMethod.SELECTABLE) {
+        return this.selectedAttributes?.[attestation.type]?.length?? 0 > 0;
+      } else if(attestation.attributeSelectionMethod === AttributeSelectionMethod.ALL_ATTRIBUTES) {
+        return true;
+      } else {
+        return false;
+      }
+    }).length === this.selectedAttestations.length;
   }
 
   canProceed() {
