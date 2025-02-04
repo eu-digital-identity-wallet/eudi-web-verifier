@@ -70,7 +70,7 @@ export class DCQLService {
 
     return {
       id: queryId,
-      format: format === AttestationFormat.MSO_MDOC ? 'mso_mdoc' : 'dc+sd-jwt', // TODO add jwt_vc_json
+      format: format === AttestationFormat.MSO_MDOC ? 'mso_mdoc' : 'dc+sd-jwt',
       claims: claims,
     };
   }

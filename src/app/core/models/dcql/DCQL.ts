@@ -38,4 +38,4 @@ export type QueryId = string;
 export type ClaimId = string;
 export type ClaimSet = ClaimId[];
 export type ClaimPath = string[];
-export type ClaimPathElement = {}; // TODO
+export type ClaimPathElement = {};
