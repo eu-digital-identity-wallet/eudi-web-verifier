@@ -10,7 +10,6 @@ import {InputSchemeComponent} from "@shared/elements/input-scheme/input-scheme.c
 
 @Component({
     selector: 'vc-wallet-layout-header',
-    standalone: true,
     templateUrl: './wallet-layout-header.component.html',
     imports: [
         MatButtonModule,

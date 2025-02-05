@@ -1,9 +1,9 @@
 import {WalletResponse} from "@core/models/WalletResponse";
-import {PresentationDefinition} from "@core/models/presentation/PresentationDefinition";
+import { PresentationQuery } from "./TransactionInitializationRequest";
 
 export type ConcludedTransaction = {
   transactionId: string,
-  presentationDefinition: PresentationDefinition,
+  presentationQuery: PresentationQuery,
   walletResponse: WalletResponse,
   nonce: string
 }

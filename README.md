@@ -20,7 +20,7 @@ the [EUDI Wallet Reference Implementation project description](https://github.co
 This is a WEB UI that provides functionality to interact with the Verifier/RP trusted end-point implemented [here](https://github.com/eu-digital-identity-wallet/eudi-srv-web-verifier-endpoint-23220-4-kt).
 Another way to think of this application is that it represents an arbitrary application that wants to delegate to the trusted end-point the burden of
 interacting with a wallet using OpenId4VP
-The project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 15.2.5.
+The project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 19.1.4.
 
 ## Development server
 
@@ -40,12 +40,12 @@ You need npm (node version 18.15.0) and [Angular CLI](https://github.com/angular
 
 In order to run Verifier UI run the following commands:
 
-```
+```bash
 npm install
 ng serve --proxy-config src/proxy.conf.json
 ```
-The above command utilizes [proxy.conf.json](src/proxy.conf.json) that proxies the calls to the expected verifier backend service. 
-Update this file if you want your Verifier UI to point to a locally running verifier backend service.    
+The above command utilizes [proxy.conf.json](src/proxy.conf.json) that proxies the calls to the expected verifier backend service.
+Update this file if you want your Verifier UI to point to a locally running verifier backend service.
 
 You can access the application at [http://localhost:4200](http://localhost:4200) 
 

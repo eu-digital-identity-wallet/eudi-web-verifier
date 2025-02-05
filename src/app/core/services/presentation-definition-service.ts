@@ -2,33 +2,53 @@ import {AttestationType} from "@core/models/attestation/AttestationType";
 import {InputDescriptor} from "@core/models/presentation/InputDescriptor";
 import {Injectable} from "@angular/core";
 import {Attestation, MsoMdocAttestation, SdJwtVcAttestation} from "@core/models/attestation/Attestations";
-import {TransactionInitializationRequest} from "@core/models/TransactionInitializationRequest";
 import {v4 as uuidv4} from "uuid";
 import {FieldConstraint} from "@core/models/presentation/FieldConstraint";
 import {DataElement} from "@core/models/attestation/AttestationDefinition";
 import {AttestationFormat} from "@core/models/attestation/AttestationFormat";
 import {getAttestationByFormatAndType} from "@core/constants/attestations-per-format";
+import { AttestationSelection, AttributeSelectionMethod } from "@app/features/presentation-request-preparation/models/AttestationSelection";
+import { PresentationDefinitionTransactionRequest } from "../models/TransactionInitializationRequest";
 
 @Injectable({
   providedIn: 'root'
 })
 export class PresentationDefinitionService {
+  presentationDefinitionRequest(
+    selectedAttestations: AttestationSelection[],
+    selectedAttributes: { [id: string]: string[] }
+  ): PresentationDefinitionTransactionRequest {
 
-  presentationDefinitionOf(
-    document: MsoMdocAttestation,
-    presentationPurpose: string,
-    includeAttributes?: string[]
-  ): TransactionInitializationRequest {
-    return {
-      type: 'vp_token',
-      presentation_definition: {
-        id: uuidv4(),
-        input_descriptors: [
-          this.msoMdocInputDescriptorOf(document, presentationPurpose, includeAttributes)
-        ]
-      },
-      nonce: uuidv4()
-    };
+      let inputDescriptors: InputDescriptor[] = [];
+
+      selectedAttestations.map((attestation) => {
+        const selectedAttributesForAttestation =
+          selectedAttributes[attestation.type];
+
+        const inputDescriptor =
+          this.inputDescriptorOf(
+            attestation.type,
+            attestation.format!!,
+            '',
+            attestation.attributeSelectionMethod ===
+              AttributeSelectionMethod.ALL_ATTRIBUTES
+              ? undefined
+              : selectedAttributesForAttestation
+          );
+
+        if (inputDescriptor) {
+          inputDescriptors.push(inputDescriptor);
+        }
+      });
+
+      return {
+        type: 'vp_token',
+        presentation_definition: {
+          id: uuidv4(),
+          input_descriptors: inputDescriptors!,
+        },
+        nonce: uuidv4(),
+      };
   }
 
   inputDescriptorOf(
@@ -100,7 +120,7 @@ export class PresentationDefinitionService {
     };
   }
 
-  sdJwtVCVctFieldConstraint(attestation: SdJwtVcAttestation): FieldConstraint {
+  private sdJwtVCVctFieldConstraint(attestation: SdJwtVcAttestation): FieldConstraint {
     return {
       path: ["$.vct"],
       filter: {
@@ -120,7 +140,7 @@ export class PresentationDefinitionService {
     return fieldConstraints;
   }
 
-  fieldConstraint(path: string, intentToRetainOptional?: boolean): FieldConstraint {
+  private fieldConstraint(path: string, intentToRetainOptional?: boolean): FieldConstraint {
     let intentToRetain = false;
     if (typeof intentToRetainOptional !== 'undefined' && intentToRetainOptional) {
       intentToRetain = true

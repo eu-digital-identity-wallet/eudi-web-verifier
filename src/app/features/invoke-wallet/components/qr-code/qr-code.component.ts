@@ -1,11 +1,9 @@
 import {ChangeDetectionStrategy, Component, EventEmitter, Injector, OnDestroy, OnInit, Output} from '@angular/core';
 import {CommonModule} from '@angular/common';
 import {SharedModule} from '@shared/shared.module';
-import {DataService} from '@core/services/data.service';
 import {interval, ReplaySubject, Subject, take, takeUntil} from 'rxjs';
 import {map} from 'rxjs/operators';
 import {NavigateService} from '@core/services/navigate.service';
-import {PresentationsResultsComponent} from '../presentations-results/presentations-results.component';
 import {DeviceDetectorService} from '@core/services/device-detector.service';
 import {LocalStorageService} from '@core/services/local-storage.service';
 import * as constants from '@core/constants/general';
@@ -15,26 +13,31 @@ import {OpenLogsComponent} from '@shared/elements/open-logs/open-logs.component'
 import {VerifierEndpointService} from "@core/services/verifier-endpoint.service";
 import {WalletResponse} from "@core/models/WalletResponse";
 import {ConcludedTransaction} from "@core/models/ConcludedTransaction";
-import {QRCodeModule} from 'angularx-qrcode';
+import {QRCodeComponent} from 'angularx-qrcode';
 import {SafeUrl} from "@angular/platform-browser";
 import {ActiveTransaction} from "@core/models/ActiveTransaction";
-
+import { isDCQLTransactionRequest } from '@app/core/models/TransactionInitializationRequest';
+import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
+import { MatDividerModule } from '@angular/material/divider';
+import {MatProgressBarModule} from '@angular/material/progress-bar';
 
 @Component({
-  selector: 'vc-qr-code',
-  standalone: true,
-  imports: [
-    CommonModule,
-    SharedModule,
-    PresentationsResultsComponent,
-    OpenLogsComponent,
-    MatDialogModule,
-    QRCodeModule
-  ],
-  templateUrl: './qr-code.component.html',
-  styleUrls: ['./qr-code.component.scss'],
-  providers: [VerifierEndpointService],
-  changeDetection: ChangeDetectionStrategy.OnPush
+    selector: 'vc-qr-code',
+    imports: [
+        CommonModule,
+        SharedModule,
+        MatDialogModule,
+        MatButtonModule,
+        MatCardModule,
+        MatDividerModule,
+        MatProgressBarModule,
+        QRCodeComponent
+    ],
+    templateUrl: './qr-code.component.html',
+    styleUrls: ['./qr-code.component.scss'],
+    providers: [VerifierEndpointService],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class QrCodeComponent implements OnInit, OnDestroy {
 
@@ -60,7 +63,6 @@ export class QrCodeComponent implements OnInit, OnDestroy {
 
   constructor(
     private readonly verifierEndpointService: VerifierEndpointService,
-    private readonly dataService: DataService,
     private readonly navigateService: NavigateService,
     private readonly injector: Injector,
   ) {
@@ -94,7 +96,7 @@ export class QrCodeComponent implements OnInit, OnDestroy {
     this.qrCodeDownloadLink = url;
   }
 
-  pollingRequest(transaction_id: string) {
+  private pollingRequest(transaction_id: string) {
     const source = interval(2000);
     source
       .pipe(
@@ -120,7 +122,9 @@ export class QrCodeComponent implements OnInit, OnDestroy {
   private concludeTransaction(response: WalletResponse): ConcludedTransaction {
     let concludedTransaction = {
       transactionId: this.transaction.initialized_transaction.transaction_id,
-      presentationDefinition: this.transaction.initialization_request.presentation_definition,
+      presentationQuery: isDCQLTransactionRequest(this.transaction.initialization_request!!) ?
+                this.transaction.initialization_request!!.dcql_query
+              : this.transaction.initialization_request!!.presentation_definition,
       walletResponse: response,
       nonce: this.transaction.initialization_request.nonce
     }

@@ -2,12 +2,10 @@
 :host {
 
   .button-container {
-    padding-top: 10px;
-    text-align: end;
-
-    button {
-      margin: 8px 8px 8px 0;
-    }
+    display: flex;
+    justify-content: end;
+    gap: 8px;
+    margin-top: 20px;
   }
 
   mat-step {
@@ -17,10 +15,14 @@
     }
   }
 
+  .query-type-container {
+    margin-bottom: 10px
+  }
+
   span#as-pre {
     white-space: pre-wrap;
     word-break: break-word;
-    font-family: inherit;
+    font-family: monospace;
     unicode-bidi: isolate;
     margin: 1em 0;
   }

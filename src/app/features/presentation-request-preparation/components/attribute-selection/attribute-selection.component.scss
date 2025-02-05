@@ -1,7 +1,8 @@
 :host {
-
   .component-root {
     margin-top: 10px;
+    display: flex;
+    flex-direction: column;
+    gap: 8px;
   }
-
 }

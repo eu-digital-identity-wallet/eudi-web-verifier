@@ -9,7 +9,7 @@ import {TransactionInitializationRequest} from "@core/models/TransactionInitiali
 import {InitializedTransaction} from "@core/models/InitializedTransaction";
 import {WalletResponse} from "@core/models/WalletResponse";
 import {EventLog} from "@core/models/EventLog";
-import {HttpHeaders} from "@angular/common/http";
+import { HttpHeaders } from "@angular/common/http";
 import {ActiveTransaction} from "@core/models/ActiveTransaction";
 
 const SAME_DEVICE_UI_RE_ENTRY_URL = '/get-wallet-code?response_code={RESPONSE_CODE}';

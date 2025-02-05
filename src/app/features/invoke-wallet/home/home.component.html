@@ -1,9 +1,12 @@
 <vc-wallet-layout>
-  <div body class="container">
-    <h5>Invoke Wallet</h5>
-    <div class="bg-panel">
-        <router-outlet></router-outlet>
+  <div body>
+    <h4>Invoke Wallet</h4>
+    <div>
+      <router-outlet></router-outlet>
     </div>
-    <vc-body-actions [actions]="actions" (clicked)="runActions($event)"></vc-body-actions>
+    <vc-body-actions
+      [actions]="actions"
+      (clicked)="runActions($event)"
+    ></vc-body-actions>
   </div>
 </vc-wallet-layout>

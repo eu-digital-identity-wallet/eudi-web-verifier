@@ -12,12 +12,11 @@ import {JwtVcJsonAttestationDecoder} from "@core/services/decoders/JwtVcJsonAtte
 import {SdJwtVcAttestationDecoder} from "@core/services/decoders/SdJwtVcAttestationDecoder";
 
 @Component({
-  selector: 'vc-wallet-invoker',
-  standalone: true,
-  imports: [CommonModule, SharedModule, PresentationsResultsComponent, QrCodeComponent],
-  templateUrl: './invoker.component.html',
-  providers: [VerifierEndpointService, DecodersRegistryService, MsoMdocAttestationDecoder, JwtVcJsonAttestationDecoder, SdJwtVcAttestationDecoder, JWTService],
-  changeDetection: ChangeDetectionStrategy.OnPush
+    selector: 'vc-wallet-invoker',
+    imports: [CommonModule, SharedModule, PresentationsResultsComponent, QrCodeComponent],
+    templateUrl: './invoker.component.html',
+    providers: [VerifierEndpointService, DecodersRegistryService, MsoMdocAttestationDecoder, JwtVcJsonAttestationDecoder, SdJwtVcAttestationDecoder, JWTService],
+    changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class InvokerComponent {
 

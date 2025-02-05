@@ -5,8 +5,9 @@ import { ActionCode } from '@app/shared/elements/body-actions/models/ActionCode'
 import { BodyAction } from '@app/shared/elements/body-actions/models/BodyAction';
 
 @Component({
-	selector: 'vc-home',
-	templateUrl: './home.component.html'
+    selector: 'vc-home',
+    templateUrl: './home.component.html',
+    standalone: false
 })
 export class HomeComponent {
 	constructor (

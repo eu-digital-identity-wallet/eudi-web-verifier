@@ -1,7 +1,7 @@
 @use '/src/template' as temp;
 
 :host {
-    .container {
+    .button-container {
         display: flex;
         justify-content: flex-end;
         margin-top: map-get(temp.$space, top);

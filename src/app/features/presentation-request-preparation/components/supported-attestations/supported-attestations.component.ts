@@ -4,7 +4,6 @@ import {SharedModule} from "@shared/shared.module";
 import {MatInputModule} from "@angular/material/input";
 import {MatSelectModule} from "@angular/material/select";
 import {FormsModule, ReactiveFormsModule} from "@angular/forms";
-import {WalletLayoutComponent} from "@core/layout/wallet-layout/wallet-layout.component";
 import {MatRadioModule} from "@angular/material/radio";
 import {AttestationSelectionComponent} from "@features/presentation-request-preparation/components/attestation-selection/attestation-selection.component";
 import {MatExpansionModule} from "@angular/material/expansion";
@@ -13,22 +12,20 @@ import {AttestationDefinition} from "@core/models/attestation/AttestationDefinit
 import {SUPPORTED_ATTESTATIONS} from "@core/constants/attestation-definitions";
 
 @Component({
-  selector: 'vc-supported-attestations',
-  standalone: true,
-  imports: [
-    CommonModule,
-    SharedModule,
-    WalletLayoutComponent,
-    MatInputModule,
-    MatSelectModule,
-    MatRadioModule,
-    ReactiveFormsModule,
-    FormsModule,
-    AttestationSelectionComponent,
-    MatExpansionModule,
-  ],
-  templateUrl: './supported-attestations.component.html',
-  styleUrls: ['./supported-attestations.component.css']
+    selector: 'vc-supported-attestations',
+    imports: [
+        CommonModule,
+        SharedModule,
+        MatInputModule,
+        MatSelectModule,
+        MatRadioModule,
+        ReactiveFormsModule,
+        FormsModule,
+        AttestationSelectionComponent,
+        MatExpansionModule,
+    ],
+    templateUrl: './supported-attestations.component.html',
+    styleUrls: ['./supported-attestations.component.css']
 })
 export class SupportedAttestationsComponent implements OnInit {
 

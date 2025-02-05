@@ -5,7 +5,7 @@
     .vc-container-editor {
         background-color: temp.$backgroundPaper;
         border-radius: 16px;
-        height: temp.$body-height;
+        max-height: temp.$body-height;
         max-width: inherit;
         min-height: inherit;
         min-width: inherit;
