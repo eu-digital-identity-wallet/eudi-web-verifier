@@ -12,7 +12,7 @@
           *ngIf="isSelectable(selection)"
           mat-stroked-button
           matBadgeColor="accent"
-          matBadge="{{ fieldsSelectedNo(selection.type) }}"
+          matBadge="{{ fieldsSelectedNo(selection) }}"
           [matBadgeHidden]="!canShowFieldsSelected(selection.type)"
           (click)="
             popAttributesSelector(
@@ -24,7 +24,13 @@
         >
           Select Attributes
         </button>
-        <button mat-button *ngIf="!isSelectable(selection)" [disabled]="true">
+        <button
+          mat-button
+          *ngIf="!isSelectable(selection)"
+          matBadgeColor="accent"
+          matBadge="{{ fieldsSelectedNo(selection) }}"
+          [disabled]="true"
+        >
           All Attributes selected
         </button>
       </mat-card-actions>

@@ -96,9 +96,13 @@ export class AttributeSelectionComponent implements OnChanges {
     this.emitAttributesCollectedEvent();
   }
 
-  fieldsSelectedNo(type: AttestationType): number {
-    if (this.selectedFieldsByType[type as string])
-      return this.selectedFieldsByType[type as string].length;
+  fieldsSelectedNo(selection: AttestationSelection): number {
+    if(!this.isSelectable(selection)) {
+      return SUPPORTED_ATTESTATIONS[selection.type as string].dataSet.length;
+    }
+
+    if (this.selectedFieldsByType[selection.type as string])
+      return this.selectedFieldsByType[selection.type as string].length;
     else
       return 0;
   }
