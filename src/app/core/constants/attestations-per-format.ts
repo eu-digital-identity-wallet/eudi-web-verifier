@@ -93,7 +93,7 @@ export const PID_SD_JWT_VC_ATTRIBUTE_MAP: { [id: string]: string } = {
 
 export const ATTESTATIONS_BY_FORMAT: { [id: string]: Attestation[] } = {
   "mso_mdoc": [PID_MSO_MDOC, MDL_MSO_MDOC, PHOTO_ID_MSO_MDOC, AGE_OVER_18_MSO_MDOC],
-  "vc+sd-jwt": [PID_SD_JWT_VC]
+  "dc+sd-jwt": [PID_SD_JWT_VC]
 }
 
 export const getAttestationByFormatAndType =
