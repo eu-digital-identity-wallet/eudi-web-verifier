@@ -9,6 +9,7 @@ import {
 } from '@app/features/presentation-request-preparation/models/AttestationSelection';
 import { v4 as uuidv4 } from 'uuid';
 import { DCQLTransactionRequest } from '../models/TransactionInitializationRequest';
+import { MsoMdocAttestation, SdJwtVcAttestation } from '../models/attestation/Attestations';
 
 @Injectable({
   providedIn: 'root',
@@ -71,6 +72,11 @@ export class DCQLService {
     return {
       id: queryId,
       format: format === AttestationFormat.MSO_MDOC ? 'mso_mdoc' : 'dc+sd-jwt',
+      meta: format === AttestationFormat.MSO_MDOC ? {
+        doctype_value: (attestation as MsoMdocAttestation).doctype
+      } : {
+        vct_values: [(attestation as SdJwtVcAttestation).vct]
+      },
       claims: claims,
     };
   }
