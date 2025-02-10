@@ -9,7 +9,10 @@ import {
 } from '@app/features/presentation-request-preparation/models/AttestationSelection';
 import { v4 as uuidv4 } from 'uuid';
 import { DCQLTransactionRequest } from '../models/TransactionInitializationRequest';
-import { MsoMdocAttestation, SdJwtVcAttestation } from '../models/attestation/Attestations';
+import {
+  MsoMdocAttestation,
+  SdJwtVcAttestation,
+} from '../models/attestation/Attestations';
 
 @Injectable({
   providedIn: 'root',
@@ -19,25 +22,18 @@ export class DCQLService {
     selectedAttestations: AttestationSelection[],
     selectedAttributes: { [id: string]: string[] }
   ): DCQLTransactionRequest {
-    let dcqlQueries: CredentialQuery[] = [];
-
-    selectedAttestations.map((attestation, index) => {
-      const selectedAttributesForAttestation =
-        selectedAttributes[attestation.type];
-
-      const dcqlQuery = this.dcqlQueryOf(
-        `query_${index}`,
-        attestation.type,
-        attestation.format!!,
-        attestation.attributeSelectionMethod ===
-          AttributeSelectionMethod.ALL_ATTRIBUTES
-          ? undefined
-          : selectedAttributesForAttestation
-      );
-      if (dcqlQuery) {
-        dcqlQueries.push(dcqlQuery);
-      }
-    });
+    let dcqlQueries: CredentialQuery[] = selectedAttestations.map(
+      (attestation, index) =>
+        this.dcqlQueryOf(
+          `query_${index}`,
+          attestation.type,
+          attestation.format!!,
+          attestation.attributeSelectionMethod ===
+            AttributeSelectionMethod.ALL_ATTRIBUTES
+            ? []
+            : selectedAttributes[attestation.type]
+        )
+    );
 
     return {
       type: 'vp_token',
@@ -56,28 +52,32 @@ export class DCQLService {
   ): CredentialQuery {
     let attestation = getAttestationByFormatAndType(type, format);
 
-    let claims: ClaimsQuery[] = [];
-    if (attestation != null) {
-      claims = attestation.attestationDef.dataSet
-        .filter(
-          (dataElement) =>
-            selectedAttributes === undefined ||
-            selectedAttributes.includes(dataElement.identifier)
-        )
-        .map((dataElement) => {
-          return attestation!!.claimPath(dataElement);
-        });
-    }
-
-    return {
+    let query: CredentialQuery = {
       id: queryId,
       format: format === AttestationFormat.MSO_MDOC ? 'mso_mdoc' : 'dc+sd-jwt',
-      meta: format === AttestationFormat.MSO_MDOC ? {
-        doctype_value: (attestation as MsoMdocAttestation).doctype
-      } : {
-        vct_values: [(attestation as SdJwtVcAttestation).vct]
-      },
-      claims: claims,
+      meta:
+        format === AttestationFormat.MSO_MDOC
+          ? {
+              doctype_value: (attestation as MsoMdocAttestation).doctype,
+            }
+          : {
+              vct_values: [(attestation as SdJwtVcAttestation).vct],
+            },
     };
+
+    let claims: ClaimsQuery[] = [];
+    claims = attestation!.attestationDef.dataSet
+      .filter((dataElement) =>
+        selectedAttributes!.includes(dataElement.identifier)
+      )
+      .map((dataElement) => {
+        return attestation!!.claimPath(dataElement);
+      });
+
+    if (claims.length > 0) {
+      query.claims = claims;
+    }
+
+    return query;
   }
 }
