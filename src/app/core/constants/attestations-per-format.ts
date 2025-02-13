@@ -32,7 +32,7 @@ export const PID_SD_JWT_VC: SdJwtVcAttestation = {
   format: AttestationFormat.SD_JWT_VC,
   vct: "urn:eu.europa.ec.eudi:pid:1",
   attestationDef: PID_ATTESTATION,
-  attributePath: (attribute: DataElement) => { return `'$.'${sdJwtVcAttributePath(attribute, AttestationType.PID)}` },
+  attributePath: (attribute: DataElement) => { return `$.${sdJwtVcAttributePath(attribute, AttestationType.PID)}` },
   claimPath: (attribute: DataElement) => { return { path: sdJwtVcAttributePath(attribute, AttestationType.PID).split('.') } }
 }
 
