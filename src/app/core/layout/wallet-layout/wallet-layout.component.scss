@@ -6,4 +6,13 @@
     flex-direction: column;
     height: 100vh;
     width: 100vw;
+
+    .compatibility-note {
+        border-top: 1px solid #e0e0e0;
+        margin-top: 2rem;
+        padding-top: 0.5rem;
+        color: gray;
+        font-size: 0.95rem;
+        text-align: center;
+    }
 }

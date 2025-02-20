@@ -6,7 +6,8 @@ require('dotenv').config();
 // `environment.ts` file structure
 const envConfigFile = `export const environment = {
     apiUrl: '${process.env.DOMAIN_NAME}',
-    appName: '${process.env.APP_NAME}'
+    appName: '${process.env.APP_NAME}',
+	openid4vpDraft: '${process.env.OPENID4VP_DRAFT}',
 };`;
 
 console.log(envConfigFile);
