@@ -14,9 +14,6 @@ export const PID_ATTESTATION: AttestationDefinition = {
     { identifier: 'family_name_birth', attribute: 'Family name birth'},
     { identifier: 'given_name_birth', attribute: 'Given name birth'},
     { identifier: 'birth_place', attribute: 'Birth place'},
-    { identifier: 'birth_country', attribute: 'Birth country'},
-    { identifier: 'birth_state', attribute: 'Birth state'},
-    { identifier: 'birth_city', attribute: 'Birth city'},
     { identifier: 'resident_address', attribute: 'Resident address'},
     { identifier: 'resident_country', attribute: 'Resident country'},
     { identifier: 'resident_state', attribute: 'Resident state'},
@@ -24,15 +21,18 @@ export const PID_ATTESTATION: AttestationDefinition = {
     { identifier: 'resident_postal_code', attribute: 'Resident postal code'},
     { identifier: 'resident_street', attribute: 'Resident street'},
     { identifier: 'resident_house_number', attribute: 'Resident house number'},
-    { identifier: 'gender', attribute: 'Gender'},
+    { identifier: 'sex', attribute: 'Sex'},
     { identifier: 'nationality', attribute: 'Nationality'},
     { identifier: 'issuance_date', attribute: 'Issuance date'},
     { identifier: 'expiry_date', attribute: 'Expiry date'},
     { identifier: 'issuing_authority', attribute: 'Issuing authority'},
     { identifier: 'document_number', attribute: 'Document number'},
-    { identifier: 'administrative_number', attribute: 'Administrative number'},
+    { identifier: 'personal_administrative_number', attribute: 'Personal administrative number'},
     { identifier: 'issuing_country', attribute: 'Issuing country'},
-    { identifier: 'issuing_jurisdiction', attribute: 'Issuing jurisdiction'}
+    { identifier: 'issuing_jurisdiction', attribute: 'Issuing jurisdiction'},
+    { identifier: 'portrait', attribute: 'Portrait'},
+    { identifier: 'email_address', attribute: 'Email address'},
+    { identifier: 'mobile_phone_number', attribute: 'Mobile phone number'}
   ]
 }
 
