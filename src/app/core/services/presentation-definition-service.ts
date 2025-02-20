@@ -109,7 +109,7 @@ export class PresentationDefinitionService {
       name: attestation.attestationDef.name,
       purpose: presentationPurpose,
       format: {
-        "vc+sd-jwt": {
+        "dc+sd-jwt": {
           "sd-jwt_alg_values": ["ES256", "ES384"],
           "kb-jwt_alg_values": ["ES256", "ES384"]
         }
