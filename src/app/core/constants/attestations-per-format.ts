@@ -70,9 +70,6 @@ export const PID_SD_JWT_VC_ATTRIBUTE_MAP: { [id: string]: string } = {
   "family_name_birth": "birth_family_name",
   "given_name_birth": "birth_given_name",
   "birth_place": "place_of_birth.locality",
-  "birth_country": "place_of_birth.country",
-  "birth_state": "place_of_birth.region",
-  "birth_city": "place_of_birth.locality",
   "resident_address": "address.formatted",
   "resident_country": "address.country",
   "resident_state": "address.region",
@@ -80,7 +77,6 @@ export const PID_SD_JWT_VC_ATTRIBUTE_MAP: { [id: string]: string } = {
   "resident_postal_code": "address.postal_code",
   "resident_street": "address.street_address",
   "resident_house_number": "address.house_number",
-  "gender": "gender",
   "nationality": "nationalities",
   "issuance_date": "iat",
   "expiry_date": "exp"
