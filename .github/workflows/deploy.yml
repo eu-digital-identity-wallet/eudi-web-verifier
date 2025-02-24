@@ -81,7 +81,7 @@ jobs:
 
       - name: Deploy to Cloud Run
         id: deploy
-        uses: google-github-actions/deploy-cloudrun@v2
+        uses: google-github-actions/deploy-cloudrun@v2:w
         with:
           service: ${{ env.SERVICE }}
           region: ${{ env.REGION }}
@@ -96,6 +96,18 @@ jobs:
             HOST_API=${{ vars.HOST_API }}
             API_SERVER=${{ vars.API_SERVER }}
 
-      # If required, use the Cloud Run url output in later steps
+      - name: Discord notification
+        uses: sarisia/actions-status-discord@v1
+        if: always()
+        with:
+          webhook: ${{ secrets.DISCORD_WEBHOOK }}
+          status: ${{ job.status }}
+          content: "Deployment status"
+          title: "deploy"
+          description: "Verifier web deployment complete"
+          color: 0x0000ff
+          url: "https://github.com/noxxious/eudi-web-verifier"
+          username: GitHub Actions
+      
       - name: Show Output
         run: echo ${{ steps.deploy.outputs.url }}
