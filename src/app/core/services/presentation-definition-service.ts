@@ -61,7 +61,7 @@ export class PresentationDefinitionService {
     if (attestation) {
       switch (attestation.format) {
         case AttestationFormat.MSO_MDOC:
-          return this.msoMdocInputDescriptorOf(attestation, presentationPurpose, includeAttributes);
+          return this.msoMdocInputDescriptorOf(attestation, includeAttributes);
         case AttestationFormat.SD_JWT_VC:
           return this.sdJwtVcInputDescriptorOf(attestation, presentationPurpose, includeAttributes);
       }
@@ -73,13 +73,10 @@ export class PresentationDefinitionService {
 
   private msoMdocInputDescriptorOf(
     attestation: MsoMdocAttestation,
-    presentationPurpose: string,
     includeAttributes?: string[]
   ): InputDescriptor {
     return {
       id: attestation.doctype,
-      name: attestation.attestationDef.name,
-      purpose: presentationPurpose,
       format: {
         mso_mdoc: {
           alg: [
@@ -90,6 +87,7 @@ export class PresentationDefinitionService {
         }
       },
       constraints: {
+        limit_disclosure: 'required',
         fields: this.fieldConstraints(attestation, includeAttributes)
       }
     };
