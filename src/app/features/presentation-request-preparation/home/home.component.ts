@@ -1,4 +1,4 @@
-import { Component, inject } from '@angular/core';
+import { Component, inject, OnDestroy, OnInit } from '@angular/core';
 import { NavigateService } from '@app/core/services/navigate.service';
 import { HOME_ACTIONS } from '@core/constants/pages-actions';
 import { BodyAction } from '@app/shared/elements/body-actions/models/BodyAction';
@@ -29,6 +29,8 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { AttributesSelectionEvent } from '../models/AttributesSelection';
 import { PresentationDefinitionService } from '@app/core/services/presentation-definition-service';
 import { DCQLService } from '@app/core/services/dcql-service';
+import { fallbackClientMetadata, MsoMdocVpFormat, SdJwtVcVpFormat } from '@app/core/models/ClientMetadata';
+import { Subject, takeUntil } from 'rxjs';
 
 @Component({
   imports: [
@@ -55,7 +57,7 @@ import { DCQLService } from '@app/core/services/dcql-service';
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss'],
 })
-export class HomeComponent {
+export class HomeComponent implements OnInit, OnDestroy {
   constructor(
     private readonly navigateService: NavigateService,
     private readonly verifierEndpointService: VerifierEndpointService,
@@ -77,6 +79,28 @@ export class HomeComponent {
   selectedPresentationType: 'dcql' | 'prex' = 'prex';
 
   initializationRequest: TransactionInitializationRequest | null = null;
+
+  private destroy$ = new Subject<void>();
+  vpFormatsPerType: { [key: string]: SdJwtVcVpFormat | MsoMdocVpFormat } = {};
+
+  ngOnInit(): void {
+    this.verifierEndpointService.getClientMetadata()
+      .pipe(takeUntil(this.destroy$))
+      .subscribe({
+        next: (clientMetadata) => {
+          this.vpFormatsPerType = clientMetadata.vp_formats;
+        },
+        error: (err) => {
+          console.error('Error fetching client metadata from backend. Using fallback client metadata', err);
+          this.vpFormatsPerType = fallbackClientMetadata.vp_formats;
+        }
+      });
+  }
+  
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
 
   handleSelectionChangedEvent($event: AttestationSelection[]) {
     this.selectedAttestations = $event;
@@ -118,7 +142,7 @@ export class HomeComponent {
     if (presentationQueryType === 'dcql') {
       return this.dcqlService.dcqlPresentationRequest(selectedAttestations, selectedAttributes);
     } else {
-      return this.presentationDefinitionService.presentationDefinitionRequest(selectedAttestations, selectedAttributes);
+      return this.presentationDefinitionService.presentationDefinitionRequest(selectedAttestations, selectedAttributes, this.vpFormatsPerType);
     }
   }
 

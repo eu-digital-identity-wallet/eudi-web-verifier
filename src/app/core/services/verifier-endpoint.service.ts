@@ -1,6 +1,6 @@
 import {Injectable} from '@angular/core';
 import {Observable} from 'rxjs';
-import {map, tap} from 'rxjs/operators';
+import {map, retry, tap} from 'rxjs/operators';
 import {HttpService} from '@network/http/http.service';
 import {LocalStorageService} from './local-storage.service';
 import * as constants from '@core/constants/general';
@@ -11,9 +11,11 @@ import {WalletResponse} from "@core/models/WalletResponse";
 import {EventLog} from "@core/models/EventLog";
 import { HttpHeaders } from "@angular/common/http";
 import {ActiveTransaction} from "@core/models/ActiveTransaction";
+import { ClientMetadata } from '@app/core/models/ClientMetadata';
 
 const SAME_DEVICE_UI_RE_ENTRY_URL = '/get-wallet-code?response_code={RESPONSE_CODE}';
 const PRESENTATIONS_ENDPOINT = 'ui/presentations';
+const CLIENT_METADATA_ENDPOINT = 'ui/clientMetadata';
 const VALIDATE_SD_JWT_VC_PRESENTATION_ENDPOINT = 'utilities/validations/sdJwtVc';
 
 @Injectable()
@@ -81,6 +83,13 @@ export class VerifierEndpointService {
     body.set('nonce', nonce);
 
     return this.httpService.post<any, string>(VALIDATE_SD_JWT_VC_PRESENTATION_ENDPOINT, body.toString(), {headers})
+  }
+
+  getClientMetadata(): Observable<ClientMetadata> {
+    return this.httpService.get<ClientMetadata>(CLIENT_METADATA_ENDPOINT)
+      .pipe(
+        retry(3)
+      )
   }
 
   private getTransactionData(event: EventLog): string[] {
