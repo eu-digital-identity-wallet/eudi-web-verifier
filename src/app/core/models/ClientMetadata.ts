@@ -28,15 +28,15 @@ export type MsoMdocVpFormat = {
 export const fallbackClientMetadata: ClientMetadata = {
   vp_formats: {
     'vc+sd-jwt': {
-      'sd-jwt_alg_values': ['ES256', 'ES384', 'ES512'],
-      'kb-jwt_alg_values': ['RS256', 'RS384', 'RS512', 'ES256', 'ES384', 'ES512'],
+      'sd-jwt_alg_values': ['ES256'],
+      'kb-jwt_alg_values': ['ES256'],
     },
     'dc+sd-jwt': {
-      'sd-jwt_alg_values': ['ES256', 'ES384', 'ES512'],
-      'kb-jwt_alg_values': ['RS256', 'RS384', 'RS512', 'ES256', 'ES384', 'ES512'],
+      'sd-jwt_alg_values': ['ES256'],
+      'kb-jwt_alg_values': ['ES256'],
     },
     mso_mdoc: {
-      alg: ['ES256', 'ES384', 'ES512'],
+      alg: ['ES256'],
     },
   },
 };
