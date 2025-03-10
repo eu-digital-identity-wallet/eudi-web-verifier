@@ -38,7 +38,7 @@ export class DCQLService {
     return {
       type: 'vp_token',
       dcql_query: {
-        credentials: dcqlQueries!,
+        credentials: dcqlQueries,
       },
       nonce: uuidv4(),
     };
@@ -71,7 +71,7 @@ export class DCQLService {
         selectedAttributes!.includes(dataElement.identifier)
       )
       .map((dataElement) => {
-        return attestation!!.claimPath(dataElement);
+        return attestation!.claimQuery(dataElement);
       });
 
     if (claims.length > 0) {
