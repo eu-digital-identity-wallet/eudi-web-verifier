@@ -29,6 +29,7 @@ export type JsonClaimQuery = {
 export type MsoMdocClaimQueryExtension = {
   namespace: string;
   claim_name: string;
+  intent_to_retain: boolean;
 };
 
 export type ClaimsQuery = BaseClaimQuery &
