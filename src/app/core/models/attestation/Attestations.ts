@@ -10,7 +10,7 @@ export type MsoMdocAttestation  = {
   namespace: string,
   attestationDef: AttestationDefinition,
   attributePath: (attribute: DataElement) => string,
-  claimPath: (attribute: DataElement) => ClaimsQuery,
+  claimQuery: (attribute: DataElement) => ClaimsQuery,
 }
 
 export type SdJwtVcAttestation = {
@@ -18,5 +18,5 @@ export type SdJwtVcAttestation = {
   vct: string,
   attestationDef: AttestationDefinition
   attributePath: (attribute: DataElement) => string,
-  claimPath: (attribute: DataElement) => ClaimsQuery,
+  claimQuery: (attribute: DataElement) => ClaimsQuery,
 }
