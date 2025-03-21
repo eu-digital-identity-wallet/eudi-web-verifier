@@ -67,7 +67,6 @@ export class AttributeSelectionComponent implements OnChanges {
   }
 
   private updateSelectionMap(dialogResult: DialogResult) {
-    console.log("Dialog result: ", dialogResult);
     if (dialogResult.selectedFields.length > 0) {
       this.selectedFieldsByType[dialogResult.attestationType as string] = dialogResult.selectedFields;
     } else {

@@ -68,8 +68,10 @@ export class HomeComponent implements OnInit, OnDestroy {
   actions: BodyAction[] = HOME_ACTIONS;
 
   queryTypeControl = new FormControl('prex');
+  jarMethodControl = new FormControl('get');
 
-  private _formBuilder = inject(FormBuilder);
+
+  private readonly _formBuilder = inject(FormBuilder);
   formGroup = this._formBuilder.group({
     selectAttestationCtrl: ['', Validators.required],
   });
@@ -77,10 +79,11 @@ export class HomeComponent implements OnInit, OnDestroy {
   selectedAttestations: AttestationSelection[] | null = null;
   selectedAttributes: { [id: string]: string[] } | null = null;
   selectedPresentationType: 'dcql' | 'prex' = 'prex';
+  selectedJarMethod: 'get' | 'post' = 'get';
 
   initializationRequest: TransactionInitializationRequest | null = null;
 
-  private destroy$ = new Subject<void>();
+  private readonly destroy$ = new Subject<void>();
   vpFormatsPerType: { [key: string]: SdJwtVcVpFormat | MsoMdocVpFormat } = {};
 
   ngOnInit(): void {
@@ -113,7 +116,8 @@ export class HomeComponent implements OnInit, OnDestroy {
       this.initializationRequest = this.prepareInitializationRequest(
         this.selectedPresentationType,
         this.selectedAttestations!,
-        this.selectedAttributes
+        this.selectedAttributes,
+        this.selectedJarMethod
       );
     } else {
       this.selectedAttributes = null;
@@ -126,8 +130,24 @@ export class HomeComponent implements OnInit, OnDestroy {
     if (this.selectedAttestations && this.selectedAttributes) {
       this.initializationRequest = this.prepareInitializationRequest(
         this.selectedPresentationType,
-        this.selectedAttestations!,
-        this.selectedAttributes
+        this.selectedAttestations,
+        this.selectedAttributes,
+        this.selectedJarMethod
+      );
+    } else {
+      this.initializationRequest = null;
+    }
+  }
+  
+  handleJarMethodChangedEvent($event: string) {
+    this.selectedJarMethod = $event as 'get' | 'post';
+    
+    if (this.selectedAttestations && this.selectedAttributes) {
+      this.initializationRequest = this.prepareInitializationRequest(
+        this.selectedPresentationType,
+        this.selectedAttestations,
+        this.selectedAttributes,
+        this.selectedJarMethod
       );
     } else {
       this.initializationRequest = null;
@@ -137,12 +157,13 @@ export class HomeComponent implements OnInit, OnDestroy {
   private prepareInitializationRequest(
     presentationQueryType: 'dcql' | 'prex',
     selectedAttestations: AttestationSelection[],
-    selectedAttributes: { [id: string]: string[] }
+    selectedAttributes: { [id: string]: string[] },
+    selectedJarMethod: 'get' | 'post'
   ): TransactionInitializationRequest {
     if (presentationQueryType === 'dcql') {
-      return this.dcqlService.dcqlPresentationRequest(selectedAttestations, selectedAttributes);
+      return this.dcqlService.dcqlPresentationRequest(selectedAttestations, selectedAttributes, selectedJarMethod);
     } else {
-      return this.presentationDefinitionService.presentationDefinitionRequest(selectedAttestations, selectedAttributes, this.vpFormatsPerType);
+      return this.presentationDefinitionService.presentationDefinitionRequest(selectedAttestations, selectedAttributes, this.vpFormatsPerType, selectedJarMethod);
     }
   }
 
