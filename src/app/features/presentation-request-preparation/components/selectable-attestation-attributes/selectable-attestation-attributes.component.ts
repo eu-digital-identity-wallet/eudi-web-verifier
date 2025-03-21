@@ -61,7 +61,6 @@ export class SelectableAttestationAttributesComponent implements OnInit {
 
   handle(data: FormSelectableField) {
     const value = data.value;
-    console.log('Selected field: ', value);
     if (!this.exists(value)) {
       this.selectedFields.push(value);
     } else if (this.exists(value)) {
