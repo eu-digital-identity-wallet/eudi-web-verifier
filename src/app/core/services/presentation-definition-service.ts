@@ -28,7 +28,8 @@ export class PresentationDefinitionService {
   presentationDefinitionRequest(
     selectedAttestations: AttestationSelection[],
     selectedAttributes: { [id: string]: string[] },
-    vpFormatsPerType: { [key: string]: SdJwtVcVpFormat | MsoMdocVpFormat }
+    vpFormatsPerType: { [key: string]: SdJwtVcVpFormat | MsoMdocVpFormat },
+    selectedRequestURIMethod: 'get' | 'post'
   ): PresentationDefinitionTransactionRequest {
     let inputDescriptors: InputDescriptor[] = [];
 
@@ -56,9 +57,10 @@ export class PresentationDefinitionService {
       type: 'vp_token',
       presentation_definition: {
         id: uuidv4(),
-        input_descriptors: inputDescriptors!,
+        input_descriptors: inputDescriptors,
       },
       nonce: uuidv4(),
+      request_uri_method: selectedRequestURIMethod,
     };
   }
 

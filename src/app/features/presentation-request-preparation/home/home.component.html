@@ -34,14 +34,29 @@
 
         <mat-step>
           <div style="padding-top: 10px">
-            <ng-template matStepLabel>...select presentation query type and submit</ng-template>
+            <ng-template matStepLabel>...select request options and submit</ng-template>
             
-            <div class="query-type-container">
+            <div class="config-option-container">
+              <div class="config-option-label">
+                Presentation Query Type
+              </div>
               <mat-button-toggle-group [formControl]="queryTypeControl" 
                 (valueChange)="handleQueryTypeChangedEvent($event)"  
                 aria-label="Presentation query type" >
                 <mat-button-toggle value="prex">Presentation Exchange</mat-button-toggle>
                 <mat-button-toggle value="dcql">DCQL</mat-button-toggle>
+              </mat-button-toggle-group>
+            </div>
+            
+            <div class="config-option-container">
+              <div class="config-option-label">
+                Request URI Method
+              </div>
+              <mat-button-toggle-group [formControl]="requestUriMethodControl" 
+                (valueChange)="handleRequestUriMethodChangedEvent($event)"  
+                aria-label="Request URI Method" >
+                <mat-button-toggle value="get">Get</mat-button-toggle>
+                <mat-button-toggle value="post">Post</mat-button-toggle>
               </mat-button-toggle-group>
             </div>
 

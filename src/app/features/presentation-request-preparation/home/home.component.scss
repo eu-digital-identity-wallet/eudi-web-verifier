@@ -15,8 +15,12 @@
     }
   }
 
-  .query-type-container {
-    margin-bottom: 10px
+  .config-option-container {
+    margin-bottom: 16px;
+
+    .config-option-label {
+      margin-bottom: 8px;
+    }
   }
 
   span#as-pre {
