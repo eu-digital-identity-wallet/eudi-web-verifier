@@ -95,7 +95,7 @@ export const PHOTO_ID_ATTESTATION: AttestationDefinition = {
     { identifier: 'portrait', attribute: 'Portrait'},
     { identifier: 'portrait_capture_date', attribute: 'Portrait capture date'},
     { identifier: 'person_id', attribute: 'Person id'},
-    { identifier: 'family_name', attribute: 'Family_name'},
+    { identifier: 'family_name', attribute: 'Family name'},
     { identifier: 'given_name', attribute: 'Given name'},
     { identifier: 'birth_date', attribute: 'Birth date'},
     { identifier: 'age_over_18', attribute: 'Age over 18'},
@@ -127,10 +127,66 @@ export const PHOTO_ID_ATTESTATION: AttestationDefinition = {
   ]
 }
 
+export const EHIC_ATTESTATION: AttestationDefinition = {
+  name: "European Health Insurance Card (EHIC)",
+  type: AttestationType.EHIC,
+  dataSet: [
+    {
+      identifier: "credential_holder",
+      attribute: "Holder",
+      nested: [
+        { identifier: "credential_holder.given_name", attribute: "Given name" },
+        { identifier: "credential_holder.family_name", attribute: "Family name" },
+        { identifier: "credential_holder.birth_date", attribute: "Birth date" },
+        { identifier: "credential_holder.other_elements", attribute: "Other elements" },
+      ],
+    },
+    {
+      identifier: "subject",
+      attribute: "Subject",
+      nested: [
+        { identifier: "subject.given_name", attribute: "Given name" },
+        { identifier: "subject.family_name", attribute: "Family name" },
+        { identifier: "subject.birth_date", attribute: "Birth date" },
+      ],
+    },
+    { identifier: 'social_security_pin', attribute: 'Social Security Identification/PIN'},
+    {
+      identifier: "validity_period",
+      attribute: "Validity period",
+      nested: [
+        { identifier: "validity_period.starting_date", attribute: "Starting date" },
+        { identifier: "validity_period.ending_date", attribute: "Ending date" },
+      ],
+    },
+    { identifier: 'document_id', attribute: 'Document Identifier'},
+    {
+      identifier: "competentInstitution",
+      attribute: "Competent institution",
+      nested: [
+        { identifier: "competentInstitution.institution_id", attribute: "Institution ID" },
+        { identifier: "competentInstitution.institution_name", attribute: "Institution name" },
+        { identifier: "competentInstitution.country_code", attribute: "Country code" },
+      ],
+    },
+  ],
+}
+
+export const PDA1_ATTESTATION: AttestationDefinition = {
+  name: "Portable Document A1 (PDA1)",
+  type: AttestationType.PDA1,
+  dataSet: [
+    { identifier: 'given_name', attribute: 'Given name'},
+    { identifier: 'family_name', attribute: 'Family name'},
+    { identifier: 'birth_date', attribute: 'Birth date'},
+  ]
+}
+
 export const SUPPORTED_ATTESTATIONS: { [id: string]: AttestationDefinition } = {
   "pid": PID_ATTESTATION,
   "mdl": MDL_ATTESTATION,
   "photo_id": PHOTO_ID_ATTESTATION,
   "age_over_18": AGE_OVER_18_ATTESTATION,
+  "ehic": EHIC_ATTESTATION,
+  "pda1": PDA1_ATTESTATION
 }
-

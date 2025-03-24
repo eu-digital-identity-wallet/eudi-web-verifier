@@ -54,6 +54,7 @@ export class SelectableAttestationAttributesComponent implements OnInit {
     this.attestationType = this.data.type;
     this.seed = this.data.seed;
     this.formFields = this.extractFormFieldsFromModel();
+    console.log('Form fields: ', this.formFields);
     if (this.seed?.selectedFields) {
       this.selectedFields = this.seed.selectedFields;
     }
@@ -89,6 +90,14 @@ export class SelectableAttestationAttributesComponent implements OnInit {
         label: attr.attribute,
         value: attr.identifier,
         visible: true,
+        nested: attr.nested?.map((nestedAttr, nestedIndex) => {
+          return {
+            id: nestedIndex,
+            label: nestedAttr.attribute,
+            value: nestedAttr.identifier,
+            visible: true,
+          };
+        })
       };
     });
   }

@@ -10,4 +10,5 @@ export type DataElement = {
   identifier: string,
   attribute: string,
   description?: string,
+  nested?: DataElement[]
 }

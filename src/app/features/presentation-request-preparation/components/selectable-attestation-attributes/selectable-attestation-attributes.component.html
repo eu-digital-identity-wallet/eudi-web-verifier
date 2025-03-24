@@ -4,7 +4,7 @@
   <div>
     <div>
       <div>
-          Select attributes of the attestation to be included in the request
+        Select attributes of the attestation to be included in the request
       </div>
       <ng-container
         *ngFor="let field of formFields; index as idx; trackBy: trackByFn"
@@ -17,6 +17,23 @@
           >
             {{ field.label }}
           </mat-checkbox>
+
+          <div
+            *ngFor="
+              let nestedField of field.nested;
+              index as idx;
+              trackBy: trackByFn
+            "
+            class="nested-fields"
+          >
+            <mat-checkbox
+              (click)="handle(nestedField)"
+              color="primary"
+              [checked]="isChecked(nestedField.value)"
+            >
+              {{ nestedField.label }}
+            </mat-checkbox>
+          </div>
         </div>
       </ng-container>
     </div>
