@@ -8,7 +8,7 @@ export type TransactionInitializationRequest =
 export type BaseTransactionInitializationRequest = {
   type: 'id_token' | 'vp_token' | 'vp_token id_token';
   nonce: string;
-  jar_method: 'get' | 'post';
+  request_uri_method: 'get' | 'post';
 };
 
 export type PresentationQuery =

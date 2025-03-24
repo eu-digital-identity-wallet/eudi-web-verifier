@@ -50,11 +50,11 @@
             
             <div class="config-option-container">
               <div class="config-option-label">
-                JAR Method
+                Request URI Method
               </div>
-              <mat-button-toggle-group [formControl]="jarMethodControl" 
-                (valueChange)="handleJarMethodChangedEvent($event)"  
-                aria-label="JAR Method" >
+              <mat-button-toggle-group [formControl]="requestUriMethodControl" 
+                (valueChange)="handleRequestUriMethodChangedEvent($event)"  
+                aria-label="Request URI Method" >
                 <mat-button-toggle value="get">Get</mat-button-toggle>
                 <mat-button-toggle value="post">Post</mat-button-toggle>
               </mat-button-toggle-group>

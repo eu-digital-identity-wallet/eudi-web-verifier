@@ -29,7 +29,7 @@ export class PresentationDefinitionService {
     selectedAttestations: AttestationSelection[],
     selectedAttributes: { [id: string]: string[] },
     vpFormatsPerType: { [key: string]: SdJwtVcVpFormat | MsoMdocVpFormat },
-    selectedJarMethod: 'get' | 'post'
+    selectedRequestURIMethod: 'get' | 'post'
   ): PresentationDefinitionTransactionRequest {
     let inputDescriptors: InputDescriptor[] = [];
 
@@ -60,7 +60,7 @@ export class PresentationDefinitionService {
         input_descriptors: inputDescriptors,
       },
       nonce: uuidv4(),
-      jar_method: selectedJarMethod,
+      request_uri_method: selectedRequestURIMethod,
     };
   }
 

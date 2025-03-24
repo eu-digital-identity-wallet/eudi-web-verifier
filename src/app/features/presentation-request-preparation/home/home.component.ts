@@ -68,7 +68,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   actions: BodyAction[] = HOME_ACTIONS;
 
   queryTypeControl = new FormControl('prex');
-  jarMethodControl = new FormControl('get');
+  requestUriMethodControl = new FormControl('get');
 
 
   private readonly _formBuilder = inject(FormBuilder);
@@ -79,7 +79,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   selectedAttestations: AttestationSelection[] | null = null;
   selectedAttributes: { [id: string]: string[] } | null = null;
   selectedPresentationType: 'dcql' | 'prex' = 'prex';
-  selectedJarMethod: 'get' | 'post' = 'get';
+  selectedRequestUriMethod: 'get' | 'post' = 'get';
 
   initializationRequest: TransactionInitializationRequest | null = null;
 
@@ -117,7 +117,7 @@ export class HomeComponent implements OnInit, OnDestroy {
         this.selectedPresentationType,
         this.selectedAttestations!,
         this.selectedAttributes,
-        this.selectedJarMethod
+        this.selectedRequestUriMethod
       );
     } else {
       this.selectedAttributes = null;
@@ -132,22 +132,22 @@ export class HomeComponent implements OnInit, OnDestroy {
         this.selectedPresentationType,
         this.selectedAttestations,
         this.selectedAttributes,
-        this.selectedJarMethod
+        this.selectedRequestUriMethod
       );
     } else {
       this.initializationRequest = null;
     }
   }
   
-  handleJarMethodChangedEvent($event: string) {
-    this.selectedJarMethod = $event as 'get' | 'post';
+  handleRequestUriMethodChangedEvent($event: string) {
+    this.selectedRequestUriMethod = $event as 'get' | 'post';
     
     if (this.selectedAttestations && this.selectedAttributes) {
       this.initializationRequest = this.prepareInitializationRequest(
         this.selectedPresentationType,
         this.selectedAttestations,
         this.selectedAttributes,
-        this.selectedJarMethod
+        this.selectedRequestUriMethod
       );
     } else {
       this.initializationRequest = null;
@@ -158,12 +158,12 @@ export class HomeComponent implements OnInit, OnDestroy {
     presentationQueryType: 'dcql' | 'prex',
     selectedAttestations: AttestationSelection[],
     selectedAttributes: { [id: string]: string[] },
-    selectedJarMethod: 'get' | 'post'
+    selectedRequestUriMethod: 'get' | 'post'
   ): TransactionInitializationRequest {
     if (presentationQueryType === 'dcql') {
-      return this.dcqlService.dcqlPresentationRequest(selectedAttestations, selectedAttributes, selectedJarMethod);
+      return this.dcqlService.dcqlPresentationRequest(selectedAttestations, selectedAttributes, selectedRequestUriMethod);
     } else {
-      return this.presentationDefinitionService.presentationDefinitionRequest(selectedAttestations, selectedAttributes, this.vpFormatsPerType, selectedJarMethod);
+      return this.presentationDefinitionService.presentationDefinitionRequest(selectedAttestations, selectedAttributes, this.vpFormatsPerType, selectedRequestUriMethod);
     }
   }
 
