@@ -110,7 +110,8 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   handleAttributesCollectedEvent($event: AttributesSelectionEvent) {
-    if ($event != null && $event.selectedAttributes != null) {
+    console.log('Attributes collected event: ', $event);
+    if ($event?.selectedAttributes) {
       this.selectedAttributes = $event.selectedAttributes;
 
       this.initializationRequest = this.prepareInitializationRequest(

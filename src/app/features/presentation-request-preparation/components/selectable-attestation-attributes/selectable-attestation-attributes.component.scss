@@ -6,7 +6,8 @@
     .nested-fields {
         display: flex;
         flex-direction: column;
-        gap: 1rem;
-        margin-left: 2rem;
+        padding-left: 1em;
+        border-left: 1px dotted gray;
+        margin-left: 1.2em;
     }
 }

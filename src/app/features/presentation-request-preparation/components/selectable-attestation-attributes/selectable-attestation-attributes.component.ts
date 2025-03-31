@@ -17,6 +17,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { DialogData } from '@features/presentation-request-preparation/components/selectable-attestation-attributes/model/DialogData';
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatBadgeModule } from '@angular/material/badge';
+import { RecursiveCheckboxComponent } from '../recursive-checkbox/recursive-checkbox.component';
 
 @Component({
   selector: 'vc-selectable-attestation-attributes',
@@ -30,7 +31,8 @@ import { MatBadgeModule } from '@angular/material/badge';
     MatDialogModule,
     MatButtonModule,
     MatTabsModule,
-    MatBadgeModule
+    MatBadgeModule,
+    RecursiveCheckboxComponent
   ],
 })
 export class SelectableAttestationAttributesComponent implements OnInit {
@@ -47,6 +49,11 @@ export class SelectableAttestationAttributesComponent implements OnInit {
   formFields!: FormSelectableField[];
   selectedFields: string[] = [];
 
+  boundIsChecked = (field: string) => this.isChecked(field);
+  boundHandle = (data: FormSelectableField) => this.handle(data);
+  boundTrackByFn = (index: number, data: FormSelectableField) => this.trackByFn(index, data);
+  
+  
   constructor(private dialogRef: MatDialogRef<InputDescriptor>) {}
 
   ngOnInit(): void {
@@ -84,22 +91,24 @@ export class SelectableAttestationAttributesComponent implements OnInit {
     if (!attestation) {
       return [];
     }
-    return attestation.attestationDef.dataSet.map((attr, index) => {
+  
+    // Recursive function to handle attributes at any nesting level
+    const mapAttributeRecursively = (attr: any, index: number): FormSelectableField => {
       return {
         id: index,
         label: attr.attribute,
         value: attr.identifier,
         visible: true,
-        nested: attr.nested?.map((nestedAttr, nestedIndex) => {
-          return {
-            id: nestedIndex,
-            label: nestedAttr.attribute,
-            value: nestedAttr.identifier,
-            visible: true,
-          };
-        })
+        nested: attr.nested?.map((nestedAttr: any, nestedIndex: number) => 
+          mapAttributeRecursively(nestedAttr, nestedIndex)
+        )
       };
-    });
+    };
+  
+    // Apply the recursive mapping to top-level attributes
+    return attestation.attestationDef.dataSet.map((attr, index) => 
+      mapAttributeRecursively(attr, index)
+    );
   }
 
   trackByFn(_index: number, data: FormSelectableField) {
@@ -117,7 +126,7 @@ export class SelectableAttestationAttributesComponent implements OnInit {
 
   isChecked(field: string) {
     return (
-      this.selectedFields.filter((item) => {
+      this.selectedFields?.filter((item) => {
         return item === field;
       }).length > 0
     );

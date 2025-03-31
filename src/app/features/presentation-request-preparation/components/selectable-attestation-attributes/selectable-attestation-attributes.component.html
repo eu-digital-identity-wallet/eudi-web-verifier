@@ -9,32 +9,12 @@
       <ng-container
         *ngFor="let field of formFields; index as idx; trackBy: trackByFn"
       >
-        <div class="controls">
-          <mat-checkbox
-            (click)="handle(field)"
-            color="primary"
-            [checked]="isChecked(field.value)"
-          >
-            {{ field.label }}
-          </mat-checkbox>
-
-          <div
-            *ngFor="
-              let nestedField of field.nested;
-              index as idx;
-              trackBy: trackByFn
-            "
-            class="nested-fields"
-          >
-            <mat-checkbox
-              (click)="handle(nestedField)"
-              color="primary"
-              [checked]="isChecked(nestedField.value)"
-            >
-              {{ nestedField.label }}
-            </mat-checkbox>
-          </div>
-        </div>
+        <app-recursive-checkbox
+          [field]="field"
+          [isCheckedFn]="boundIsChecked"
+          [handleFn]="boundHandle"
+          [trackByFn]="boundTrackByFn"
+        ></app-recursive-checkbox>
       </ng-container>
     </div>
   </div>

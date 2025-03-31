@@ -133,7 +133,7 @@ export const EHIC_ATTESTATION: AttestationDefinition = {
   dataSet: [
     {
       identifier: "credential_holder",
-      attribute: "Holder",
+      attribute: "Credential holder",
       nested: [
         { identifier: "credential_holder.given_name", attribute: "Given name" },
         { identifier: "credential_holder.family_name", attribute: "Family name" },
@@ -176,9 +176,103 @@ export const PDA1_ATTESTATION: AttestationDefinition = {
   name: "Portable Document A1 (PDA1)",
   type: AttestationType.PDA1,
   dataSet: [
-    { identifier: 'given_name', attribute: 'Given name'},
-    { identifier: 'family_name', attribute: 'Family name'},
-    { identifier: 'birth_date', attribute: 'Birth date'},
+    {
+      identifier: "credential_holder",
+      attribute: "Credential holder",
+      nested: [
+        { identifier: "credential_holder.given_name", attribute: "Given name" },
+        { identifier: "credential_holder.family_name", attribute: "Family name" },
+        { identifier: "credential_holder.birth_date", attribute: "Birth date" },
+        { identifier: "credential_holder.other_elements", attribute: "Other elements" },
+      ],
+    },
+    { identifier: 'social_security_pin', attribute: 'Social Security Identification/PIN'},
+    {
+      identifier: "nationality",
+      attribute: "Nationality",
+      nested: [
+        { identifier: "nationality.country_code", attribute: "Country code" },
+      ],
+    },
+    {
+      identifier: "EmploymentDetail",
+      attribute: "Employment detail",
+      nested: [
+        { identifier: "EmploymentDetail.type", attribute: "Type of employment" },
+        { identifier: "EmploymentDetail.name", attribute: "Name" },
+        { identifier: "EmploymentDetail.employer_id", attribute: "Employer ID" },
+        { identifier: "EmploymentDetail.type_id", attribute: "Type of ID" },
+      ],
+    },
+    {
+      identifier: "address",
+      attribute: "Address",
+      nested: [
+        { identifier: "address.street", attribute: "Street" },
+        { identifier: "address.town", attribute: "Town" },
+        { identifier: "address.postal_code", attribute: "Postal code" },
+        { identifier: "address.country_code", attribute: "Country code" },
+      ],
+    },
+    { 
+      identifier: 'PlacesOfWork', 
+      attribute: 'Places of work',
+      nested: [
+        {
+          identifier: "NoFixedPlace",
+          attribute: "No fixed place of work",
+          nested: [
+            { identifier: "NoFixedPlace.country_code", attribute: "Country code" },
+          ],
+        },
+        {
+          identifier: "PlaceOfWork",
+          attribute: "Place of work",
+          nested: [
+            { identifier: "PlaceOfWork.company", attribute: "Company" },
+            { identifier: "PlaceOfWork.flag_base_home_state", attribute: "Flag base home state" },
+            { identifier: "PlaceOfWork.company_id", attribute: "Company ID" },
+            { identifier: "PlaceOfWork.id_type", attribute: "Type of ID" },
+            { identifier: "PlaceOfWork.street", attribute: "Street" },
+            { identifier: "PlaceOfWork.town", attribute: "Town" },
+            { identifier: "PlaceOfWork.postal_code", attribute: "Postal code" },
+            { identifier: "PlaceOfWork.country_code", attribute: "Country code" },
+          ],
+        },
+      ]
+    },
+    { 
+      identifier: 'legislation', 
+      attribute: 'Legislation',
+      nested: [
+        {
+          identifier: "decision",
+          attribute: "Decision",
+          nested: [
+            { identifier: "decision.member_state", attribute: "Member state" },
+            { identifier: "decision.transitional_rules", attribute: "Transitional rules" },
+          ],
+        },
+        {
+          identifier: "validity_period",
+          attribute: "Validity period",
+          nested: [
+            { identifier: "validity_period.starting_date", attribute: "Starintg date" },
+            { identifier: "validity_period.ending_date", attribute: "Ending date" },
+          ],
+        },
+      ]
+    },
+    { identifier: 'document_id', attribute: 'Document Identifier'},
+    {
+      identifier: "competentInstitution",
+      attribute: "Competent institution",
+      nested: [
+        { identifier: "competentInstitution.institution_id", attribute: "Institution ID" },
+        { identifier: "competentInstitution.institution_name", attribute: "Institution name" },
+        { identifier: "competentInstitution.country_code", attribute: "Country code" },
+      ],
+    },
   ]
 }
 
