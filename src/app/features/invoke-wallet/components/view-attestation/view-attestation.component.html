@@ -1,19 +1,50 @@
-
 <h2 mat-dialog-title>{{attestation.name}}</h2>
 
 <mat-dialog-content class="mat-typography">
   <mat-tab-group>
     <mat-tab label="Attributes">
       <mat-list>
-        <mat-list-item *ngFor="let option of attestation.attributes">
+        <mat-list-item *ngFor="let option of attestation.attributes; trackBy: trackByFn">
           <span matListItemTitle>
             <strong>{{option.key}}</strong>
           </span>
           <span matListItemLine>
-            <span [innerHTML]="option.value"></span>
+            <ng-container *ngIf="isJson(option.value); else plainText">
+              <!-- Recursive template for nested JSON -->
+              <ng-container *ngTemplateOutlet="recursiveJson; context:{ $implicit: parseJson(option.value), level: 0 }"></ng-container>
+            </ng-container>
+            <ng-template #plainText>
+              <span>{{option.value}}</span>
+            </ng-template>
           </span>
         </mat-list-item>
       </mat-list>
+
+      <!-- Recursive template definition -->
+      <ng-template #recursiveJson let-value let-level="level">
+        <ng-container *ngIf="isObject(value)">
+          <div *ngFor="let item of objectToKeyValue(value); trackBy: trackByFn" class="nested-attributes">
+            <span><strong>{{item.key}}</strong>:</span>
+            <ng-container *ngIf="isObject(item.value) || isArray(item.value)">
+              <ng-container *ngTemplateOutlet="recursiveJson; context:{ $implicit: item.value, level: level + 1 }"></ng-container>
+            </ng-container>
+            <ng-container *ngIf="!isObject(item.value) && !isArray(item.value)">
+              {{item.value}}
+            </ng-container>
+          </div>
+        </ng-container>
+        <ng-container *ngIf="isArray(value)">
+          <div *ngFor="let item of value; let i = index; trackBy: trackByFn" class="nested-attributes">
+            <strong>[{{i}}]</strong>: 
+            <ng-container *ngIf="isObject(item) || isArray(item)">
+              <ng-container *ngTemplateOutlet="recursiveJson; context:{ $implicit: item, level: level + 1 }"></ng-container>
+            </ng-container>
+            <ng-container *ngIf="!isObject(item) && !isArray(item)">
+              {{item}}
+            </ng-container>
+          </div>
+        </ng-container>
+      </ng-template>
     </mat-tab>
 
     <mat-tab *ngIf="attestation.metadata && attestation.metadata.length > 0" label="Metadata">

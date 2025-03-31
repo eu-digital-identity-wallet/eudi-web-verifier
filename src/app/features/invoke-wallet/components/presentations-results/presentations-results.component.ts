@@ -75,7 +75,7 @@ export class PresentationsResultsComponent implements OnInit {
       data: {
         attestation: attestation
       },
-      height: '40%',
+      height: '70%',
       width: '60%',
     });
   }

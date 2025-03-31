@@ -1,0 +1,7 @@
+@use '/src/template' as temp;
+
+:host {
+    .nested-attributes {
+        padding-left: 1em;
+    }
+}

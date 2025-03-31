@@ -195,48 +195,48 @@ export const PDA1_ATTESTATION: AttestationDefinition = {
       ],
     },
     {
-      identifier: "EmploymentDetail",
-      attribute: "Employment detail",
+      identifier: "employment_details",
+      attribute: "Employment details",
       nested: [
-        { identifier: "EmploymentDetail.type", attribute: "Type of employment" },
-        { identifier: "EmploymentDetail.name", attribute: "Name" },
-        { identifier: "EmploymentDetail.employer_id", attribute: "Employer ID" },
-        { identifier: "EmploymentDetail.type_id", attribute: "Type of ID" },
-      ],
-    },
-    {
-      identifier: "address",
-      attribute: "Address",
-      nested: [
-        { identifier: "address.street", attribute: "Street" },
-        { identifier: "address.town", attribute: "Town" },
-        { identifier: "address.postal_code", attribute: "Postal code" },
-        { identifier: "address.country_code", attribute: "Country code" },
+        { identifier: "employment_details.type", attribute: "Type of employment" },
+        { identifier: "employment_details.name", attribute: "Name" },
+        { identifier: "employment_details.employer_id", attribute: "Employer ID" },
+        { identifier: "employment_details.type_id", attribute: "Type of ID" },
+        {
+          identifier: "address",
+          attribute: "Address",
+          nested: [
+            { identifier: "address.street", attribute: "Street" },
+            { identifier: "address.town", attribute: "Town" },
+            { identifier: "address.postal_code", attribute: "Postal code" },
+            { identifier: "address.country_code", attribute: "Country code" },
+          ],
+        },
       ],
     },
     { 
-      identifier: 'PlacesOfWork', 
+      identifier: 'places_of_work', 
       attribute: 'Places of work',
       nested: [
         {
-          identifier: "NoFixedPlace",
+          identifier: "no_fixed_place",
           attribute: "No fixed place of work",
           nested: [
-            { identifier: "NoFixedPlace.country_code", attribute: "Country code" },
+            { identifier: "no_fixed_place.country_code", attribute: "Country code" },
           ],
         },
         {
-          identifier: "PlaceOfWork",
+          identifier: "place_of_work",
           attribute: "Place of work",
           nested: [
-            { identifier: "PlaceOfWork.company", attribute: "Company" },
-            { identifier: "PlaceOfWork.flag_base_home_state", attribute: "Flag base home state" },
-            { identifier: "PlaceOfWork.company_id", attribute: "Company ID" },
-            { identifier: "PlaceOfWork.id_type", attribute: "Type of ID" },
-            { identifier: "PlaceOfWork.street", attribute: "Street" },
-            { identifier: "PlaceOfWork.town", attribute: "Town" },
-            { identifier: "PlaceOfWork.postal_code", attribute: "Postal code" },
-            { identifier: "PlaceOfWork.country_code", attribute: "Country code" },
+            { identifier: "place_of_work.company", attribute: "Company" },
+            { identifier: "place_of_work.flag_base_home_state", attribute: "Flag base home state" },
+            { identifier: "place_of_work.company_id", attribute: "Company ID" },
+            { identifier: "place_of_work.id_type", attribute: "Type of ID" },
+            { identifier: "place_of_work.street", attribute: "Street" },
+            { identifier: "place_of_work.town", attribute: "Town" },
+            { identifier: "place_of_work.postal_code", attribute: "Postal code" },
+            { identifier: "place_of_work.country_code", attribute: "Country code" },
           ],
         },
       ]
@@ -257,12 +257,13 @@ export const PDA1_ATTESTATION: AttestationDefinition = {
           identifier: "validity_period",
           attribute: "Validity period",
           nested: [
-            { identifier: "validity_period.starting_date", attribute: "Starintg date" },
+            { identifier: "validity_period.starting_date", attribute: "Staring date" },
             { identifier: "validity_period.ending_date", attribute: "Ending date" },
           ],
         },
       ]
     },
+    { identifier: 'status_confirmation', attribute: 'Status confirmation'},
     { identifier: 'document_id', attribute: 'Document Identifier'},
     {
       identifier: "competentInstitution",
