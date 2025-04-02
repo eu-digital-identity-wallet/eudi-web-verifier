@@ -68,7 +68,7 @@ export const EHIC_MSO_MDOC: MsoMdocAttestation = {
 export const EHIC_SD_JWT_VC: SdJwtVcAttestation = {
   format: AttestationFormat.SD_JWT_VC,
   attestationDef: EHIC_ATTESTATION,
-  vct: 'eu.europa.ec.eudi.ehic.1',
+  vct: 'urn:eu.europa.ec.eudi:ehic:1',
   attributePath: (attribute: DataElement) => { return `$.${sdJwtVcAttributePath(attribute, AttestationType.EHIC)}` },
   claimPath: (attribute: DataElement) => { return { path: sdJwtVcAttributePath(attribute, AttestationType.EHIC).split('.') } }
 }
@@ -85,7 +85,7 @@ export const PDA1_MSO_MDOC: MsoMdocAttestation = {
 export const PDA1_SD_JWT_VC: SdJwtVcAttestation = {
   format: AttestationFormat.SD_JWT_VC,
   attestationDef: PDA1_ATTESTATION,
-  vct: 'eu.europa.ec.eudi.pda1.1',
+  vct: 'urn:eu.europa.ec.eudi:pda1:1',
   attributePath: (attribute: DataElement) => { return `$.${sdJwtVcAttributePath(attribute, AttestationType.PDA1)}` },
   claimPath: (attribute: DataElement) => { return { path: sdJwtVcAttributePath(attribute, AttestationType.PDA1).split('.') } }
 }

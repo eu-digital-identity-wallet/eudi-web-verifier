@@ -14,6 +14,7 @@ import { MAT_DIALOG_DATA, MatDialogModule } from '@angular/material/dialog';
 import { DialogData } from '@features/invoke-wallet/components/view-attestation/model/DialogData';
 import { MatButtonModule } from '@angular/material/button';
 import { MatTabsModule } from '@angular/material/tabs';
+import { MatDividerModule } from '@angular/material/divider';
 
 @Component({
   selector: 'vc-view-attestation',
@@ -25,6 +26,7 @@ import { MatTabsModule } from '@angular/material/tabs';
     MatDialogModule,
     MatButtonModule,
     MatTabsModule,
+    MatDividerModule,
   ],
   templateUrl: './view-attestation.component.html',
   styleUrls: ['./view-attestation.component.scss'],

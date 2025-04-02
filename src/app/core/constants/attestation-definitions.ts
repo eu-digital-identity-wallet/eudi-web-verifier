@@ -131,44 +131,13 @@ export const EHIC_ATTESTATION: AttestationDefinition = {
   name: "European Health Insurance Card (EHIC)",
   type: AttestationType.EHIC,
   dataSet: [
-    {
-      identifier: "credential_holder",
-      attribute: "Credential holder",
-      nested: [
-        { identifier: "credential_holder.given_name", attribute: "Given name" },
-        { identifier: "credential_holder.family_name", attribute: "Family name" },
-        { identifier: "credential_holder.birth_date", attribute: "Birth date" },
-        { identifier: "credential_holder.other_elements", attribute: "Other elements" },
-      ],
-    },
-    {
-      identifier: "subject",
-      attribute: "Subject",
-      nested: [
-        { identifier: "subject.given_name", attribute: "Given name" },
-        { identifier: "subject.family_name", attribute: "Family name" },
-        { identifier: "subject.birth_date", attribute: "Birth date" },
-      ],
-    },
-    { identifier: 'social_security_pin', attribute: 'Social Security Identification/PIN'},
-    {
-      identifier: "validity_period",
-      attribute: "Validity period",
-      nested: [
-        { identifier: "validity_period.starting_date", attribute: "Starting date" },
-        { identifier: "validity_period.ending_date", attribute: "Ending date" },
-      ],
-    },
-    { identifier: 'document_id', attribute: 'Document Identifier'},
-    {
-      identifier: "competentInstitution",
-      attribute: "Competent institution",
-      nested: [
-        { identifier: "competentInstitution.institution_id", attribute: "Institution ID" },
-        { identifier: "competentInstitution.institution_name", attribute: "Institution name" },
-        { identifier: "competentInstitution.country_code", attribute: "Country code" },
-      ],
-    },
+    { identifier: "credential_holder", attribute: "Credential holder" },
+    { identifier: "subject", attribute: "Subject" },
+    { identifier: 'social_security_pin', attribute: 'Social Security PIN'},
+    { identifier: "starting_date", attribute: "Starting Date" },
+    { identifier: "ending_date", attribute: "Ending Date" },
+    { identifier: 'document_id', attribute: 'Document Identifier' },
+    { identifier: "competent_institution", attribute: 'Competent Institution' }
   ],
 }
 
@@ -176,104 +145,15 @@ export const PDA1_ATTESTATION: AttestationDefinition = {
   name: "Portable Document A1 (PDA1)",
   type: AttestationType.PDA1,
   dataSet: [
-    {
-      identifier: "credential_holder",
-      attribute: "Credential holder",
-      nested: [
-        { identifier: "credential_holder.given_name", attribute: "Given name" },
-        { identifier: "credential_holder.family_name", attribute: "Family name" },
-        { identifier: "credential_holder.birth_date", attribute: "Birth date" },
-        { identifier: "credential_holder.other_elements", attribute: "Other elements" },
-      ],
-    },
-    { identifier: 'social_security_pin', attribute: 'Social Security Identification/PIN'},
-    {
-      identifier: "nationality",
-      attribute: "Nationality",
-      nested: [
-        { identifier: "nationality.country_code", attribute: "Country code" },
-      ],
-    },
-    {
-      identifier: "employment_details",
-      attribute: "Employment details",
-      nested: [
-        { identifier: "employment_details.type", attribute: "Type of employment" },
-        { identifier: "employment_details.name", attribute: "Name" },
-        { identifier: "employment_details.employer_id", attribute: "Employer ID" },
-        { identifier: "employment_details.type_id", attribute: "Type of ID" },
-        {
-          identifier: "address",
-          attribute: "Address",
-          nested: [
-            { identifier: "address.street", attribute: "Street" },
-            { identifier: "address.town", attribute: "Town" },
-            { identifier: "address.postal_code", attribute: "Postal code" },
-            { identifier: "address.country_code", attribute: "Country code" },
-          ],
-        },
-      ],
-    },
-    { 
-      identifier: 'places_of_work', 
-      attribute: 'Places of work',
-      nested: [
-        {
-          identifier: "no_fixed_place",
-          attribute: "No fixed place of work",
-          nested: [
-            { identifier: "no_fixed_place.country_code", attribute: "Country code" },
-          ],
-        },
-        {
-          identifier: "place_of_work",
-          attribute: "Place of work",
-          nested: [
-            { identifier: "place_of_work.company", attribute: "Company" },
-            { identifier: "place_of_work.flag_base_home_state", attribute: "Flag base home state" },
-            { identifier: "place_of_work.company_id", attribute: "Company ID" },
-            { identifier: "place_of_work.id_type", attribute: "Type of ID" },
-            { identifier: "place_of_work.street", attribute: "Street" },
-            { identifier: "place_of_work.town", attribute: "Town" },
-            { identifier: "place_of_work.postal_code", attribute: "Postal code" },
-            { identifier: "place_of_work.country_code", attribute: "Country code" },
-          ],
-        },
-      ]
-    },
-    { 
-      identifier: 'legislation', 
-      attribute: 'Legislation',
-      nested: [
-        {
-          identifier: "decision",
-          attribute: "Decision",
-          nested: [
-            { identifier: "decision.member_state", attribute: "Member state" },
-            { identifier: "decision.transitional_rules", attribute: "Transitional rules" },
-          ],
-        },
-        {
-          identifier: "validity_period",
-          attribute: "Validity period",
-          nested: [
-            { identifier: "validity_period.starting_date", attribute: "Staring date" },
-            { identifier: "validity_period.ending_date", attribute: "Ending date" },
-          ],
-        },
-      ]
-    },
+    { identifier: "credential_holder", attribute: "Credential holder" },
+    { identifier: 'social_security_pin', attribute: 'Social Security Identification/PIN' },
+    { identifier: "nationality", attribute: "Nationality" },
+    { identifier: "employment_details", attribute: "Employment details" },
+    { identifier: 'places_of_work', attribute: 'Places of work' },
+    { identifier: 'legislation', attribute: 'Legislation' },
     { identifier: 'status_confirmation', attribute: 'Status confirmation'},
     { identifier: 'document_id', attribute: 'Document Identifier'},
-    {
-      identifier: "competentInstitution",
-      attribute: "Competent institution",
-      nested: [
-        { identifier: "competentInstitution.institution_id", attribute: "Institution ID" },
-        { identifier: "competentInstitution.institution_name", attribute: "Institution name" },
-        { identifier: "competentInstitution.country_code", attribute: "Country code" },
-      ],
-    },
+    { identifier: "competent_institution", attribute: "Competent institution"},
   ]
 }
 
