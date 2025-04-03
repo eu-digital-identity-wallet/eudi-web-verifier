@@ -40,13 +40,11 @@ export class OpenLogsComponent implements OnInit {
 	matcher = new ErrorStateMatcher();
 
 	ngOnInit (): void {
-		console.log('data', this.data);
 		this.transactionId = this.data.transactionId;
 		this.label = this.data.label;
 		this.isInspectLogs = this.data.isInspectLogs;
 	}
 	inspectLogs () {
-		console.log('inspectLogs ', this.schemeControl.value);
 		this.transactionId = '';
 		setTimeout(() => {
 			this.transactionId = this.schemeControl.value ?? '';

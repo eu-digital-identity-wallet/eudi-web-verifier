@@ -33,7 +33,7 @@ export class PresentationDefinitionService {
   ): PresentationDefinitionTransactionRequest {
     let inputDescriptors: InputDescriptor[] = [];
 
-    selectedAttestations.map((attestation) => {
+    selectedAttestations.forEach((attestation) => {
       const selectedAttributesForAttestation =
         selectedAttributes[attestation.type];
 
@@ -156,14 +156,21 @@ export class PresentationDefinitionService {
     includeAttributes?: string[]
   ): FieldConstraint[] {
     const fieldConstraints: FieldConstraint[] = [];
+    const includeAll = typeof includeAttributes == 'undefined';
+
     attestation.attestationDef.dataSet.forEach((dataElement: DataElement) => {
-      if (
-        typeof includeAttributes == 'undefined' ||
-        includeAttributes.includes(dataElement.identifier)
-      ) {
+      if (includeAll || includeAttributes.includes(dataElement.identifier)) {
         fieldConstraints.push(
           this.fieldConstraint(attestation.attributePath(dataElement))
         );
+      } else if (dataElement.nested) {
+        dataElement.nested.forEach((nestedDataElement: DataElement) => {
+          if (includeAll || includeAttributes.includes(nestedDataElement.identifier)) {
+            fieldConstraints.push(
+              this.fieldConstraint(attestation.attributePath(nestedDataElement))
+            );
+          }
+        });
       }
     });
     return fieldConstraints;

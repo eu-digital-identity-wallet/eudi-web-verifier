@@ -1,0 +1,20 @@
+<div class="controls">
+  <mat-checkbox
+    (click)="handleFn(field)"
+    color="primary"
+    [checked]="isCheckedFn(field.value)"
+  >
+    {{ field.label }}
+  </mat-checkbox>
+
+  <div *ngIf="field.nested?.length" class="nested-fields">
+    <ng-container *ngFor="let nestedField of field.nested; trackBy: trackByFn">
+      <app-recursive-checkbox
+        [field]="nestedField"
+        [isCheckedFn]="isCheckedFn"
+        [handleFn]="handleFn"
+        [trackByFn]="trackByFn"
+      ></app-recursive-checkbox>
+    </ng-container>
+  </div>
+</div>

@@ -95,7 +95,7 @@ export const PHOTO_ID_ATTESTATION: AttestationDefinition = {
     { identifier: 'portrait', attribute: 'Portrait'},
     { identifier: 'portrait_capture_date', attribute: 'Portrait capture date'},
     { identifier: 'person_id', attribute: 'Person id'},
-    { identifier: 'family_name', attribute: 'Family_name'},
+    { identifier: 'family_name', attribute: 'Family name'},
     { identifier: 'given_name', attribute: 'Given name'},
     { identifier: 'birth_date', attribute: 'Birth date'},
     { identifier: 'age_over_18', attribute: 'Age over 18'},
@@ -127,10 +127,41 @@ export const PHOTO_ID_ATTESTATION: AttestationDefinition = {
   ]
 }
 
+export const EHIC_ATTESTATION: AttestationDefinition = {
+  name: "European Health Insurance Card (EHIC)",
+  type: AttestationType.EHIC,
+  dataSet: [
+    { identifier: "credential_holder", attribute: "Credential holder" },
+    { identifier: "subject", attribute: "Subject" },
+    { identifier: 'social_security_pin', attribute: 'Social security PIN'},
+    { identifier: "starting_date", attribute: "Starting date" },
+    { identifier: "ending_date", attribute: "Ending date" },
+    { identifier: 'document_id', attribute: 'Document identifier' },
+    { identifier: "competent_institution", attribute: 'Competent institution' }
+  ],
+}
+
+export const PDA1_ATTESTATION: AttestationDefinition = {
+  name: "Portable Document A1 (PDA1)",
+  type: AttestationType.PDA1,
+  dataSet: [
+    { identifier: "credential_holder", attribute: "Credential holder" },
+    { identifier: 'social_security_pin', attribute: 'Social security PIN' },
+    { identifier: "nationality", attribute: "Nationality" },
+    { identifier: "employment_details", attribute: "Employment details" },
+    { identifier: 'places_of_work', attribute: 'Places of work' },
+    { identifier: 'legislation', attribute: 'Legislation' },
+    { identifier: 'status_confirmation', attribute: 'Status confirmation'},
+    { identifier: 'document_id', attribute: 'Document identifier'},
+    { identifier: "competent_institution", attribute: "Competent institution"},
+  ]
+}
+
 export const SUPPORTED_ATTESTATIONS: { [id: string]: AttestationDefinition } = {
   "pid": PID_ATTESTATION,
   "mdl": MDL_ATTESTATION,
   "photo_id": PHOTO_ID_ATTESTATION,
   "age_over_18": AGE_OVER_18_ATTESTATION,
+  "ehic": EHIC_ATTESTATION,
+  "pda1": PDA1_ATTESTATION
 }
-

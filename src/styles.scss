@@ -1,6 +1,7 @@
 /* You can add global styles to this file, and also import other style files */
 @use "template" as temp;
 @use "/src/layout-breakpoint" as points;
+@use "sass:map";
 
 html {
   height: 100vh;
@@ -9,7 +10,7 @@ html {
 
 body {
   font-family: Roboto, "Helvetica Neue", sans-serif; margin: 0;
-  background: map-get(map-get(map-get(temp.$palette, general), bg), paper);
+  background: map.get(map.get(map.get(temp.$palette, general), bg), paper);
   height: inherit;
   overflow-x: hidden;
 }

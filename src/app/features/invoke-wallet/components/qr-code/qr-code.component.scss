@@ -1,5 +1,6 @@
 @use '/src/template' as temp;
 @use '/src/layout-breakpoint' as points;
+@use "sass:map";
 
 :host {
     .below-qr-code {
@@ -29,7 +30,7 @@
           user-select: none;
           width: -moz-fit-content;
           width: fit-content;
-          background: map-get(map-get(temp.$palette, color), primary);
+          background: map.get(map.get(temp.$palette, color), primary);
           text-decoration: none;
         }
 
@@ -72,7 +73,7 @@
         }
 
     }
-    @media (max-width: map-get(points.$breakpoints, xs)) and  (min-width: map-get(points.$breakpoints, sm)){
+    @media (max-width: map.get(points.$breakpoints, xs)) and  (min-width: map.get(points.$breakpoints, sm)){
         .vc-verifiable-credential {
             min-width: temp.$body-width-xs;
             width: temp.$body-width-xs;
@@ -82,7 +83,7 @@
             }
         }
     }
-    @media (max-width: map-get(points.$breakpoints, sm)) {
+    @media (max-width: map.get(points.$breakpoints, sm)) {
         .vc-verifiable-credential {
             min-width: temp.$body-width-sm;
             width: temp.$body-width-sm;
@@ -92,7 +93,7 @@
             }
         }
     }
-    @media (max-width: map-get(points.$breakpoints, md)) and (min-width: map-get(points.$breakpoints, sm)){
+    @media (max-width: map.get(points.$breakpoints, md)) and (min-width: map.get(points.$breakpoints, sm)){
         .vc-verifiable-credential {
             width: temp.$body-width-md;
         }

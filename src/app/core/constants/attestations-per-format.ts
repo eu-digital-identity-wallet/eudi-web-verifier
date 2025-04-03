@@ -1,5 +1,5 @@
 import {Attestation, MsoMdocAttestation, SdJwtVcAttestation} from "@core/models/attestation/Attestations";
-import {AGE_OVER_18_ATTESTATION, MDL_ATTESTATION, PHOTO_ID_ATTESTATION, PID_ATTESTATION} from "@core/constants/attestation-definitions";
+import {AGE_OVER_18_ATTESTATION, EHIC_ATTESTATION, MDL_ATTESTATION, PDA1_ATTESTATION, PHOTO_ID_ATTESTATION, PID_ATTESTATION} from "@core/constants/attestation-definitions";
 import {AttestationFormat} from "@core/models/attestation/AttestationFormat";
 import {AttestationType} from "@core/models/attestation/AttestationType";
 import {DataElement} from "@core/models/attestation/AttestationDefinition";
@@ -56,8 +56,46 @@ export const PHOTO_ID_MSO_MDOC: MsoMdocAttestation = {
   claimPath: (attribute: DataElement) => { return { namespace: 'org.iso.23220.photoid.1', claim_name: attribute.identifier } }
 }
 
+/*---- EHIC INSTANCES PER FORMAT ----*/
+export const EHIC_MSO_MDOC: MsoMdocAttestation = {
+  format: AttestationFormat.MSO_MDOC,
+  attestationDef: EHIC_ATTESTATION,
+  doctype: 'eu.europa.ec.eudi.ehic.1',
+  namespace: 'eu.europa.ec.eudi.ehic.1',
+  attributePath: (attribute: DataElement) => { return msoMdocAttributePath(attribute, 'eu.europa.ec.eudi.ehic.1') },
+  claimPath: (attribute: DataElement) => { return { namespace: 'eu.europa.ec.eudi.ehic.1', claim_name: attribute.identifier } }
+}
+export const EHIC_SD_JWT_VC: SdJwtVcAttestation = {
+  format: AttestationFormat.SD_JWT_VC,
+  attestationDef: EHIC_ATTESTATION,
+  vct: 'urn:eu.europa.ec.eudi:ehic:1',
+  attributePath: (attribute: DataElement) => { return `$.${sdJwtVcAttributePath(attribute, AttestationType.EHIC)}` },
+  claimPath: (attribute: DataElement) => { return { path: sdJwtVcAttributePath(attribute, AttestationType.EHIC).split('.') } }
+}
+
+/*---- PDA1 INSTANCES PER FORMAT ----*/
+export const PDA1_MSO_MDOC: MsoMdocAttestation = {
+  format: AttestationFormat.MSO_MDOC,
+  attestationDef: PDA1_ATTESTATION,
+  doctype: 'eu.europa.ec.eudi.pda1.1',
+  namespace: 'eu.europa.ec.eudi.pda1.1',
+  attributePath: (attribute: DataElement) => { return msoMdocAttributePath(attribute, 'eu.europa.ec.eudi.pda1.1') },
+  claimPath: (attribute: DataElement) => { return { namespace: 'eu.europa.ec.eudi.pda1.1', claim_name: attribute.identifier } }
+}
+export const PDA1_SD_JWT_VC: SdJwtVcAttestation = {
+  format: AttestationFormat.SD_JWT_VC,
+  attestationDef: PDA1_ATTESTATION,
+  vct: 'urn:eu.europa.ec.eudi:pda1:1',
+  attributePath: (attribute: DataElement) => { return `$.${sdJwtVcAttributePath(attribute, AttestationType.PDA1)}` },
+  claimPath: (attribute: DataElement) => { return { path: sdJwtVcAttributePath(attribute, AttestationType.PDA1).split('.') } }
+}
+
 function msoMdocAttributePath(attribute: DataElement, namespace: string): string {
-  return '$[\'' + namespace + '\'][\'' + attribute.identifier + '\']'
+  if(attribute.identifier.includes('.')) {
+    return '$[\'' + namespace + '\'][\'' + attribute.identifier.split('.').join('\'][\'') + '\']'
+  } else {
+    return '$[\'' + namespace + '\'][\'' + attribute.identifier + '\']'
+  }
 }
 
 function sdJwtVcAttributePath(attribute: DataElement, attestationType: AttestationType): string {
@@ -88,8 +126,8 @@ export const PID_SD_JWT_VC_ATTRIBUTE_MAP: { [id: string]: string } = {
 }
 
 export const ATTESTATIONS_BY_FORMAT: { [id: string]: Attestation[] } = {
-  "mso_mdoc": [PID_MSO_MDOC, MDL_MSO_MDOC, PHOTO_ID_MSO_MDOC, AGE_OVER_18_MSO_MDOC],
-  "vc+sd-jwt": [PID_SD_JWT_VC]
+  "mso_mdoc": [PID_MSO_MDOC, MDL_MSO_MDOC, PHOTO_ID_MSO_MDOC, AGE_OVER_18_MSO_MDOC, EHIC_MSO_MDOC, PDA1_MSO_MDOC],
+  "vc+sd-jwt": [PID_SD_JWT_VC, EHIC_SD_JWT_VC, PDA1_SD_JWT_VC]
 }
 
 export const getAttestationByFormatAndType =

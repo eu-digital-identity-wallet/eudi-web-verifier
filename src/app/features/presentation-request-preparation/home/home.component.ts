@@ -7,7 +7,7 @@ import { MatTabsModule } from '@angular/material/tabs';
 import { SharedModule } from '@shared/shared.module';
 import { WalletLayoutComponent } from '@core/layout/wallet-layout/wallet-layout.component';
 import { MatDialogModule } from '@angular/material/dialog';
-import { RouterLink, RouterLinkActive, RouterOutlet } from '@angular/router';
+import { RouterLink, RouterLinkActive } from '@angular/router';
 import { SupportedAttestationsComponent } from '@features/presentation-request-preparation/components/supported-attestations/supported-attestations.component';
 import { MatStepperModule } from '@angular/material/stepper';
 import {
@@ -110,7 +110,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   handleAttributesCollectedEvent($event: AttributesSelectionEvent) {
-    if ($event != null && $event.selectedAttributes != null) {
+    if ($event?.selectedAttributes) {
       this.selectedAttributes = $event.selectedAttributes;
 
       this.initializationRequest = this.prepareInitializationRequest(

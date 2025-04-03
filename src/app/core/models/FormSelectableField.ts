@@ -3,4 +3,5 @@ export type FormSelectableField = {
   label: string,
   value: string,
   visible?: boolean
+  nested?: FormSelectableField[]
 }

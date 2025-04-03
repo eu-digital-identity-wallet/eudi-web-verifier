@@ -1,13 +1,14 @@
 @use '/src/template' as temp;
+@use "sass:map";
 
 :host {
     .button-container {
         display: flex;
         justify-content: flex-end;
-        margin-top: map-get(temp.$space, top);
+        margin-top: map.get(temp.$space, top);
 
         .vc-button {
-            margin-left: map-get(temp.$space, left);
+            margin-left: map.get(temp.$space, left);
         }
     }
 }

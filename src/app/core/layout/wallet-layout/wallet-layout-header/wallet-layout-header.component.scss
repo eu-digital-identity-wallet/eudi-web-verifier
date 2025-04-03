@@ -1,10 +1,11 @@
 @use "/src/template" as temp;
+@use "sass:map";
 
 :host {
   border: none;
   border-bottom: 1px;
-  border-bottom-color: map-get(
-    map-get(map-get(temp.$palette, general), divider),
+  border-bottom-color: map.get(
+    map.get(map.get(temp.$palette, general), divider),
     dark
   );
   border-bottom-style: solid;

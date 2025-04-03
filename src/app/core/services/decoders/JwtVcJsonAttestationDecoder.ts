@@ -29,10 +29,10 @@ export class JwtVcJsonAttestationDecoder implements AttestationDecoder {
     let sharedCredentials = this.unWrapCredentials(vp)
 
     if (sharedCredentials.length == 1) {
-      return of(this.toSinge(sharedCredentials[0]))
+      return of(this.toSingle(sharedCredentials[0]))
 
     } else {
-      let singles = sharedCredentials.map(it => this.toSinge(it));
+      let singles = sharedCredentials.map(it => this.toSingle(it));
       return of({
         kind: "enveloped",
         attestations: singles
@@ -40,7 +40,7 @@ export class JwtVcJsonAttestationDecoder implements AttestationDecoder {
     }
   }
 
-  toSinge(vcJwt: string): Single {
+  toSingle(vcJwt: string): Single {
     let vc = this.jWTService.decodeToObject(vcJwt) as any;
     return {
       kind: "single",

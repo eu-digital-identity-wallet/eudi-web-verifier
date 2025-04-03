@@ -1,8 +1,9 @@
 @use '/src/template' as temp;
+@use "sass:map";
 
 :host {
     .wrapper {
-        background-color: map-get(map-get(map-get(temp.$palette, general), bg), default);
+        background-color: map.get(map.get(map.get(temp.$palette, general), bg), default);
         border-radius: 16px;
         padding: temp.$spaceBasic;
     }

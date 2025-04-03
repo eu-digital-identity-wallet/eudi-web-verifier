@@ -3,4 +3,11 @@
 
 :host {
 
+    .nested-fields {
+        display: flex;
+        flex-direction: column;
+        padding-left: 1em;
+        border-left: 1px dotted gray;
+        margin-left: 1.2em;
+    }
 }

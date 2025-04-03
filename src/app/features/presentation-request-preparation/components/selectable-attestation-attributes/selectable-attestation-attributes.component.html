@@ -4,20 +4,17 @@
   <div>
     <div>
       <div>
-          Select attributes of the attestation to be included in the request
+        Select attributes of the attestation to be included in the request
       </div>
       <ng-container
         *ngFor="let field of formFields; index as idx; trackBy: trackByFn"
       >
-        <div class="controls">
-          <mat-checkbox
-            (click)="handle(field)"
-            color="primary"
-            [checked]="isChecked(field.value)"
-          >
-            {{ field.label }}
-          </mat-checkbox>
-        </div>
+        <app-recursive-checkbox
+          [field]="field"
+          [isCheckedFn]="boundIsChecked"
+          [handleFn]="boundHandle"
+          [trackByFn]="boundTrackByFn"
+        ></app-recursive-checkbox>
       </ng-container>
     </div>
   </div>

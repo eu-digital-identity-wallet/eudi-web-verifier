@@ -39,7 +39,6 @@ export const WalletRedirectResolver: ResolveFn<ConcludedTransaction> =
     }
 
     const responseCode: string = route.queryParams['response_code'];
-    console.log(activeTransaction);
     if (activeTransaction && responseCode) {
       return services.verifierEndpointService.getWalletResponse(activeTransaction.initialized_transaction.transaction_id, responseCode)
         .pipe(

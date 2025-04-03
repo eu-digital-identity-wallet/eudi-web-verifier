@@ -1,0 +1,25 @@
+@use '/src/template' as temp;
+
+:host {
+    .nested-list {
+        margin-left: 1em;
+    }
+
+    .nested-item {
+        align-items: flex-start;
+    }
+
+    .nested-key {
+        margin-right: 4px;
+        min-width: 3em;
+    }
+
+    .nested-value {
+        flex: 1;
+    }
+
+    mat-list-item {
+        height: auto !important;
+        min-height: 48px;
+    }
+}
