@@ -133,11 +133,11 @@ export const EHIC_ATTESTATION: AttestationDefinition = {
   dataSet: [
     { identifier: "credential_holder", attribute: "Credential holder" },
     { identifier: "subject", attribute: "Subject" },
-    { identifier: 'social_security_pin', attribute: 'Social Security PIN'},
-    { identifier: "starting_date", attribute: "Starting Date" },
-    { identifier: "ending_date", attribute: "Ending Date" },
-    { identifier: 'document_id', attribute: 'Document Identifier' },
-    { identifier: "competent_institution", attribute: 'Competent Institution' }
+    { identifier: 'social_security_pin', attribute: 'Social security PIN'},
+    { identifier: "starting_date", attribute: "Starting date" },
+    { identifier: "ending_date", attribute: "Ending date" },
+    { identifier: 'document_id', attribute: 'Document identifier' },
+    { identifier: "competent_institution", attribute: 'Competent institution' }
   ],
 }
 
@@ -146,13 +146,13 @@ export const PDA1_ATTESTATION: AttestationDefinition = {
   type: AttestationType.PDA1,
   dataSet: [
     { identifier: "credential_holder", attribute: "Credential holder" },
-    { identifier: 'social_security_pin', attribute: 'Social Security Identification/PIN' },
+    { identifier: 'social_security_pin', attribute: 'Social security PIN' },
     { identifier: "nationality", attribute: "Nationality" },
     { identifier: "employment_details", attribute: "Employment details" },
     { identifier: 'places_of_work', attribute: 'Places of work' },
     { identifier: 'legislation', attribute: 'Legislation' },
     { identifier: 'status_confirmation', attribute: 'Status confirmation'},
-    { identifier: 'document_id', attribute: 'Document Identifier'},
+    { identifier: 'document_id', attribute: 'Document identifier'},
     { identifier: "competent_institution", attribute: "Competent institution"},
   ]
 }
