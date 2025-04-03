@@ -32,7 +32,6 @@ export class InputSchemeComponent implements OnInit {
 	}
 
 	save () {
-		console.log(this.schemeControl);
 		const {value} = this.schemeControl;
 		if (value) {
 			this.localStorageService.set(SCHEME, value);
