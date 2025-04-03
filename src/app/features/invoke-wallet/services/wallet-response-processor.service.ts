@@ -59,7 +59,7 @@ export class WalletResponseProcessorService {
 
   private decodeAttestation(attestation: any, format: AttestationFormat, nonce: string): Observable<PresentedAttestation> {
     // locate appropriate decoder
-    let decoder = this.decoders.decoderOf(format as AttestationFormat);
+    let decoder = this.decoders.decoderOf(format);
     // decode to SharedAttestation
     return decoder.decode(attestation, nonce)
     .pipe(
@@ -67,7 +67,7 @@ export class WalletResponseProcessorService {
         this.toastrService.error(error.error, `Error decoding document in ${format}`)
         return of({
           kind: "error" as const,
-          format: format as AttestationFormat,
+          format: format,
           reason: error.error
         })
       })

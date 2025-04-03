@@ -27,7 +27,7 @@ import { MatIconModule } from '@angular/material/icon';
 import { ClipboardModule } from '@angular/cdk/clipboard';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { AttributesSelectionEvent } from '../models/AttributesSelection';
-import { PresentationDefinitionService } from '@app/core/services/presentation-definition-service';
+import { PresentationDefinitionService } from '@app/core/services/presentation-definition.service';
 import { DCQLService } from '@app/core/services/dcql-service';
 import { fallbackClientMetadata, MsoMdocVpFormat, SdJwtVcVpFormat } from '@app/core/models/ClientMetadata';
 import { Subject, takeUntil } from 'rxjs';
