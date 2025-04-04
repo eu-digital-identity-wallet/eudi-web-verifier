@@ -5,7 +5,7 @@
   </div>
 
   <div *ngIf="hasResult" [ngClass]="{'green-bg': true}">
-    <vc-presentations-results [concludedTransaction]="response"></vc-presentations-results>
+    <vc-presentations-results [concludedTransaction]="response" [requestType]="requestType"></vc-presentations-results>
   </div>
 
 </div>

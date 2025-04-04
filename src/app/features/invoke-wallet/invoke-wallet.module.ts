@@ -6,7 +6,6 @@ import { HomeComponent } from './home/home.component';
 import { WalletLayoutComponent } from '@app/core/layout/wallet-layout/wallet-layout.component';
 import { SharedModule } from '@app/shared/shared.module';
 import {JWTService} from "@core/services/jwt.service";
-import {VerifierEndpointService} from "@core/services/verifier-endpoint.service";
 
 
 @NgModule({
@@ -19,6 +18,6 @@ import {VerifierEndpointService} from "@core/services/verifier-endpoint.service"
 		InvokeWalletRoutingModule,
 		SharedModule
 	],
-  providers: [VerifierEndpointService, JWTService]
+  providers: [JWTService]
 })
 export class InvokeWalletModule { }
