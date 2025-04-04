@@ -38,8 +38,7 @@
             "styles": [
               "src/custom-theme.scss",
               "src/styles.scss",
-              "src/reset.scss",
-              "node_modules/ngx-toastr/toastr.css"
+              "src/reset.scss"
             ],
             "stylePreprocessorOptions": {
               "includePaths": [
