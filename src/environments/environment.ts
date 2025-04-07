@@ -1,4 +1,4 @@
 export const environment = {
-    apiUrl: 'http://localhost:8080',
+    apiUrl: 'https://verifier-api.eudiw-lt.lengor.dev',
     appName: 'Verifier'
 };
