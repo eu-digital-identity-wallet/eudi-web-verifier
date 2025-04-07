@@ -1,11 +1,11 @@
-import {Injectable} from "@angular/core";
-import {MsoMdocAttestation} from "@core/models/attestation/MsoMdocAttestation";
-import {TransactionInitializationRequest} from "@core/models/TransactionInitializationRequest";
-import {v4 as uuidv4} from 'uuid';
-import {AGE_OVER_18_MSO_MDOC, MDL_MSO_MDOC, PID_MSO_MDOC} from "@core/data/MsoMdocDocuments";
-import {InputDescriptor} from "@core/models/presentation/InputDescriptor";
-import {FieldConstraint} from "@core/models/presentation/FieldConstraint";
-import {DataElement} from "@core/models/attestation/Attestation";
+import { Injectable } from "@angular/core";
+import { MsoMdocAttestation } from "@core/models/attestation/MsoMdocAttestation";
+import { TransactionInitializationRequest } from "@core/models/TransactionInitializationRequest";
+import { v4 as uuidv4 } from 'uuid';
+import { AGE_OVER_18_MSO_MDOC, MDL_MSO_MDOC, PID_MSO_MDOC } from "@core/data/MsoMdocDocuments";
+import { InputDescriptor } from "@core/models/presentation/InputDescriptor";
+import { FieldConstraint } from "@core/models/presentation/FieldConstraint";
+import { DataElement } from "@core/models/attestation/Attestation";
 
 @Injectable({
   providedIn: 'root'
@@ -33,9 +33,9 @@ export class MsoMdocPresentationService {
   }
 
   presentationOf(
-      document: MsoMdocAttestation,
-      presentationPurpose: string,
-      includeAttributes?: string[]
+    document: MsoMdocAttestation,
+    presentationPurpose: string,
+    includeAttributes?: string[]
   ): TransactionInitializationRequest {
     return {
       type: 'vp_token',
@@ -68,6 +68,7 @@ export class MsoMdocPresentationService {
         }
       },
       constraints: {
+        limit_disclosure: "required",
         fields: this.msoMdocFieldConstraints(document, includeAttributes)
       }
     };

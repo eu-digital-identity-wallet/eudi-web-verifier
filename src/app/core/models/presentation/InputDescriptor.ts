@@ -14,5 +14,9 @@ export type Format = {
   },
   mso_mdoc?: {
     alg: string[]
+  },
+  "vc+sd-jwt"?: {
+    "sd-jwt_alg_values": string[],
+    "kb-jwt_alg_values": string[]
   }
 }

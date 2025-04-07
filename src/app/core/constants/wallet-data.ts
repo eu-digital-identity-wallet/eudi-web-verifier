@@ -9,7 +9,7 @@ export const PID: TransactionInitializationRequest = {
             {
                 "id": "eu.europa.ec.eudi.pid.1",
                 "name": "Person Identification Data (PID)",
-                "purpose": "",
+                "purpose": "Full PID Request",
                 "format": {
                     "mso_mdoc": {
                         "alg": [
@@ -20,6 +20,7 @@ export const PID: TransactionInitializationRequest = {
                     }
                 },
                 "constraints": {
+                    "limit_disclosure": "required",
                     "fields": [
                         {
                             "path": [
@@ -205,7 +206,7 @@ export const MDL: TransactionInitializationRequest = {
             {
                 "id": "org.iso.18013.5.1.mDL",
                 "name": "Mobile Driving Licence (MDL)",
-                "purpose": "",
+                "purpose": "Full mDL request",
                 "format": {
                     "mso_mdoc": {
                         "alg": [
@@ -216,6 +217,7 @@ export const MDL: TransactionInitializationRequest = {
                     }
                 },
                 "constraints": {
+                    "limit_disclosure": "required",
                     "fields": [
                         {
                             "path": [
@@ -419,7 +421,7 @@ export const PIDMDL: TransactionInitializationRequest = {
             {
                 "id": "eu.europa.ec.eudi.pid.1",
                 "name": "Person Identification Data (PID)",
-                "purpose": "",
+                "purpose": "Full PID request",
                 "format": {
                     "mso_mdoc": {
                         "alg": [
@@ -430,6 +432,7 @@ export const PIDMDL: TransactionInitializationRequest = {
                     }
                 },
                 "constraints": {
+                    "limit_disclosure": "required",
                     "fields": [
                         {
                             "path": [
@@ -605,7 +608,7 @@ export const PIDMDL: TransactionInitializationRequest = {
             {
                 "id": "org.iso.18013.5.1.mDL",
                 "name": "Mobile Driving Licence (MDL)",
-                "purpose": "",
+                "purpose": "Full mDL test request",
                 "format": {
                     "mso_mdoc": {
                         "alg": [
@@ -616,6 +619,7 @@ export const PIDMDL: TransactionInitializationRequest = {
                     }
                 },
                 "constraints": {
+                    "limit_disclosure": "required",
                     "fields": [
                         {
                             "path": [
@@ -819,7 +823,7 @@ export const PartialMDL: TransactionInitializationRequest = {
             {
                 "id": "org.iso.18013.5.1.mDL",
                 "name": "Mobile Driving Licence (MDL)",
-                "purpose": "",
+                "purpose": "Partial mDL test request",
                 "format": {
                     "mso_mdoc": {
                         "alg": [
@@ -830,6 +834,7 @@ export const PartialMDL: TransactionInitializationRequest = {
                     }
                 },
                 "constraints": {
+                    "limit_disclosure": "required",
                     "fields": [
                         {
                             "path": [
@@ -883,7 +888,7 @@ export const PartialMDLUnderage: TransactionInitializationRequest = {
             {
                 "id": "org.iso.18013.5.1.mDL",
                 "name": "Mobile Driving Licence (MDL)",
-                "purpose": "",
+                "purpose": "Partial mDL (Underage) request",
                 "format": {
                     "mso_mdoc": {
                         "alg": [
@@ -894,6 +899,7 @@ export const PartialMDLUnderage: TransactionInitializationRequest = {
                     }
                 },
                 "constraints": {
+                    "limit_disclosure": "required",
                     "fields": [
                         {
                             "path": [

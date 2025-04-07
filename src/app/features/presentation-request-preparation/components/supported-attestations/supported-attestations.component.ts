@@ -1,16 +1,16 @@
-import {CommonModule} from '@angular/common';
-import {Component, EventEmitter, OnInit, Output} from '@angular/core';
-import {SharedModule} from "@shared/shared.module";
-import {MatInputModule} from "@angular/material/input";
-import {MatSelectModule} from "@angular/material/select";
-import {FormsModule, ReactiveFormsModule} from "@angular/forms";
-import {WalletLayoutComponent} from "@core/layout/wallet-layout/wallet-layout.component";
-import {MatRadioModule} from "@angular/material/radio";
-import {AttestationSelectionComponent} from "@features/presentation-request-preparation/components/attestation-selection/attestation-selection.component";
-import {MatExpansionModule} from "@angular/material/expansion";
-import {AttestationSelection} from "@features/presentation-request-preparation/models/AttestationSelection";
-import {Attestation} from "@core/models/attestation/Attestation";
-import {SUPPORTED_ATTESTATIONS} from "@core/constants/attestations";
+import { CommonModule } from '@angular/common';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { SharedModule } from "@shared/shared.module";
+import { MatInputModule } from "@angular/material/input";
+import { MatSelectModule } from "@angular/material/select";
+import { FormsModule, ReactiveFormsModule } from "@angular/forms";
+import { WalletLayoutComponent } from "@core/layout/wallet-layout/wallet-layout.component";
+import { MatRadioModule } from "@angular/material/radio";
+import { AttestationSelectionComponent } from "@features/presentation-request-preparation/components/attestation-selection/attestation-selection.component";
+import { MatExpansionModule } from "@angular/material/expansion";
+import { AttestationSelection } from "@features/presentation-request-preparation/models/AttestationSelection";
+import { Attestation } from "@core/models/attestation/Attestation";
+import { SUPPORTED_ATTESTATIONS } from "@core/constants/attestations";
 
 @Component({
   selector: 'vc-supported-attestations',
@@ -28,14 +28,14 @@ import {SUPPORTED_ATTESTATIONS} from "@core/constants/attestations";
     MatExpansionModule,
   ],
   templateUrl: './supported-attestations.component.html',
-  styleUrls: ['./supported-attestations.component.css']
+  styleUrls: ['./supported-attestations.component.scss']
 })
 export class SupportedAttestationsComponent implements OnInit {
 
   @Output() selectionChangedEvent = new EventEmitter<AttestationSelection[]>();
 
   attestations: Attestation[] = []
-  attestationSelections: {[id: string]: AttestationSelection} = {};
+  attestationSelections: { [id: string]: AttestationSelection } = {};
 
   ngOnInit(): void {
     Object.keys(SUPPORTED_ATTESTATIONS).forEach((item) => {
@@ -47,11 +47,11 @@ export class SupportedAttestationsComponent implements OnInit {
     if ($event.format != null && $event.attributeSelectionMethod != null) {
       if (this.newSelectionOrAttestationSelectionChanged($event)) {
         this.attestationSelections[$event.type as string] = $event;
-        this.selectionChangedEvent.emit( this.constructAttestationsSelectionEventPayload() )
+        this.selectionChangedEvent.emit(this.constructAttestationsSelectionEventPayload())
       }
     } else {
       delete this.attestationSelections[$event.type as string];
-      this.selectionChangedEvent.emit( this.constructAttestationsSelectionEventPayload() )
+      this.selectionChangedEvent.emit(this.constructAttestationsSelectionEventPayload())
     }
   }
 
@@ -64,10 +64,10 @@ export class SupportedAttestationsComponent implements OnInit {
 
   constructAttestationsSelectionEventPayload(): AttestationSelection[] {
     let selections: AttestationSelection[] = [];
-    Object.keys(this.attestationSelections).forEach((item ) => {
+    Object.keys(this.attestationSelections).forEach((item) => {
       selections.push(this.attestationSelections[item])
     })
-    return  selections
+    return selections
   }
 
 }

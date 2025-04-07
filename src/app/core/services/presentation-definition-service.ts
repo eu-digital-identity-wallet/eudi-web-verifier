@@ -1,13 +1,13 @@
-import {AttestationType} from "@core/models/attestation/AttestationType";
-import {InputDescriptor} from "@core/models/presentation/InputDescriptor";
-import {Injectable} from "@angular/core";
-import {Attestation, MsoMdocAttestation, SdJwtVcAttestation} from "@core/models/attestation/Attestations";
-import {TransactionInitializationRequest} from "@core/models/TransactionInitializationRequest";
-import {v4 as uuidv4} from "uuid";
-import {FieldConstraint} from "@core/models/presentation/FieldConstraint";
-import {DataElement} from "@core/models/attestation/AttestationDefinition";
-import {AttestationFormat} from "@core/models/attestation/AttestationFormat";
-import {getAttestationByFormatAndType} from "@core/constants/attestations-per-format";
+import { AttestationType } from "@core/models/attestation/AttestationType";
+import { InputDescriptor } from "@core/models/presentation/InputDescriptor";
+import { Injectable } from "@angular/core";
+import { Attestation, MsoMdocAttestation, SdJwtVcAttestation } from "@core/models/attestation/Attestations";
+import { TransactionInitializationRequest } from "@core/models/TransactionInitializationRequest";
+import { v4 as uuidv4 } from "uuid";
+import { FieldConstraint } from "@core/models/presentation/FieldConstraint";
+import { DataElement } from "@core/models/attestation/AttestationDefinition";
+import { AttestationFormat } from "@core/models/attestation/AttestationFormat";
+import { getAttestationByFormatAndType } from "@core/constants/attestations-per-format";
 
 @Injectable({
   providedIn: 'root'
@@ -70,6 +70,7 @@ export class PresentationDefinitionService {
         }
       },
       constraints: {
+        limit_disclosure: "required",
         fields: this.fieldConstraints(attestation, includeAttributes)
       }
     };
@@ -95,6 +96,7 @@ export class PresentationDefinitionService {
         }
       },
       constraints: {
+        limit_disclosure: "required",
         fields: filedConstraints
       }
     };
@@ -105,7 +107,7 @@ export class PresentationDefinitionService {
       path: ["$.vct"],
       filter: {
         type: "string",
-        const: attestation.vct
+        contains: attestation.vct
       }
     }
   }
