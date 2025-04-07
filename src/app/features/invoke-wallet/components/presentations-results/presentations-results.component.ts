@@ -12,6 +12,8 @@ import { MatCardModule } from "@angular/material/card";
 import { MatButtonModule } from "@angular/material/button";
 import { MatDialog, MatDialogModule } from "@angular/material/dialog";
 import { RequestType } from '@app/core/constants/wallet-data';
+import {LocalStorageService} from "@core/services/local-storage.service";
+import {REGISTRATION_DATA} from "@core/constants/general";
 
 @Component({
   selector: 'vc-presentations-results',
@@ -32,7 +34,8 @@ import { RequestType } from '@app/core/constants/wallet-data';
 })
 export class PresentationsResultsComponent implements OnInit {
   constructor(
-    private readonly responseProcessor: WalletResponseProcessorService
+    private readonly responseProcessor: WalletResponseProcessorService,
+    private readonly localStorageService: LocalStorageService,
   ) {}
 
   @Input() concludedTransaction!: ConcludedTransaction;
@@ -47,6 +50,7 @@ export class PresentationsResultsComponent implements OnInit {
     let sharedAttestations: SharedAttestation[] = this.responseProcessor.mapVpTokenToAttestations(this.concludedTransaction);
     this.attestations = this.flatten(sharedAttestations);
     this.checkAttestation();
+    this.localStorageService.remove(REGISTRATION_DATA);
   }
 
   flatten(sharedAttestations: SharedAttestation[]): Single[] {

@@ -15,7 +15,7 @@ import {
 	SupportedAttestationsComponent
 } from '@features/presentation-request-preparation/components/supported-attestations/supported-attestations.component';
 import {MatStepperModule} from '@angular/material/stepper';
-import {FormBuilder, ReactiveFormsModule, Validators} from '@angular/forms';
+import {FormBuilder, FormsModule, ReactiveFormsModule, Validators} from '@angular/forms';
 import {MatButtonModule} from '@angular/material/button';
 import {AttestationSelection} from '@features/presentation-request-preparation/models/AttestationSelection';
 import {
@@ -27,11 +27,22 @@ import {v4 as uuidv4} from 'uuid';
 import {VerifierEndpointService} from '@core/services/verifier-endpoint.service';
 import {MatExpansionModule} from '@angular/material/expansion';
 import {AttestationSelectionComponent} from '@features/presentation-request-preparation/components/attestation-selection/attestation-selection.component';
+import {LocalStorageService} from "@core/services/local-storage.service";
+
+export interface RegistrationData {
+  readerCountry?: string;
+  readerCompanyName?: string;
+  holderTesterInitials?: string;
+  holderDevice?: string;
+  dataset?: string;
+  testScenario?: string;
+}
 
 @Component({
 	standalone: true,
 	imports: [
 		CommonModule,
+    FormsModule,
 		MatTabsModule,
 		RadioGroupComponent,
 		SharedModule,
@@ -59,9 +70,17 @@ export class HomeComponent {
 	constructor (
     private readonly navigateService: NavigateService,
     private readonly verifierEndpointService: VerifierEndpointService,
+    private readonly localStorageService: LocalStorageService,
 	) { }
 	showStepper = false;
 	actions: BodyAction[] = HOME_ACTIONS;
+
+  readerCountry?: string;
+  readerCompanyName?: string;
+  holderTesterInitials?: string;
+  holderDevice?: string;
+  dataset?: string;
+  testScenario?: string;
 
 	private _formBuilder = inject(FormBuilder);
 	formGroup = this._formBuilder.group({
@@ -83,27 +102,55 @@ export class HomeComponent {
 	}
 
 	prepareInitializationRequest (inputDescriptors: InputDescriptor[]): TransactionInitializationRequest {
+    console.log("prepareInitializationRequest")
 		return {
 			type: 'vp_token',
 			presentation_definition: {
 				id: uuidv4(),
 				input_descriptors: inputDescriptors
 			},
-			nonce: uuidv4()
+			nonce: uuidv4(),
+      registration_data: this.getRegistrationData(),
 		};
 	}
 
 	proceedToInvokeWallet () {
 		if (this.initializationRequest != null) {
-			this.verifierEndpointService.initializeTransaction(this.initializationRequest, (_) => {
-				this.navigateService.navigateTo('invoke-wallet');
-			});
+      this.verifierEndpointService.initializeTransaction(
+        this.initializationRequest, (_) => {
+          this.navigateService.navigateTo('invoke-wallet');
+        },
+        this.getRegistrationData());
 		} else {
 			alert('nothing to submit');
 		}
 	}
 
-	canProceed () {
-		return this.initializationRequest !== null;
-	}
+  isRegistrationFormFilled() {
+    return !!this.readerCountry && !!this.readerCountry.trim() &&
+      !!this.readerCompanyName && !!this.readerCompanyName.trim() &&
+      !!this.holderTesterInitials && !!this.holderTesterInitials.trim() &&
+      !!this.holderDevice && !!this.holderDevice.trim() &&
+      !!this.dataset && !!this.dataset.trim() &&
+      !!this.testScenario && !!this.testScenario.trim();
+  }
+
+  getRegistrationData(): RegistrationData {
+    return {
+      readerCountry: this.readerCountry,
+      readerCompanyName: this.readerCompanyName,
+      holderTesterInitials: this.holderTesterInitials,
+      holderDevice: this.holderDevice,
+      dataset: this.dataset,
+      testScenario: this.testScenario,
+    }
+  }
+
+  isTestCaseActive(code: string): boolean {
+    return this.isRegistrationFormFilled() && this.testScenario === code
+  }
+
+  canProceed () {
+    return this.initializationRequest !== null && this.isRegistrationFormFilled();
+  }
 }
