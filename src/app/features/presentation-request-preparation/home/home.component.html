@@ -1,6 +1,49 @@
 <vc-wallet-layout>
   <div body>
-    <button class="wizard-btn" (click)="showStepper = !showStepper">Display wizard</button>
+
+    <h6 class="reg-data-header">
+      Before continuing, please provide us with information that could be used for reporting purposes
+    </h6>
+
+    <table class="reg-data">
+      <tbody>
+      <tr>
+        <td><label for="reader-country">Reader country</label></td>
+        <td><input type="text" id="reader-country" name="reader-country" [(ngModel)]="readerCountry" disabled="{{showStepper}}"/></td>
+      </tr>
+      <tr>
+        <td><label for="reader-company-name">Reader company name</label></td>
+        <td><input type="text" id="reader-company-name" name="reader-company-name" [(ngModel)]="readerCompanyName" disabled="{{showStepper}}"/></td>
+      </tr>
+      <tr>
+        <td><label for="holder-tester-initials">Holder tester initials</label></td>
+        <td><input type="text" id="holder-tester-initials" name="holder-tester-initials" [(ngModel)]="holderTesterInitials" disabled="{{showStepper}}"/></td>
+      </tr>
+      <tr>
+        <td><label for="holder-device">Holder device</label></td>
+        <td><input type="text" id="holder-device" name="holder-device" [(ngModel)]="holderDevice" disabled="{{showStepper}}"/></td>
+      </tr>
+      <tr>
+        <td><label for="dataset">Dataset</label></td>
+        <td><input type="text" id="dataset" name="dataset" [(ngModel)]="dataset" disabled="{{showStepper}}"/></td>
+      </tr>
+      <tr>
+        <td><label for="test-scenario">Test scenario</label></td>
+        <td>
+          <select name="test-scenario" id="test-scenario" [(ngModel)]="testScenario" disabled="{{showStepper}}">
+            <option value="">--Please choose an option--</option>
+            <option value="PID">Pid</option>
+            <option value="PIDMDL">PID + MDL</option>
+            <option value="MDL">MDL</option>
+            <option value="PartialMDL">Partial MDL</option>
+            <option value="PartialMDLUnderage">Partial MDL Underage</option>
+          </select>
+        </td>
+      </tr>
+      </tbody>
+    </table>
+
+    <button class="wizard-btn" (click)="showStepper = !showStepper" [disabled]="!isRegistrationFormFilled()">Display wizard</button>
     <div class="container " [style.display]="showStepper ? 'block': 'none'">
       <h4>Define your presentation request</h4>
       <p>
@@ -54,7 +97,7 @@
     </div>
 
     <div class="btn-container">
-      <a [routerLink]="['/custom-request', { type: 'PID' }]" routerLinkActive="active">
+      <a *ngIf="isTestCaseActive('PID')" [routerLink]="['/custom-request', { type: 'PID' }]" routerLinkActive="active">
         <div class="btn">
           <a href="https://citybee.lt/en/">
             <img src="assets/logo.svg" alt="">
@@ -62,8 +105,14 @@
           PID (mDoc)
         </div>
       </a>
+      <a *ngIf="!isTestCaseActive('PID')">
+        <div class="btn-inactive">
+          <img src="assets/logo.svg" alt="">
+          PID (mDoc)
+        </div>
+      </a>
 
-      <a [routerLink]="['/custom-request', { type: 'PIDMDL' }]" routerLinkActive="active">
+      <a *ngIf="isTestCaseActive('PIDMDL')" [routerLink]="['/custom-request', { type: 'PIDMDL' }]" routerLinkActive="active">
         <div class="btn">
           <a href="https://citybee.lt/en/">
             <img src="assets/logo.svg" alt="">
@@ -71,8 +120,14 @@
           PID (mDoc) + MDL (mDoc)
         </div>
       </a>
+      <a *ngIf="!isTestCaseActive('PIDMDL')">
+        <div class="btn-inactive">
+          <img src="assets/logo.svg" alt="">
+          PID (mDoc) + MDL (mDoc)
+        </div>
+      </a>
 
-      <a [routerLink]="['/custom-request', { type: 'MDL' }]" routerLinkActive="active">
+      <a *ngIf="isTestCaseActive('MDL')" [routerLink]="['/custom-request', { type: 'MDL' }]" routerLinkActive="active">
         <div class="btn">
           <a href="https://citybee.lt/en/">
             <img src="assets/logo.svg" alt="">
@@ -80,8 +135,14 @@
           MDL (mDoc)
         </div>
       </a>
+      <a *ngIf="!isTestCaseActive('MDL')">
+        <div class="btn-inactive">
+          <img src="assets/logo.svg" alt="">
+          MDL (mDoc)
+        </div>
+      </a>
 
-      <a [routerLink]="['/custom-request', { type: 'PartialMDL' }]" routerLinkActive="active">
+      <a *ngIf="isTestCaseActive('PartialMDL')" [routerLink]="['/custom-request', { type: 'PartialMDL' }]" routerLinkActive="active">
         <div class="btn">
           <a href="https://citybee.lt/en/">
             <img src="assets/logo.svg" alt="">
@@ -89,11 +150,24 @@
           Partial MDL (mDoc)
         </div>
       </a>
-      <a [routerLink]="['/custom-request', { type: 'PartialMDLUnderage' }]" routerLinkActive="active">
+      <a *ngIf="!isTestCaseActive('PartialMDL')">
+        <div class="btn-inactive">
+          <img src="assets/logo.svg" alt="">
+          Partial MDL (mDoc)
+        </div>
+      </a>
+
+      <a *ngIf="isTestCaseActive('PartialMDLUnderage')" [routerLink]="['/custom-request', { type: 'PartialMDLUnderage' }]" routerLinkActive="active">
         <div class="btn">
           <a href="https://citybee.lt/en/">
             <img src="assets/logo.svg" alt="">
           </a>
+          Partial MDL Underage (mDoc)
+        </div>
+      </a>
+      <a *ngIf="!isTestCaseActive('PartialMDLUnderage')">
+        <div class="btn-inactive">
+          <img src="assets/logo.svg" alt="">
           Partial MDL Underage (mDoc)
         </div>
       </a>

@@ -7,8 +7,9 @@ import {ConcludedTransaction} from "@core/models/ConcludedTransaction";
 import {map} from "rxjs/operators";
 import {WalletResponse} from "@core/models/WalletResponse";
 import {LocalStorageService} from "@core/services/local-storage.service";
-import {ACTIVE_PRESENTATION_DEFINITION, ACTIVE_TRANSACTION} from "@core/constants/general";
+import {ACTIVE_PRESENTATION_DEFINITION, ACTIVE_TRANSACTION, REGISTRATION_DATA} from "@core/constants/general";
 import {PresentationDefinition} from "@core/models/presentation/PresentationDefinition";
+import {RegistrationData} from "@features/presentation-request-preparation/home/home.component";
 
 export const WalletRedirectResolver: ResolveFn<ConcludedTransaction> =
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -25,11 +26,15 @@ export const WalletRedirectResolver: ResolveFn<ConcludedTransaction> =
     let pd: PresentationDefinition = JSON.parse(
       services.localStorage.get(ACTIVE_PRESENTATION_DEFINITION)!!
     );
+    let regData: RegistrationData = JSON.parse(
+      services.localStorage.get(REGISTRATION_DATA)!!
+    );
 
     function concludeTransaction(walletResponse: WalletResponse): ConcludedTransaction {
       return  {
         transactionId: data.transaction_id,
         presentationDefinition: pd,
+        registrationData: regData,
         walletResponse: walletResponse,
       }
     }

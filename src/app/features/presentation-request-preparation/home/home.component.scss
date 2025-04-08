@@ -30,6 +30,19 @@
   }
 }
 
+.btn-container-inactive {
+  display: flex;
+  flex-wrap: wrap;
+  max-width: 480px;
+  padding: 0.5rem 0;
+  gap: 0.5rem;
+
+  a {
+    text-decoration: none;
+    color: rgba(0, 0, 0, 0.3);
+  }
+}
+
 .btn {
   width: 120px;
   padding: 1rem;
@@ -45,6 +58,15 @@
   }
 }
 
+.btn-inactive {
+  width: 120px;
+  padding: 1rem;
+  text-align: center;
+  border: 1px solid rgba(238, 238, 238, 0.35);
+  border-radius: 0.5rem;
+  font-size: 12px;
+}
+
 .wizard-btn {
   height: 32px;
   border: 1px solid #eee;
@@ -58,4 +80,12 @@
     box-shadow: 1px 1px 4px #999;
     border: 1px solid #999;
   }
+}
+
+.reg-data-header {
+  max-width: 480px;
+}
+
+.reg-data {
+  padding-bottom: 10px;
 }

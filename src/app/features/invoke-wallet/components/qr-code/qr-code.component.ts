@@ -116,6 +116,7 @@ export class QrCodeComponent implements OnInit, OnDestroy {
           )
           .subscribe(
             (res: WalletResponse) => {
+              //TODO: call api to append registration data
               this.localStorageService.remove(constants.ACTIVE_TRANSACTION);
               this.stopPlay$.next(1);
               let concludedTransaction = this.concludeTransaction(res);
