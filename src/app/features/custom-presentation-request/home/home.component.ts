@@ -11,6 +11,8 @@ import { ActionCode } from '@shared/elements/body-actions/models/ActionCode';
 import { VerifierEndpointService } from '@core/services/verifier-endpoint.service';
 import { TransactionInitializationRequest } from '@core/models/TransactionInitializationRequest';
 import * as walletData from 'src/app/core/constants/wallet-data'
+import {LocalStorageService} from "@core/services/local-storage.service";
+import {REGISTRATION_DATA} from "@core/constants/general";
 
 @Component({
 	selector: 'vc-home',
@@ -31,7 +33,8 @@ export class HomeComponent implements OnInit, OnDestroy {
 		private readonly route: ActivatedRoute,
 		private readonly dataService: DataService,
 		private readonly navigateService: NavigateService,
-		private readonly verifierEndpointService: VerifierEndpointService
+		private readonly verifierEndpointService: VerifierEndpointService,
+		private readonly localStorageService: LocalStorageService,
 	) {
 		this.requestType = this.route.snapshot.params['type'];
 	}
@@ -76,12 +79,13 @@ export class HomeComponent implements OnInit, OnDestroy {
 	initializePresentationTransaction() {
 		if (this.requestCode) {
 			const request = this.requestCode;
+      const registrationData = JSON.parse(this.localStorageService.get(REGISTRATION_DATA)!!)
 			this.verifierEndpointService.initializeTransaction(request, (data) => {
-
-				this.hideNextStep();
+        this.hideNextStep();
 				this.navigateService.navigateTo('/custom-request/invoke', this.requestType);
 				this.changeDetectorRef.detectChanges();
-			});
+			},
+      registrationData,);
 		} else {
 			console.error('invalid JSON format');
 		}

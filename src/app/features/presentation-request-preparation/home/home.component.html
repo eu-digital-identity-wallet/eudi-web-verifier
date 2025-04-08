@@ -9,28 +9,28 @@
       <tbody>
       <tr>
         <td><label for="reader-country">Holder implementation country</label></td>
-        <td><input type="text" id="reader-country" name="reader-country" [(ngModel)]="readerCountry" disabled="{{showStepper}}"/></td>
+        <td><input type="text" id="reader-country" name="reader-country" [(ngModel)]="readerCountry" (ngModelChange)="syncLocalStorage()" disabled="{{showStepper}}"/></td>
       </tr>
       <tr>
         <td><label for="reader-company-name">Holder implementation company name</label></td>
-        <td><input type="text" id="reader-company-name" name="reader-company-name" [(ngModel)]="readerCompanyName" disabled="{{showStepper}}"/></td>
+        <td><input type="text" id="reader-company-name" name="reader-company-name" [(ngModel)]="readerCompanyName" (ngModelChange)="syncLocalStorage()" disabled="{{showStepper}}"/></td>
       </tr>
       <tr>
         <td><label for="holder-tester-initials">Holder tester initials</label></td>
-        <td><input type="text" id="holder-tester-initials" name="holder-tester-initials" [(ngModel)]="holderTesterInitials" disabled="{{showStepper}}"/></td>
+        <td><input type="text" id="holder-tester-initials" name="holder-tester-initials" [(ngModel)]="holderTesterInitials" (ngModelChange)="syncLocalStorage()" disabled="{{showStepper}}"/></td>
       </tr>
       <tr>
         <td><label for="holder-device">Holder device</label></td>
-        <td><input type="text" id="holder-device" name="holder-device" [(ngModel)]="holderDevice" disabled="{{showStepper}}"/></td>
+        <td><input type="text" id="holder-device" name="holder-device" [(ngModel)]="holderDevice" (ngModelChange)="syncLocalStorage()" disabled="{{showStepper}}"/></td>
       </tr>
       <tr>
         <td><label for="dataset">Dataset</label></td>
-        <td><input type="text" id="dataset" name="dataset" [(ngModel)]="dataset" disabled="{{showStepper}}"/></td>
+        <td><input type="text" id="dataset" name="dataset" [(ngModel)]="dataset" (ngModelChange)="syncLocalStorage()" disabled="{{showStepper}}"/></td>
       </tr>
       <tr>
         <td><label for="test-scenario">Test scenario</label></td>
         <td>
-          <select name="test-scenario" id="test-scenario" [(ngModel)]="testScenario" disabled="{{showStepper}}">
+          <select name="test-scenario" id="test-scenario" [(ngModel)]="testScenario" (ngModelChange)="syncLocalStorage()" disabled="{{showStepper}}">
             <option value="">--Please choose an option--</option>
             <option value="PID">Pid</option>
             <option value="PIDMDL">PID + MDL</option>

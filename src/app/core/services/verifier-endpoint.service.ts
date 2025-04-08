@@ -28,10 +28,11 @@ export class VerifierEndpointService {
       if (!this.deviceDetectorService.isDesktop()) {
         payload['wallet_response_redirect_uri_template'] = location.origin + '/get-wallet-code?response_code={RESPONSE_CODE}';
       }
+      payload['registration_data'] = registrationData;
+
       this.httpService.post<InitializedTransaction, string>('ui/presentations', payload)
         .pipe(
           tap((res) => {
-            this.localStorageService.set(constants.REGISTRATION_DATA, JSON.stringify(registrationData));
             this.localStorageService.set(constants.ACTIVE_TRANSACTION, JSON.stringify(res));
             this.localStorageService.set(constants.ACTIVE_PRESENTATION_DEFINITION, JSON.stringify(initializationRequest.presentation_definition));
             this.dataService.setInitializationRequest(initializationRequest);
