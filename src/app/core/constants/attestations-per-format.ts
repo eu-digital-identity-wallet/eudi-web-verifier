@@ -3,6 +3,7 @@ import {AGE_OVER_18_ATTESTATION, EHIC_ATTESTATION, MDL_ATTESTATION, PDA1_ATTESTA
 import {AttestationFormat} from "@core/models/attestation/AttestationFormat";
 import {AttestationType} from "@core/models/attestation/AttestationType";
 import {DataElement} from "@core/models/attestation/AttestationDefinition";
+import { ClaimsQuery } from "../models/dcql/DCQL";
 
 export const SUPPORTED_FORMATS: AttestationFormat[] = [
   AttestationFormat.MSO_MDOC,
@@ -16,7 +17,7 @@ export const MDL_MSO_MDOC: MsoMdocAttestation = {
   doctype: 'org.iso.18013.5.1.mDL',
   namespace: 'org.iso.18013.5.1',
   attributePath: (attribute: DataElement) => { return msoMdocAttributePath(attribute, 'org.iso.18013.5.1') },
-  claimPath: (attribute: DataElement) => { return { namespace: 'org.iso.18013.5.1', claim_name: attribute.identifier } }
+  claimQuery: (attribute: DataElement) => { return msoMdocClaimQuery('org.iso.18013.5.1', attribute.identifier) }
 }
 
 /*---- PID ATTESTATION INSTANCES PER FORMAT ----*/
@@ -26,14 +27,14 @@ export const PID_MSO_MDOC: MsoMdocAttestation = {
   doctype: 'eu.europa.ec.eudi.pid.1',
   namespace: 'eu.europa.ec.eudi.pid.1',
   attributePath: (attribute: DataElement) => { return msoMdocAttributePath(attribute, 'eu.europa.ec.eudi.pid.1') },
-  claimPath: (attribute: DataElement) => { return { namespace: 'eu.europa.ec.eudi.pid.1', claim_name: attribute.identifier } }
+  claimQuery: (attribute: DataElement) => { return msoMdocClaimQuery('eu.europa.ec.eudi.pid.1', attribute.identifier) }
 }
 export const PID_SD_JWT_VC: SdJwtVcAttestation = {
   format: AttestationFormat.SD_JWT_VC,
   vct: "urn:eu.europa.ec.eudi:pid:1",
   attestationDef: PID_ATTESTATION,
   attributePath: (attribute: DataElement) => { return `$.${sdJwtVcAttributePath(attribute, AttestationType.PID)}` },
-  claimPath: (attribute: DataElement) => { return { path: sdJwtVcAttributePath(attribute, AttestationType.PID).split('.') } }
+  claimQuery: (attribute: DataElement) => { return { path: sdJwtVcAttributePath(attribute, AttestationType.PID).split('.') } }
 }
 
 /*---- AGE OVER 18 ATTESTATION INSTANCES PER FORMAT ----*/
@@ -43,7 +44,7 @@ export const AGE_OVER_18_MSO_MDOC: MsoMdocAttestation = {
   doctype: 'eu.europa.ec.eudi.pseudonym.age_over_18.1',
   namespace: 'eu.europa.ec.eudi.pseudonym.age_over_18.1',
   attributePath: (attribute: DataElement) => { return msoMdocAttributePath(attribute, 'eu.europa.ec.eudi.pseudonym.age_over_18.1') },
-  claimPath: (attribute: DataElement) => { return { namespace: 'eu.europa.ec.eudi.pseudonym.age_over_18.1', claim_name: attribute.identifier } }
+  claimQuery: (attribute: DataElement) => { return msoMdocClaimQuery('eu.europa.ec.eudi.pseudonym.age_over_18.1', attribute.identifier) }
 }
 
 /*---- PHOTO ID ATTESTATION INSTANCES PER FORMAT ----*/
@@ -53,7 +54,7 @@ export const PHOTO_ID_MSO_MDOC: MsoMdocAttestation = {
   doctype: 'org.iso.23220.2.photoid.1',
   namespace: 'org.iso.23220.photoid.1',
   attributePath: (attribute: DataElement) => { return msoMdocAttributePath(attribute, 'org.iso.23220.photoid.1') },
-  claimPath: (attribute: DataElement) => { return { namespace: 'org.iso.23220.photoid.1', claim_name: attribute.identifier } }
+  claimQuery: (attribute: DataElement) => { return msoMdocClaimQuery('org.iso.23220.photoid.1', attribute.identifier) }
 }
 
 /*---- EHIC INSTANCES PER FORMAT ----*/
@@ -105,6 +106,10 @@ function sdJwtVcAttributePath(attribute: DataElement, attestationType: Attestati
     resolvedAttribute = mappedAttribute ? mappedAttribute : attribute.identifier;
   }
   return resolvedAttribute;
+}
+
+function msoMdocClaimQuery(namespace: string, claimName: string): ClaimsQuery {
+  return { path: [namespace, claimName], intent_to_retain: false }
 }
 
 export const PID_SD_JWT_VC_ATTRIBUTE_MAP: { [id: string]: string } = {

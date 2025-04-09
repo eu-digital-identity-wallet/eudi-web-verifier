@@ -17,22 +17,19 @@ export type CredentialSetQuery = {
   required?: boolean;
 };
 
-export type BaseClaimQuery = {
+export type ClaimQuery = {
   id?: ClaimId;
+  path: ClaimPath;
   values?: Object[];
 };
 
-export type JsonClaimQuery = {
-  path: string[];
-};
-
 export type MsoMdocClaimQueryExtension = {
-  namespace: string;
-  claim_name: string;
+  intent_to_retain: boolean;
 };
 
-export type ClaimsQuery = BaseClaimQuery &
-  (JsonClaimQuery | MsoMdocClaimQueryExtension);
+export type ClaimsQuery = ClaimQuery &
+  (ClaimQuery | MsoMdocClaimQueryExtension);
+
 
 export type QueryId = string;
 export type ClaimId = string;
