@@ -29,6 +29,7 @@
     "@types/codemirror": "^5.60.7",
     "@types/crypto-js": "^4.1.1",
     "@types/uuid": "10.0.0",
+    "angularx-qrcode": "^19.0.0",
     "bignumber.js": "^9.1.2",
     "buffer": "^6.0.3",
     "cbor-x": "^1.6.0",
@@ -36,14 +37,13 @@
     "crypto-js": "^4.1.1",
     "jsonpath-plus": "^9.0.0",
     "jwt-decode": "^3.0.0",
+    "ngx-toastr": "16.2.0",
     "nofilter": "^4.0.2",
-    "angularx-qrcode": "^19.0.0",
     "rxjs": "~7.8.0",
     "stream-browserify": "^3.0.0",
     "thememirror": "^2.0.1",
     "tslib": "^2.3.0",
-    "zone.js": "~0.15.0",
-    "ngx-toastr": "16.2.0"
+    "zone.js": "~0.15.0"
   },
   "devDependencies": {
     "@angular-devkit/build-angular": "^19.1.4",

@@ -31,6 +31,8 @@ import { PresentationDefinitionService } from '@app/core/services/presentation-d
 import { DCQLService } from '@app/core/services/dcql-service';
 import { fallbackClientMetadata, MsoMdocVpFormat, SdJwtVcVpFormat } from '@app/core/models/ClientMetadata';
 import { Subject, takeUntil } from 'rxjs';
+import { SessionStorageService } from '@app/core/services/session-storage.service';
+import { ISSUER_CHAIN } from '@app/core/constants/general';
 
 @Component({
   imports: [
@@ -62,7 +64,8 @@ export class HomeComponent implements OnInit, OnDestroy {
     private readonly navigateService: NavigateService,
     private readonly verifierEndpointService: VerifierEndpointService,
     private readonly presentationDefinitionService: PresentationDefinitionService,
-    private readonly dcqlService: DCQLService
+    private readonly dcqlService: DCQLService,
+    private readonly sessionStorageService: SessionStorageService,
   ) {}
 
   actions: BodyAction[] = HOME_ACTIONS;
@@ -160,10 +163,23 @@ export class HomeComponent implements OnInit, OnDestroy {
     selectedAttributes: { [id: string]: string[] },
     selectedRequestUriMethod: 'get' | 'post'
   ): TransactionInitializationRequest {
+
+    const issuerChain = this.sessionStorageService.get(ISSUER_CHAIN) ?? undefined;
+
     if (presentationQueryType === 'dcql') {
-      return this.dcqlService.dcqlPresentationRequest(selectedAttestations, selectedAttributes, selectedRequestUriMethod);
+      return this.dcqlService.dcqlPresentationRequest(
+        selectedAttestations, 
+        selectedAttributes, 
+        selectedRequestUriMethod, 
+        issuerChain);
     } else {
-      return this.presentationDefinitionService.presentationDefinitionRequest(selectedAttestations, selectedAttributes, this.vpFormatsPerType, selectedRequestUriMethod);
+      return this.presentationDefinitionService.presentationDefinitionRequest(
+        selectedAttestations, 
+        selectedAttributes, 
+        this.vpFormatsPerType, 
+        selectedRequestUriMethod,
+        issuerChain
+      );
     }
   }
 

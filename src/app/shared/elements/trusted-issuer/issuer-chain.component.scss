@@ -1,0 +1,27 @@
+@use "/src/template" as temp;
+
+:host {
+  display: flex;
+  flex-direction: column;
+  height: 100%;
+
+  .example-full-width {
+    width: 100%;
+  }
+
+  form {
+    display: flex;
+    flex-direction: column;
+  }
+
+  textarea[matInput] {
+    flex-grow: 1;
+    width: 100%;
+    resize: none;
+  }
+
+  mat-dialog-content {
+    display: flex;
+    flex-direction: column;
+  }
+}
