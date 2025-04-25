@@ -21,7 +21,8 @@ export class DCQLService {
   dcqlPresentationRequest(
     selectedAttestations: AttestationSelection[],
     selectedAttributes: { [id: string]: string[] },
-    selectedRequestUriMethod: 'get' | 'post'
+    selectedRequestUriMethod: 'get' | 'post',
+    issuerChain?: string
   ): DCQLTransactionRequest {
     let dcqlQueries: CredentialQuery[] = selectedAttestations.map(
       (attestation, index) =>
@@ -43,6 +44,7 @@ export class DCQLService {
       },
       nonce: uuidv4(),
       request_uri_method: selectedRequestUriMethod,
+      issuer_chain: issuerChain,
     };
   }
 

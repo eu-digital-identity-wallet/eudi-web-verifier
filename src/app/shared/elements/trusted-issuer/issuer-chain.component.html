@@ -1,0 +1,51 @@
+<h2 mat-dialog-title>Configure Trusted Issuer Certificate Chain</h2>
+
+<mat-dialog-content class="mat-typography">
+  <div style="padding: 2px">
+    <span
+      >Configure a trusted issuer certificate chain. The verifier will use this
+      certificate chain to validate the issuer's certificate, bypassing any
+      other configured trust. The certificate chain should be in PEM format and
+      should include the <i>-----BEGIN CERTIFICATE-----</i> and
+      <i>-----END CERTIFICATE-----</i> markers.
+    </span>
+    <br />
+    <span>This value is cleared at the end of each session.</span>
+  </div>
+
+  <form>
+    <mat-form-field class="example-full-width">
+      <mat-label>Issuer certificate chain</mat-label>
+      <textarea
+        matInput
+        cdkTextareaAutosize
+        #autosize="cdkTextareaAutosize"
+        cdkAutosizeMaxRows="10"
+        [formControl]="issuerChainControl"
+        placeholder="-----BEGIN CERTIFICATE-----
+...
+...
+...
+-----END CERTIFICATE-----
+"
+      ></textarea>
+      <mat-error *ngIf="issuerChainControl.hasError('invalidCertificate')">
+        Invalid certificate chain format. Please provide a valid certificate
+        chain.
+      </mat-error>
+    </mat-form-field>
+  </form>
+</mat-dialog-content>
+
+<mat-dialog-actions align="end">
+  <button mat-button mat-dialog-close (click)="clear()">Clear</button>
+  <button
+    mat-button
+    mat-dialog-close
+    (click)="save()"
+    [disabled]="issuerChainControl.invalid"
+  >
+    Save
+  </button>
+  <button mat-button mat-dialog-close>Close</button>
+</mat-dialog-actions>

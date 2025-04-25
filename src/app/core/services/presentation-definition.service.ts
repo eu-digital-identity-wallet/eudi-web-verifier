@@ -29,7 +29,8 @@ export class PresentationDefinitionService {
     selectedAttestations: AttestationSelection[],
     selectedAttributes: { [id: string]: string[] },
     vpFormatsPerType: { [key: string]: SdJwtVcVpFormat | MsoMdocVpFormat },
-    selectedRequestURIMethod: 'get' | 'post'
+    selectedRequestURIMethod: 'get' | 'post',
+    issuerChain?: string
   ): PresentationDefinitionTransactionRequest {
     let inputDescriptors: InputDescriptor[] = [];
 
@@ -39,7 +40,7 @@ export class PresentationDefinitionService {
 
       const inputDescriptor = this.inputDescriptorOf(
         attestation.type,
-        attestation.format!!,
+        attestation.format!,
         vpFormatsPerType,
         '',
         attestation.attributeSelectionMethod ===
@@ -61,6 +62,7 @@ export class PresentationDefinitionService {
       },
       nonce: uuidv4(),
       request_uri_method: selectedRequestURIMethod,
+      issuer_chain: issuerChain,
     };
   }
 
