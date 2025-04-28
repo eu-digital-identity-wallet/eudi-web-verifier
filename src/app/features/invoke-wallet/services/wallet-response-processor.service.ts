@@ -8,7 +8,6 @@ import {DescriptorMap} from "@core/models/presentation/PresentationSubmission";
 import {forkJoin, Observable, of} from "rxjs";
 import {catchError} from "rxjs/operators";
 import { ToastrService } from 'ngx-toastr';
-import { PrExWalletResponse, WalletResponse } from "@app/core/models/WalletResponse";
 import { DCQL } from "@app/core/models/dcql/DCQL";
 
 @Injectable()
@@ -22,7 +21,7 @@ export class WalletResponseProcessorService {
   mapVpTokenToAttestations(concludedTransaction: ConcludedTransaction): Observable<PresentedAttestation[]> {
     let decodings$: Observable<PresentedAttestation>[] = [];
 
-    if(this.isPrExWalletResponse(concludedTransaction.walletResponse)) {
+    if('presentation_submission' in concludedTransaction.walletResponse) {
       let presentationSubmission = concludedTransaction.walletResponse.presentation_submission;
       let vpToken: string[] = concludedTransaction.walletResponse.vp_token;
       let formatsPerPath = this.deductVpTokenItemsFormats(presentationSubmission.descriptor_map)
@@ -94,9 +93,5 @@ export class WalletResponseProcessorService {
       let arrayAsJson = JSON.parse(JSON.stringify(vpToken))
       return JSONPath({path: path, json: arrayAsJson})[0];
     }
-  }
-  
-  private isPrExWalletResponse(response: WalletResponse): response is PrExWalletResponse {
-    return 'vp_token' in response && Array.isArray(response.vp_token);
   }
 }
