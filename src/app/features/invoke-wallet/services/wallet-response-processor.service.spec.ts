@@ -37,7 +37,7 @@ describe('WalletResponseProcessorService', () => {
 
   describe('mapVpTokenToAttestations', () => {
     describe('presentation exchange', () => {
-      it('should map VP token to attestations for mso mdoc presentation_submission', (done) => {
+      it('should map VP token to mso mdoc attestations', (done) => {
         const mockConcludedTransaction: ConcludedTransaction = {
           transactionId: 'mockTransactionId',
           nonce: 'mockNonce',
@@ -102,7 +102,7 @@ describe('WalletResponseProcessorService', () => {
           });
       });
 
-      it('should map VP token to attestations for sdjwt presentation_submission', (done) => {
+      it('should map VP token to sdjwt attestations', (done) => {
         const mockConcludedTransaction: ConcludedTransaction = {
           transactionId: 'mockTransactionId',
           nonce: 'mockNonce',
