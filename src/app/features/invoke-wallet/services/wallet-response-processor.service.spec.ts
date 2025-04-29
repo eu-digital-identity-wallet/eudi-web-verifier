@@ -114,7 +114,7 @@ describe('WalletResponseProcessorService', () => {
                 name: 'Person Identification Data (PID)',
                 purpose: '',
                 format: {
-                  'vc+sd-jwt': {
+                  'dc+sd-jwt': {
                     'sd-jwt_alg_values': ['ES256', 'ES384', 'ES512'],
                     'kb-jwt_alg_values': [
                       'RS256',
@@ -158,7 +158,7 @@ describe('WalletResponseProcessorService', () => {
               descriptor_map: [
                 {
                   id: 'eea9e21a-e33a-4a65-9bfe-62d402419d25',
-                  format: 'vc+sd-jwt',
+                  format: 'dc+sd-jwt',
                   path: '$',
                 },
               ],
