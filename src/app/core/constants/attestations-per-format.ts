@@ -64,14 +64,14 @@ export const EHIC_MSO_MDOC: MsoMdocAttestation = {
   doctype: 'eu.europa.ec.eudi.ehic.1',
   namespace: 'eu.europa.ec.eudi.ehic.1',
   attributePath: (attribute: DataElement) => { return msoMdocAttributePath(attribute, 'eu.europa.ec.eudi.ehic.1') },
-  claimPath: (attribute: DataElement) => { return { namespace: 'eu.europa.ec.eudi.ehic.1', claim_name: attribute.identifier } }
+  claimQuery: (attribute: DataElement) => { return msoMdocClaimQuery('eu.europa.ec.eudi.ehic.1', attribute.identifier) }
 }
 export const EHIC_SD_JWT_VC: SdJwtVcAttestation = {
   format: AttestationFormat.SD_JWT_VC,
   attestationDef: EHIC_ATTESTATION,
   vct: 'urn:eu.europa.ec.eudi:ehic:1',
   attributePath: (attribute: DataElement) => { return `$.${sdJwtVcAttributePath(attribute, AttestationType.EHIC)}` },
-  claimPath: (attribute: DataElement) => { return { path: sdJwtVcAttributePath(attribute, AttestationType.EHIC).split('.') } }
+  claimQuery: (attribute: DataElement) => { return { path: sdJwtVcAttributePath(attribute, AttestationType.EHIC).split('.') } }
 }
 
 /*---- PDA1 INSTANCES PER FORMAT ----*/
@@ -81,14 +81,14 @@ export const PDA1_MSO_MDOC: MsoMdocAttestation = {
   doctype: 'eu.europa.ec.eudi.pda1.1',
   namespace: 'eu.europa.ec.eudi.pda1.1',
   attributePath: (attribute: DataElement) => { return msoMdocAttributePath(attribute, 'eu.europa.ec.eudi.pda1.1') },
-  claimPath: (attribute: DataElement) => { return { namespace: 'eu.europa.ec.eudi.pda1.1', claim_name: attribute.identifier } }
+  claimQuery: (attribute: DataElement) => { return msoMdocClaimQuery('eu.europa.ec.eudi.pda1.1', attribute.identifier) }
 }
 export const PDA1_SD_JWT_VC: SdJwtVcAttestation = {
   format: AttestationFormat.SD_JWT_VC,
   attestationDef: PDA1_ATTESTATION,
   vct: 'urn:eu.europa.ec.eudi:pda1:1',
   attributePath: (attribute: DataElement) => { return `$.${sdJwtVcAttributePath(attribute, AttestationType.PDA1)}` },
-  claimPath: (attribute: DataElement) => { return { path: sdJwtVcAttributePath(attribute, AttestationType.PDA1).split('.') } }
+  claimQuery: (attribute: DataElement) => { return { path: sdJwtVcAttributePath(attribute, AttestationType.PDA1).split('.') } }
 }
 
 function msoMdocAttributePath(attribute: DataElement, namespace: string): string {
