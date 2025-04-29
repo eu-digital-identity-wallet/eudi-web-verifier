@@ -1,6 +1,6 @@
 {
   "name": "verifier-ui",
-  "version": "0.6.7-SNAPSHOT",
+  "version": "0.6.7",
   "scripts": {
     "ng": "ng",
     "start": "npm run config && ng serve --proxy-config src/proxy.conf.json",
