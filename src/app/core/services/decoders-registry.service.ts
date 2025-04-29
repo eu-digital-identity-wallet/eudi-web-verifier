@@ -10,7 +10,7 @@ import {SdJwtVcAttestationDecoder} from "@core/services/decoders/SdJwtVcAttestat
 })
 export class DecodersRegistryService {
 
-  private dictionary: { [id: string] : AttestationDecoder; } = {};
+  private readonly dictionary: { [id: string] : AttestationDecoder; } = {};
 
   constructor(
     msoMdocAttestationDecoder: MsoMdocAttestationDecoder,
