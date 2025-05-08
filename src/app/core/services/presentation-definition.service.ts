@@ -89,6 +89,13 @@ export class PresentationDefinitionService {
             vpFormatsPerType[AttestationFormat.SD_JWT_VC] as SdJwtVcVpFormat,
             includeAttributes
           );
+        case AttestationFormat.SD_JWT_VC_DEPRECATED:
+          return this.sdJwtVcInputDescriptorOf(
+            attestation,
+            presentationPurpose,
+            vpFormatsPerType[AttestationFormat.SD_JWT_VC_DEPRECATED] as SdJwtVcVpFormat,
+            includeAttributes
+          );
       }
     } else {
       console.error(
@@ -130,7 +137,7 @@ export class PresentationDefinitionService {
       name: attestation.attestationDef.name,
       purpose: presentationPurpose,
       format: {
-        'vc+sd-jwt': {
+        [attestation.format]: {
           'sd-jwt_alg_values': vpFormat['sd-jwt_alg_values'],
           'kb-jwt_alg_values': vpFormat['kb-jwt_alg_values'],
         },

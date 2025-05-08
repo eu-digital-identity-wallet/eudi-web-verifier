@@ -130,9 +130,23 @@ export const PID_SD_JWT_VC_ATTRIBUTE_MAP: { [id: string]: string } = {
   "expiry_date": "exp"
 }
 
+export const PID_SD_JWT_VC_DEPRECATED: SdJwtVcAttestation = {
+  ...PID_SD_JWT_VC,
+  format: AttestationFormat.SD_JWT_VC_DEPRECATED
+}
+export const EHIC_SD_JWT_VC_DEPRECATED: SdJwtVcAttestation = {
+  ...EHIC_SD_JWT_VC,
+  format: AttestationFormat.SD_JWT_VC_DEPRECATED
+}
+export const PDA1_SD_JWT_VC_DEPRECATED: SdJwtVcAttestation = {
+  ...PDA1_SD_JWT_VC,
+  format: AttestationFormat.SD_JWT_VC_DEPRECATED
+}
+
 export const ATTESTATIONS_BY_FORMAT: { [id: string]: Attestation[] } = {
   "mso_mdoc": [PID_MSO_MDOC, MDL_MSO_MDOC, PHOTO_ID_MSO_MDOC, AGE_OVER_18_MSO_MDOC, EHIC_MSO_MDOC, PDA1_MSO_MDOC],
-  "vc+sd-jwt": [PID_SD_JWT_VC, EHIC_SD_JWT_VC, PDA1_SD_JWT_VC]
+  "dc+sd-jwt": [PID_SD_JWT_VC, EHIC_SD_JWT_VC, PDA1_SD_JWT_VC],
+  "vc+sd-jwt": [PID_SD_JWT_VC_DEPRECATED, EHIC_SD_JWT_VC_DEPRECATED, PDA1_SD_JWT_VC_DEPRECATED]
 }
 
 export const getAttestationByFormatAndType =

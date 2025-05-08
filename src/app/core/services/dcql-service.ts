@@ -58,7 +58,7 @@ export class DCQLService {
 
     let query: CredentialQuery = {
       id: queryId,
-      format: format === AttestationFormat.MSO_MDOC ? 'mso_mdoc' : 'vc+sd-jwt',
+      format: format,
       meta:
         format === AttestationFormat.MSO_MDOC
           ? {

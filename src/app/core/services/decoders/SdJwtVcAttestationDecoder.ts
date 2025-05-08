@@ -19,7 +19,7 @@ export class SdJwtVcAttestationDecoder implements AttestationDecoder {
   }
 
   supports(format: AttestationFormat): boolean {
-    return format === AttestationFormat.SD_JWT_VC;
+    return format === AttestationFormat.SD_JWT_VC || format === AttestationFormat.SD_JWT_VC_DEPRECATED;
   }
 
   decode(attestation: string, nonce: string): Observable<PresentedAttestation> {

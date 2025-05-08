@@ -20,6 +20,7 @@ export class DecodersRegistryService {
     this.dictionary[AttestationFormat.MSO_MDOC] = msoMdocAttestationDecoder;
     this.dictionary[AttestationFormat.JWT_VC_JSON] = jwtVcJsonAttestationDecoder;
     this.dictionary[AttestationFormat.SD_JWT_VC] = sdJwtVcAttestationDecoder;
+    this.dictionary[AttestationFormat.SD_JWT_VC_DEPRECATED] = sdJwtVcAttestationDecoder;
   }
 
   decoderOf(attestationFormat: AttestationFormat): AttestationDecoder {
