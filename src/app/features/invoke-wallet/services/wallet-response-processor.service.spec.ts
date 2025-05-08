@@ -199,12 +199,12 @@ describe('WalletResponseProcessorService', () => {
                 },
                 claims: [
                   {
-                    namespace: 'eu.europa.ec.eudi.pid.1',
-                    claim_name: 'family_name',
+                    path: ['eu.europa.ec.eudi.pid.1', 'family_name'],
+                    intent_to_retain: false,
                   },
                   {
-                    namespace: 'eu.europa.ec.eudi.pid.1',
-                    claim_name: 'given_name',
+                    path: ['eu.europa.ec.eudi.pid.1', 'given_name'],
+                    intent_to_retain: false,
                   },
                 ],
               },
