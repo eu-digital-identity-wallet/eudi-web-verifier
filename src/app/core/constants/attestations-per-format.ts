@@ -31,7 +31,7 @@ export const PID_MSO_MDOC: MsoMdocAttestation = {
 }
 export const PID_SD_JWT_VC: SdJwtVcAttestation = {
   format: AttestationFormat.SD_JWT_VC,
-  vct: "urn:eu.europa.ec.eudi:pid:1",
+  vct: "urn:eudi:pid:1",
   attestationDef: PID_ATTESTATION,
   attributePath: (attribute: DataElement) => { return `$.${sdJwtVcAttributePath(attribute, AttestationType.PID)}` },
   claimQuery: (attribute: DataElement) => { return { path: sdJwtVcAttributePath(attribute, AttestationType.PID).split('.') } }
@@ -103,7 +103,7 @@ function sdJwtVcAttributePath(attribute: DataElement, attestationType: Attestati
   let resolvedAttribute = attribute.identifier
   if (attestationType === AttestationType.PID) {
     let mappedAttribute = PID_SD_JWT_VC_ATTRIBUTE_MAP[attribute.identifier];
-    resolvedAttribute = mappedAttribute ? mappedAttribute : attribute.identifier;
+    resolvedAttribute = mappedAttribute || attribute.identifier;
   }
   return resolvedAttribute;
 }
@@ -126,8 +126,11 @@ export const PID_SD_JWT_VC_ATTRIBUTE_MAP: { [id: string]: string } = {
   "resident_street": "address.street_address",
   "resident_house_number": "address.house_number",
   "nationality": "nationalities",
-  "issuance_date": "iat",
-  "expiry_date": "exp"
+  "issuance_date": "date_of_issuance",
+  "expiry_date": "date_of_expiry",
+  "email_address": "email",
+  "mobile_phone_number": "phone_number",
+  "portrait": "picture"
 }
 
 export const PID_SD_JWT_VC_DEPRECATED: SdJwtVcAttestation = {

@@ -32,7 +32,8 @@ export const PID_ATTESTATION: AttestationDefinition = {
     { identifier: 'issuing_jurisdiction', attribute: 'Issuing jurisdiction'},
     { identifier: 'portrait', attribute: 'Portrait'},
     { identifier: 'email_address', attribute: 'Email address'},
-    { identifier: 'mobile_phone_number', attribute: 'Mobile phone number'}
+    { identifier: 'mobile_phone_number', attribute: 'Mobile phone number'},
+    { identifier: 'trust_anchor', attribute: 'Trust anchor'},
   ]
 }
 
