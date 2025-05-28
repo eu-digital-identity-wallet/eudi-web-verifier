@@ -12,6 +12,7 @@ import {EventLog} from "@core/models/EventLog";
 import { HttpHeaders } from "@angular/common/http";
 import {ActiveTransaction} from "@core/models/ActiveTransaction";
 import { ClientMetadata } from '@app/core/models/ClientMetadata';
+import { SessionStorageService } from './session-storage.service';
 
 const SAME_DEVICE_UI_RE_ENTRY_URL = '/get-wallet-code?response_code={RESPONSE_CODE}';
 const PRESENTATIONS_ENDPOINT = 'ui/presentations';
@@ -24,6 +25,7 @@ export class VerifierEndpointService {
   constructor(
     private readonly httpService: HttpService,
     private readonly localStorageService: LocalStorageService,
+    private readonly sessionStorageService: SessionStorageService,
     private readonly deviceDetectorService: DeviceDetectorService,
   ) {
   }
@@ -74,6 +76,8 @@ export class VerifierEndpointService {
   }
 
   validateSdJwtVc(payload: string, nonce: string): Observable<any> {
+    const issuerChain = this.sessionStorageService.get(constants.ISSUER_CHAIN) ?? undefined;
+
     const headers = new HttpHeaders({
       'Content-Type': 'application/x-www-form-urlencoded'
     });
@@ -81,6 +85,7 @@ export class VerifierEndpointService {
     const body = new URLSearchParams();
     body.set('sd_jwt_vc', payload);
     body.set('nonce', nonce);
+    issuerChain && body.set('issuer_chain', issuerChain);
 
     return this.httpService.post<any, string>(VALIDATE_SD_JWT_VC_PRESENTATION_ENDPOINT, body.toString(), {headers})
   }
