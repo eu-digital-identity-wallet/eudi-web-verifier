@@ -10,7 +10,7 @@
     <form>
       <mat-form-field class="example-full-width">
         <mat-label>Scheme</mat-label>
-        <input type="scheme" matInput [formControl]="schemeControl" [pattern]="schemePattern" [errorStateMatcher]="matcher"
+        <input type="scheme" matInput [formControl]="schemeControl" [errorStateMatcher]="matcher"
                placeholder="https://">
         <mat-error *ngIf="schemeControl.hasError('scheme') && !schemeControl.hasError('required')">Please enter a valid scheme</mat-error>
         <mat-error *ngIf="schemeControl.hasError('required')">scheme is <strong>required</strong></mat-error>
