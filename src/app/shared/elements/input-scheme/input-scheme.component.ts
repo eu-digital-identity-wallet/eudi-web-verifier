@@ -21,7 +21,6 @@ export class InputSchemeComponent implements OnInit {
 
 
 	readonly localStorageService: LocalStorageService = inject(LocalStorageService);
-	schemePattern = '([a-zA-Z0-9-]{2,20})://';
 	schemeControl = new FormControl('', [Validators.required]);
 	matcher = new ErrorStateMatcher();
 
