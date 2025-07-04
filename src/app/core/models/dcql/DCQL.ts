@@ -34,5 +34,5 @@ export type ClaimsQuery = ClaimQuery &
 export type QueryId = string;
 export type ClaimId = string;
 export type ClaimSet = ClaimId[];
-export type ClaimPath = string[];
+export type ClaimPath = (string | null)[];
 export type ClaimPathElement = {};
