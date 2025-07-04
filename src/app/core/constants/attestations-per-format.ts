@@ -34,7 +34,7 @@ export const PID_SD_JWT_VC: SdJwtVcAttestation = {
   vct: "urn:eudi:pid:1",
   attestationDef: PID_ATTESTATION,
   attributePath: (attribute: DataElement) => { return `$.${sdJwtVcAttributePath(attribute, AttestationType.PID)}` },
-  claimQuery: (attribute: DataElement) => { return { path: sdJwtVcAttributePath(attribute, AttestationType.PID).split('.') } }
+  claimQuery: (attribute: DataElement) => { return { path: sdJwtVcAttributeClaimQuery(attribute, AttestationType.PID) } }
 }
 
 /*---- AGE OVER 18 ATTESTATION INSTANCES PER FORMAT ----*/
@@ -71,7 +71,7 @@ export const EHIC_SD_JWT_VC: SdJwtVcAttestation = {
   attestationDef: EHIC_ATTESTATION,
   vct: 'urn:eu.europa.ec.eudi:ehic:1',
   attributePath: (attribute: DataElement) => { return `$.${sdJwtVcAttributePath(attribute, AttestationType.EHIC)}` },
-  claimQuery: (attribute: DataElement) => { return { path: sdJwtVcAttributePath(attribute, AttestationType.EHIC).split('.') } }
+  claimQuery: (attribute: DataElement) => { return { path: sdJwtVcAttributeClaimQuery(attribute, AttestationType.EHIC) } }
 }
 
 /*---- PDA1 INSTANCES PER FORMAT ----*/
@@ -88,7 +88,7 @@ export const PDA1_SD_JWT_VC: SdJwtVcAttestation = {
   attestationDef: PDA1_ATTESTATION,
   vct: 'urn:eu.europa.ec.eudi:pda1:1',
   attributePath: (attribute: DataElement) => { return `$.${sdJwtVcAttributePath(attribute, AttestationType.PDA1)}` },
-  claimQuery: (attribute: DataElement) => { return { path: sdJwtVcAttributePath(attribute, AttestationType.PDA1).split('.') } }
+  claimQuery: (attribute: DataElement) => { return { path: sdJwtVcAttributeClaimQuery(attribute, AttestationType.PDA1) } }
 }
 
 function msoMdocAttributePath(attribute: DataElement, namespace: string): string {
@@ -99,13 +99,34 @@ function msoMdocAttributePath(attribute: DataElement, namespace: string): string
   }
 }
 
-function sdJwtVcAttributePath(attribute: DataElement, attestationType: AttestationType): string {
+function resolveAttribute(attribute: DataElement, attestationType: AttestationType): string {
   let resolvedAttribute = attribute.identifier
   if (attestationType === AttestationType.PID) {
     let mappedAttribute = PID_SD_JWT_VC_ATTRIBUTE_MAP[attribute.identifier];
     resolvedAttribute = mappedAttribute || attribute.identifier;
   }
+
   return resolvedAttribute;
+}
+
+function sdJwtVcAttributePath(attribute: DataElement, attestationType: AttestationType): string {
+  let resolvedAttribute = resolveAttribute(attribute, attestationType);
+
+  if (attestationType === AttestationType.PID && resolvedAttribute === 'nationalities') {
+    resolvedAttribute = 'nationalities[*]';
+  }
+
+  return resolvedAttribute;
+}
+
+function sdJwtVcAttributeClaimQuery(attribute: DataElement, attestationType: AttestationType): (string | null)[] {
+  let resolvedAttribute = resolveAttribute(attribute, attestationType);
+
+  if (attestationType === AttestationType.PID && resolvedAttribute === 'nationalities') {
+    return ['nationalities', null];
+  } else {
+    return resolvedAttribute.split('.');
+  }
 }
 
 function msoMdocClaimQuery(namespace: string, claimName: string): ClaimsQuery {
