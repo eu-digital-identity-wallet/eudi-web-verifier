@@ -1,5 +1,5 @@
 import {Attestation, MsoMdocAttestation, SdJwtVcAttestation} from "@core/models/attestation/Attestations";
-import {AGE_OVER_18_ATTESTATION, EHIC_ATTESTATION, MDL_ATTESTATION, PDA1_ATTESTATION, PHOTO_ID_ATTESTATION, PID_ATTESTATION} from "@core/constants/attestation-definitions";
+import {AGE_OVER_18_ATTESTATION, EHIC_ATTESTATION, EHIC_ATTESTATION_DC4EU, MDL_ATTESTATION, PDA1_ATTESTATION, PHOTO_ID_ATTESTATION, PID_ATTESTATION} from "@core/constants/attestation-definitions";
 import {AttestationFormat} from "@core/models/attestation/AttestationFormat";
 import {AttestationType} from "@core/models/attestation/AttestationType";
 import {DataElement} from "@core/models/attestation/AttestationDefinition";
@@ -70,6 +70,13 @@ export const EHIC_SD_JWT_VC: SdJwtVcAttestation = {
   format: AttestationFormat.SD_JWT_VC,
   attestationDef: EHIC_ATTESTATION,
   vct: 'urn:eu.europa.ec.eudi:ehic:1',
+  attributePath: (attribute: DataElement) => { return `$.${sdJwtVcAttributePath(attribute, AttestationType.EHIC)}` },
+  claimQuery: (attribute: DataElement) => { return { path: sdJwtVcAttributeClaimQuery(attribute, AttestationType.EHIC) } }
+}
+export const EHIC_SD_JWT_VC_DC4EU: SdJwtVcAttestation = {
+  format: AttestationFormat.SD_JWT_VC,
+  attestationDef: EHIC_ATTESTATION_DC4EU,
+  vct: 'urn:eudi:ehic:1',
   attributePath: (attribute: DataElement) => { return `$.${sdJwtVcAttributePath(attribute, AttestationType.EHIC)}` },
   claimQuery: (attribute: DataElement) => { return { path: sdJwtVcAttributeClaimQuery(attribute, AttestationType.EHIC) } }
 }
@@ -169,7 +176,7 @@ export const PDA1_SD_JWT_VC_DEPRECATED: SdJwtVcAttestation = {
 
 export const ATTESTATIONS_BY_FORMAT: { [id: string]: Attestation[] } = {
   "mso_mdoc": [PID_MSO_MDOC, MDL_MSO_MDOC, PHOTO_ID_MSO_MDOC, AGE_OVER_18_MSO_MDOC, EHIC_MSO_MDOC, PDA1_MSO_MDOC],
-  "dc+sd-jwt": [PID_SD_JWT_VC, EHIC_SD_JWT_VC, PDA1_SD_JWT_VC],
+  "dc+sd-jwt": [PID_SD_JWT_VC, EHIC_SD_JWT_VC, PDA1_SD_JWT_VC, EHIC_SD_JWT_VC_DC4EU],
   "vc+sd-jwt": [PID_SD_JWT_VC_DEPRECATED, EHIC_SD_JWT_VC_DEPRECATED, PDA1_SD_JWT_VC_DEPRECATED]
 }
 
