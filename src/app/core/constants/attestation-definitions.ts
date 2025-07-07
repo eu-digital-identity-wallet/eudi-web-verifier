@@ -142,6 +142,22 @@ export const EHIC_ATTESTATION: AttestationDefinition = {
   ],
 }
 
+export const EHIC_ATTESTATION_DC4EU: AttestationDefinition = {
+  name: "DC4EU European Health Insurance Card (SD-JWT VC Compact)",
+  type: AttestationType.EHIC_DC4EU,
+  dataSet: [
+    { identifier: "personal_administrative_number", attribute: "Social Security PIN" },
+    { identifier: "issuing_country", attribute: "Issuing country" },
+    { identifier: "issuing_authority", attribute: "Issuing authority" },
+    { identifier: "date_of_expiry", attribute: "Expiry date" },
+    { identifier: "date_of_issuance", attribute: "Issue date" },
+    { identifier: "authentic_source", attribute: 'Competent institution' },
+    { identifier: "ending_date", attribute: "Ending date" },
+    { identifier: "starting_date", attribute: "Starting date" },
+    { identifier: "document_number", attribute: "Document number" },
+  ],
+}
+
 export const PDA1_ATTESTATION: AttestationDefinition = {
   name: "Portable Document A1 (PDA1)",
   type: AttestationType.PDA1,
@@ -164,5 +180,6 @@ export const SUPPORTED_ATTESTATIONS: { [id: string]: AttestationDefinition } = {
   "photo_id": PHOTO_ID_ATTESTATION,
   "age_over_18": AGE_OVER_18_ATTESTATION,
   "ehic": EHIC_ATTESTATION,
+  "ehic-dc4eu": EHIC_ATTESTATION_DC4EU,
   "pda1": PDA1_ATTESTATION
 }
