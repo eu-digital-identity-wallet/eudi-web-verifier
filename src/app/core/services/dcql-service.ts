@@ -8,7 +8,7 @@ import {
   AttributeSelectionMethod,
 } from '@app/features/presentation-request-preparation/models/AttestationSelection';
 import { v4 as uuidv4 } from 'uuid';
-import { DCQLTransactionRequest } from '../models/TransactionInitializationRequest';
+import { TransactionInitializationRequest } from '../models/TransactionInitializationRequest';
 import {
   MsoMdocAttestation,
   SdJwtVcAttestation,
@@ -23,7 +23,7 @@ export class DCQLService {
     selectedAttributes: { [id: string]: string[] },
     selectedRequestUriMethod: 'get' | 'post',
     issuerChain?: string
-  ): DCQLTransactionRequest {
+  ): TransactionInitializationRequest {
     let dcqlQueries: CredentialQuery[] = selectedAttestations.map(
       (attestation, index) =>
         this.dcqlQueryOf(

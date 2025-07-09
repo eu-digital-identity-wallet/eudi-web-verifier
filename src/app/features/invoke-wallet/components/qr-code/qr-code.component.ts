@@ -16,7 +16,6 @@ import {ConcludedTransaction} from "@core/models/ConcludedTransaction";
 import {QRCodeComponent} from 'angularx-qrcode';
 import {SafeUrl} from "@angular/platform-browser";
 import {ActiveTransaction} from "@core/models/ActiveTransaction";
-import { isDCQLTransactionRequest } from '@app/core/models/TransactionInitializationRequest';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatDividerModule } from '@angular/material/divider';
@@ -122,9 +121,7 @@ export class QrCodeComponent implements OnInit, OnDestroy {
   private concludeTransaction(response: WalletResponse): ConcludedTransaction {
     let concludedTransaction = {
       transactionId: this.transaction.initialized_transaction.transaction_id,
-      presentationQuery: isDCQLTransactionRequest(this.transaction.initialization_request!!) ?
-                this.transaction.initialization_request!!.dcql_query
-              : this.transaction.initialization_request!!.presentation_definition,
+      presentationQuery: this.transaction.initialization_request!!.dcql_query,
       walletResponse: response,
       nonce: this.transaction.initialization_request.nonce
     }
