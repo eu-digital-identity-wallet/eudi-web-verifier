@@ -1,6 +1,5 @@
 import { Component, inject, OnInit } from '@angular/core';
 import { FormSelectableField } from '@core/models/FormSelectableField';
-import { InputDescriptor } from '@core/models/presentation/InputDescriptor';
 import { AttestationFormat } from '@core/models/attestation/AttestationFormat';
 import { MatCheckboxModule } from '@angular/material/checkbox';
 import { MatExpansionModule } from '@angular/material/expansion';
@@ -54,7 +53,7 @@ export class SelectableAttestationAttributesComponent implements OnInit {
   boundTrackByFn = (index: number, data: FormSelectableField) => this.trackByFn(index, data);
   
   
-  constructor(private dialogRef: MatDialogRef<InputDescriptor>) {}
+  constructor(private dialogRef: MatDialogRef<null>) {}
 
   ngOnInit(): void {
     this.attestationFormat = this.data.format;

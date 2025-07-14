@@ -3,7 +3,6 @@ import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { ShowLogsComponent } from './show-logs.component';
 import { SharedModule } from '@app/shared/shared.module';
 import { MatExpansionModule } from '@angular/material/expansion';
-import { PresentationDefinitionService } from '@app/core/services/presentation-definition.service';
 import { provideHttpClient } from '@angular/common/http';
 
 describe('ShowLogsComponent', () => {
@@ -14,7 +13,7 @@ describe('ShowLogsComponent', () => {
     await TestBed.configureTestingModule({
       declarations: [],
       imports: [ShowLogsComponent, SharedModule, MatExpansionModule],
-      providers: [PresentationDefinitionService, provideHttpClient()],
+      providers: [provideHttpClient()],
     }).compileComponents();
 
     fixture = TestBed.createComponent(ShowLogsComponent);

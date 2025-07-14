@@ -1,7 +1,6 @@
 import {ChangeDetectionStrategy, ChangeDetectorRef, Component, OnDestroy, OnInit} from '@angular/core';
 import {Subject} from 'rxjs';
 import {filter, takeUntil} from 'rxjs/operators';
-import {DataService} from '@core/services/data.service';
 import {NavigateService} from '@core/services/navigate.service';
 import {NavigationEnd, Router} from '@angular/router';
 import {BodyAction} from '@shared/elements/body-actions/models/BodyAction';
@@ -26,7 +25,6 @@ export class HomeComponent implements OnInit, OnDestroy {
   constructor(
     private readonly changeDetectorRef: ChangeDetectorRef,
     private readonly router: Router,
-    private readonly dataService: DataService,
     private readonly navigateService: NavigateService,
     private readonly verifierEndpointService: VerifierEndpointService
   ) {
@@ -38,10 +36,6 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.dataService.presentationDefinitionRequest$.subscribe((code) => {
-      this.requestCode = code;
-      this.disableNextButton(code);
-    });
     this.router.events
       .pipe(
         takeUntil(this.destroy$),
