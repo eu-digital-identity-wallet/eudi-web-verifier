@@ -8,7 +8,6 @@ import {
   provideHttpClient,
   withInterceptorsFromDi,
 } from '@angular/common/http';
-import { DataService } from '@core/services/data.service';
 import { NavigateService } from '@core/services/navigate.service';
 
 const qrData = {
@@ -22,19 +21,16 @@ const qrData = {
 describe('QrCodeComponent', () => {
   let component: QrCodeComponent;
   let fixture: ComponentFixture<QrCodeComponent>;
-  let service: DataService;
   beforeEach(async () => {
     await TestBed.configureTestingModule({
       imports: [WalletLayoutComponent, RouterModule, SharedModule],
       providers: [
-        DataService,
         NavigateService,
         provideHttpClient(withInterceptorsFromDi()),
       ],
     }).compileComponents();
 
     fixture = TestBed.createComponent(QrCodeComponent);
-    service = TestBed.inject(DataService);
 
     component = fixture.componentInstance;
     fixture.detectChanges();
