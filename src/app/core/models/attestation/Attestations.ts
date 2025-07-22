@@ -9,14 +9,12 @@ export type MsoMdocAttestation  = {
   doctype: string,
   namespace: string,
   attestationDef: AttestationDefinition,
-  attributePath: (attribute: DataElement) => string,
   claimQuery: (attribute: DataElement) => ClaimsQuery,
 }
 
 export type SdJwtVcAttestation = {
-  format: AttestationFormat.SD_JWT_VC | AttestationFormat.SD_JWT_VC_DEPRECATED,
+  format: AttestationFormat.SD_JWT_VC,
   vct: string,
   attestationDef: AttestationDefinition
-  attributePath: (attribute: DataElement) => string,
   claimQuery: (attribute: DataElement) => ClaimsQuery,
 }

@@ -5,7 +5,7 @@ export type DCQL = {
 
 export type CredentialQuery = {
   id: QueryId;
-  format: 'mso_mdoc' | 'dc+sd-jwt' | 'jwt_vc_json' | 'vc+sd-jwt';
+  format: 'mso_mdoc' | 'dc+sd-jwt' | 'jwt_vc_json';
   meta?: Object;
   claims?: ClaimsQuery[];
   claim_sets?: ClaimSet[];
