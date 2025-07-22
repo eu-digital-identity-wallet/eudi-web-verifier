@@ -27,7 +27,6 @@ import { MatIconModule } from '@angular/material/icon';
 import { ClipboardModule } from '@angular/cdk/clipboard';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { AttributesSelectionEvent } from '../models/AttributesSelection';
-import { PresentationDefinitionService } from '@app/core/services/presentation-definition.service';
 import { DCQLService } from '@app/core/services/dcql-service';
 import { fallbackClientMetadata, MsoMdocVpFormat, SdJwtVcVpFormat } from '@app/core/models/ClientMetadata';
 import { Subject, takeUntil } from 'rxjs';
@@ -63,14 +62,12 @@ export class HomeComponent implements OnInit, OnDestroy {
   constructor(
     private readonly navigateService: NavigateService,
     private readonly verifierEndpointService: VerifierEndpointService,
-    private readonly presentationDefinitionService: PresentationDefinitionService,
     private readonly dcqlService: DCQLService,
     private readonly sessionStorageService: SessionStorageService,
   ) {}
 
   actions: BodyAction[] = HOME_ACTIONS;
 
-  queryTypeControl = new FormControl('prex');
   requestUriMethodControl = new FormControl('get');
 
 
@@ -81,7 +78,6 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   selectedAttestations: AttestationSelection[] | null = null;
   selectedAttributes: { [id: string]: string[] } | null = null;
-  selectedPresentationType: 'dcql' | 'prex' = 'prex';
   selectedRequestUriMethod: 'get' | 'post' = 'get';
 
   initializationRequest: TransactionInitializationRequest | null = null;
@@ -117,7 +113,6 @@ export class HomeComponent implements OnInit, OnDestroy {
       this.selectedAttributes = $event.selectedAttributes;
 
       this.initializationRequest = this.prepareInitializationRequest(
-        this.selectedPresentationType,
         this.selectedAttestations!,
         this.selectedAttributes,
         this.selectedRequestUriMethod
@@ -126,28 +121,12 @@ export class HomeComponent implements OnInit, OnDestroy {
       this.selectedAttributes = null;
     }
   }
-
-  handleQueryTypeChangedEvent($event: string) {
-    this.selectedPresentationType = $event as 'dcql' | 'prex';
-
-    if (this.selectedAttestations && this.selectedAttributes) {
-      this.initializationRequest = this.prepareInitializationRequest(
-        this.selectedPresentationType,
-        this.selectedAttestations,
-        this.selectedAttributes,
-        this.selectedRequestUriMethod
-      );
-    } else {
-      this.initializationRequest = null;
-    }
-  }
   
   handleRequestUriMethodChangedEvent($event: string) {
     this.selectedRequestUriMethod = $event as 'get' | 'post';
     
     if (this.selectedAttestations && this.selectedAttributes) {
       this.initializationRequest = this.prepareInitializationRequest(
-        this.selectedPresentationType,
         this.selectedAttestations,
         this.selectedAttributes,
         this.selectedRequestUriMethod
@@ -158,7 +137,6 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   private prepareInitializationRequest(
-    presentationQueryType: 'dcql' | 'prex',
     selectedAttestations: AttestationSelection[],
     selectedAttributes: { [id: string]: string[] },
     selectedRequestUriMethod: 'get' | 'post'
@@ -166,21 +144,11 @@ export class HomeComponent implements OnInit, OnDestroy {
 
     const issuerChain = this.sessionStorageService.get(ISSUER_CHAIN) ?? undefined;
 
-    if (presentationQueryType === 'dcql') {
-      return this.dcqlService.dcqlPresentationRequest(
-        selectedAttestations, 
-        selectedAttributes, 
-        selectedRequestUriMethod, 
-        issuerChain);
-    } else {
-      return this.presentationDefinitionService.presentationDefinitionRequest(
-        selectedAttestations, 
-        selectedAttributes, 
-        this.vpFormatsPerType, 
-        selectedRequestUriMethod,
-        issuerChain
-      );
-    }
+    return this.dcqlService.dcqlPresentationRequest(
+      selectedAttestations, 
+      selectedAttributes, 
+      selectedRequestUriMethod, 
+      issuerChain);
   }
 
   proceedToInvokeWallet() {

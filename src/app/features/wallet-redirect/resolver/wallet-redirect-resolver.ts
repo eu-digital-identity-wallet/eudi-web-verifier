@@ -9,7 +9,6 @@ import {LocalStorageService} from "@core/services/local-storage.service";
 import * as constants from "@core/constants/general";
 import {ACTIVE_TRANSACTION} from "@core/constants/general";
 import {ActiveTransaction} from "@core/models/ActiveTransaction";
-import { isDCQLTransactionRequest } from '@app/core/models/TransactionInitializationRequest';
 
 export const WalletRedirectResolver: ResolveFn<ConcludedTransaction> =
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -27,8 +26,7 @@ export const WalletRedirectResolver: ResolveFn<ConcludedTransaction> =
     function concludeTransaction(walletResponse: WalletResponse): ConcludedTransaction {
       let concludedTransaction: ConcludedTransaction =  {
         transactionId: activeTransaction.initialized_transaction.transaction_id,
-        presentationQuery: isDCQLTransactionRequest(activeTransaction.initialization_request) ? 
-          activeTransaction.initialization_request.dcql_query : activeTransaction.initialization_request.presentation_definition,
+        presentationQuery: activeTransaction.initialization_request.dcql_query,
         walletResponse: walletResponse,
         nonce: activeTransaction.initialization_request.nonce
       }
