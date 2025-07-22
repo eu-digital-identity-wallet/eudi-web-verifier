@@ -13,7 +13,7 @@ export type MsoMdocAttestation  = {
 }
 
 export type SdJwtVcAttestation = {
-  format: AttestationFormat.SD_JWT_VC | AttestationFormat.SD_JWT_VC_DEPRECATED,
+  format: AttestationFormat.SD_JWT_VC,
   vct: string,
   attestationDef: AttestationDefinition
   claimQuery: (attribute: DataElement) => ClaimsQuery,
