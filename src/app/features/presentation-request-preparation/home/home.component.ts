@@ -105,10 +105,10 @@ export class HomeComponent implements OnDestroy {
       this.selectedAttributes = null;
     }
   }
-  
+
   handleRequestUriMethodChangedEvent($event: string) {
     this.selectedRequestUriMethod = $event as 'get' | 'post';
-    
+
     if (this.selectedAttestations && this.selectedAttributes) {
       this.initializationRequest = this.prepareInitializationRequest(
         this.selectedAttestations,
@@ -129,9 +129,9 @@ export class HomeComponent implements OnDestroy {
     const issuerChain = this.sessionStorageService.get(ISSUER_CHAIN) ?? undefined;
 
     return this.dcqlService.dcqlPresentationRequest(
-      selectedAttestations, 
-      selectedAttributes, 
-      selectedRequestUriMethod, 
+      selectedAttestations,
+      selectedAttributes,
+      selectedRequestUriMethod,
       issuerChain);
   }
 
@@ -151,22 +151,18 @@ export class HomeComponent implements OnDestroy {
   attestationsSelected(): boolean {
     return this.selectedAttestations !== null
       && this.selectedAttestations
-      .filter((attestation) => 
+      .filter((attestation) =>
         attestation.format !== null && attestation.attributeSelectionMethod !== null
       ).
       length > 0;
   }
 
   attributesSelected(): boolean {
-    return this.selectedAttestations !== null 
+    return this.selectedAttestations !== null
     && this.selectedAttestations.filter((attestation) => {
       if(attestation.attributeSelectionMethod === AttributeSelectionMethod.SELECTABLE) {
         return this.selectedAttributes?.[attestation.type]?.length?? 0 > 0;
-      } else if(attestation.attributeSelectionMethod === AttributeSelectionMethod.ALL_ATTRIBUTES) {
-        return true;
-      } else {
-        return false;
-      }
+      } else return attestation.attributeSelectionMethod === AttributeSelectionMethod.ALL_ATTRIBUTES;
     }).length === this.selectedAttestations.length;
   }
 
