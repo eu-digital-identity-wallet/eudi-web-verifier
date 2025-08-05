@@ -28,8 +28,7 @@ import { ClipboardModule } from '@angular/cdk/clipboard';
 import { MatTooltipModule } from '@angular/material/tooltip';
 import { AttributesSelectionEvent } from '../models/AttributesSelection';
 import { DCQLService } from '@app/core/services/dcql-service';
-import { fallbackClientMetadata, MsoMdocVpFormat, SdJwtVcVpFormat } from '@app/core/models/ClientMetadata';
-import { Subject, takeUntil } from 'rxjs';
+import { Subject } from 'rxjs';
 import { SessionStorageService } from '@app/core/services/session-storage.service';
 import { ISSUER_CHAIN } from '@app/core/constants/general';
 
@@ -58,7 +57,7 @@ import { ISSUER_CHAIN } from '@app/core/constants/general';
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss'],
 })
-export class HomeComponent implements OnInit, OnDestroy {
+export class HomeComponent implements OnDestroy {
   constructor(
     private readonly navigateService: NavigateService,
     private readonly verifierEndpointService: VerifierEndpointService,
@@ -83,22 +82,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   initializationRequest: TransactionInitializationRequest | null = null;
 
   private readonly destroy$ = new Subject<void>();
-  vpFormatsPerType: { [key: string]: SdJwtVcVpFormat | MsoMdocVpFormat } = {};
 
-  ngOnInit(): void {
-    this.verifierEndpointService.getClientMetadata()
-      .pipe(takeUntil(this.destroy$))
-      .subscribe({
-        next: (clientMetadata) => {
-          this.vpFormatsPerType = clientMetadata.vp_formats;
-        },
-        error: (err) => {
-          console.error('Error fetching client metadata from backend. Using fallback client metadata', err);
-          this.vpFormatsPerType = fallbackClientMetadata.vp_formats;
-        }
-      });
-  }
-  
   ngOnDestroy(): void {
     this.destroy$.next();
     this.destroy$.complete();

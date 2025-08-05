@@ -11,12 +11,10 @@ import {WalletResponse} from "@core/models/WalletResponse";
 import {EventLog} from "@core/models/EventLog";
 import { HttpHeaders } from "@angular/common/http";
 import {ActiveTransaction} from "@core/models/ActiveTransaction";
-import { ClientMetadata } from '@app/core/models/ClientMetadata';
 import { SessionStorageService } from './session-storage.service';
 
 const SAME_DEVICE_UI_RE_ENTRY_URL = '/get-wallet-code?response_code={RESPONSE_CODE}';
 const PRESENTATIONS_ENDPOINT = 'ui/presentations';
-const CLIENT_METADATA_ENDPOINT = 'ui/clientMetadata';
 const VALIDATE_SD_JWT_VC_PRESENTATION_ENDPOINT = 'utilities/validations/sdJwtVc';
 
 @Injectable()
@@ -88,13 +86,6 @@ export class VerifierEndpointService {
     issuerChain && body.set('issuer_chain', issuerChain);
 
     return this.httpService.post<any, string>(VALIDATE_SD_JWT_VC_PRESENTATION_ENDPOINT, body.toString(), {headers})
-  }
-
-  getClientMetadata(): Observable<ClientMetadata> {
-    return this.httpService.get<ClientMetadata>(CLIENT_METADATA_ENDPOINT)
-      .pipe(
-        retry(3)
-      )
   }
 
   private getTransactionData(event: EventLog): string[] {
