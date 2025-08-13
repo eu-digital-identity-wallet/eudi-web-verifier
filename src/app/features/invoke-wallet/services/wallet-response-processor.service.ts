@@ -20,16 +20,18 @@ export class WalletResponseProcessorService {
     let decodings$: Observable<PresentedAttestation>[] = [];
 
     const dcqlQuery = concludedTransaction.presentationQuery;
-    let vpToken: { [id: string]: string } = concludedTransaction.walletResponse.vp_token;
+    let vpToken: { [id: string]: string[] } = concludedTransaction.walletResponse.vp_token;
 
     dcqlQuery.credentials.forEach((credential, index) => {
-      decodings$.push(
-        this.decodeAttestation(
-          vpToken[credential.id],
-          dcqlQuery.credentials[index].format as AttestationFormat,
-          concludedTransaction.nonce
-        )
-      );
+      vpToken[credential.id]?.forEach(attestation => {
+        decodings$.push(
+          this.decodeAttestation(
+            attestation,
+            dcqlQuery.credentials[index].format as AttestationFormat,
+            concludedTransaction.nonce
+          )
+        );
+      });
     });
     
     return forkJoin(decodings$);
