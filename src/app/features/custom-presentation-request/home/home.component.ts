@@ -8,6 +8,7 @@ import {PRESENTATION_ACTIONS} from '@core/constants/pages-actions';
 import {ActionCode} from '@shared/elements/body-actions/models/ActionCode';
 import {VerifierEndpointService} from "@core/services/verifier-endpoint.service";
 import {TransactionInitializationRequest} from "@core/models/TransactionInitializationRequest";
+import { DataService } from '@app/core/services/data-service';
 
 @Component({
     selector: 'vc-home',
@@ -25,6 +26,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   constructor(
     private readonly changeDetectorRef: ChangeDetectorRef,
     private readonly router: Router,
+    private readonly dataService: DataService,
     private readonly navigateService: NavigateService,
     private readonly verifierEndpointService: VerifierEndpointService
   ) {
@@ -36,6 +38,10 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
+    this.dataService.customRequest$.subscribe((code) => {
+      this.requestCode = code;
+      this.disableNextButton(code);
+    });
     this.router.events
       .pipe(
         takeUntil(this.destroy$),
