@@ -1,5 +1,6 @@
 import { CommonModule } from '@angular/common';
 import { Component } from '@angular/core';
+import { DataService } from '@app/core/services/data-service';
 import { SharedModule } from '@app/shared/shared.module';
 
 @Component({
@@ -11,10 +12,13 @@ import { SharedModule } from '@app/shared/shared.module';
 export class CustomRequestEditorComponent {
 
 	invalidJSON = true;
-	constructor () {}
+	constructor (
+    private readonly dataService: DataService
+	) {}
 
 	onRequest (code: string) {
 		this.invalidJSON = code.length === 0 || this.isJSON(code);
+    this.dataService.customRequest$.next(code);
 	}
 
   isJSON (requestCode: string) {
