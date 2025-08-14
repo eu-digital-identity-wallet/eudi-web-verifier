@@ -75,20 +75,6 @@ export const MDL_ATTESTATION: AttestationDefinition = {
   ]
 }
 
-export const AGE_OVER_18_ATTESTATION: AttestationDefinition = {
-  name: "Age Over 18",
-  type: AttestationType.AGE_OVER_18,
-  dataSet: [
-    { identifier: 'age_over_18', attribute: 'Age over 18'},
-    { identifier: 'user_pseudonym', attribute: 'User pseudonym'},
-    { identifier: 'issuance_date', attribute: 'Issuance date'},
-    { identifier: 'expiry_date', attribute: 'Expiry date'},
-    { identifier: 'issuing_authority', attribute: 'Issuing authority'},
-    { identifier: 'issuing_jurisdiction', attribute: 'Issuing jurisdiction'},
-    { identifier: 'issuing_country', attribute: 'Issuing country'}
-  ]
-}
-
 export const PHOTO_ID_ATTESTATION: AttestationDefinition = {
   name: "Photo ID",
   type: AttestationType.PHOTO_ID,
@@ -178,7 +164,6 @@ export const SUPPORTED_ATTESTATIONS: { [id: string]: AttestationDefinition } = {
   "pid": PID_ATTESTATION,
   "mdl": MDL_ATTESTATION,
   "photo_id": PHOTO_ID_ATTESTATION,
-  "age_over_18": AGE_OVER_18_ATTESTATION,
   "ehic": EHIC_ATTESTATION,
   "ehic-dc4eu": EHIC_ATTESTATION_DC4EU,
   "pda1": PDA1_ATTESTATION
