@@ -38,7 +38,6 @@ export class DCQLService {
     );
 
     return {
-      type: 'vp_token',
       dcql_query: {
         credentials: dcqlQueries,
       },
