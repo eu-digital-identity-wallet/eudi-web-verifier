@@ -105,7 +105,6 @@ function msoMdocClaimQuery(namespace: string, claimName: string): ClaimsQuery {
 
 export const PID_SD_JWT_VC_ATTRIBUTE_MAP: { [id: string]: string } = {
   "birth_date": "birthdate",
-  "age_over_18": "age_equal_or_over.18",
   "family_name_birth": "birth_family_name",
   "given_name_birth": "birth_given_name",
   "birth_place": "place_of_birth.locality",
