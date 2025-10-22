@@ -32,7 +32,7 @@ export class DCQLService {
           attestation.format!,
           attestation.attributeSelectionMethod ===
             AttributeSelectionMethod.ALL_ATTRIBUTES
-            ? []
+            ? undefined
             : selectedAttributes[attestation.type]
         )
     );
@@ -71,6 +71,7 @@ export class DCQLService {
     let claims: ClaimsQuery[] = [];
     claims = attestation!.attestationDef.dataSet
       .filter((dataElement) =>
+        selectedAttributes === undefined ||
         selectedAttributes!.includes(dataElement.identifier)
       )
       .map((dataElement) => {
