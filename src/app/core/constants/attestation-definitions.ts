@@ -161,14 +161,14 @@ export const LEARNING_CREDENTIAL_ATTESTATION: AttestationDefinition = {
   name: "Learning Credential",
   type: AttestationType.LEARNING_CREDENTIAL,
   dataSet: [
+    {identifier: "issuing_authority", attribute: "Issuing Authority"},
+    {identifier: "issuing_country", attribute: "Issuing Country"},
     {identifier: "date_of_issuance", attribute: "Date of Issuance"},
     {identifier: 'date_of_expiry', attribute: "Date of Expiry"},
     {identifier: "family_name", attribute: "Family Name(s)"},
     {identifier: "given_name", attribute: "Given Name(s)"},
     {identifier: "achievement_title", attribute: "Achievement Title"},
     {identifier: "achievement_description", attribute: "Achievement Description"},
-    {identifier: "credit_received_framework", attribute: "Credit Framework"},
-    {identifier: "credit_received_points", attribute: "Credit Points"},
     {identifier: "learning_outcomes", attribute: "Learning Outcomes"},
     {identifier: "assessment_grade", attribute: "Assessment Grade"},
   ]
