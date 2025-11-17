@@ -157,11 +157,29 @@ export const PDA1_ATTESTATION: AttestationDefinition = {
   ]
 }
 
+export const LEARNING_CREDENTIAL_ATTESTATION: AttestationDefinition = {
+  name: "Learning Credential",
+  type: AttestationType.LEARNING_CREDENTIAL,
+  dataSet: [
+    {identifier: "issuing_authority", attribute: "Issuing Authority"},
+    {identifier: "issuing_country", attribute: "Issuing Country"},
+    {identifier: "date_of_issuance", attribute: "Date of Issuance"},
+    {identifier: 'date_of_expiry', attribute: "Date of Expiry"},
+    {identifier: "family_name", attribute: "Family Name(s)"},
+    {identifier: "given_name", attribute: "Given Name(s)"},
+    {identifier: "achievement_title", attribute: "Achievement Title"},
+    {identifier: "achievement_description", attribute: "Achievement Description"},
+    {identifier: "learning_outcomes", attribute: "Learning Outcomes"},
+    {identifier: "assessment_grade", attribute: "Assessment Grade"},
+  ]
+}
+
 export const SUPPORTED_ATTESTATIONS: { [id: string]: AttestationDefinition } = {
   "pid": PID_ATTESTATION,
   "mdl": MDL_ATTESTATION,
   "photo_id": PHOTO_ID_ATTESTATION,
   "ehic": EHIC_ATTESTATION,
   "ehic-dc4eu": EHIC_ATTESTATION_DC4EU,
-  "pda1": PDA1_ATTESTATION
+  "pda1": PDA1_ATTESTATION,
+  "learning_credential": LEARNING_CREDENTIAL_ATTESTATION,
 }
