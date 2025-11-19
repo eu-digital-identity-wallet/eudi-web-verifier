@@ -13,7 +13,7 @@ import { FormSelectableField } from '@app/core/models/FormSelectableField';
     ]
 })
 export class RecursiveCheckboxComponent {
-  @Input() field: FormSelectableField = { id: 0, label: '', value: '' };
+  @Input() field: FormSelectableField = { id: 0, label: '', value: '', alwaysDisclosed: false };
   @Input() isCheckedFn!: (value: any) => boolean;
   @Input() handleFn!: (field: any) => void;
   @Input() trackByFn!: (index: number, item: any) => any;

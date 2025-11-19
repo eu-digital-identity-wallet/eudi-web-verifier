@@ -31,6 +31,8 @@ import { DCQLService } from '@app/core/services/dcql-service';
 import { Subject } from 'rxjs';
 import { SessionStorageService } from '@app/core/services/session-storage.service';
 import { ISSUER_CHAIN } from '@app/core/constants/general';
+import { AttestationFormat } from '@app/core/models/attestation/AttestationFormat';
+import { SUPPORTED_ATTESTATIONS } from '@app/core/constants/attestation-definitions';
 
 @Component({
   imports: [
@@ -76,7 +78,7 @@ export class HomeComponent implements OnDestroy {
   });
 
   selectedAttestations: AttestationSelection[] | null = null;
-  selectedAttributes: { [id: string]: string[] } | null = null;
+  selectedAttributes: { [id: string]: string[] } | null = {};
   selectedRequestUriMethod: 'get' | 'post' = 'get';
 
   initializationRequest: TransactionInitializationRequest | null = null;
@@ -90,6 +92,21 @@ export class HomeComponent implements OnDestroy {
 
   handleSelectionChangedEvent($event: AttestationSelection[]) {
     this.selectedAttestations = $event;
+    
+    if (this.selectedAttestations) {
+      this.selectedAttestations.forEach(attestation => {
+        const attestationDef = SUPPORTED_ATTESTATIONS[attestation.type];
+        if (attestationDef) {
+          const neverSelectivelyDisclosableAttributes = attestationDef.dataSet
+            .filter(dataElement => dataElement.selectivelyDisclosable === 'never')
+            .map(dataElement => dataElement.identifier);
+          if (neverSelectivelyDisclosableAttributes.length > 0) {
+            this.selectedAttributes![attestation.type] = neverSelectivelyDisclosableAttributes;
+          }
+        }
+      });
+    }
+    
   }
 
   handleAttributesCollectedEvent($event: AttributesSelectionEvent) {
