@@ -178,7 +178,6 @@ export class HomeComponent implements OnDestroy {
     return this.selectedAttestations !== null
     && this.selectedAttestations.filter((attestation) => {
       if(attestation.attributeSelectionMethod === AttributeSelectionMethod.SELECTABLE) {
-            console.log('Never selectively disclosable attributes for', attestation.type, ':', this.selectedAttributes);
         return this.selectedAttributes?.[attestation.type]?.length?? 0 > 0;
       } else return attestation.attributeSelectionMethod === AttributeSelectionMethod.ALL_ATTRIBUTES;
     }).length === this.selectedAttestations.length;

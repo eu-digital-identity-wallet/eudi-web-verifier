@@ -61,8 +61,7 @@ export class SelectableAttestationAttributesComponent implements OnInit {
     this.attestationType = this.data.type;
     this.seed = this.data.seed;
     this.formFields = this.extractFormFieldsFromModel();
-    this.selectedFields = this.formFields.filter(field => field.alwaysDisclose).map(field => field.value);
-    console.log('Pre-selected fields:', this.selectedFields);
+    this.selectedFields = this.formFields.filter(field => field.alwaysDisclosed).map(field => field.value);
     if (this.seed?.selectedFields) {
       this.selectedFields = this.seed.selectedFields;
     }
@@ -100,7 +99,7 @@ export class SelectableAttestationAttributesComponent implements OnInit {
         label: attr.attribute,
         value: attr.identifier,
         visible: true,
-        alwaysDisclose: this.attestationFormat == AttestationFormat.SD_JWT_VC && attr.selectivelyDisclosable === "never",
+        alwaysDisclosed: this.attestationFormat == AttestationFormat.SD_JWT_VC && attr.selectivelyDisclosable === "never",
         nested: attr.nested?.map((nestedAttr: any, nestedIndex: number) => 
           mapAttributeRecursively(nestedAttr, nestedIndex)
         )
