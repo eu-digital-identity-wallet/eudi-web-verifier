@@ -3,6 +3,7 @@
     (click)="handleFn(field)"
     color="primary"
     [checked]="isCheckedFn(field.value)"
+    [disabled]="field.alwaysDisclose"
   >
     {{ field.label }}
   </mat-checkbox>

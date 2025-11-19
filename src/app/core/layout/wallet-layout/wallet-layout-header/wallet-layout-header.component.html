@@ -5,18 +5,14 @@
     <mat-icon>menu</mat-icon>
   </button>
   <mat-menu #menu="matMenu">
-    <button mat-menu-item>
-      <a id="inspectLogs" (click)="inspectLogs()">Inspect transaction logs</a>
-    </button>
-    <button mat-menu-item>
-      <a id="customScheme" (click)="changeCustomScheme()"
-        >Change default scheme</a
-      >
-    </button>
-    <button mat-menu-item>
-      <a id="issuerChain" (click)="changeIssuerChain()"
-        >Configure issuer chain</a
-      >
-    </button>
+    <a id="inspectLogs" mat-menu-item (click)="inspectLogs()"
+      >Inspect transaction logs</a
+    >
+    <a id="customScheme" mat-menu-item (click)="changeCustomScheme()"
+      >Change default scheme</a
+    >
+    <a id="issuerChain" mat-menu-item (click)="changeIssuerChain()"
+      >Configure issuer chain</a
+    >
   </mat-menu>
 </header>

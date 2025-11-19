@@ -17,6 +17,7 @@ import { DialogData } from '@features/presentation-request-preparation/component
 import { MatTabsModule } from '@angular/material/tabs';
 import { MatBadgeModule } from '@angular/material/badge';
 import { RecursiveCheckboxComponent } from '../recursive-checkbox/recursive-checkbox.component';
+import { DataElement } from '@app/core/models/attestation/AttestationDefinition';
 
 @Component({
   selector: 'vc-selectable-attestation-attributes',
@@ -60,6 +61,8 @@ export class SelectableAttestationAttributesComponent implements OnInit {
     this.attestationType = this.data.type;
     this.seed = this.data.seed;
     this.formFields = this.extractFormFieldsFromModel();
+    this.selectedFields = this.formFields.filter(field => field.alwaysDisclose).map(field => field.value);
+    console.log('Pre-selected fields:', this.selectedFields);
     if (this.seed?.selectedFields) {
       this.selectedFields = this.seed.selectedFields;
     }
@@ -91,12 +94,13 @@ export class SelectableAttestationAttributesComponent implements OnInit {
     }
   
     // Recursive function to handle attributes at any nesting level
-    const mapAttributeRecursively = (attr: any, index: number): FormSelectableField => {
+    const mapAttributeRecursively = (attr: DataElement, index: number): FormSelectableField => {
       return {
         id: index,
         label: attr.attribute,
         value: attr.identifier,
         visible: true,
+        alwaysDisclose: this.attestationFormat == AttestationFormat.SD_JWT_VC && attr.selectivelyDisclosable === "never",
         nested: attr.nested?.map((nestedAttr: any, nestedIndex: number) => 
           mapAttributeRecursively(nestedAttr, nestedIndex)
         )
