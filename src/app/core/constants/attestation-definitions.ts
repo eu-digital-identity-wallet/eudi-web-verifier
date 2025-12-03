@@ -10,7 +10,7 @@ export const PID_ATTESTATION: AttestationDefinition = {
     { identifier: 'birth_date', attribute: 'Birthdate'},
     { identifier: 'family_name_birth', attribute: 'Family name birth'},
     { identifier: 'given_name_birth', attribute: 'Given name birth'},
-    { identifier: 'birth_place', attribute: 'Birth place'},
+    { identifier: 'place_of_birth', attribute: 'Birth place'},
     { identifier: 'resident_address', attribute: 'Resident address'},
     { identifier: 'resident_country', attribute: 'Resident country'},
     { identifier: 'resident_state', attribute: 'Resident state'},
