@@ -21,7 +21,8 @@
               "crypto-js",
               "cbor-web",
               "cbor-bigdecimal",
-              "buffer"
+              "buffer",
+              "qrcode"
             ],
             "outputPath": {
               "base": "dist/verifier-ui"
