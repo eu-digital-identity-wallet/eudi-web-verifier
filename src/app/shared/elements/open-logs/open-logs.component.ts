@@ -1,5 +1,5 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { MatButtonModule } from '@angular/material/button';
 import { MatInputModule } from '@angular/material/input';
 import { MatDialogModule, MAT_DIALOG_DATA } from '@angular/material/dialog';
@@ -16,17 +16,16 @@ import {VerifierEndpointService} from "@core/services/verifier-endpoint.service"
 @Component({
     selector: 'vc-open-logs',
     imports: [
-        MatDialogModule,
-        CommonModule,
-        MatButtonModule,
-        ShowLogsComponent,
-        MatInputModule,
-        FormsModule,
-        ReactiveFormsModule,
-        MatIconModule,
-        SharedModule,
-        MatExpansionModule
-    ],
+    MatDialogModule,
+    MatButtonModule,
+    ShowLogsComponent,
+    MatInputModule,
+    FormsModule,
+    ReactiveFormsModule,
+    MatIconModule,
+    SharedModule,
+    MatExpansionModule
+],
     templateUrl: './open-logs.component.html',
     styleUrls: ['./open-logs.component.scss'],
     providers: [VerifierEndpointService]

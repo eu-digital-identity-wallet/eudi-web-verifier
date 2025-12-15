@@ -6,16 +6,14 @@
       <div>
         Select attributes of the attestation to be included in the request
       </div>
-      <ng-container
-        *ngFor="let field of formFields; index as idx; trackBy: trackByFn"
-      >
+      @for (field of formFields; track trackByFn(idx, field); let idx = $index) {
         <app-recursive-checkbox
           [field]="field"
           [isCheckedFn]="boundIsChecked"
           [handleFn]="boundHandle"
           [trackByFn]="boundTrackByFn"
         ></app-recursive-checkbox>
-      </ng-container>
+      }
     </div>
   </div>
 </mat-dialog-content>
@@ -29,7 +27,7 @@
     matBadge="{{ selectedFields.length }}"
     matBadgeHidden="{{ selectedFields.length === 0 }}"
     matBadgeColor="accent"
-  >
+    >
     Select
   </button>
   <button mat-stroked-button mat-dialog-close>Close</button>

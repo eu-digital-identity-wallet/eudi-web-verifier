@@ -1,7 +1,9 @@
 <vc-wallet-layout>
   <div body >
     <div class="bg-panel">
-      <vc-presentations-results [concludedTransaction]="concludedTransaction" *ngIf="concludedTransaction"></vc-presentations-results>
+      @if (concludedTransaction) {
+        <vc-presentations-results [concludedTransaction]="concludedTransaction"></vc-presentations-results>
+      }
     </div>
   </div>
 </vc-wallet-layout>

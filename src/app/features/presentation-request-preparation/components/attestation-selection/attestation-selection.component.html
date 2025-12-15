@@ -5,31 +5,35 @@
     [(value)]="selectedMethod"
     [formControl]="methodControl"
     (selectionChange)="emitAttestationSelectionChanged()"
-  >
-    <ng-container *ngFor="let method of attributeSelectionMethods">
+    >
+    @for (method of attributeSelectionMethods; track method) {
       <mat-option [value]="method">{{ labelOf(method) }}</mat-option>
-    </ng-container>
+    }
   </mat-select>
-  <mat-error *ngIf="methodControl.hasError('required')"
-    >Please choose a method</mat-error
-  >
-</mat-form-field>
+  @if (methodControl.hasError('required')) {
+    <mat-error
+      >Please choose a method</mat-error
+      >
+    }
+  </mat-form-field>
 
-<mat-form-field>
-  <mat-label>-- format --</mat-label>
-  <mat-select
-    matNativeControl
-    [(value)]="selectedFormat"
-    [formControl]="formatControl"
-    (selectionChange)="emitAttestationSelectionChanged()"
-  >
-    <ng-container *ngFor="let format of supportedFormats">
-      <mat-option [value]="format.key" disabled="{{ format.disabled }}">{{
-        format.value
-      }}</mat-option>
-    </ng-container>
-  </mat-select>
-  <mat-error *ngIf="formatControl.hasError('required')"
-    >Please choose an format</mat-error
-  >
-</mat-form-field>
+  <mat-form-field>
+    <mat-label>-- format --</mat-label>
+    <mat-select
+      matNativeControl
+      [(value)]="selectedFormat"
+      [formControl]="formatControl"
+      (selectionChange)="emitAttestationSelectionChanged()"
+      >
+      @for (format of supportedFormats; track format) {
+        <mat-option [value]="format.key" disabled="{{ format.disabled }}">{{
+          format.value
+        }}</mat-option>
+      }
+    </mat-select>
+    @if (formatControl.hasError('required')) {
+      <mat-error
+        >Please choose an format</mat-error
+        >
+      }
+    </mat-form-field>

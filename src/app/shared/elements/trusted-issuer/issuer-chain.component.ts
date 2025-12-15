@@ -1,5 +1,5 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatIconModule } from '@angular/material/icon';
 import {
@@ -38,7 +38,6 @@ function certificateValidator(
 @Component({
   selector: 'vc-trusted-issuer',
   imports: [
-    CommonModule,
     MatExpansionModule,
     FormsModule,
     ReactiveFormsModule,
@@ -46,8 +45,8 @@ function certificateValidator(
     SharedModule,
     MatIconModule,
     MatDialogModule,
-    MatButtonModule,
-  ],
+    MatButtonModule
+],
   templateUrl: './issuer-chain.component.html',
   styleUrl: './issuer-chain.component.scss',
 })

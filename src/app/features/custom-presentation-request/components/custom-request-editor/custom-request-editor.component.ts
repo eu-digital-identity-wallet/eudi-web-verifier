@@ -1,11 +1,11 @@
-import { CommonModule } from '@angular/common';
+
 import { Component } from '@angular/core';
 import { DataService } from '@app/core/services/data-service';
 import { SharedModule } from '@app/shared/shared.module';
 
 @Component({
     selector: 'vc-presentation-request-editor',
-    imports: [CommonModule, SharedModule],
+    imports: [SharedModule],
     templateUrl: './custom-request-editor.component.html',
     styleUrls: ['./custom-request-editor.component.scss']
 })

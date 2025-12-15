@@ -1,18 +1,17 @@
 <div class="component-root">
   <mat-accordion>
-    <ng-container *ngFor="let attestation of attestations">
+    @for (attestation of attestations; track attestation) {
       <mat-expansion-panel>
         <mat-expansion-panel-header>
           <mat-panel-title>
             {{ attestation.name }}
           </mat-panel-title>
         </mat-expansion-panel-header>
-
         <vc-attestation-selection
           [attestation]="attestation"
           (attestationSelectionEvent)="handleAttestationSelectionEvent($event)"
         ></vc-attestation-selection>
       </mat-expansion-panel>
-    </ng-container>
+    }
   </mat-accordion>
 </div>

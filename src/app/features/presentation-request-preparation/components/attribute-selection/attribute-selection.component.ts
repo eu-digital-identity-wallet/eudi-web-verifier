@@ -1,5 +1,5 @@
 import {Component, EventEmitter, inject, Input, OnChanges, OnInit, Output, SimpleChanges} from "@angular/core";
-import {CommonModule} from "@angular/common";
+
 import {SharedModule} from "@shared/shared.module";
 import {AttestationSelection, AttributeSelectionMethod} from "@features/presentation-request-preparation/models/AttestationSelection";
 import {AttestationType} from "@core/models/attestation/AttestationType";
@@ -19,12 +19,11 @@ import { AttributesSelectionEvent } from "../../models/AttributesSelection";
     templateUrl: './attribute-selection.component.html',
     selector: 'vc-attribute-selection',
     imports: [
-        CommonModule,
-        SharedModule,
-        MatButtonModule,
-        MatCardModule,
-        MatBadgeModule
-    ],
+    SharedModule,
+    MatButtonModule,
+    MatCardModule,
+    MatBadgeModule
+],
     styleUrls: ['./attribute-selection.component.scss']
 })
 export class AttributeSelectionComponent implements OnChanges {

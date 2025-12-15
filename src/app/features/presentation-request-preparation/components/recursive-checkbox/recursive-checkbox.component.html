@@ -4,18 +4,20 @@
     color="primary"
     [checked]="isCheckedFn(field.value)"
     [disabled]="field.alwaysDisclosed"
-  >
+    >
     {{ field.label }}
   </mat-checkbox>
 
-  <div *ngIf="field.nested?.length" class="nested-fields">
-    <ng-container *ngFor="let nestedField of field.nested; trackBy: trackByFn">
-      <app-recursive-checkbox
-        [field]="nestedField"
-        [isCheckedFn]="isCheckedFn"
-        [handleFn]="handleFn"
-        [trackByFn]="trackByFn"
-      ></app-recursive-checkbox>
-    </ng-container>
-  </div>
+  @if (field.nested?.length) {
+    <div class="nested-fields">
+      @for (nestedField of field.nested; track trackByFn($index, nestedField)) {
+        <app-recursive-checkbox
+          [field]="nestedField"
+          [isCheckedFn]="isCheckedFn"
+          [handleFn]="handleFn"
+          [trackByFn]="trackByFn"
+        ></app-recursive-checkbox>
+      }
+    </div>
+  }
 </div>

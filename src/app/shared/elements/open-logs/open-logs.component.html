@@ -1,21 +1,25 @@
 <div >
-    <h2 mat-dialog-title>{{label}}</h2>
-    <mat-dialog-content class="mat-typography">
-      <div class="dialog-container">
-        <div *ngIf="isInspectLogs" class="inspect-logs">
-            <form class="example-form">
-              <mat-form-field class="example-full-width">
-                <mat-label>Transaction ID</mat-label>
-                <input type="scheme" matInput [formControl]="schemeControl" [errorStateMatcher]="matcher" placeholder="type a transaction ID">
-              </mat-form-field>
-              <vc-button class="vc-button" name="Inspect logs" id="inspectLogs" mode="none" [isDisabled]="schemeControl.invalid" color="primary" (clicked)="inspectLogs()"></vc-button>
-            </form>
+  <h2 mat-dialog-title>{{label}}</h2>
+  <mat-dialog-content class="mat-typography">
+    <div class="dialog-container">
+      @if (isInspectLogs) {
+        <div class="inspect-logs">
+          <form class="example-form">
+            <mat-form-field class="example-full-width">
+              <mat-label>Transaction ID</mat-label>
+              <input type="scheme" matInput [formControl]="schemeControl" [errorStateMatcher]="matcher" placeholder="type a transaction ID">
+            </mat-form-field>
+            <vc-button class="vc-button" name="Inspect logs" id="inspectLogs" mode="none" [isDisabled]="schemeControl.invalid" color="primary" (clicked)="inspectLogs()"></vc-button>
+          </form>
         </div>
-        <vc-show-logs *ngIf="transactionId" [transactionId]="transactionId"></vc-show-logs>
-      </div>
-    </mat-dialog-content>
-    <mat-dialog-actions align="end">
-      <button mat-button mat-dialog-close>Close</button>
-    </mat-dialog-actions>
+      }
+      @if (transactionId) {
+        <vc-show-logs [transactionId]="transactionId"></vc-show-logs>
+      }
+    </div>
+  </mat-dialog-content>
+  <mat-dialog-actions align="end">
+    <button mat-button mat-dialog-close>Close</button>
+  </mat-dialog-actions>
 </div>
 

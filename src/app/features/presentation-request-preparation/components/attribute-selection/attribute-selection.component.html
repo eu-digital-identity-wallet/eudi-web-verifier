@@ -1,19 +1,19 @@
 <div class="component-root">
-  <ng-container *ngFor="let selection of attestationsSelection">
+  @for (selection of attestationsSelection; track selection) {
     <mat-card appearance="outlined">
       <mat-card-header>
         <mat-card-title>{{ nameOf(selection.type) }}</mat-card-title>
         <mat-card-subtitle>
           in <i> {{ selection.format }} </i> format</mat-card-subtitle
-        >
-      </mat-card-header>
-      <mat-card-actions align="end">
-        <button
-          *ngIf="isSelectable(selection)"
-          mat-stroked-button
-          matBadgeColor="accent"
-          matBadge="{{ fieldsSelectedNo(selection) }}"
-          [matBadgeHidden]="!canShowFieldsSelected(selection.type)"
+          >
+        </mat-card-header>
+        <mat-card-actions align="end">
+          @if (isSelectable(selection)) {
+            <button
+              mat-stroked-button
+              matBadgeColor="accent"
+              matBadge="{{ fieldsSelectedNo(selection) }}"
+              [matBadgeHidden]="!canShowFieldsSelected(selection.type)"
           (click)="
             popAttributesSelector(
               selection.format!,
@@ -21,19 +21,21 @@
               nameOf(selection.type)
             )
           "
-        >
-          Select Attributes
-        </button>
-        <button
-          mat-button
-          *ngIf="!isSelectable(selection)"
-          matBadgeColor="accent"
-          matBadge="{{ fieldsSelectedNo(selection) }}"
-          [disabled]="true"
-        >
-          All Attributes selected
-        </button>
-      </mat-card-actions>
-    </mat-card>
-  </ng-container>
-</div>
+              >
+              Select Attributes
+            </button>
+          }
+          @if (!isSelectable(selection)) {
+            <button
+              mat-button
+              matBadgeColor="accent"
+              matBadge="{{ fieldsSelectedNo(selection) }}"
+              [disabled]="true"
+              >
+              All Attributes selected
+            </button>
+          }
+        </mat-card-actions>
+      </mat-card>
+    }
+  </div>

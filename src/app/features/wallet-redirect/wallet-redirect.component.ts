@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { ActivatedRoute } from '@angular/router';
 import { WalletLayoutComponent } from '@app/core/layout/wallet-layout/wallet-layout.component';
 import { PresentationsResultsComponent } from '@features/invoke-wallet/components/presentations-results/presentations-results.component';
@@ -14,10 +14,9 @@ import {SdJwtVcAttestationDecoder} from "@core/services/decoders/SdJwtVcAttestat
 @Component({
     selector: 'vc-wallet-redirect',
     imports: [
-        CommonModule,
-        WalletLayoutComponent,
-        PresentationsResultsComponent
-    ],
+    WalletLayoutComponent,
+    PresentationsResultsComponent
+],
     providers: [
         VerifierEndpointService,
         DecodersRegistryService,

@@ -1,4 +1,4 @@
-import {CommonModule} from '@angular/common';
+
 import {Component, EventEmitter, OnInit, Output} from '@angular/core';
 import {SharedModule} from "@shared/shared.module";
 import {MatInputModule} from "@angular/material/input";
@@ -14,16 +14,15 @@ import {SUPPORTED_ATTESTATIONS} from "@core/constants/attestation-definitions";
 @Component({
     selector: 'vc-supported-attestations',
     imports: [
-        CommonModule,
-        SharedModule,
-        MatInputModule,
-        MatSelectModule,
-        MatRadioModule,
-        ReactiveFormsModule,
-        FormsModule,
-        AttestationSelectionComponent,
-        MatExpansionModule,
-    ],
+    SharedModule,
+    MatInputModule,
+    MatSelectModule,
+    MatRadioModule,
+    ReactiveFormsModule,
+    FormsModule,
+    AttestationSelectionComponent,
+    MatExpansionModule
+],
     templateUrl: './supported-attestations.component.html',
     styleUrls: ['./supported-attestations.component.css']
 })

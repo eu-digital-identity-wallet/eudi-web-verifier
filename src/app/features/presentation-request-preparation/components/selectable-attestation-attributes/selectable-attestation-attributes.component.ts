@@ -11,7 +11,7 @@ import {
   MatDialogModule,
   MatDialogRef,
 } from '@angular/material/dialog';
-import { CommonModule } from '@angular/common';
+
 import { MatButtonModule } from '@angular/material/button';
 import { DialogData } from '@features/presentation-request-preparation/components/selectable-attestation-attributes/model/DialogData';
 import { MatTabsModule } from '@angular/material/tabs';
@@ -24,7 +24,6 @@ import { DataElement } from '@app/core/models/attestation/AttestationDefinition'
   templateUrl: './selectable-attestation-attributes.component.html',
   styleUrls: ['./selectable-attestation-attributes.component.scss'],
   imports: [
-    CommonModule,
     MatCheckboxModule,
     MatExpansionModule,
     SharedModule,
@@ -33,7 +32,7 @@ import { DataElement } from '@app/core/models/attestation/AttestationDefinition'
     MatTabsModule,
     MatBadgeModule,
     RecursiveCheckboxComponent
-  ],
+],
 })
 export class SelectableAttestationAttributesComponent implements OnInit {
   readonly data = inject<DialogData>(MAT_DIALOG_DATA);

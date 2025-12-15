@@ -1,5 +1,5 @@
 import { Component, inject, OnInit } from '@angular/core';
-import { CommonModule } from '@angular/common';
+
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatIconModule } from '@angular/material/icon';
 import { FormControl, FormsModule, ReactiveFormsModule, Validators } from '@angular/forms';
@@ -13,7 +13,7 @@ import {MatButtonModule} from "@angular/material/button";
 
 @Component({
     selector: 'vc-input-scheme',
-    imports: [CommonModule, MatExpansionModule, FormsModule, ReactiveFormsModule, MatInputModule, SharedModule, MatIconModule, MatDialogModule, MatButtonModule],
+    imports: [MatExpansionModule, FormsModule, ReactiveFormsModule, MatInputModule, SharedModule, MatIconModule, MatDialogModule, MatButtonModule],
     templateUrl: './input-scheme.component.html',
     styleUrls: ['./input-scheme.component.scss']
 })

@@ -11,16 +11,20 @@
       <mat-form-field class="example-full-width">
         <mat-label>Scheme</mat-label>
         <input type="scheme" matInput [formControl]="schemeControl" [errorStateMatcher]="matcher"
-               placeholder="https://">
-        <mat-error *ngIf="schemeControl.hasError('scheme') && !schemeControl.hasError('required')">Please enter a valid scheme</mat-error>
-        <mat-error *ngIf="schemeControl.hasError('required')">scheme is <strong>required</strong></mat-error>
-      </mat-form-field>
-    </form>
-  </div>
+          placeholder="https://">
+          @if (schemeControl.hasError('scheme') && !schemeControl.hasError('required')) {
+            <mat-error>Please enter a valid scheme</mat-error>
+          }
+          @if (schemeControl.hasError('required')) {
+            <mat-error>scheme is <strong>required</strong></mat-error>
+          }
+        </mat-form-field>
+      </form>
+    </div>
 
-</mat-dialog-content>
+  </mat-dialog-content>
 
-<mat-dialog-actions align="end">
-  <button mat-button mat-dialog-close (click)="save()" [disabled]="schemeControl.invalid">Save</button>
-  <button mat-button mat-dialog-close>Close</button>
-</mat-dialog-actions>
+  <mat-dialog-actions align="end">
+    <button mat-button mat-dialog-close (click)="save()" [disabled]="schemeControl.invalid">Save</button>
+    <button mat-button mat-dialog-close>Close</button>
+  </mat-dialog-actions>

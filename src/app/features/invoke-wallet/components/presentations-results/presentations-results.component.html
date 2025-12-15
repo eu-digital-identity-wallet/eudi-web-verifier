@@ -12,52 +12,54 @@
       <a mat-button (click)="openLogs()">transaction log</a>
     </div>
 
-    <ng-container *ngFor="let entry of attestationsPerQuery | keyvalue">
+    @for (entry of attestationsPerQuery | keyvalue; track entry) {
       <mat-expansion-panel expanded="true">
         <mat-expansion-panel-header>
           <mat-panel-title><span>for query <strong>{{ entry.key }}</strong>:</span>
-          </mat-panel-title>
-        </mat-expansion-panel-header>
-
-        <ng-container *ngIf="entry.value | async as attestations">
-          <div>
-            <strong>{{ attestations.length }}</strong> documents
-          </div>
-          <div class="result-container">
-            <ng-container *ngFor="let attestation of attestations">
-              <mat-card *ngIf="isErrored(attestation)" appearance="outlined">
+        </mat-panel-title>
+      </mat-expansion-panel-header>
+      @if (entry.value | async; as attestations) {
+        <div>
+          <strong>{{ attestations.length }}</strong> documents
+        </div>
+        <div class="result-container">
+          @for (attestation of attestations; track attestation) {
+            @if (isErrored(attestation)) {
+              <mat-card appearance="outlined">
                 <mat-card-header>
                   <mat-card-title
                     >Error: {{ attestation.reason }}</mat-card-title
-                  >
-                  <mat-card-subtitle>
-                    in
-                    <i> {{ attestation.format }} </i> format</mat-card-subtitle
-                  >
-                </mat-card-header>
-              </mat-card>
-
-              <mat-card *ngIf="!isErrored(attestation)" appearance="outlined">
-                <mat-card-header>
-                  <mat-card-title>{{ attestation.name }}</mat-card-title>
-                  <mat-card-subtitle>
-                    in
-                    <i> {{ attestation.format }} </i> format</mat-card-subtitle
-                  >
-                </mat-card-header>
-                <mat-card-actions align="end">
-                  <button
-                    mat-stroked-button
-                    (click)="viewContents(attestation)"
-                  >
-                    View Content
-                  </button>
-                </mat-card-actions>
-              </mat-card>
-            </ng-container>
-          </div>
-        </ng-container>
-      </mat-expansion-panel>
-    </ng-container>
-  </div>
-</div>
+                    >
+                    <mat-card-subtitle>
+                      in
+                      <i> {{ attestation.format }} </i> format</mat-card-subtitle
+                      >
+                    </mat-card-header>
+                  </mat-card>
+                }
+                @if (!isErrored(attestation)) {
+                  <mat-card appearance="outlined">
+                    <mat-card-header>
+                      <mat-card-title>{{ attestation.name }}</mat-card-title>
+                      <mat-card-subtitle>
+                        in
+                        <i> {{ attestation.format }} </i> format</mat-card-subtitle
+                        >
+                      </mat-card-header>
+                      <mat-card-actions align="end">
+                        <button
+                          mat-stroked-button
+                          (click)="viewContents(attestation)"
+                          >
+                          View Content
+                        </button>
+                      </mat-card-actions>
+                    </mat-card>
+                  }
+                }
+              </div>
+            }
+          </mat-expansion-panel>
+        }
+      </div>
+    </div>

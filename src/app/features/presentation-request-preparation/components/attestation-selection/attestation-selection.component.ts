@@ -1,5 +1,5 @@
 import {Component, EventEmitter, Input, OnInit, Output} from "@angular/core";
-import {CommonModule} from "@angular/common";
+
 import {SharedModule} from "@shared/shared.module";
 import {MatInputModule} from "@angular/material/input";
 import {MatSelectModule} from "@angular/material/select";
@@ -17,15 +17,14 @@ import {AttestationType} from "@core/models/attestation/AttestationType";
 @Component({
     selector: 'vc-attestation-selection',
     imports: [
-        CommonModule,
-        SharedModule,
-        MatInputModule,
-        MatSelectModule,
-        MatRadioModule,
-        ReactiveFormsModule,
-        FormsModule,
-        MatExpansionModule,
-    ],
+    SharedModule,
+    MatInputModule,
+    MatSelectModule,
+    MatRadioModule,
+    ReactiveFormsModule,
+    FormsModule,
+    MatExpansionModule
+],
     templateUrl: './attestation-selection.component.html'
 })
 export class AttestationSelectionComponent implements OnInit {

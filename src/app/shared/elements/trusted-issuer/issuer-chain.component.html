@@ -29,10 +29,12 @@
 -----END CERTIFICATE-----
 "
       ></textarea>
-      <mat-error *ngIf="issuerChainControl.hasError('invalidCertificate')">
-        Invalid certificate chain format. Please provide a valid certificate
-        chain.
-      </mat-error>
+      @if (issuerChainControl.hasError('invalidCertificate')) {
+        <mat-error>
+          Invalid certificate chain format. Please provide a valid certificate
+          chain.
+        </mat-error>
+      }
     </mat-form-field>
   </form>
 </mat-dialog-content>
@@ -44,7 +46,7 @@
     mat-dialog-close
     (click)="save()"
     [disabled]="issuerChainControl.invalid"
-  >
+    >
     Save
   </button>
   <button mat-button mat-dialog-close>Close</button>

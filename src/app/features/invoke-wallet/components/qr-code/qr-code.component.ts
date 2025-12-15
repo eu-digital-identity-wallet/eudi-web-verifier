@@ -1,5 +1,5 @@
 import {ChangeDetectionStrategy, Component, EventEmitter, Injector, OnDestroy, OnInit, Output} from '@angular/core';
-import {CommonModule} from '@angular/common';
+
 import {SharedModule} from '@shared/shared.module';
 import {interval, ReplaySubject, Subject, take, takeUntil} from 'rxjs';
 import {map} from 'rxjs/operators';
@@ -24,15 +24,14 @@ import {MatProgressBarModule} from '@angular/material/progress-bar';
 @Component({
     selector: 'vc-qr-code',
     imports: [
-        CommonModule,
-        SharedModule,
-        MatDialogModule,
-        MatButtonModule,
-        MatCardModule,
-        MatDividerModule,
-        MatProgressBarModule,
-        QRCodeComponent
-    ],
+    SharedModule,
+    MatDialogModule,
+    MatButtonModule,
+    MatCardModule,
+    MatDividerModule,
+    MatProgressBarModule,
+    QRCodeComponent
+],
     templateUrl: './qr-code.component.html',
     styleUrls: ['./qr-code.component.scss'],
     providers: [VerifierEndpointService],
