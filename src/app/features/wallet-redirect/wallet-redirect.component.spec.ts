@@ -16,7 +16,7 @@ describe('WalletRedirectComponent', () => {
     );
     const walletResponse: WalletResponse = {
       id_token: 'id_token',
-      vp_token: {'query_0': 'vp_token',},
+      vp_token: {'query_0': ['vp_token'],},
     };
     await TestBed.configureTestingModule({
       imports: [WalletRedirectComponent],

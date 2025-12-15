@@ -124,7 +124,8 @@
             ],
             "stylePreprocessorOptions": {
               "includePaths": [
-                "src/template.sass"
+                "src/template.sass",
+                "."
               ]
             },
             "scripts": [],
