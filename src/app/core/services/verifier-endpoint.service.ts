@@ -15,7 +15,7 @@ import { SessionStorageService } from './session-storage.service';
 
 const SAME_DEVICE_UI_RE_ENTRY_URL = '/get-wallet-code?response_code={RESPONSE_CODE}';
 const PRESENTATIONS_ENDPOINT = 'ui/presentations';
-const VALIDATE_SD_JWT_VC_PRESENTATION_ENDPOINT = 'utilities/validations/sdJwtVc';
+const VALIDATE_SD_JWT_VC_PRESENTATION_ENDPOINT = 'utilities/process/sdJwtVc';
 
 @Injectable()
 export class VerifierEndpointService {
