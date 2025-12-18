@@ -4,5 +4,6 @@ export type InitializedTransaction = {
   client_id: string,
   request_uri: string,
   request_uri_method: RequestUriMethod,
-  transaction_id: string
+  transaction_id: string,
+  authorization_request_uri: string
 }

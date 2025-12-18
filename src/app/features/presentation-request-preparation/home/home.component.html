@@ -34,7 +34,7 @@
 
         <mat-step>
           <div style="padding-top: 10px">
-            <ng-template matStepLabel>...select request options and submit</ng-template>
+            <ng-template matStepLabel>...select presentation options and submit</ng-template>
                         
             <vc-presentation-options
               [presentationProfileControl]="presentationProfileControl"
@@ -62,7 +62,7 @@
           </div>
           <div class="button-container">
             <button mat-raised-button matStepperPrevious type="button">Back</button>
-            <button mat-raised-button matStepperNext type="button" (click)="proceedToInvokeWallet()" [disabled]="!canProceed()">Next
+            <button mat-raised-button matStepperNext type="button" (click)="proceedToInvokeWallet()" [disabled]="!canProceed()">Submit
             </button>
           </div>
         </mat-step>
