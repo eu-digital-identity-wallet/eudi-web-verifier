@@ -23,6 +23,7 @@ export class DCQLService {
     selectedAttributes: { [id: string]: string[] },
     selectedRequestUriMethod: RequestUriMethod,
     selectedProfile: Profile,
+    authorizationRequestUri: string,
     issuerChain?: string
   ): TransactionInitializationRequest {
     let dcqlQueries: CredentialQuery[] = selectedAttestations.map(
@@ -45,7 +46,8 @@ export class DCQLService {
       nonce: uuidv4(),
       request_uri_method: selectedRequestUriMethod,
       issuer_chain: issuerChain,
-      profile: selectedProfile
+      profile: selectedProfile,
+      authorization_request_uri: authorizationRequestUri
     };
   }
 

@@ -25,5 +25,5 @@ export class PresentationOptionsComponent {
 
   @Output() profileChange = new EventEmitter<Profile>();
   @Output() requestUriMethodChange = new EventEmitter<RequestUriMethod>();
-
+  @Output() authorizationSchemeChange = new EventEmitter<string>();
 }

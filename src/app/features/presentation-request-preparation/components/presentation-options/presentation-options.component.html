@@ -59,6 +59,7 @@
             placeholder="scheme://"
             [formControl]="authorizationSchemeControl"
             autocomplete="off"
+            (input)="authorizationSchemeChange.emit(authorizationSchemeControl.value)"
           />
         </mat-form-field>
       </div>
