@@ -1,72 +1,47 @@
 :host {
-	display: block;
-}
-
-.request-options-panel {
-	margin-bottom: 24px;
-	padding: 24px;
-	border: 1px solid var(--mat-sys-color-outline, #d9d9d9);
-	border-radius: 12px;
-	background: var(--mat-sys-color-surface, #fff);
-	box-shadow: 0 6px 18px rgb(24 39 75 / 6%);
-
-	.request-options-header {
-		margin-bottom: 16px;
-
-		h5 {
-			margin: 0;
-			font-size: 1rem;
-			font-weight: 600;
-		}
-
-		p {
-			margin: 4px 0 0;
-			color: rgba(0, 0, 0, 0.6);
-			font-size: 0.9rem;
-		}
-	}
+  display: block;
 }
 
 .request-options-grid {
-	display: flex;
-	flex-direction: column;
-	gap: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  padding-top: 16px;
 }
 
 .request-options-row {
-	display: grid;
-	grid-template-columns: 220px minmax(0, 1fr);
-	gap: 16px;
-	align-items: center;
+  display: grid;
+  grid-template-columns: 220px minmax(0, 1fr);
+  gap: 16px;
 }
 
 .request-options-label {
-	text-align: right;
+  text-align: right;
 
-	span {
-		display: block;
-		font-weight: 600;
-	}
+  span {
+    display: block;
+    font-weight: 500;
+  }
 }
 
 .request-options-helper {
-	margin: 4px 0 0;
-	font-size: 0.85rem;
-	color: rgba(0, 0, 0, 0.6);
+  margin: 4px 0 0;
+  font-size: 0.85rem;
+  color: rgba(0, 0, 0, 0.6);
 }
 
 .request-options-control {
-	display: flex;
-	flex-direction: column;
-	gap: 8px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 }
 
 @media (max-width: 768px) {
-	.request-options-row {
-		grid-template-columns: 1fr;
-	}
+  .request-options-row {
+    grid-template-columns: 1fr;
+  }
 
-	.request-options-label {
-		text-align: left;
-	}
+  .request-options-label {
+    text-align: left;
+  }
 }

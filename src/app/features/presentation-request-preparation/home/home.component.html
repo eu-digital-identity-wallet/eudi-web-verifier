@@ -2,68 +2,109 @@
   <div body>
     <h4>Define your presentation request</h4>
     <p>
-      Follow the steps to specify what will be requested from the wallet to present.
+      Follow the steps to specify what will be requested from the wallet to
+      present.
     </p>
     <mat-stepper orientation="vertical" linear #stepper>
       <form>
         <mat-step>
           <div>
             <ng-template matStepLabel>... select attestation(s)</ng-template>
-            <vc-supported-attestations (selectionChangedEvent)="handleSelectionChangedEvent($event)"></vc-supported-attestations>
+            <vc-supported-attestations
+              (selectionChangedEvent)="handleSelectionChangedEvent($event)"
+            ></vc-supported-attestations>
           </div>
-          
+
           <div class="button-container">
-            <button mat-raised-button matStepperNext [disabled]="!attestationsSelected()">Next</button>
+            <button
+              mat-raised-button
+              matStepperNext
+              [disabled]="!attestationsSelected()"
+            >
+              Next
+            </button>
           </div>
-        
         </mat-step>
 
         <mat-step>
           <div>
-            <ng-template matStepLabel>...select attestation(s) attributes</ng-template>
-            <vc-attribute-selection *ngIf="selectedAttestations !== null"
-                                    [attestationsSelection]="selectedAttestations"
-                                    (attributesCollectedEvent)="handleAttributesCollectedEvent($event)"
+            <ng-template matStepLabel
+              >...select attestation(s) attributes</ng-template
+            >
+            <vc-attribute-selection
+              *ngIf="selectedAttestations !== null"
+              [attestationsSelection]="selectedAttestations"
+              (attributesCollectedEvent)="
+                handleAttributesCollectedEvent($event)
+              "
             ></vc-attribute-selection>
           </div>
           <div class="button-container">
             <button mat-raised-button matStepperPrevious>Back</button>
-            <button mat-raised-button matStepperNext [disabled]="!attributesSelected()">Next</button>
+            <button
+              mat-raised-button
+              matStepperNext
+              [disabled]="!attributesSelected()"
+            >
+              Next
+            </button>
           </div>
         </mat-step>
 
         <mat-step>
           <div style="padding-top: 10px">
-            <ng-template matStepLabel>...select presentation options and submit</ng-template>
-                        
-            <vc-presentation-options
-              [presentationProfileControl]="presentationProfileControl"
-              [requestUriMethodControl]="requestUriMethodControl"
-              [authorizationSchemeControl]="authorizationSchemeControl"
-              (profileChange)="handleProfileChangedEvent($event)"
-              (requestUriMethodChange)="handleRequestUriMethodChangedEvent($event)"
-              (authorizationSchemeChange)="handleAuthorizationSchemeChangedEvent($event)"
-            ></vc-presentation-options>
+            <ng-template matStepLabel
+              >...select presentation options and submit</ng-template
+            >
+
+            <div class="presentation-options-container">
+              <vc-presentation-options
+                [presentationProfileControl]="presentationProfileControl"
+                [requestUriMethodControl]="requestUriMethodControl"
+                [authorizationSchemeControl]="authorizationSchemeControl"
+                (profileChange)="handleProfileChangedEvent($event)"
+                (requestUriMethodChange)="handleRequestUriMethodChangedEvent($event)"
+                (authorizationSchemeChange)="handleAuthorizationSchemeChangedEvent($event)"
+              ></vc-presentation-options>
+            </div>
 
             <mat-expansion-panel>
-
               <mat-expansion-panel-header>
-                <mat-panel-title><span>Your presentation request so far...</span></mat-panel-title>
+                <mat-panel-title
+                  ><span
+                    >Your presentation request so far...</span
+                  ></mat-panel-title
+                >
               </mat-expansion-panel-header>
 
-              <button mat-button matTooltip="Copy content"  style="float: right"
-                      *ngIf="canProceed()"
-                      [cdkCopyToClipboard]="initializationRequest | json">
+              <button
+                mat-button
+                matTooltip="Copy content"
+                style="float: right"
+                *ngIf="canProceed()"
+                [cdkCopyToClipboard]="initializationRequest | json"
+              >
                 <mat-icon>content_copy</mat-icon>
               </button>
-              <span id="as-pre" *ngIf="canProceed()">{{ initializationRequest | json }}</span>
+              <span id="as-pre" *ngIf="canProceed()">{{
+                initializationRequest | json
+              }}</span>
 
               <pre *ngIf="!canProceed()">..nothing prepared yet...</pre>
             </mat-expansion-panel>
           </div>
           <div class="button-container">
-            <button mat-raised-button matStepperPrevious type="button">Back</button>
-            <button mat-raised-button matStepperNext type="button" (click)="proceedToInvokeWallet()" [disabled]="!canProceed()">Submit
+            <button mat-raised-button matStepperPrevious type="button">
+              Back
+            </button>
+            <button
+              mat-raised-button
+              matStepperNext
+              type="button"
+              (click)="proceedToInvokeWallet()"
+              [disabled]="!canProceed()"
+            >
+              Submit
             </button>
           </div>
         </mat-step>
@@ -71,9 +112,9 @@
     </mat-stepper>
 
     <p>
-      Or, if this doesn't work for you, go straight to defining your presentation request
+      Or, if this doesn't work for you, go straight to defining your
+      presentation request
       <a routerLink="/custom-request" routerLinkActive="active">here</a>
     </p>
-
   </div>
 </vc-wallet-layout>
