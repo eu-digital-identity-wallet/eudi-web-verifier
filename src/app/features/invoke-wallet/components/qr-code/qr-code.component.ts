@@ -20,6 +20,7 @@ import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { MatDividerModule } from '@angular/material/divider';
 import {MatProgressBarModule} from '@angular/material/progress-bar';
+import { RequestUriMethod } from '@app/core/models/TransactionInitializationRequest';
 
 @Component({
     selector: 'vc-qr-code',
@@ -131,7 +132,7 @@ export class QrCodeComponent implements OnInit, OnDestroy {
     return concludedTransaction;
   }
 
-  private buildQrCode(data: { client_id: string, request_uri: string, request_uri_method: 'get' | 'post', transaction_id: string }): string {
+  private buildQrCode(data: { client_id: string, request_uri: string, request_uri_method: RequestUriMethod, transaction_id: string }): string {
     return `${this.scheme}?client_id=${encodeURIComponent(data.client_id)}&request_uri=${encodeURIComponent(data.request_uri)}&request_uri_method=${encodeURIComponent(data.request_uri_method)}`;
   }
 

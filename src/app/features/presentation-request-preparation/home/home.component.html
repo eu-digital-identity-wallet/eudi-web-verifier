@@ -36,17 +36,13 @@
           <div style="padding-top: 10px">
             <ng-template matStepLabel>...select request options and submit</ng-template>
                         
-            <div class="config-option-container">
-              <div class="config-option-label">
-                Request URI Method
-              </div>
-              <mat-button-toggle-group [formControl]="requestUriMethodControl" 
-                (valueChange)="handleRequestUriMethodChangedEvent($event)"  
-                aria-label="Request URI Method" >
-                <mat-button-toggle value="get">Get</mat-button-toggle>
-                <mat-button-toggle value="post">Post</mat-button-toggle>
-              </mat-button-toggle-group>
-            </div>
+            <vc-presentation-options
+              [presentationProfileControl]="presentationProfileControl"
+              [requestUriMethodControl]="requestUriMethodControl"
+              [authorizationSchemeControl]="authorizationSchemeControl"
+              (profileChange)="handleProfileChangedEvent($event)"
+              (requestUriMethodChange)="handleRequestUriMethodChangedEvent($event)"
+            ></vc-presentation-options>
 
             <mat-expansion-panel>
 

@@ -1,0 +1,67 @@
+<section class="request-options-panel">
+  <header class="request-options-header">
+    <h5>Presentation Options</h5>
+    <p>Decide how wallets should respond and which transport is used.</p>
+  </header>
+
+  <div class="request-options-grid">
+    <div class="request-options-row">
+      <div class="request-options-label">
+        <span>Presentation Profile</span>
+        <p class="request-options-helper">
+          Pick the protocol the verifier expects from the wallet.
+        </p>
+      </div>
+      <div class="request-options-control">
+        <mat-button-toggle-group
+          [formControl]="presentationProfileControl"
+          (valueChange)="profileChange.emit($event)"
+          aria-label="Presentation Profile"
+        >
+          <mat-button-toggle value="openid4vp">OpenID4VP</mat-button-toggle>
+          <mat-button-toggle value="haip">HAIP</mat-button-toggle>
+        </mat-button-toggle-group>
+      </div>
+    </div>
+
+    <div class="request-options-row">
+      <div class="request-options-label">
+        <span>Request URI Method</span>
+        <p class="request-options-helper">
+          Choose how the wallet fetches the request URI from the verifier.
+        </p>
+      </div>
+      <div class="request-options-control">
+        <mat-button-toggle-group
+          [formControl]="requestUriMethodControl"
+          (valueChange)="requestUriMethodChange.emit($event)"
+          aria-label="Request URI Method"
+        >
+          <mat-button-toggle value="get">GET</mat-button-toggle>
+          <mat-button-toggle value="post">POST</mat-button-toggle>
+        </mat-button-toggle-group>
+      </div>
+    </div>
+
+    <div class="request-options-row">
+      <div class="request-options-label">
+        <span>Authorization URI Scheme</span>
+        <p class="request-options-helper">
+          Define the deep-link scheme wallets should launch when invoking
+          authorization.
+        </p>
+      </div>
+      <div class="request-options-control">
+        <mat-form-field appearance="outline" class="config-option-field">
+          <mat-label>Authorization URI Scheme</mat-label>
+          <input
+            matInput
+            placeholder="scheme://"
+            [formControl]="authorizationSchemeControl"
+            autocomplete="off"
+          />
+        </mat-form-field>
+      </div>
+    </div>
+  </div>
+</section>

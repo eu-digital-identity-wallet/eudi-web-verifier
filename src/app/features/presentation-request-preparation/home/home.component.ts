@@ -1,4 +1,4 @@
-import { Component, inject, OnDestroy, OnInit } from '@angular/core';
+import { Component, inject, OnDestroy } from '@angular/core';
 import { NavigateService } from '@app/core/services/navigate.service';
 import { HOME_ACTIONS } from '@core/constants/pages-actions';
 import { BodyAction } from '@app/shared/elements/body-actions/models/BodyAction';
@@ -19,7 +19,7 @@ import {
 import { MatButtonModule } from '@angular/material/button';
 import { AttestationSelection, AttributeSelectionMethod } from '@features/presentation-request-preparation/models/AttestationSelection';
 import { AttributeSelectionComponent } from '@features/presentation-request-preparation/components/attribute-selection/attribute-selection.component';
-import { TransactionInitializationRequest } from '@core/models/TransactionInitializationRequest';
+import { Profile, RequestUriMethod, TransactionInitializationRequest } from '@core/models/TransactionInitializationRequest';
 import { VerifierEndpointService } from '@core/services/verifier-endpoint.service';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
@@ -30,9 +30,9 @@ import { AttributesSelectionEvent } from '../models/AttributesSelection';
 import { DCQLService } from '@app/core/services/dcql-service';
 import { Subject } from 'rxjs';
 import { SessionStorageService } from '@app/core/services/session-storage.service';
-import { ISSUER_CHAIN } from '@app/core/constants/general';
-import { AttestationFormat } from '@app/core/models/attestation/AttestationFormat';
+import { DEFAULT_SCHEME, ISSUER_CHAIN, SCHEME } from '@app/core/constants/general';
 import { SUPPORTED_ATTESTATIONS } from '@app/core/constants/attestation-definitions';
+import { PresentationOptionsComponent } from '../components/presentation-options/presentation-options.component';
 
 @Component({
   imports: [
@@ -53,6 +53,7 @@ import { SUPPORTED_ATTESTATIONS } from '@app/core/constants/attestation-definiti
     ClipboardModule,
     MatTooltipModule,
     MatButtonToggleModule,
+    PresentationOptionsComponent
   ],
   providers: [VerifierEndpointService],
   selector: 'vc-presentation-preparation-home',
@@ -69,7 +70,17 @@ export class HomeComponent implements OnDestroy {
 
   actions: BodyAction[] = HOME_ACTIONS;
 
-  requestUriMethodControl = new FormControl('get');
+  requestUriMethodControl = new FormControl<RequestUriMethod>('get', {
+    nonNullable: true,
+  });
+  authorizationSchemeControl = new FormControl<string>(
+    this.getStoredAuthorizationScheme(),
+    { nonNullable: true }
+  );
+  presentationProfileControl = new FormControl<Profile>(
+    'openid4vp',
+    { nonNullable: true }
+  );
 
 
   private readonly _formBuilder = inject(FormBuilder);
@@ -79,7 +90,8 @@ export class HomeComponent implements OnDestroy {
 
   selectedAttestations: AttestationSelection[] | null = null;
   selectedAttributes: { [id: string]: string[] } | null = {};
-  selectedRequestUriMethod: 'get' | 'post' = 'get';
+  selectedRequestUriMethod: RequestUriMethod = 'get';
+  selectedProfile: Profile = 'openid4vp';
 
   initializationRequest: TransactionInitializationRequest | null = null;
 
@@ -116,7 +128,8 @@ export class HomeComponent implements OnDestroy {
       this.initializationRequest = this.prepareInitializationRequest(
         this.selectedAttestations!,
         this.selectedAttributes,
-        this.selectedRequestUriMethod
+        this.selectedRequestUriMethod,
+        this.selectedProfile
       );
     } else {
       this.selectedAttributes = null;
@@ -124,13 +137,28 @@ export class HomeComponent implements OnDestroy {
   }
 
   handleRequestUriMethodChangedEvent($event: string) {
-    this.selectedRequestUriMethod = $event as 'get' | 'post';
+    this.selectedRequestUriMethod = $event as RequestUriMethod;
 
     if (this.selectedAttestations && this.selectedAttributes) {
       this.initializationRequest = this.prepareInitializationRequest(
         this.selectedAttestations,
         this.selectedAttributes,
-        this.selectedRequestUriMethod
+        this.selectedRequestUriMethod,
+        this.selectedProfile
+      );
+    } else {
+      this.initializationRequest = null;
+    }
+  }
+
+  handleProfileChangedEvent($event: string) {
+    this.selectedProfile = $event as Profile;
+    if (this.selectedAttestations && this.selectedAttributes) {
+      this.initializationRequest = this.prepareInitializationRequest(
+        this.selectedAttestations,
+        this.selectedAttributes,
+        this.selectedRequestUriMethod,
+        this.selectedProfile
       );
     } else {
       this.initializationRequest = null;
@@ -140,7 +168,8 @@ export class HomeComponent implements OnDestroy {
   private prepareInitializationRequest(
     selectedAttestations: AttestationSelection[],
     selectedAttributes: { [id: string]: string[] },
-    selectedRequestUriMethod: 'get' | 'post'
+    selectedRequestUriMethod: RequestUriMethod,
+    selectedProfile: Profile
   ): TransactionInitializationRequest {
 
     const issuerChain = this.sessionStorageService.get(ISSUER_CHAIN) ?? undefined;
@@ -149,6 +178,7 @@ export class HomeComponent implements OnDestroy {
       selectedAttestations,
       selectedAttributes,
       selectedRequestUriMethod,
+      selectedProfile,
       issuerChain);
   }
 
@@ -185,5 +215,13 @@ export class HomeComponent implements OnDestroy {
 
   canProceed() {
     return this.initializationRequest !== null;
+  }
+
+  private getStoredAuthorizationScheme(): string {
+    if (typeof window === 'undefined' || !window.localStorage) {
+      return DEFAULT_SCHEME;
+    }
+
+    return window.localStorage.getItem(SCHEME) ?? DEFAULT_SCHEME;
   }
 }
