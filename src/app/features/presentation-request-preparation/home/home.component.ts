@@ -1,4 +1,4 @@
-import { Component, inject, OnDestroy, OnInit } from '@angular/core';
+import { Component, inject, OnDestroy } from '@angular/core';
 import { NavigateService } from '@app/core/services/navigate.service';
 import { HOME_ACTIONS } from '@core/constants/pages-actions';
 import { BodyAction } from '@app/shared/elements/body-actions/models/BodyAction';
@@ -17,9 +17,16 @@ import {
   Validators,
 } from '@angular/forms';
 import { MatButtonModule } from '@angular/material/button';
-import { AttestationSelection, AttributeSelectionMethod } from '@features/presentation-request-preparation/models/AttestationSelection';
+import {
+  AttestationSelection,
+  AttributeSelectionMethod,
+} from '@features/presentation-request-preparation/models/AttestationSelection';
 import { AttributeSelectionComponent } from '@features/presentation-request-preparation/components/attribute-selection/attribute-selection.component';
-import { TransactionInitializationRequest } from '@core/models/TransactionInitializationRequest';
+import {
+  Profile,
+  RequestUriMethod,
+  TransactionInitializationRequest,
+} from '@core/models/TransactionInitializationRequest';
 import { VerifierEndpointService } from '@core/services/verifier-endpoint.service';
 import { MatExpansionModule } from '@angular/material/expansion';
 import { MatButtonToggleModule } from '@angular/material/button-toggle';
@@ -30,9 +37,15 @@ import { AttributesSelectionEvent } from '../models/AttributesSelection';
 import { DCQLService } from '@app/core/services/dcql-service';
 import { Subject } from 'rxjs';
 import { SessionStorageService } from '@app/core/services/session-storage.service';
-import { ISSUER_CHAIN } from '@app/core/constants/general';
-import { AttestationFormat } from '@app/core/models/attestation/AttestationFormat';
+import {
+  DEFAULT_SCHEME,
+  DefaultProfile,
+  DefaultRequestUriMethod,
+  ISSUER_CHAIN,
+  SCHEME,
+} from '@app/core/constants/general';
 import { SUPPORTED_ATTESTATIONS } from '@app/core/constants/attestation-definitions';
+import { PresentationOptionsComponent } from '../components/presentation-options/presentation-options.component';
 
 @Component({
   imports: [
@@ -53,6 +66,7 @@ import { SUPPORTED_ATTESTATIONS } from '@app/core/constants/attestation-definiti
     ClipboardModule,
     MatTooltipModule,
     MatButtonToggleModule,
+    PresentationOptionsComponent,
   ],
   providers: [VerifierEndpointService],
   selector: 'vc-presentation-preparation-home',
@@ -64,13 +78,21 @@ export class HomeComponent implements OnDestroy {
     private readonly navigateService: NavigateService,
     private readonly verifierEndpointService: VerifierEndpointService,
     private readonly dcqlService: DCQLService,
-    private readonly sessionStorageService: SessionStorageService,
+    private readonly sessionStorageService: SessionStorageService
   ) {}
 
   actions: BodyAction[] = HOME_ACTIONS;
 
-  requestUriMethodControl = new FormControl('get');
-
+  requestUriMethodControl = new FormControl<RequestUriMethod>(DefaultRequestUriMethod, {
+    nonNullable: true,
+  });
+  authorizationSchemeControl = new FormControl<string>(
+    this.getStoredAuthorizationScheme(),
+    { nonNullable: true }
+  );
+  presentationProfileControl = new FormControl<Profile>(DefaultProfile, {
+    nonNullable: true,
+  });
 
   private readonly _formBuilder = inject(FormBuilder);
   formGroup = this._formBuilder.group({
@@ -79,7 +101,9 @@ export class HomeComponent implements OnDestroy {
 
   selectedAttestations: AttestationSelection[] | null = null;
   selectedAttributes: { [id: string]: string[] } | null = {};
-  selectedRequestUriMethod: 'get' | 'post' = 'get';
+  selectedRequestUriMethod: RequestUriMethod = DefaultRequestUriMethod;
+  selectedProfile: Profile = DefaultProfile;
+  authorizationRequestUri: string = DEFAULT_SCHEME;
 
   initializationRequest: TransactionInitializationRequest | null = null;
 
@@ -92,21 +116,23 @@ export class HomeComponent implements OnDestroy {
 
   handleSelectionChangedEvent($event: AttestationSelection[]) {
     this.selectedAttestations = $event;
-    
+
     if (this.selectedAttestations) {
-      this.selectedAttestations.forEach(attestation => {
+      this.selectedAttestations.forEach((attestation) => {
         const attestationDef = SUPPORTED_ATTESTATIONS[attestation.type];
         if (attestationDef) {
           const neverSelectivelyDisclosableAttributes = attestationDef.dataSet
-            .filter(dataElement => dataElement.selectivelyDisclosable === 'never')
-            .map(dataElement => dataElement.identifier);
+            .filter(
+              (dataElement) => dataElement.selectivelyDisclosable === 'never'
+            )
+            .map((dataElement) => dataElement.identifier);
           if (neverSelectivelyDisclosableAttributes.length > 0) {
-            this.selectedAttributes![attestation.type] = neverSelectivelyDisclosableAttributes;
+            this.selectedAttributes![attestation.type] =
+              neverSelectivelyDisclosableAttributes;
           }
         }
       });
     }
-    
   }
 
   handleAttributesCollectedEvent($event: AttributesSelectionEvent) {
@@ -116,7 +142,8 @@ export class HomeComponent implements OnDestroy {
       this.initializationRequest = this.prepareInitializationRequest(
         this.selectedAttestations!,
         this.selectedAttributes,
-        this.selectedRequestUriMethod
+        this.selectedRequestUriMethod,
+        this.selectedProfile
       );
     } else {
       this.selectedAttributes = null;
@@ -124,13 +151,42 @@ export class HomeComponent implements OnDestroy {
   }
 
   handleRequestUriMethodChangedEvent($event: string) {
-    this.selectedRequestUriMethod = $event as 'get' | 'post';
+    this.selectedRequestUriMethod = $event as RequestUriMethod;
 
     if (this.selectedAttestations && this.selectedAttributes) {
       this.initializationRequest = this.prepareInitializationRequest(
         this.selectedAttestations,
         this.selectedAttributes,
-        this.selectedRequestUriMethod
+        this.selectedRequestUriMethod,
+        this.selectedProfile
+      );
+    } else {
+      this.initializationRequest = null;
+    }
+  }
+
+  handleProfileChangedEvent($event: string) {
+    this.selectedProfile = $event as Profile;
+    if (this.selectedAttestations && this.selectedAttributes) {
+      this.initializationRequest = this.prepareInitializationRequest(
+        this.selectedAttestations,
+        this.selectedAttributes,
+        this.selectedRequestUriMethod,
+        this.selectedProfile
+      );
+    } else {
+      this.initializationRequest = null;
+    }
+  }
+
+  handleAuthorizationSchemeChangedEvent($event: string) {
+    this.authorizationRequestUri = $event;
+    if (this.selectedAttestations && this.selectedAttributes) {
+      this.initializationRequest = this.prepareInitializationRequest(
+        this.selectedAttestations,
+        this.selectedAttributes,
+        this.selectedRequestUriMethod,
+        this.selectedProfile
       );
     } else {
       this.initializationRequest = null;
@@ -140,16 +196,20 @@ export class HomeComponent implements OnDestroy {
   private prepareInitializationRequest(
     selectedAttestations: AttestationSelection[],
     selectedAttributes: { [id: string]: string[] },
-    selectedRequestUriMethod: 'get' | 'post'
+    selectedRequestUriMethod: RequestUriMethod,
+    selectedProfile: Profile
   ): TransactionInitializationRequest {
-
-    const issuerChain = this.sessionStorageService.get(ISSUER_CHAIN) ?? undefined;
+    const issuerChain =
+      this.sessionStorageService.get(ISSUER_CHAIN) ?? undefined;
 
     return this.dcqlService.dcqlPresentationRequest(
       selectedAttestations,
       selectedAttributes,
       selectedRequestUriMethod,
-      issuerChain);
+      selectedProfile,
+      this.authorizationRequestUri,
+      issuerChain
+    );
   }
 
   proceedToInvokeWallet() {
@@ -166,24 +226,43 @@ export class HomeComponent implements OnDestroy {
   }
 
   attestationsSelected(): boolean {
-    return this.selectedAttestations !== null
-      && this.selectedAttestations
-      .filter((attestation) =>
-        attestation.format !== null && attestation.attributeSelectionMethod !== null
-      ).
-      length > 0;
+    return (
+      this.selectedAttestations !== null &&
+      this.selectedAttestations.filter(
+        (attestation) =>
+          attestation.format !== null &&
+          attestation.attributeSelectionMethod !== null
+      ).length > 0
+    );
   }
 
   attributesSelected(): boolean {
-    return this.selectedAttestations !== null
-    && this.selectedAttestations.filter((attestation) => {
-      if(attestation.attributeSelectionMethod === AttributeSelectionMethod.SELECTABLE) {
-        return this.selectedAttributes?.[attestation.type]?.length?? 0 > 0;
-      } else return attestation.attributeSelectionMethod === AttributeSelectionMethod.ALL_ATTRIBUTES;
-    }).length === this.selectedAttestations.length;
+    return (
+      this.selectedAttestations !== null &&
+      this.selectedAttestations.filter((attestation) => {
+        if (
+          attestation.attributeSelectionMethod ===
+          AttributeSelectionMethod.SELECTABLE
+        ) {
+          return this.selectedAttributes?.[attestation.type]?.length ?? 0 > 0;
+        } else
+          return (
+            attestation.attributeSelectionMethod ===
+            AttributeSelectionMethod.ALL_ATTRIBUTES
+          );
+      }).length === this.selectedAttestations.length
+    );
   }
 
   canProceed() {
     return this.initializationRequest !== null;
+  }
+
+  private getStoredAuthorizationScheme(): string {
+    if (typeof window === 'undefined' || !window.localStorage) {
+      return DEFAULT_SCHEME;
+    }
+
+    return window.localStorage.getItem(SCHEME) ?? DEFAULT_SCHEME;
   }
 }
