@@ -16,6 +16,8 @@ import { SessionStorageService } from './session-storage.service';
 const SAME_DEVICE_UI_RE_ENTRY_URL = '/get-wallet-code?response_code={RESPONSE_CODE}';
 const PRESENTATIONS_ENDPOINT = 'ui/presentations';
 const PRESENTATIONS_ENDPOINT_V2 = 'ui/presentations/v2';
+const WALLET_RESPONSE_ENDPOINT = 'ui/presentations/${transactionId}';
+const EVENTS_ENDPOINT = 'ui/presentations/${transactionId}/events';
 const VALIDATE_SD_JWT_VC_PRESENTATION_ENDPOINT = 'utilities/validations/sdJwtVc';
 
 @Injectable()
@@ -50,14 +52,14 @@ export class VerifierEndpointService {
 
   getWalletResponse(transaction_id: string, code?: string): Observable<WalletResponse> {
     if (typeof code == 'undefined') {
-      return this.httpService.get(PRESENTATIONS_ENDPOINT+`/${transaction_id}`);
+      return this.httpService.get(WALLET_RESPONSE_ENDPOINT.replace('${transactionId}', transaction_id));
     } else {
-      return this.httpService.get(PRESENTATIONS_ENDPOINT+`/${transaction_id}?response_code=${code}`);
+      return this.httpService.get(WALLET_RESPONSE_ENDPOINT.replace('${transactionId}', transaction_id) + `?response_code=${code}`);
     }
   }
 
   getsTransactionEventsLogs(transactionId: string): Observable<EventLog[]> {
-    return this.httpService.get(PRESENTATIONS_ENDPOINT+`/${transactionId}/events`)
+    return this.httpService.get(EVENTS_ENDPOINT.replace('${transactionId}', transactionId))
       .pipe(
         map((data: any) => {
           return data.events.map((event: EventLog) => {
