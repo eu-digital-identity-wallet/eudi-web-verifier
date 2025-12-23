@@ -39,11 +39,9 @@ import { DCQLService } from '@app/core/services/dcql-service';
 import { Subject } from 'rxjs';
 import { SessionStorageService } from '@app/core/services/session-storage.service';
 import {
-  DEFAULT_SCHEME,
   DefaultProfile,
   DefaultRequestUriMethod,
   ISSUER_CHAIN,
-  SCHEME,
 } from '@app/core/constants/general';
 import { SUPPORTED_ATTESTATIONS } from '@app/core/constants/attestation-definitions';
 import { PresentationOptionsComponent } from '../components/presentation-options/presentation-options.component';
@@ -88,7 +86,7 @@ export class HomeComponent implements OnDestroy {
     nonNullable: true,
   });
   authorizationSchemeControl = new FormControl<string>(
-    DEFAULT_SCHEME,
+    profileOptions[DefaultProfile].endpoint,
     { nonNullable: true }
   );
   presentationProfileControl = new FormControl<Profile>(DefaultProfile, {
@@ -104,7 +102,7 @@ export class HomeComponent implements OnDestroy {
   selectedAttributes: { [id: string]: string[] } | null = {};
   selectedRequestUriMethod: RequestUriMethod = DefaultRequestUriMethod;
   selectedProfile: Profile = DefaultProfile;
-  authorizationRequestUri: string = DEFAULT_SCHEME;
+  authorizationRequestUri: string = profileOptions[DefaultProfile].endpoint;
 
   initializationRequest: TransactionInitializationRequest | null = null;
 
