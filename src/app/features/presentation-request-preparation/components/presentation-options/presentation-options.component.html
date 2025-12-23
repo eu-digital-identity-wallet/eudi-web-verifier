@@ -1,0 +1,73 @@
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>Presentation Options</mat-card-title>
+    <mat-card-subtitle>
+      Configure the options for your presentation request.
+    </mat-card-subtitle>
+  </mat-card-header>
+
+  <mat-card-content>
+    <div class="request-options-grid">
+      <div class="request-options-row">
+        <div class="request-options-label">
+          <span>Presentation Profile</span>
+          <p class="request-options-helper">
+            Defines the rules and constraints of the presentation
+          </p>
+        </div>
+        <div class="request-options-control">
+          <mat-button-toggle-group
+            [formControl]="presentationProfileControl"
+            (valueChange)="profileChange.emit($event)"
+            aria-label="Presentation Profile"
+          >
+          <mat-button-toggle value="haip">HAIP</mat-button-toggle>
+            <mat-button-toggle value="openid4vp">OpenID4VP</mat-button-toggle>
+          </mat-button-toggle-group>
+        </div>
+      </div>
+
+      <div class="request-options-row">
+        <div class="request-options-label">
+          <span>Request URI Method</span>
+          <p class="request-options-helper">
+            Choose how the wallet fetches the authorization request
+          </p>
+        </div>
+        <div class="request-options-control">
+          <mat-button-toggle-group
+            [formControl]="requestUriMethodControl"
+            (valueChange)="requestUriMethodChange.emit($event)"
+            aria-label="Request URI Method"
+          >
+            <mat-button-toggle value="get">GET</mat-button-toggle>
+            <mat-button-toggle value="post">POST</mat-button-toggle>
+          </mat-button-toggle-group>
+        </div>
+      </div>
+
+      <div class="request-options-row">
+        <div class="request-options-label">
+          <span>Authorization Endpoint</span>
+          <p class="request-options-helper">
+            Specify an endpoint URI for the authorization request
+          </p>
+        </div>
+        <div class="request-options-control">
+          <mat-form-field appearance="outline" class="config-option-field">
+            <mat-label>Authorization Endpoint</mat-label>
+            <input
+              matInput
+              placeholder="scheme://"
+              [formControl]="authorizationSchemeControl"
+              autocomplete="off"
+              (input)="
+                authorizationSchemeChange.emit(authorizationSchemeControl.value)
+              "
+            />
+          </mat-form-field>
+        </div>
+      </div>
+    </div>
+  </mat-card-content>
+</mat-card>

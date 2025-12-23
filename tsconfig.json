@@ -48,7 +48,6 @@
     },
     "types": [
       "jest",
-      "node_modules/@types",
       "node"
     ]
   },

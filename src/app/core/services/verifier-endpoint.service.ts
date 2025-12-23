@@ -14,8 +14,10 @@ import {ActiveTransaction} from "@core/models/ActiveTransaction";
 import { SessionStorageService } from './session-storage.service';
 
 const SAME_DEVICE_UI_RE_ENTRY_URL = '/get-wallet-code?response_code={RESPONSE_CODE}';
-const PRESENTATIONS_ENDPOINT = 'ui/presentations';
-const VALIDATE_SD_JWT_VC_PRESENTATION_ENDPOINT = 'utilities/process/sdJwtVc';
+const INIT_TRANSACTION_ENDPOINT = 'ui/presentations/v2';
+const WALLET_RESPONSE_ENDPOINT = 'ui/presentations/${transactionId}';
+const EVENTS_ENDPOINT = 'ui/presentations/${transactionId}/events';
+const VALIDATE_SD_JWT_VC_PRESENTATION_ENDPOINT = 'utilities/validations/sdJwtVc';
 
 @Injectable()
 export class VerifierEndpointService {
@@ -34,7 +36,7 @@ export class VerifierEndpointService {
       if (!this.deviceDetectorService.isDesktop()) {
         payload['wallet_response_redirect_uri_template'] = location.origin + SAME_DEVICE_UI_RE_ENTRY_URL;
       }
-      this.httpService.post<InitializedTransaction, string>(PRESENTATIONS_ENDPOINT, payload)
+      this.httpService.post<InitializedTransaction, string>(INIT_TRANSACTION_ENDPOINT, payload)
         .pipe(
           tap((res) => {
             let activeTransaction : ActiveTransaction = {
@@ -49,14 +51,14 @@ export class VerifierEndpointService {
 
   getWalletResponse(transaction_id: string, code?: string): Observable<WalletResponse> {
     if (typeof code == 'undefined') {
-      return this.httpService.get(PRESENTATIONS_ENDPOINT+`/${transaction_id}`);
+      return this.httpService.get(WALLET_RESPONSE_ENDPOINT.replace('${transactionId}', transaction_id));
     } else {
-      return this.httpService.get(PRESENTATIONS_ENDPOINT+`/${transaction_id}?response_code=${code}`);
+      return this.httpService.get(WALLET_RESPONSE_ENDPOINT.replace('${transactionId}', transaction_id) + `?response_code=${code}`);
     }
   }
 
   getsTransactionEventsLogs(transactionId: string): Observable<EventLog[]> {
-    return this.httpService.get(PRESENTATIONS_ENDPOINT+`/${transactionId}/events`)
+    return this.httpService.get(EVENTS_ENDPOINT.replace('${transactionId}', transactionId))
       .pipe(
         map((data: any) => {
           return data.events.map((event: EventLog) => {

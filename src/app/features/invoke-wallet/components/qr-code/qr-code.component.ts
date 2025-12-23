@@ -50,7 +50,7 @@ export class QrCodeComponent implements OnInit, OnDestroy {
   transaction!: ActiveTransaction;
 
   deepLinkTxt!: string;
-  scheme!: string;
+  
   qrCodeDownloadLink!: SafeUrl;
   readonly dialog!: MatDialog;
 
@@ -69,12 +69,6 @@ export class QrCodeComponent implements OnInit, OnDestroy {
     this.localStorageService = this.injector.get(LocalStorageService);
     this.dialog = this.injector.get(MatDialog);
     this.isCrossDevice = this.deviceDetectorService.isDesktop();
-
-    if (this.localStorageService.get(constants.SCHEME)) {
-      this.scheme = this.localStorageService.get(constants.SCHEME) ?? constants.DEFAULT_SCHEME;
-    } else {
-      this.scheme = constants.DEFAULT_SCHEME;
-    }
   }
 
   ngOnInit(): void {
@@ -84,7 +78,7 @@ export class QrCodeComponent implements OnInit, OnDestroy {
     if (!this.transaction) {
       this.navigateService.goHome();
     } else {
-      this.deepLinkTxt = this.buildQrCode(this.transaction.initialized_transaction);
+      this.deepLinkTxt = this.transaction.initialized_transaction.authorization_request_uri;
       if (this.isCrossDevice) {
         this.pollingRequest(this.transaction.initialized_transaction.transaction_id);
       }
@@ -129,10 +123,6 @@ export class QrCodeComponent implements OnInit, OnDestroy {
     this.localStorageService.remove(constants.ACTIVE_TRANSACTION);
 
     return concludedTransaction;
-  }
-
-  private buildQrCode(data: { client_id: string, request_uri: string, request_uri_method: 'get' | 'post', transaction_id: string }): string {
-    return `${this.scheme}?client_id=${encodeURIComponent(data.client_id)}&request_uri=${encodeURIComponent(data.request_uri)}&request_uri_method=${encodeURIComponent(data.request_uri_method)}`;
   }
 
   openLogs() {

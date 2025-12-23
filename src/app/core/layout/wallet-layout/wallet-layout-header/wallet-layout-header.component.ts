@@ -6,7 +6,6 @@ import { MatMenuModule } from "@angular/material/menu";
 import { MatToolbarModule } from '@angular/material/toolbar';
 import { OpenLogsComponent } from "@shared/elements/open-logs/open-logs.component";
 import { MatDialog, MatDialogModule } from "@angular/material/dialog";
-import {InputSchemeComponent} from "@shared/elements/input-scheme/input-scheme.component";
 import { IssuerChainComponent } from '@app/shared/elements/trusted-issuer/issuer-chain.component';
 
 @Component({
@@ -32,16 +31,6 @@ export class WalletLayoutHeaderComponent {
 
   inspectLogs () {
     this.dialog.open(OpenLogsComponent, {
-      data: {
-        transactionId: '',
-        label: 'Inspect transaction logs',
-        isInspectLogs: true
-      },
-    });
-  }
-
-  changeCustomScheme () {
-    this.dialog.open(InputSchemeComponent, {
       data: {
         transactionId: '',
         label: 'Inspect transaction logs',
