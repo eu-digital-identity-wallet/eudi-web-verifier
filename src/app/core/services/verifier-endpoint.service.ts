@@ -14,8 +14,7 @@ import {ActiveTransaction} from "@core/models/ActiveTransaction";
 import { SessionStorageService } from './session-storage.service';
 
 const SAME_DEVICE_UI_RE_ENTRY_URL = '/get-wallet-code?response_code={RESPONSE_CODE}';
-const PRESENTATIONS_ENDPOINT = 'ui/presentations';
-const PRESENTATIONS_ENDPOINT_V2 = 'ui/presentations/v2';
+const INIT_TRANSACTION_ENDPOINT = 'ui/presentations/v2';
 const WALLET_RESPONSE_ENDPOINT = 'ui/presentations/${transactionId}';
 const EVENTS_ENDPOINT = 'ui/presentations/${transactionId}/events';
 const VALIDATE_SD_JWT_VC_PRESENTATION_ENDPOINT = 'utilities/validations/sdJwtVc';
@@ -37,7 +36,7 @@ export class VerifierEndpointService {
       if (!this.deviceDetectorService.isDesktop()) {
         payload['wallet_response_redirect_uri_template'] = location.origin + SAME_DEVICE_UI_RE_ENTRY_URL;
       }
-      this.httpService.post<InitializedTransaction, string>(PRESENTATIONS_ENDPOINT_V2, payload)
+      this.httpService.post<InitializedTransaction, string>(INIT_TRANSACTION_ENDPOINT, payload)
         .pipe(
           tap((res) => {
             let activeTransaction : ActiveTransaction = {
