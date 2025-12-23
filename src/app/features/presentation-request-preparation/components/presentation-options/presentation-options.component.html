@@ -21,8 +21,8 @@
             (valueChange)="profileChange.emit($event)"
             aria-label="Presentation Profile"
           >
+          <mat-button-toggle value="haip">HAIP</mat-button-toggle>
             <mat-button-toggle value="openid4vp">OpenID4VP</mat-button-toggle>
-            <mat-button-toggle value="haip">HAIP</mat-button-toggle>
           </mat-button-toggle-group>
         </div>
       </div>
@@ -48,14 +48,14 @@
 
       <div class="request-options-row">
         <div class="request-options-label">
-          <span>Authorization URI Scheme</span>
+          <span>Authorization Endpoint</span>
           <p class="request-options-helper">
-            Specify a custom URI for the authorization request
+            Specify an endpoint URI for the authorization request
           </p>
         </div>
         <div class="request-options-control">
           <mat-form-field appearance="outline" class="config-option-field">
-            <mat-label>Authorization URI Scheme</mat-label>
+            <mat-label>Authorization Endpoint</mat-label>
             <input
               matInput
               placeholder="scheme://"

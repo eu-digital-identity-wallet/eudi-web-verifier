@@ -24,6 +24,7 @@ import {
 import { AttributeSelectionComponent } from '@features/presentation-request-preparation/components/attribute-selection/attribute-selection.component';
 import {
   Profile,
+  profileOptions,
   RequestUriMethod,
   TransactionInitializationRequest,
 } from '@core/models/TransactionInitializationRequest';
@@ -38,11 +39,9 @@ import { DCQLService } from '@app/core/services/dcql-service';
 import { Subject } from 'rxjs';
 import { SessionStorageService } from '@app/core/services/session-storage.service';
 import {
-  DEFAULT_SCHEME,
   DefaultProfile,
   DefaultRequestUriMethod,
   ISSUER_CHAIN,
-  SCHEME,
 } from '@app/core/constants/general';
 import { SUPPORTED_ATTESTATIONS } from '@app/core/constants/attestation-definitions';
 import { PresentationOptionsComponent } from '../components/presentation-options/presentation-options.component';
@@ -87,7 +86,7 @@ export class HomeComponent implements OnDestroy {
     nonNullable: true,
   });
   authorizationSchemeControl = new FormControl<string>(
-    this.getStoredAuthorizationScheme(),
+    profileOptions[DefaultProfile].endpoint,
     { nonNullable: true }
   );
   presentationProfileControl = new FormControl<Profile>(DefaultProfile, {
@@ -103,7 +102,7 @@ export class HomeComponent implements OnDestroy {
   selectedAttributes: { [id: string]: string[] } | null = {};
   selectedRequestUriMethod: RequestUriMethod = DefaultRequestUriMethod;
   selectedProfile: Profile = DefaultProfile;
-  authorizationRequestUri: string = DEFAULT_SCHEME;
+  authorizationRequestUri: string = profileOptions[DefaultProfile].endpoint;
 
   initializationRequest: TransactionInitializationRequest | null = null;
 
@@ -167,6 +166,8 @@ export class HomeComponent implements OnDestroy {
 
   handleProfileChangedEvent($event: string) {
     this.selectedProfile = $event as Profile;
+    this.authorizationSchemeControl.setValue(profileOptions[this.selectedProfile].endpoint);
+    this.authorizationRequestUri = profileOptions[this.selectedProfile].endpoint;
     if (this.selectedAttestations && this.selectedAttributes) {
       this.initializationRequest = this.prepareInitializationRequest(
         this.selectedAttestations,
@@ -256,13 +257,5 @@ export class HomeComponent implements OnDestroy {
 
   canProceed() {
     return this.initializationRequest !== null;
-  }
-
-  private getStoredAuthorizationScheme(): string {
-    if (typeof window === 'undefined' || !window.localStorage) {
-      return DEFAULT_SCHEME;
-    }
-
-    return window.localStorage.getItem(SCHEME) ?? DEFAULT_SCHEME;
   }
 }

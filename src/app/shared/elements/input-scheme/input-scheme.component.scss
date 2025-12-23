@@ -1,8 +1,0 @@
-@use '/src/template' as temp;
-
-:host {
-  margin: temp.$spaceBasic;
-  .example-full-width {
-    width: 100%;
-  }
-}
