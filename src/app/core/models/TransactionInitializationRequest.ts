@@ -2,6 +2,17 @@ import { DCQL } from './dcql/DCQL';
 
 export type RequestUriMethod = 'get' | 'post';
 export type Profile = 'haip' | 'openid4vp';
+export type ProfileOptions = {
+  endpoint: string;
+}
+export const profileOptions: Record<Profile, ProfileOptions> = {
+  haip: {
+    endpoint: 'haip-vp://',
+  },
+  openid4vp: {
+    endpoint: 'openid4vp://',
+  },
+};
 
 export type TransactionInitializationRequest = {
   nonce: string;

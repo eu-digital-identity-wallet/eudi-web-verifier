@@ -24,6 +24,7 @@ import {
 import { AttributeSelectionComponent } from '@features/presentation-request-preparation/components/attribute-selection/attribute-selection.component';
 import {
   Profile,
+  profileOptions,
   RequestUriMethod,
   TransactionInitializationRequest,
 } from '@core/models/TransactionInitializationRequest';
@@ -87,7 +88,7 @@ export class HomeComponent implements OnDestroy {
     nonNullable: true,
   });
   authorizationSchemeControl = new FormControl<string>(
-    this.getStoredAuthorizationScheme(),
+    DEFAULT_SCHEME,
     { nonNullable: true }
   );
   presentationProfileControl = new FormControl<Profile>(DefaultProfile, {
@@ -167,6 +168,8 @@ export class HomeComponent implements OnDestroy {
 
   handleProfileChangedEvent($event: string) {
     this.selectedProfile = $event as Profile;
+    this.authorizationSchemeControl.setValue(profileOptions[this.selectedProfile].endpoint);
+    this.authorizationRequestUri = profileOptions[this.selectedProfile].endpoint;
     if (this.selectedAttestations && this.selectedAttributes) {
       this.initializationRequest = this.prepareInitializationRequest(
         this.selectedAttestations,
@@ -256,13 +259,5 @@ export class HomeComponent implements OnDestroy {
 
   canProceed() {
     return this.initializationRequest !== null;
-  }
-
-  private getStoredAuthorizationScheme(): string {
-    if (typeof window === 'undefined' || !window.localStorage) {
-      return DEFAULT_SCHEME;
-    }
-
-    return window.localStorage.getItem(SCHEME) ?? DEFAULT_SCHEME;
   }
 }
