@@ -1,6 +1,6 @@
 import { DCQL } from './dcql/DCQL';
 
-export type RequestUriMethod = 'get' | 'post';
+export type RequestUriMethod = 'get' | 'post' | 'post_get';
 export type Profile = 'haip' | 'openid4vp';
 export type ProfileOptions = {
   endpoint: string;
