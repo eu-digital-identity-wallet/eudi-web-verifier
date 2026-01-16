@@ -104,6 +104,12 @@ function sdJwtVcAttributeClaimQuery(attribute: DataElement, attestationType: Att
     return ['nationalities', null];
   } else if (attestationType === AttestationType.LEARNING_CREDENTIAL && resolvedAttribute === "learning_outcomes") {
     return ["learning_outcomes", null];
+  } else if (attestationType === AttestationType.LEARNING_CREDENTIAL && resolvedAttribute === "types_of_quality_assurance") {
+    return ["types_of_quality_assurance", null];
+  } else if (attestationType === AttestationType.LEARNING_CREDENTIAL && resolvedAttribute === "prerequisites_to_enroll") {
+    return ["prerequisites_to_enroll", null];
+  } else if (attestationType === AttestationType.LEARNING_CREDENTIAL && resolvedAttribute === "evaluator_verification") {
+    return ["evaluator_verification", null];
   } else {
     return resolvedAttribute.split('.');
   }
