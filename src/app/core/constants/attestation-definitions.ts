@@ -47,6 +47,8 @@ export const MDL_ATTESTATION: AttestationDefinition = {
     { identifier: 'age_over_21', attribute: 'Age over 21'},
     { identifier: 'age_in_years', attribute: 'Age in years'},
     { identifier: 'age_birth_year', attribute: 'Age birth year'},
+    { identifier: 'issuing_country', attribute: 'Issuing country'},
+    { identifier: 'issuing_jurisdiction', attribute: 'Issuing jurisdiction'},
     { identifier: 'issuing_authority', attribute: 'Issuing authority'},
     { identifier: 'document_number', attribute: 'Document number'},
     { identifier: 'portrait', attribute: 'Portrait'},
