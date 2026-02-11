@@ -177,10 +177,8 @@ export const LEARNING_CREDENTIAL_ATTESTATION: AttestationDefinition = {
     {identifier: "learner_identification", attribute: "Learner identification"},
     {identifier: "expected_study_time", attribute: "Expected study time"},
     {identifier: "level_of_learning_experience", attribute: "Level of learning experience"},
-    {identifier: "form_of_participation", attribute: "Form of participation"},
     {identifier: "types_of_quality_assurance", attribute: "Types of quality assurance"},
     {identifier: "prerequisites_to_enroll", attribute: "Prerequisites to enroll"},
-    {identifier: "evaluator_verification", attribute: "Evaluator verification"},
     {identifier: "integration_stackability_options", attribute: "Integration or Stackability options"},
   ]
 }
