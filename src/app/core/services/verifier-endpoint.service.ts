@@ -62,13 +62,13 @@ export class VerifierEndpointService {
       .pipe(
         map((data: any) => {
           return data.events.map((event: EventLog) => {
-            this.getTransactionData(event).forEach((key: string) => {
-              const value = event[key as keyof EventLog] ?? {};
-              event.data = {
-                key: key,
-                value,
-              };
-            });
+            let data = { };
+            this.getTransactionData(event)
+              .forEach((key: string) => {
+                const value = event[key as keyof EventLog];
+                data = { ...data, [key]: value}
+              });
+            event.data = data;
             return event;
           });
         })
