@@ -1,7 +1,11 @@
 <div>
 
-  <div *ngIf="!hasResult" [ngClass]="{'green-bg': false}">
+  <div *ngIf="!hasResult && !isDcApiTransaction" [ngClass]="{'green-bg': false}">
     <vc-qr-code (transactionConcludedEvent)="handleTransactionConcludedEvent($event)"></vc-qr-code>
+  </div>
+
+  <div *ngIf="!hasResult && isDcApiTransaction" [ngClass]="{'green-bg': false}">
+    <vc-dc-api (transactionConcludedEvent)="handleTransactionConcludedEvent($event)"></vc-dc-api>
   </div>
 
   <div *ngIf="hasResult" [ngClass]="{'green-bg': true}">

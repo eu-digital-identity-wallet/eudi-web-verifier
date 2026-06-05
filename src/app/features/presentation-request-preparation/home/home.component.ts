@@ -1,50 +1,39 @@
-import { Component, inject, OnDestroy } from '@angular/core';
-import { NavigateService } from '@app/core/services/navigate.service';
-import { HOME_ACTIONS } from '@core/constants/pages-actions';
-import { BodyAction } from '@app/shared/elements/body-actions/models/BodyAction';
-import { CommonModule } from '@angular/common';
-import { MatTabsModule } from '@angular/material/tabs';
-import { SharedModule } from '@shared/shared.module';
-import { WalletLayoutComponent } from '@core/layout/wallet-layout/wallet-layout.component';
-import { MatDialogModule } from '@angular/material/dialog';
-import { RouterLink, RouterLinkActive } from '@angular/router';
-import { SupportedAttestationsComponent } from '@features/presentation-request-preparation/components/supported-attestations/supported-attestations.component';
-import { MatStepperModule } from '@angular/material/stepper';
+import {Component, inject, OnDestroy} from '@angular/core';
+import {NavigateService} from '@app/core/services/navigate.service';
+import {HOME_ACTIONS} from '@core/constants/pages-actions';
+import {BodyAction} from '@app/shared/elements/body-actions/models/BodyAction';
+import {CommonModule} from '@angular/common';
+import {MatTabsModule} from '@angular/material/tabs';
+import {SharedModule} from '@shared/shared.module';
+import {WalletLayoutComponent} from '@core/layout/wallet-layout/wallet-layout.component';
+import {MatDialogModule} from '@angular/material/dialog';
+import {RouterLink, RouterLinkActive} from '@angular/router';
 import {
-  FormBuilder,
-  FormControl,
-  ReactiveFormsModule,
-  Validators,
-} from '@angular/forms';
-import { MatButtonModule } from '@angular/material/button';
+  SupportedAttestationsComponent
+} from '@features/presentation-request-preparation/components/supported-attestations/supported-attestations.component';
+import {MatStepperModule} from '@angular/material/stepper';
+import {FormBuilder, FormControl, ReactiveFormsModule, Validators,} from '@angular/forms';
+import {MatButtonModule} from '@angular/material/button';
+import {AttestationSelection, AttributeSelectionMethod,} from '@features/presentation-request-preparation/models/AttestationSelection';
 import {
-  AttestationSelection,
-  AttributeSelectionMethod,
-} from '@features/presentation-request-preparation/models/AttestationSelection';
-import { AttributeSelectionComponent } from '@features/presentation-request-preparation/components/attribute-selection/attribute-selection.component';
-import {
-  Profile,
-  profileOptions,
-  RequestUriMethod,
-  TransactionInitializationRequest,
-} from '@core/models/TransactionInitializationRequest';
-import { VerifierEndpointService } from '@core/services/verifier-endpoint.service';
-import { MatExpansionModule } from '@angular/material/expansion';
-import { MatButtonToggleModule } from '@angular/material/button-toggle';
-import { MatIconModule } from '@angular/material/icon';
-import { ClipboardModule } from '@angular/cdk/clipboard';
-import { MatTooltipModule } from '@angular/material/tooltip';
-import { AttributesSelectionEvent } from '../models/AttributesSelection';
-import { DCQLService } from '@app/core/services/dcql-service';
-import { Subject } from 'rxjs';
-import { SessionStorageService } from '@app/core/services/session-storage.service';
-import {
-  DefaultProfile,
-  DefaultRequestUriMethod,
-  ISSUER_CHAIN,
-} from '@app/core/constants/general';
-import { SUPPORTED_ATTESTATIONS } from '@app/core/constants/attestation-definitions';
-import { PresentationOptionsComponent } from '../components/presentation-options/presentation-options.component';
+  AttributeSelectionComponent
+} from '@features/presentation-request-preparation/components/attribute-selection/attribute-selection.component';
+import {Profile, profileOptions, RequestUriMethod, TransactionInitializationRequest,} from '@core/models/TransactionInitializationRequest';
+import {VerifierEndpointService} from '@core/services/verifier-endpoint.service';
+import {MatExpansionModule} from '@angular/material/expansion';
+import {MatButtonToggleModule} from '@angular/material/button-toggle';
+import {MatIconModule} from '@angular/material/icon';
+import {ClipboardModule} from '@angular/cdk/clipboard';
+import {MatTooltipModule} from '@angular/material/tooltip';
+import {AttributesSelectionEvent} from '../models/AttributesSelection';
+import {DCQLService} from '@app/core/services/dcql-service';
+import {Subject} from 'rxjs';
+import {SessionStorageService} from '@app/core/services/session-storage.service';
+import {DefaultProfile, DefaultRequestUriMethod, ISSUER_CHAIN,} from '@app/core/constants/general';
+import {SUPPORTED_ATTESTATIONS} from '@app/core/constants/attestation-definitions';
+import {PresentationOptionsComponent} from '../components/presentation-options/presentation-options.component';
+import {LocalStorageService} from "@core/services/local-storage.service";
+import {MatCard, MatCardContent, MatCardHeader, MatCardSubtitle, MatCardTitle} from '@angular/material/card';
 
 @Component({
   imports: [
@@ -66,8 +55,13 @@ import { PresentationOptionsComponent } from '../components/presentation-options
     MatTooltipModule,
     MatButtonToggleModule,
     PresentationOptionsComponent,
+    MatCardHeader,
+    MatCard,
+    MatCardTitle,
+    MatCardSubtitle,
+    MatCardContent
   ],
-  providers: [VerifierEndpointService],
+  providers: [VerifierEndpointService, LocalStorageService],
   selector: 'vc-presentation-preparation-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss'],
@@ -77,8 +71,10 @@ export class HomeComponent implements OnDestroy {
     private readonly navigateService: NavigateService,
     private readonly verifierEndpointService: VerifierEndpointService,
     private readonly dcqlService: DCQLService,
-    private readonly sessionStorageService: SessionStorageService
-  ) {}
+    private readonly sessionStorageService: SessionStorageService,
+    private readonly localStorageService: LocalStorageService
+  ) {
+  }
 
   actions: BodyAction[] = HOME_ACTIONS;
 
@@ -87,7 +83,7 @@ export class HomeComponent implements OnDestroy {
   });
   authorizationSchemeControl = new FormControl<string>(
     profileOptions[DefaultProfile].endpoint,
-    { nonNullable: true }
+    {nonNullable: true}
   );
   presentationProfileControl = new FormControl<Profile>(DefaultProfile, {
     nonNullable: true,
@@ -213,9 +209,22 @@ export class HomeComponent implements OnDestroy {
     );
   }
 
-  proceedToInvokeWallet() {
+  proceedToInvokeWalletOverRedirects() {
     if (this.initializationRequest != null) {
       this.verifierEndpointService.initializeTransaction(
+        this.initializationRequest,
+        (_) => {
+          this.navigateService.navigateTo('invoke-wallet');
+        }
+      );
+    } else {
+      alert('nothing to submit');
+    }
+  }
+
+  proceedToInvokeWalletOverDcApi() {
+    if (this.initializationRequest != null) {
+      this.verifierEndpointService.initializeDcApiTransaction(
         this.initializationRequest,
         (_) => {
           this.navigateService.navigateTo('invoke-wallet');
@@ -257,5 +266,12 @@ export class HomeComponent implements OnDestroy {
 
   canProceed() {
     return this.initializationRequest !== null;
+  }
+
+  isDcApiAvailable(): boolean {
+    return (
+      typeof window['DigitalCredential' as keyof Window] !== 'undefined' &&
+      typeof navigator.credentials?.get === 'function'
+    );
   }
 }
