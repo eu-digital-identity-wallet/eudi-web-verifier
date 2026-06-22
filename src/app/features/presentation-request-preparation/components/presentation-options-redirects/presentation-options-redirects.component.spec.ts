@@ -1,18 +1,18 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { PresentationOptionsComponent } from './presentation-options.component';
+import { PresentationOptionsRedirectsComponent } from './presentation-options-redirects.component';
 
 describe('PresentationOptionsComponent', () => {
-  let component: PresentationOptionsComponent;
-  let fixture: ComponentFixture<PresentationOptionsComponent>;
+  let component: PresentationOptionsRedirectsComponent;
+  let fixture: ComponentFixture<PresentationOptionsRedirectsComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [PresentationOptionsComponent]
+      imports: [PresentationOptionsRedirectsComponent]
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(PresentationOptionsComponent);
+    fixture = TestBed.createComponent(PresentationOptionsRedirectsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

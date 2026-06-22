@@ -7,7 +7,7 @@ import {BodyAction} from '@shared/elements/body-actions/models/BodyAction';
 import {PRESENTATION_ACTIONS} from '@core/constants/pages-actions';
 import {ActionCode} from '@shared/elements/body-actions/models/ActionCode';
 import {VerifierEndpointService} from "@core/services/verifier-endpoint.service";
-import {TransactionInitializationRequest} from "@core/models/TransactionInitializationRequest";
+import {RedirectsTransactionInitializationRequest, TransactionInitializationRequest} from "@core/models/TransactionInitializationRequest";
 import { DataService } from '@app/core/services/data-service';
 
 @Component({
@@ -67,8 +67,8 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   initializePresentationTransaction() {
     if (this.requestCode) {
-      let request = JSON.parse(this.requestCode) as TransactionInitializationRequest
-      this.verifierEndpointService.initializeTransaction(request, (_) => {
+      let request = JSON.parse(this.requestCode) as RedirectsTransactionInitializationRequest
+      this.verifierEndpointService.initializeRedirectsTransaction(request, (_) => {
         this.hideNextStep();
         this.navigateService.navigateTo('/custom-request/invoke');
         this.changeDetectorRef.detectChanges();

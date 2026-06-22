@@ -56,7 +56,7 @@
           <div style="padding-top: 10px">
             <ng-template matStepLabel>...select presentation options and submit</ng-template>
 
-            <mat-tab-group>
+            <mat-tab-group (selectedTabChange)="handleRequestModeChange($event)">
 
               <!-------------------------------------------------------------------->
               <!-------------------------------------------------------------------->
@@ -68,14 +68,9 @@
               <mat-tab label="Submit with Redirects">
 
                 <div class="presentation-options-container">
-                  <vc-presentation-options
-                    [presentationProfileControl]="presentationProfileControl"
-                    [requestUriMethodControl]="requestUriMethodControl"
-                    [authorizationSchemeControl]="authorizationSchemeControl"
-                    (profileChange)="handleProfileChangedEvent($event)"
-                    (requestUriMethodChange)="handleRequestUriMethodChangedEvent($event)"
-                    (authorizationSchemeChange)="handleAuthorizationSchemeChangedEvent($event)"
-                  ></vc-presentation-options>
+                  <vc-presentation-options-redirects
+                    (optionsChanged)="handleRedirectsPresentationOptionsChangedEvent($event)"
+                  ></vc-presentation-options-redirects>
                 </div>
 
 
@@ -107,37 +102,9 @@
               <mat-tab label="Submit via DC API">
 
                 <div class="presentation-options-container">
-                  <mat-card>
-                    <mat-card-header>
-                      <mat-card-title>Presentation Options</mat-card-title>
-                      <mat-card-subtitle>
-                        Configure the options for your presentation request.
-                      </mat-card-subtitle>
-                    </mat-card-header>
-
-                    <mat-card-content>
-                      <div class="request-options-grid">
-                        <div class="request-options-row">
-                          <div class="request-options-label">
-                            <span>Presentation Profile</span>
-                            <p class="request-options-helper">
-                              Defines the rules and constraints of the presentation
-                            </p>
-                          </div>
-                          <div class="request-options-control">
-                            <mat-button-toggle-group
-                              [formControl]="presentationProfileControl"
-                              aria-label="Presentation Profile"
-                            >
-                              <mat-button-toggle value="haip">HAIP</mat-button-toggle>
-                              <mat-button-toggle value="openid4vp">OpenID4VP</mat-button-toggle>
-                            </mat-button-toggle-group>
-                          </div>
-                        </div>
-
-                      </div>
-                    </mat-card-content>
-                  </mat-card>
+                  <vc-presentation-options-dc-api
+                    (optionsChanged)="handleDcApiPresentationOptionsChangedEvent($event)"
+                  ></vc-presentation-options-dc-api>
                 </div>
 
                 <div class="button-container">
@@ -150,7 +117,7 @@
                     matStepperNext
                     type="button"
                     (click)="proceedToInvokeWalletOverDcApi()"
-                    [disabled]="!canProceed() || !isDcApiAvailable()"
+                    [disabled]="!canProceed() || !dcApiSupported"
                   >
                     Submit
                   </button>

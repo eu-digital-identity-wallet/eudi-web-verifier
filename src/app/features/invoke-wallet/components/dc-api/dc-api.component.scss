@@ -45,7 +45,38 @@
         width: 100%;
       }
     }
+      .vc-dc-api__error {
+        align-items: flex-start;
+        background: rgba(211, 47, 47, 0.08);
+        border-left: 4px solid #b00020;
+        color: #b00020;
+        display: flex;
+        gap: 1rem;
+        margin-top: 1rem;
+        padding: 1rem;
 
+        mat-icon {
+          font-size: 1.5rem;
+          margin-top: 0.1rem;
+        }
+
+        &__error-content {
+          display: flex;
+          flex-direction: column;
+          gap: 0.25rem;
+        }
+
+        &__error-title {
+          display: block;
+          font-weight: 600;
+        }
+
+        &__error-detail {
+          line-height: 1.5;
+          white-space: pre-wrap;
+          word-break: break-word;
+        }
+      }
   }
   @media (max-width: map.get(points.$breakpoints, xs)) and  (min-width: map.get(points.$breakpoints, sm)){
     .vc-verifiable-credential {

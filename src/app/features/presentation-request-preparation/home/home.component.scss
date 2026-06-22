@@ -6,6 +6,8 @@
     justify-content: end;
     gap: 8px;
     margin-top: 20px;
+    margin-bottom: 20px;
+    padding: 0px 2px;
   }
 
   mat-step {
@@ -17,6 +19,7 @@
 
   .presentation-options-container {
     margin-bottom: 16px;
+    padding: 0px 2px;
   }
 
   span#as-pre {
@@ -27,4 +30,10 @@
     margin: 1em 0;
   }
 
+  mat-tab-body {
+    div {
+      padding: 0 2px;
+    }
+  }
+  
 }

@@ -40,7 +40,7 @@ export class InvokerComponent implements OnInit {
     const activeTransaction: ActiveTransaction = JSON.parse(
       this.localStorageService.get(ACTIVE_TRANSACTION)!
     );
-    this.isDcApiTransaction = 'origin' in activeTransaction.initialized_transaction ;
+    this.isDcApiTransaction = !('authorization_request_uri' in activeTransaction.initialized_transaction );
   }
 
   handleTransactionConcludedEvent($event: ConcludedTransaction) {

@@ -1,24 +1,38 @@
-import {ChangeDetectionStrategy, Component, EventEmitter, Injector, OnInit, Output} from '@angular/core';
-import {VerifierEndpointService} from "../../../../core/services/verifier-endpoint.service";
-import {DeviceDetectorService} from "../../../../core/services/device-detector.service";
-import {LocalStorageService} from "../../../../core/services/local-storage.service";
-import * as constants from "@core/constants/general";
-import {ACTIVE_TRANSACTION} from "@core/constants/general";
-import {ActiveTransaction} from "@core/models/ActiveTransaction";
-import {ConcludedTransaction} from "@core/models/ConcludedTransaction";
-import {WalletResponse} from "@core/models/WalletResponse";
-import {defer} from 'rxjs';
-import {OpenLogsComponent} from "@shared/elements/open-logs/open-logs.component";
-import {DigitalCredential} from "./model/DigitalCredential";
-import {CommonModule} from "@angular/common";
-import {MatDialog, MatDialogModule} from '@angular/material/dialog';
-import {MatCardModule} from '@angular/material/card';
-import {MatDividerModule} from '@angular/material/divider';
-import {SharedModule} from '@shared/shared.module';
-import {map} from 'rxjs/operators';
-import {NavigateService} from "@core/services/navigate.service";
-import {MatProgressBarModule} from '@angular/material/progress-bar';
-import {DcApiTransaction} from "@core/models/InitializedTransaction";
+import {
+  ChangeDetectorRef,
+  Component,
+  EventEmitter,
+  Injector,
+  OnInit,
+  Output,
+} from '@angular/core';
+import { VerifierEndpointService } from '../../../../core/services/verifier-endpoint.service';
+import { LocalStorageService } from '../../../../core/services/local-storage.service';
+import * as constants from '@core/constants/general';
+import { ACTIVE_TRANSACTION } from '@core/constants/general';
+import { ActiveTransaction } from '@core/models/ActiveTransaction';
+import { ConcludedTransaction } from '@core/models/ConcludedTransaction';
+import { WalletResponse } from '@core/models/WalletResponse';
+import { OpenLogsComponent } from '@shared/elements/open-logs/open-logs.component';
+import {
+  isDCApiSupported,
+  userAgentAllowsProtocol,
+} from '@shared/utils/dc-api-utils';
+import { OpenId4VPDigitalCredential } from './model/DigitalCredential';
+import { CommonModule } from '@angular/common';
+import { MatDialog, MatDialogModule } from '@angular/material/dialog';
+import { MatIconModule } from '@angular/material/icon';
+import { MatCardModule } from '@angular/material/card';
+import { MatDividerModule } from '@angular/material/divider';
+import { SharedModule } from '@shared/shared.module';
+import { NavigateService } from '@core/services/navigate.service';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
+import {
+  SignedDcApiTransaction,
+  UnsignedDcApiTransaction,
+} from '@core/models/InitializedTransaction';
+import { MatButtonModule } from '@angular/material/button';
+import { DCApiTransactionInitializationRequest } from '@app/core/models/TransactionInitializationRequest';
 
 @Component({
   selector: 'vc-dc-api',
@@ -26,67 +40,147 @@ import {DcApiTransaction} from "@core/models/InitializedTransaction";
     CommonModule,
     SharedModule,
     MatDialogModule,
+    MatIconModule,
+    MatButtonModule,
     MatCardModule,
     MatDividerModule,
-    MatProgressBarModule
+    MatProgressBarModule,
   ],
   templateUrl: './dc-api.component.html',
   styleUrls: ['./dc-api.component.scss'],
   providers: [VerifierEndpointService],
-  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class DcApiComponent implements OnInit {
-
-  private readonly deviceDetectorService!: DeviceDetectorService;
   private readonly localStorageService!: LocalStorageService;
 
   readonly dialog!: MatDialog;
 
   transaction!: ActiveTransaction;
 
-  @Output() transactionConcludedEvent = new EventEmitter<ConcludedTransaction>();
+  @Output() transactionConcludedEvent =
+    new EventEmitter<ConcludedTransaction>();
 
   emitTransactionConcludedEvent(concludedTransaction: ConcludedTransaction) {
     this.transactionConcludedEvent.emit(concludedTransaction);
   }
 
+  errorMessage: string | null = null;
+
   constructor(
     private readonly verifierEndpointService: VerifierEndpointService,
     private readonly navigateService: NavigateService,
     private readonly injector: Injector,
+    private readonly cdr: ChangeDetectorRef,
   ) {
-    this.deviceDetectorService = this.injector.get(DeviceDetectorService);
     this.localStorageService = this.injector.get(LocalStorageService);
     this.dialog = this.injector.get(MatDialog);
   }
 
   ngOnInit(): void {
     this.transaction = JSON.parse(
-      this.localStorageService.get(ACTIVE_TRANSACTION)!
+      this.localStorageService.get(ACTIVE_TRANSACTION)!,
     );
 
     if (!this.transaction) {
       this.navigateService.goHome();
     } else {
-      this.triggerDcApiFlow()
+      this.triggerDcApiFlow();
+    }
+  }
+  async triggerDcApiFlow(): Promise<void> {
+    const { initialized_transaction, initialization_request } =
+      this.transaction;
+
+    if (!initialized_transaction) {
+      return;
+    }
+
+    const response = await this.createDCApiRequest(
+      initialization_request as DCApiTransactionInitializationRequest,
+      initialized_transaction as
+        | SignedDcApiTransaction
+        | UnsignedDcApiTransaction,
+    )
+      .then((req) => navigator.credentials.get(req))
+      .catch((err) => {
+        this.errorMessage = this.formatErrorMessage(err);
+        this.cdr.detectChanges();
+      });
+    if (!response) return;
+
+    const digitalCredential = response as OpenId4VPDigitalCredential;
+    const walletResponse = digitalCredential.data;
+
+    if (walletResponse) {
+      const concludedTransaction = this.concludeTransaction(walletResponse);
+      this.emitTransactionConcludedEvent(concludedTransaction);
     }
   }
 
-  triggerDcApiFlow() {
-    defer(() => this.doDcApi())
-      .pipe(
-        map((data) => data as WalletResponse),
-      )
-      .subscribe(
-        (res: WalletResponse) => {
-          if (res != null) {
-            console.log("CONCLUDING DC API FLOW WITH WALLET RESPONSE: ")
-            console.log(res)
-            let concludedTransaction = this.concludeTransaction(res);
-            this.emitTransactionConcludedEvent(concludedTransaction)
-          }
-        },
+  private createDCApiRequest(
+    initialization_request: DCApiTransactionInitializationRequest,
+    initialized_transaction: SignedDcApiTransaction | UnsignedDcApiTransaction,
+  ): Promise<CredentialRequestOptions> {
+    const isSigned =
+      (initialization_request as DCApiTransactionInitializationRequest)
+        .request_type === 'signed';
+    return isSigned
+      ? this.getSignedDCApiRequest(
+          initialized_transaction as SignedDcApiTransaction,
+        )
+      : this.getUnsignedDCApiRequest(
+          initialized_transaction as UnsignedDcApiTransaction,
+        );
+  }
+
+  private getSignedDCApiRequest(
+    initialized_transaction: SignedDcApiTransaction,
+  ): Promise<CredentialRequestOptions> {
+    const protocol = 'openid4vp-v1-signed';
+    if (!userAgentAllowsProtocol(protocol)) {
+      return Promise.reject(
+        new Error(`Protocol ${protocol} is not supported by the user agent`),
       );
+    }
+    return Promise.resolve({
+      mediation: 'required' as const,
+      digital: {
+        requests: [
+          {
+            protocol: protocol,
+            data: {
+              request: (initialized_transaction as SignedDcApiTransaction)
+                .request,
+            },
+          },
+        ],
+      },
+    });
+  }
+
+  private getUnsignedDCApiRequest(
+    initialized_transaction: UnsignedDcApiTransaction,
+  ): Promise<CredentialRequestOptions> {
+    const protocol = 'openid4vp-v1-unsigned';
+    if (!userAgentAllowsProtocol(protocol)) {
+      return Promise.reject(
+        new Error(`Protocol ${protocol} is not supported by the user agent`),
+      );
+    }
+
+    return Promise.resolve({
+      mediation: 'required' as const,
+      digital: {
+        requests: [
+          {
+            protocol: protocol,
+            data: {
+              ...(initialized_transaction as UnsignedDcApiTransaction).request,
+            },
+          },
+        ],
+      },
+    });
   }
 
   openLogs() {
@@ -94,64 +188,28 @@ export class DcApiComponent implements OnInit {
       data: {
         transactionId: this.transaction.initialized_transaction.transaction_id,
         label: 'Show Logs',
-        isInspectLogs: false
+        isInspectLogs: false,
       },
     });
   }
 
-  private async doDcApi(): Promise<WalletResponse | null> {
+  private formatErrorMessage(error: any): string {
+    if (!error) {
+      return 'An unknown error occurred while invoking the wallet.';
+    }
 
-    if ('requestPayload' in this.transaction.initialized_transaction) {
-      let dcApiTransaction = this.transaction.initialized_transaction as DcApiTransaction;
+    if (typeof error === 'string') {
+      return error;
+    }
 
-      console.log(dcApiTransaction)
+    if (error.message) {
+      return error.message;
+    }
 
-      const providers = [
-        {
-          protocol: 'openid4vp-v1-signed',
-          data: {
-            request: dcApiTransaction.requestPayload
-          }
-        }
-      ];
-
-      try {
-        const digitalObj = {
-          digital: {
-            requests: providers
-          }
-        }
-
-        const response = await navigator.credentials.get({
-          ...digitalObj,
-          mediation: 'required',
-        });
-
-        console.log(response)
-
-        const digitalCredential = response as DigitalCredential;
-
-        // let vpToken: WalletResponse = {}
-
-        if (digitalCredential.data == null) {
-          throw new Error('No digital credential found');
-
-        } else if (typeof digitalCredential.data === 'string') {
-          throw new Error('Expected object, got string');
-
-        } else {
-          return digitalCredential.data as WalletResponse
-        }
-
-        // return vpToken
-
-      } catch (err) {
-        console.info(err);
-        alert(err)
-        return null
-      }
-    } else {
-      return null
+    try {
+      return JSON.stringify(error);
+    } catch {
+      return String(error);
     }
   }
 
@@ -160,8 +218,8 @@ export class DcApiComponent implements OnInit {
       transactionId: this.transaction.initialized_transaction.transaction_id,
       nonce: this.transaction.initialization_request.nonce,
       presentationQuery: this.transaction.initialization_request!!.dcql_query,
-      walletResponse: response
-    }
+      walletResponse: response,
+    };
     // Clear local storage
     this.localStorageService.remove(constants.ACTIVE_TRANSACTION);
 

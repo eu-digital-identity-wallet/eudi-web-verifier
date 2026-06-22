@@ -34,7 +34,7 @@ describe('VerifierEndpointService', () => {
 
   it('should initialize transaction', () => {
     httpServiceSpy.post.and.returnValue(of(mockResponseData));
-    service.initializeTransaction({} as TransactionInitializationRequest, () => {});
+    service.initializeRedirectsTransaction({} as TransactionInitializationRequest, () => {});
     expect(httpServiceSpy.post).toHaveBeenCalled();
   });
 

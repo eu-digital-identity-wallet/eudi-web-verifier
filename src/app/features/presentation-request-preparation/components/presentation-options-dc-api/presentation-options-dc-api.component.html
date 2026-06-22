@@ -1,0 +1,58 @@
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>Presentation Options</mat-card-title>
+    <mat-card-subtitle>
+      Configure the options for your presentation request.
+    </mat-card-subtitle>
+  </mat-card-header>
+
+  <mat-card-content>
+    <ng-container *ngIf="dcApiSupported; else unsupported">
+      <div class="request-options-grid">
+        <div class="request-options-row">
+        <div class="request-options-label">
+          <span>Presentation Profile</span>
+          <p class="request-options-helper">
+            Defines the rules and constraints of the presentation
+          </p>
+        </div>
+        <div class="request-options-control">
+          <mat-button-toggle-group
+            [formControl]="presentationProfileControl"
+            (valueChange)="handlePresentationProfileChange($event)"
+            aria-label="Presentation Profile"
+          >
+          <mat-button-toggle value="haip">HAIP</mat-button-toggle>
+            <mat-button-toggle value="openid4vp">OpenID4VP</mat-button-toggle>
+          </mat-button-toggle-group>
+        </div>
+      </div>
+
+      <div class="request-options-row">
+        <div class="request-options-label">
+          <span>Request Type</span>
+          <p class="request-options-helper">
+            Choose the type of request to be sent to the wallet
+          </p>
+        </div>
+        <div class="request-options-control">
+          <mat-button-toggle-group
+            [formControl]="requestTypeControl"
+            (valueChange)="handleRequestTypeChange($event)"
+            aria-label="Request Type"
+          >
+            <mat-button-toggle value="unsigned">Unsigned</mat-button-toggle>
+            <mat-button-toggle value="signed">Signed</mat-button-toggle>
+          </mat-button-toggle-group>
+        </div>
+      </div>
+
+    </div>
+    </ng-container>
+    <ng-template #unsupported>
+      <div class="unsupported-message">
+        <p>DC API is not supported by the current user agent.</p>
+      </div>
+    </ng-template>
+  </mat-card-content>
+</mat-card>
