@@ -14,7 +14,6 @@ import {
 
 import {
   DCApiPresentationOptions,
-  DCApiRequestType,
   Profile,
 } from '@app/core/models/TransactionInitializationRequest';
 import { DefaultProfile } from '@app/core/constants/general';
@@ -44,13 +43,9 @@ export class PresentationOptionsDcApiComponent {
 
   options: DCApiPresentationOptions = {
     profile: DefaultProfile,
-    requestType: 'signed',
   }
 
   presentationProfileControl = new FormControl<Profile>(this.options.profile, {
-    nonNullable: true,
-  });
-  requestTypeControl = new FormControl<DCApiRequestType>(this.options.requestType, {
     nonNullable: true,
   });
 
@@ -63,14 +58,6 @@ export class PresentationOptionsDcApiComponent {
     });
   }
 
-  handleRequestTypeChange(event: string) {
-    const selectedRequestType = event as DCApiRequestType;
-    this.options.requestType = selectedRequestType;
-    this.optionsChanged.emit({
-      type: "dc-api",
-      options: this.options
-    });
-  }
 }
 
 export type DcApiPresentationOptionsChangedEvent = {

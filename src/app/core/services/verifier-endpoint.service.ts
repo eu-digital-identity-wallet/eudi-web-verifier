@@ -6,7 +6,7 @@ import {LocalStorageService} from './local-storage.service';
 import * as constants from '@core/constants/general';
 import {DeviceDetectorService} from './device-detector.service';
 import {DCApiTransactionInitializationRequest, RedirectsTransactionInitializationRequest, TransactionInitializationRequest} from "@core/models/TransactionInitializationRequest";
-import {InitializedTransaction, SignedDcApiTransaction, UnsignedDcApiTransaction} from "@core/models/InitializedTransaction";
+import {DcApiTransaction, InitializedTransaction} from "@core/models/InitializedTransaction";
 import {WalletResponse} from "@core/models/WalletResponse";
 import {EventLog} from "@core/models/EventLog";
 import {HttpHeaders} from "@angular/common/http";
@@ -16,6 +16,7 @@ import {SessionStorageService} from './session-storage.service';
 const SAME_DEVICE_UI_RE_ENTRY_URL = '/get-wallet-code?response_code={RESPONSE_CODE}';
 const INIT_TRANSACTION_ENDPOINT = 'ui/presentations/v2';
 const INIT_DC_API_TRANSACTION_ENDPOINT = 'ui/presentations/dc-api'
+const POST_DC_API_RESPONSE_ENDPOINT = 'ui/presentations/${transactionId}/dc-api-response'
 const WALLET_RESPONSE_ENDPOINT = 'ui/presentations/${transactionId}';
 const EVENTS_ENDPOINT = 'ui/presentations/${transactionId}/events';
 const VALIDATE_SD_JWT_VC_PRESENTATION_ENDPOINT = 'utilities/validations/sdJwtVc';
@@ -52,37 +53,24 @@ export class VerifierEndpointService {
 
   initializeDcApiTransaction(initializationRequest: DCApiTransactionInitializationRequest, callback: (value: InitializedTransaction) => void) {
     if (initializationRequest) {
-      if(initializationRequest.request_type === 'unsigned') {
-        this.httpService.post<UnsignedDcApiTransaction, DCApiTransactionInitializationRequest>(INIT_DC_API_TRANSACTION_ENDPOINT, initializationRequest)
-          .pipe(
-            tap((res) => {
-              let activeTransaction : ActiveTransaction = {
-                initialized_transaction: res,
-                initialization_request: initializationRequest
-              }
-              this.localStorageService.set(constants.ACTIVE_TRANSACTION, JSON.stringify(activeTransaction));
-            })
-          ).subscribe(callback);
-      } else if(initializationRequest.request_type === 'signed') {
-        this.httpService.post<SignedDcApiTransaction, DCApiTransactionInitializationRequest>(INIT_DC_API_TRANSACTION_ENDPOINT, initializationRequest)
-          .pipe(
-            tap((res) => {
-              let activeTransaction : ActiveTransaction = {
-                initialized_transaction: res,
-                initialization_request: initializationRequest
-              }
-              this.localStorageService.set(constants.ACTIVE_TRANSACTION, JSON.stringify(activeTransaction));
-            })
-          ).subscribe(callback);
-      }
+      this.httpService.post<DcApiTransaction, DCApiTransactionInitializationRequest>(INIT_DC_API_TRANSACTION_ENDPOINT, initializationRequest)
+        .pipe(
+          tap((res) => {
+            let activeTransaction : ActiveTransaction = {
+              initialized_transaction: res,
+              initialization_request: initializationRequest
+            }
+            this.localStorageService.set(constants.ACTIVE_TRANSACTION, JSON.stringify(activeTransaction));
+          })
+        ).subscribe(callback);
     }
   }
 
-  postDCApiResponse(transactionId: string, response: WalletResponse): Observable<any> {
+  postDCApiResponse(transactionId: string, encryptedJwt: string): Observable<any> {
     const headers = new HttpHeaders({
       'Content-Type': 'application/json'
     });
-    return this.httpService.post<any, WalletResponse>(WALLET_RESPONSE_ENDPOINT.replace('${transactionId}', transactionId), response, {headers})
+    return this.httpService.post<any, string>(POST_DC_API_RESPONSE_ENDPOINT.replace('${transactionId}', transactionId), encryptedJwt, {headers})
   }
   
   getWalletResponse(transaction_id: string, code?: string): Observable<WalletResponse> {

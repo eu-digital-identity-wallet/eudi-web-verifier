@@ -34,8 +34,7 @@ export type DCApiTransactionInitializationRequest = {
   dcql_query: DCQL;
   issuer_chain?: string;
   profile: Profile;
-  expected_origins: string[];
-  request_type: DCApiRequestType;
+  expected_origins: string;
 };
 
 export type RedirectsPresentationOptions = {
@@ -52,9 +51,7 @@ export const DefaultRedirectsPresentationOptions: RedirectsPresentationOptions =
 
 export type DCApiPresentationOptions = {
   profile: Profile;
-  requestType: DCApiRequestType;
 };
 export const DefaultDCApiPresentationOptions: DCApiPresentationOptions = {
   profile: DefaultProfile,
-  requestType: 'signed',
 };

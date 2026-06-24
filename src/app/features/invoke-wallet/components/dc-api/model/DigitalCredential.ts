@@ -7,5 +7,8 @@ interface DigitalCredential extends Credential {
 
 export interface OpenId4VPDigitalCredential extends DigitalCredential {
   readonly protocol: 'openid4vp-v1-unsigned' | 'openid4vp-v1-signed' | 'openid4vp-v1-multisigned';
-  readonly data: WalletResponse;
+  readonly data: {
+    response?: string
+    error?: string
+  };
 }

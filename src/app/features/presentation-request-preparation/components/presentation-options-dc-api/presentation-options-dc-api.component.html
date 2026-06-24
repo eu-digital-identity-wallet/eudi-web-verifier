@@ -28,25 +28,6 @@
         </div>
       </div>
 
-      <div class="request-options-row">
-        <div class="request-options-label">
-          <span>Request Type</span>
-          <p class="request-options-helper">
-            Choose the type of request to be sent to the wallet
-          </p>
-        </div>
-        <div class="request-options-control">
-          <mat-button-toggle-group
-            [formControl]="requestTypeControl"
-            (valueChange)="handleRequestTypeChange($event)"
-            aria-label="Request Type"
-          >
-            <mat-button-toggle value="unsigned">Unsigned</mat-button-toggle>
-            <mat-button-toggle value="signed">Signed</mat-button-toggle>
-          </mat-button-toggle-group>
-        </div>
-      </div>
-
     </div>
     </ng-container>
     <ng-template #unsupported>

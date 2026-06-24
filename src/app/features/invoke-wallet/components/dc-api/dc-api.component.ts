@@ -14,10 +14,7 @@ import { ActiveTransaction } from '@core/models/ActiveTransaction';
 import { ConcludedTransaction } from '@core/models/ConcludedTransaction';
 import { WalletResponse } from '@core/models/WalletResponse';
 import { OpenLogsComponent } from '@shared/elements/open-logs/open-logs.component';
-import {
-  isDCApiSupported,
-  userAgentAllowsProtocol,
-} from '@shared/utils/dc-api-utils';
+import { userAgentAllowsProtocol } from '@shared/utils/dc-api-utils';
 import { OpenId4VPDigitalCredential } from './model/DigitalCredential';
 import { CommonModule } from '@angular/common';
 import { MatDialog, MatDialogModule } from '@angular/material/dialog';
@@ -27,12 +24,9 @@ import { MatDividerModule } from '@angular/material/divider';
 import { SharedModule } from '@shared/shared.module';
 import { NavigateService } from '@core/services/navigate.service';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
-import {
-  SignedDcApiTransaction,
-  UnsignedDcApiTransaction,
-} from '@core/models/InitializedTransaction';
+import { DcApiTransaction } from '@core/models/InitializedTransaction';
 import { MatButtonModule } from '@angular/material/button';
-import { DCApiTransactionInitializationRequest } from '@app/core/models/TransactionInitializationRequest';
+import { concatMap, map } from 'rxjs';
 
 @Component({
   selector: 'vc-dc-api',
@@ -88,53 +82,42 @@ export class DcApiComponent implements OnInit {
     }
   }
   async triggerDcApiFlow(): Promise<void> {
-    const { initialized_transaction, initialization_request } =
-      this.transaction;
+    const { initialized_transaction } = this.transaction;
 
+    const transactionId = initialized_transaction.transaction_id;
     if (!initialized_transaction) {
       return;
     }
 
-    const response = await this.createDCApiRequest(
-      initialization_request as DCApiTransactionInitializationRequest,
-      initialized_transaction as
-        | SignedDcApiTransaction
-        | UnsignedDcApiTransaction,
-    )
+    await this.createDCApiRequest(initialized_transaction as DcApiTransaction)
       .then((req) => navigator.credentials.get(req))
+      .then((credential) => {
+        const digitalCredential = credential as OpenId4VPDigitalCredential;
+        const { response, error } = digitalCredential.data;
+        if (error) {
+        } else {
+          this.verifierEndpointService
+            .postDCApiResponse(transactionId, response!)
+            .pipe(
+              concatMap(() =>
+                this.verifierEndpointService.getWalletResponse(transactionId),
+              ),
+            )
+            .subscribe((res: WalletResponse) => {
+              const concludedTransaction = this.concludeTransaction(res);
+              this.emitTransactionConcludedEvent(concludedTransaction);
+            });
+        }
+      })
       .catch((err) => {
+        console.error(err);
         this.errorMessage = this.formatErrorMessage(err);
         this.cdr.detectChanges();
       });
-    if (!response) return;
-
-    const digitalCredential = response as OpenId4VPDigitalCredential;
-    const walletResponse = digitalCredential.data;
-
-    if (walletResponse) {
-      const concludedTransaction = this.concludeTransaction(walletResponse);
-      this.emitTransactionConcludedEvent(concludedTransaction);
-    }
   }
 
   private createDCApiRequest(
-    initialization_request: DCApiTransactionInitializationRequest,
-    initialized_transaction: SignedDcApiTransaction | UnsignedDcApiTransaction,
-  ): Promise<CredentialRequestOptions> {
-    const isSigned =
-      (initialization_request as DCApiTransactionInitializationRequest)
-        .request_type === 'signed';
-    return isSigned
-      ? this.getSignedDCApiRequest(
-          initialized_transaction as SignedDcApiTransaction,
-        )
-      : this.getUnsignedDCApiRequest(
-          initialized_transaction as UnsignedDcApiTransaction,
-        );
-  }
-
-  private getSignedDCApiRequest(
-    initialized_transaction: SignedDcApiTransaction,
+    initialized_transaction: DcApiTransaction,
   ): Promise<CredentialRequestOptions> {
     const protocol = 'openid4vp-v1-signed';
     if (!userAgentAllowsProtocol(protocol)) {
@@ -149,33 +132,7 @@ export class DcApiComponent implements OnInit {
           {
             protocol: protocol,
             data: {
-              request: (initialized_transaction as SignedDcApiTransaction)
-                .request,
-            },
-          },
-        ],
-      },
-    });
-  }
-
-  private getUnsignedDCApiRequest(
-    initialized_transaction: UnsignedDcApiTransaction,
-  ): Promise<CredentialRequestOptions> {
-    const protocol = 'openid4vp-v1-unsigned';
-    if (!userAgentAllowsProtocol(protocol)) {
-      return Promise.reject(
-        new Error(`Protocol ${protocol} is not supported by the user agent`),
-      );
-    }
-
-    return Promise.resolve({
-      mediation: 'required' as const,
-      digital: {
-        requests: [
-          {
-            protocol: protocol,
-            data: {
-              ...(initialized_transaction as UnsignedDcApiTransaction).request,
+              request: initialized_transaction.request,
             },
           },
         ],
@@ -225,5 +182,4 @@ export class DcApiComponent implements OnInit {
 
     return concludedTransaction;
   }
-
 }
