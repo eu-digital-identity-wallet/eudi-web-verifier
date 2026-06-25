@@ -1,6 +1,26 @@
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>Initialize presentation request</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <vc-editor
+      [editable]="false"
+      (request)="onRequestChanged($event)"
+    ></vc-editor>
+    <div *ngIf="!invalidJSON" class="vc-box-display-error">
+      <p>Invalid JSON Format</p>
+    </div>
 
-<h6>Initialize presentation request</h6>
-<vc-editor [editable]="false" (request)="onRequest($event)"></vc-editor>
-<div *ngIf="!invalidJSON" class="vc-box-display-error">
-  <p>Invalid JSON Format</p>
-</div>
+    <div>
+      <p>Choose the request submission channel</p>
+      <mat-button-toggle-group
+        [(ngModel)]="channel"
+        (valueChange)="onChannelChanged($event)"
+        aria-label="Submission Method"
+      >
+        <mat-button-toggle value="redirects">Redirects</mat-button-toggle>
+        <mat-button-toggle value="dc-api">DC API</mat-button-toggle>
+      </mat-button-toggle-group>
+    </div>
+  </mat-card-content>
+</mat-card>
