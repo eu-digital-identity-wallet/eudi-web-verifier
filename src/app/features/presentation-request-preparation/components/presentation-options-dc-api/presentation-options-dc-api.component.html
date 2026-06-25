@@ -10,25 +10,19 @@
     <ng-container *ngIf="dcApiSupported; else unsupported">
       <div class="request-options-grid">
         <div class="request-options-row">
-        <div class="request-options-label">
-          <span>Presentation Profile</span>
-          <p class="request-options-helper">
-            Defines the rules and constraints of the presentation
-          </p>
-        </div>
-        <div class="request-options-control">
-          <mat-button-toggle-group
-            [formControl]="presentationProfileControl"
-            (valueChange)="handlePresentationProfileChange($event)"
-            aria-label="Presentation Profile"
-          >
-          <mat-button-toggle value="haip">HAIP</mat-button-toggle>
-            <mat-button-toggle value="openid4vp">OpenID4VP</mat-button-toggle>
-          </mat-button-toggle-group>
+          <div class="request-options-label">
+            <span>Presentation Profile</span>
+            <p class="request-options-helper">
+              The presentation requests follows the rules defined by
+              <a
+                target="_blank"
+                href="https://www.etsi.org/deliver/etsi_ts/119400_119499/11947202/01.02.01_60/ts_11947202v010201p.pdf"
+                >ETSI TS 119 472-2 v1.2.1</a
+              >.
+            </p>
+          </div>
         </div>
       </div>
-
-    </div>
     </ng-container>
     <ng-template #unsupported>
       <div class="unsupported-message">

@@ -236,7 +236,6 @@ export class HomeComponent implements OnDestroy {
       },
       nonce: uuidv4(),
       issuer_chain: issuerChain,
-      profile: options.profile,
       expected_origins: window.location.origin,
     };
   }

@@ -42,20 +42,10 @@ export class PresentationOptionsDcApiComponent {
   @Output() optionsChanged = new EventEmitter<DcApiPresentationOptionsChangedEvent>();
 
   options: DCApiPresentationOptions = {
-    profile: DefaultProfile,
   }
 
-  presentationProfileControl = new FormControl<Profile>(this.options.profile, {
-    nonNullable: true,
-  });
-
   handlePresentationProfileChange(event: string) {
-    const selectedProfile = event as Profile;
-    this.options.profile = selectedProfile;
-    this.optionsChanged.emit({
-      type: "dc-api",
-      options: this.options
-    });
+    this.optionsChanged.emit({type: "dc-api", options: {}});
   }
 
 }
