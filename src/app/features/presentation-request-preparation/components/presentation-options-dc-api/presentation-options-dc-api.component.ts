@@ -14,6 +14,7 @@ import {
 
 import {
   DCApiPresentationOptions,
+  DefaultDCApiPresentationOptions,
   Profile,
 } from '@app/core/models/TransactionInitializationRequest';
 import { DefaultProfile } from '@app/core/constants/general';
@@ -40,12 +41,18 @@ export class PresentationOptionsDcApiComponent {
   readonly dcApiSupported = isDCApiSupported();
 
   @Output() optionsChanged = new EventEmitter<DcApiPresentationOptionsChangedEvent>();
+  
+    originControl = new FormControl<string>(DefaultDCApiPresentationOptions.origin || '', {
+      nonNullable: true,
+    });
+  expectedOrigin?: string = DefaultDCApiPresentationOptions.origin
+  defaultOrigin: string = DefaultDCApiPresentationOptions.origin!
+  options: DCApiPresentationOptions = DefaultDCApiPresentationOptions
 
-  options: DCApiPresentationOptions = {
-  }
-
-  handlePresentationProfileChange(event: string) {
-    this.optionsChanged.emit({type: "dc-api", options: {}});
+  handleExpectedOriginChange(event: string) {
+    this.options.origin = event;
+    console.log(event)
+    this.optionsChanged.emit({type: "dc-api", options: this.options});
   }
 
 }

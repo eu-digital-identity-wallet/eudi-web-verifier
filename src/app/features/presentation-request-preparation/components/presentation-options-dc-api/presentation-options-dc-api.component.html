@@ -13,13 +13,40 @@
           <div class="request-options-label">
             <span>Presentation Profile</span>
             <p class="request-options-helper">
-              The presentation requests follows the rules defined by
-              <a
-                target="_blank"
-                href="https://www.etsi.org/deliver/etsi_ts/119400_119499/11947202/01.02.01_60/ts_11947202v010201p.pdf"
-                >ETSI TS 119 472-2 v1.2.1</a
-              >.
+              Defines the rules and constraints of the presentation
             </p>
+          </div>
+          <div class="request-options-control">
+            The presentations follow the rules defined by
+            <a
+              target="_blank"
+              href="https://www.etsi.org/deliver/etsi_ts/119400_119499/11947202/01.02.01_60/ts_11947202v010201p.pdf"
+              >ETSI TS 119 472-2 v1.2.1</a
+            >
+          </div>
+        </div>
+
+        <div class="request-options-row">
+          <div class="request-options-label">
+            <span>Expected origin</span>
+            <p class="request-options-helper">
+              Choose the expected origin value for the DC API request
+            </p>
+          </div>
+          <div class="request-options-control">
+            <mat-form-field appearance="outline" class="config-option-field">
+              <mat-label>Expected origin</mat-label>
+              <input
+                matInput
+                [placeholder]="defaultOrigin"
+                [formControl]="originControl"
+                (input)="
+                  handleExpectedOriginChange(originControl.value)
+                "
+                aria-label="Expected origin"
+                autocomplete="off"
+              />
+            </mat-form-field>
           </div>
         </div>
       </div>

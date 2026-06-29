@@ -33,7 +33,7 @@ export type DCApiTransactionInitializationRequest = {
   nonce: string;
   dcql_query: DCQL;
   issuer_chain?: string;
-  expected_origins: string;
+  origin: string;
 };
 
 export type RedirectsPresentationOptions = {
@@ -49,6 +49,8 @@ export const DefaultRedirectsPresentationOptions: RedirectsPresentationOptions =
   };
 
 export type DCApiPresentationOptions = {
+  origin?: string
 };
 export const DefaultDCApiPresentationOptions: DCApiPresentationOptions = {
+  origin: window.location.origin
 };

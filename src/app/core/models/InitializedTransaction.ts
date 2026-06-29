@@ -13,6 +13,4 @@ export type RedirectsTransaction = {
 export type DcApiTransaction = {
   transaction_id: string,
   request: string,
-  origin: string,
-  host: string,
 }
