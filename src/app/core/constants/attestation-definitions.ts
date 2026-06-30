@@ -127,22 +127,6 @@ export const EHIC_ATTESTATION: AttestationDefinition = {
   ],
 }
 
-export const EHIC_ATTESTATION_DC4EU: AttestationDefinition = {
-  name: "DC4EU European Health Insurance Card (SD-JWT VC Compact)",
-  type: AttestationType.EHIC_DC4EU,
-  dataSet: [
-    { identifier: "personal_administrative_number", attribute: "Social Security PIN" },
-    { identifier: "issuing_country", attribute: "Issuing country", selectivelyDisclosable: "never" },
-    { identifier: "issuing_authority", attribute: "Issuing authority", selectivelyDisclosable: "never" },
-    { identifier: "date_of_expiry", attribute: "Expiry date", selectivelyDisclosable: "never" },
-    { identifier: "date_of_issuance", attribute: "Issue date", selectivelyDisclosable: "never" },
-    { identifier: "authentic_source", attribute: 'Competent institution', selectivelyDisclosable: "never" },
-    { identifier: "ending_date", attribute: "Ending date", selectivelyDisclosable: "never" },
-    { identifier: "starting_date", attribute: "Starting date", selectivelyDisclosable: "never" },
-    { identifier: "document_number", attribute: "Document number" },
-  ],
-}
-
 export const PDA1_ATTESTATION: AttestationDefinition = {
   name: "Portable Document A1 (PDA1)",
   type: AttestationType.PDA1,
@@ -188,7 +172,6 @@ export const SUPPORTED_ATTESTATIONS: { [id: string]: AttestationDefinition } = {
   "mdl": MDL_ATTESTATION,
   "photo_id": PHOTO_ID_ATTESTATION,
   "ehic": EHIC_ATTESTATION,
-  "ehic-dc4eu": EHIC_ATTESTATION_DC4EU,
   "pda1": PDA1_ATTESTATION,
   "learning_credential": LEARNING_CREDENTIAL_ATTESTATION,
 }
