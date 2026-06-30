@@ -95,45 +95,27 @@ export class DcApiComponent implements OnInit {
       .then((credential) => {
         const digitalCredential = credential as OpenId4VPDigitalCredential;
         const { response, error, error_description } = digitalCredential.data;
-        if (error) {
-          this.verifierEndpointService
-            .postDcApiErrorResponse(transactionId, error, error_description)
-            .pipe(
-              concatMap(() =>
-                this.verifierEndpointService.getWalletResponse(transactionId),
-              ),
-            )
-            .subscribe({
-              next: (res: WalletResponse) => {
-                const concludedTransaction = this.concludeTransaction(res);
-                this.emitTransactionConcludedEvent(concludedTransaction);
-              },
-              error: (err) => {
-                console.error(err);
-                this.errorMessage = this.formatErrorMessage(err);
-                this.cdr.detectChanges();
-              },
-            });
-        } else {
-          this.verifierEndpointService
-            .postDcApiWalletResponse(transactionId, response!)
-            .pipe(
-              concatMap(() =>
-                this.verifierEndpointService.getWalletResponse(transactionId),
-              ),
-            )
-            .subscribe({
-              next: (res: WalletResponse) => {
-                const concludedTransaction = this.concludeTransaction(res);
-                this.emitTransactionConcludedEvent(concludedTransaction);
-              },
-              error: (error) => {
-                console.error(error);
-                this.errorMessage = this.formatErrorMessage(error);
-                this.cdr.detectChanges();
-              },
-            });
-        }
+        const postResponse$ = error
+          ? this.verifierEndpointService.postDcApiErrorResponse(transactionId, error, error_description)
+          : this.verifierEndpointService.postDcApiWalletResponse(transactionId, response!);
+
+        postResponse$
+          .pipe(
+            concatMap(() =>
+              this.verifierEndpointService.getWalletResponse(transactionId),
+            ),
+          )
+          .subscribe({
+            next: (res: WalletResponse) => {
+              const concludedTransaction = this.concludeTransaction(res);
+              this.emitTransactionConcludedEvent(concludedTransaction);
+            },
+            error: (err) => {
+              console.error(err);
+              this.errorMessage = this.formatErrorMessage(err);
+              this.cdr.detectChanges();
+            },
+          });
       })
       .catch((err) => {
         console.error(err);
