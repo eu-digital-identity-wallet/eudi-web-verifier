@@ -66,13 +66,35 @@ export class VerifierEndpointService {
     }
   }
 
-  postDCApiResponse(transactionId: string, encryptedJwt: string): Observable<any> {
+  postDcApiWalletResponse(transactionId: string, response: string): Observable<any> {
     const headers = new HttpHeaders({
-      'Content-Type': 'application/json'
+      'Content-Type': 'application/x-www-form-urlencoded'
     });
-    return this.httpService.post<any, string>(POST_DC_API_RESPONSE_ENDPOINT.replace('${transactionId}', transactionId), encryptedJwt, {headers})
+    const body = new URLSearchParams();
+    body.set('response', response);
+    return this.httpService.post<any, string>(
+      POST_DC_API_RESPONSE_ENDPOINT.replace('${transactionId}', transactionId),
+      body.toString(),
+      { headers }
+    );
   }
-  
+
+  postDcApiErrorResponse(transactionId: string, error: string, errorDescription?: string): Observable<any> {
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/x-www-form-urlencoded'
+    });
+    const body = new URLSearchParams();
+    body.set('error', error);
+    if (errorDescription) {
+      body.set('error_description', errorDescription);
+    }
+    return this.httpService.post<any, string>(
+      POST_DC_API_RESPONSE_ENDPOINT.replace('${transactionId}', transactionId),
+      body.toString(),
+      { headers }
+    );
+  }
+
   getWalletResponse(transaction_id: string, code?: string): Observable<WalletResponse> {
     if (typeof code == 'undefined') {
       return this.httpService.get(WALLET_RESPONSE_ENDPOINT.replace('${transactionId}', transaction_id));
@@ -99,7 +121,7 @@ export class VerifierEndpointService {
       );
   }
 
-  validateSdJwtVc(payload: string, nonce: string): Observable<any> {
+  validateSdJwtVc(payload: string, nonce: string, origin?: string): Observable<any> {
     const issuerChain = this.sessionStorageService.get(constants.ISSUER_CHAIN) ?? undefined;
 
     const headers = new HttpHeaders({
@@ -109,6 +131,7 @@ export class VerifierEndpointService {
     const body = new URLSearchParams();
     body.set('sd_jwt_vc', payload);
     body.set('nonce', nonce);
+    body.set('expected_audience', `origin:${origin}`)
     issuerChain && body.set('issuer_chain', issuerChain);
 
     return this.httpService.post<any, string>(VALIDATE_SD_JWT_VC_PRESENTATION_ENDPOINT, body.toString(), {headers})

@@ -18,7 +18,7 @@ export class MsoMdocAttestationDecoder implements AttestationDecoder {
     return format === AttestationFormat.MSO_MDOC;
   }
 
-  decode(attestation: string, nonce: string): Observable<PresentedAttestation> {
+  decode(attestation: string, nonce: string, origin?: string): Observable<PresentedAttestation> {
     const buffer = this.decodeBase64OrHex(attestation);
     const decodedData = this.decodeCborData(buffer);
     if (decodedData.documents.length === 1) {

@@ -4,5 +4,5 @@ import {Observable} from "rxjs";
 
 export interface AttestationDecoder {
   supports(format: AttestationFormat): boolean;
-  decode(attestation: string, nonce: string): Observable<PresentedAttestation>
+  decode(attestation: string, nonce: string, origin?: string): Observable<PresentedAttestation>
 }

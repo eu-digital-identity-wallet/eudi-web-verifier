@@ -5,5 +5,6 @@ export type ConcludedTransaction = {
   transactionId: string,
   presentationQuery: PresentationQuery,
   walletResponse: WalletResponse,
-  nonce: string
+  nonce: string,
+  origin?: string
 }

@@ -26,7 +26,8 @@ import { NavigateService } from '@core/services/navigate.service';
 import { MatProgressBarModule } from '@angular/material/progress-bar';
 import { DcApiTransaction } from '@core/models/InitializedTransaction';
 import { MatButtonModule } from '@angular/material/button';
-import { concatMap, map } from 'rxjs';
+import { concatMap } from 'rxjs';
+import { DCApiTransactionInitializationRequest } from '@app/core/models/TransactionInitializationRequest';
 
 @Component({
   selector: 'vc-dc-api',
@@ -93,19 +94,44 @@ export class DcApiComponent implements OnInit {
       .then((req) => navigator.credentials.get(req))
       .then((credential) => {
         const digitalCredential = credential as OpenId4VPDigitalCredential;
-        const { response, error } = digitalCredential.data;
+        const { response, error, error_description } = digitalCredential.data;
         if (error) {
-        } else {
           this.verifierEndpointService
-            .postDCApiResponse(transactionId, response!)
+            .postDcApiErrorResponse(transactionId, error, error_description)
             .pipe(
               concatMap(() =>
                 this.verifierEndpointService.getWalletResponse(transactionId),
               ),
             )
-            .subscribe((res: WalletResponse) => {
-              const concludedTransaction = this.concludeTransaction(res);
-              this.emitTransactionConcludedEvent(concludedTransaction);
+            .subscribe({
+              next: (res: WalletResponse) => {
+                const concludedTransaction = this.concludeTransaction(res);
+                this.emitTransactionConcludedEvent(concludedTransaction);
+              },
+              error: (err) => {
+                console.error(err);
+                this.errorMessage = this.formatErrorMessage(err);
+                this.cdr.detectChanges();
+              },
+            });
+        } else {
+          this.verifierEndpointService
+            .postDcApiWalletResponse(transactionId, response!)
+            .pipe(
+              concatMap(() =>
+                this.verifierEndpointService.getWalletResponse(transactionId),
+              ),
+            )
+            .subscribe({
+              next: (res: WalletResponse) => {
+                const concludedTransaction = this.concludeTransaction(res);
+                this.emitTransactionConcludedEvent(concludedTransaction);
+              },
+              error: (error) => {
+                console.error(error);
+                this.errorMessage = this.formatErrorMessage(error);
+                this.cdr.detectChanges();
+              },
             });
         }
       })
@@ -159,6 +185,19 @@ export class DcApiComponent implements OnInit {
       return error;
     }
 
+    if (error?.error) {
+      const body = error.error;
+      if (typeof body === 'string') {
+        return body;
+      }
+      if (body?.error) {
+        return body.error;
+      }
+      if (body?.message) {
+        return body.message;
+      }
+    }
+
     if (error.message) {
       return error.message;
     }
@@ -176,6 +215,7 @@ export class DcApiComponent implements OnInit {
       nonce: this.transaction.initialization_request.nonce,
       presentationQuery: this.transaction.initialization_request!!.dcql_query,
       walletResponse: response,
+      origin: (this.transaction.initialization_request!! as DCApiTransactionInitializationRequest).origin
     };
     // Clear local storage
     this.localStorageService.remove(constants.ACTIVE_TRANSACTION);

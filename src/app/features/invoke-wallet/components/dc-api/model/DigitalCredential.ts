@@ -10,5 +10,6 @@ export interface OpenId4VPDigitalCredential extends DigitalCredential {
   readonly data: {
     response?: string
     error?: string
+    error_description?: string
   };
 }
