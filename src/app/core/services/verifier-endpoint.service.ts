@@ -131,7 +131,9 @@ export class VerifierEndpointService {
     const body = new URLSearchParams();
     body.set('sd_jwt_vc', payload);
     body.set('nonce', nonce);
-    body.set('expected_audience', `origin:${origin}`)
+    if(origin) {
+      body.set('expected_audience', `origin:${origin}`);
+    }
     issuerChain && body.set('issuer_chain', issuerChain);
 
     return this.httpService.post<any, string>(VALIDATE_SD_JWT_VC_PRESENTATION_ENDPOINT, body.toString(), {headers})
