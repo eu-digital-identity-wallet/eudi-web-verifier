@@ -1,4 +1,5 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
+import { provideNoopAnimations } from '@angular/platform-browser/animations';
 
 import { PresentationOptionsDcApiComponent } from './presentation-options-dc-api.component';
 
@@ -8,7 +9,8 @@ describe('PresentationOptionsDcApiComponent', () => {
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [PresentationOptionsDcApiComponent]
+      imports: [PresentationOptionsDcApiComponent],
+      providers: [provideNoopAnimations()],
     })
     .compileComponents();
 

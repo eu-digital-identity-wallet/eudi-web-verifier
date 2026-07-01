@@ -46,12 +46,11 @@ describe('HomeComponent', () => {
   
     component.selectedAttestations = mockSelectedAttestations;
     component.selectedAttributes = mockSelectedAttributes;
-    spyOn(component as any, 'prepareInitializationRequest').and.returnValue(mockInitializationRequest);
+    spyOn(component as any, 'prepareRedirectsInitializationRequest').and.returnValue(mockInitializationRequest);
   
-    component.handleRequestUriMethodChangedEvent(mockSelectedJarMethod);
+    component.handleRequestModeChange({ index: 0 });
   
-    expect(component.selectedRequestUriMethod).toBe(mockSelectedJarMethod);
-    expect(component.initializationRequest).toBe(mockInitializationRequest);
+    expect(component.requestMode).toBe('redirects');
   });
 
 });
