@@ -132,7 +132,7 @@ export class VerifierEndpointService {
     body.set('sd_jwt_vc', payload);
     body.set('nonce', nonce);
     if(origin) {
-      body.set('expected_audience', `origin:${origin}`);
+      body.set('audience', `origin:${origin}`);
     }
     issuerChain && body.set('issuer_chain', issuerChain);
 

@@ -15,9 +15,7 @@ import {
 import {
   DCApiPresentationOptions,
   DefaultDCApiPresentationOptions,
-  Profile,
 } from '@app/core/models/TransactionInitializationRequest';
-import { DefaultProfile } from '@app/core/constants/general';
 import { isDCApiSupported } from '@shared/utils/dc-api-utils';
 
 @Component({
@@ -41,18 +39,22 @@ export class PresentationOptionsDcApiComponent {
   readonly dcApiSupported = isDCApiSupported();
 
   @Output() optionsChanged = new EventEmitter<DcApiPresentationOptionsChangedEvent>();
-  
-    originControl = new FormControl<string>(DefaultDCApiPresentationOptions.origin || '', {
-      nonNullable: true,
-    });
-  expectedOrigin?: string = DefaultDCApiPresentationOptions.origin
-  defaultOrigin: string = DefaultDCApiPresentationOptions.origin!
-  options: DCApiPresentationOptions = DefaultDCApiPresentationOptions
 
-  handleExpectedOriginChange(event: string) {
-    this.options.origin = event;
-    console.log(event)
-    this.optionsChanged.emit({type: "dc-api", options: this.options});
+  expectedOriginsControl = new FormControl<string>(
+    (DefaultDCApiPresentationOptions.expected_origins || []).join(', '),
+    {
+      nonNullable: true,
+    }
+  );
+  defaultOrigins: string = (DefaultDCApiPresentationOptions.expected_origins || []).join(', ');
+  options: DCApiPresentationOptions = DefaultDCApiPresentationOptions;
+
+  handleExpectedOriginsChange(event: string) {
+    this.options.expected_origins = event
+      .split(',')
+      .map((o) => o.trim())
+      .filter((o) => o.length > 0);
+    this.optionsChanged.emit({ type: 'dc-api', options: this.options });
   }
 
 }

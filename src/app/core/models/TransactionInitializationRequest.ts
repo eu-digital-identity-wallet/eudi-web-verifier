@@ -34,6 +34,7 @@ export type DCApiTransactionInitializationRequest = {
   dcql_query: DCQL;
   issuer_chain?: string;
   origin: string;
+  expected_origins?: string[];
 };
 
 export type RedirectsPresentationOptions = {
@@ -49,8 +50,8 @@ export const DefaultRedirectsPresentationOptions: RedirectsPresentationOptions =
   };
 
 export type DCApiPresentationOptions = {
-  origin?: string
+  expected_origins?: string[]
 };
 export const DefaultDCApiPresentationOptions: DCApiPresentationOptions = {
-  origin: window.location.origin
+  expected_origins: [window.location.origin]
 };
