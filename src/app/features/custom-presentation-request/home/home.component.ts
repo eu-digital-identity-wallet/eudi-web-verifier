@@ -7,7 +7,7 @@ import {BodyAction} from '@shared/elements/body-actions/models/BodyAction';
 import {PRESENTATION_ACTIONS} from '@core/constants/pages-actions';
 import {ActionCode} from '@shared/elements/body-actions/models/ActionCode';
 import {VerifierEndpointService} from "@core/services/verifier-endpoint.service";
-import {TransactionInitializationRequest} from "@core/models/TransactionInitializationRequest";
+import {DCApiTransactionInitializationRequest, RedirectsTransactionInitializationRequest, TransactionInitializationRequest} from "@core/models/TransactionInitializationRequest";
 import { DataService } from '@app/core/services/data-service';
 
 @Component({
@@ -22,6 +22,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   destroy$ = new Subject();
   actions: BodyAction[] = PRESENTATION_ACTIONS;
   requestCode = '';
+  submissionMethod: 'redirects' | 'dc-api' = 'redirects';
 
   constructor(
     private readonly changeDetectorRef: ChangeDetectorRef,
@@ -38,9 +39,10 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit(): void {
-    this.dataService.customRequest$.subscribe((code) => {
-      this.requestCode = code;
-      this.disableNextButton(code);
+    this.dataService.customRequest$.subscribe((customRequest) => {
+      this.requestCode = customRequest.requestObjectJson;
+      this.submissionMethod = customRequest.channel;
+      this.disableNextButton(this.requestCode);
     });
     this.router.events
       .pipe(
@@ -67,12 +69,21 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   initializePresentationTransaction() {
     if (this.requestCode) {
-      let request = JSON.parse(this.requestCode) as TransactionInitializationRequest
-      this.verifierEndpointService.initializeTransaction(request, (_) => {
-        this.hideNextStep();
-        this.navigateService.navigateTo('/custom-request/invoke');
-        this.changeDetectorRef.detectChanges();
-      });
+      if (this.submissionMethod === 'dc-api') {
+        let request = JSON.parse(this.requestCode) as DCApiTransactionInitializationRequest;
+        this.verifierEndpointService.initializeDcApiTransaction(request, (_) => {
+          this.hideNextStep();
+          this.navigateService.navigateTo('/custom-request/invoke');
+          this.changeDetectorRef.detectChanges();
+        });
+      } else {
+        let request = JSON.parse(this.requestCode) as RedirectsTransactionInitializationRequest;
+        this.verifierEndpointService.initializeRedirectsTransaction(request, (_) => {
+          this.hideNextStep();
+          this.navigateService.navigateTo('/custom-request/invoke');
+          this.changeDetectorRef.detectChanges();
+        });
+      }
     } else {
       console.error('invalid JSON format');
     }

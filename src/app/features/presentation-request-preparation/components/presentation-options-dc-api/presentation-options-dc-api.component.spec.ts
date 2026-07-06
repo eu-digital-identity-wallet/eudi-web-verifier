@@ -1,24 +1,22 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 import { provideNoopAnimations } from '@angular/platform-browser/animations';
 
-import { CustomRequestEditorComponent } from './custom-request-editor.component';
-import { SharedModule } from '@app/shared/shared.module';
+import { PresentationOptionsDcApiComponent } from './presentation-options-dc-api.component';
 
-describe('PresentationRequestComponent', () => {
-  let component: CustomRequestEditorComponent;
-  let fixture: ComponentFixture<CustomRequestEditorComponent>;
+describe('PresentationOptionsDcApiComponent', () => {
+  let component: PresentationOptionsDcApiComponent;
+  let fixture: ComponentFixture<PresentationOptionsDcApiComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      imports: [
-        SharedModule,
-      ],
+      imports: [PresentationOptionsDcApiComponent],
       providers: [provideNoopAnimations()],
     })
     .compileComponents();
 
-    fixture = TestBed.createComponent(CustomRequestEditorComponent);
+    fixture = TestBed.createComponent(PresentationOptionsDcApiComponent);
     component = fixture.componentInstance;
+    fixture.detectChanges();
   });
 
   it('should create', () => {

@@ -1,0 +1,106 @@
+@use '/src/template' as temp;
+@use '/src/layout-breakpoint' as points;
+@use "sass:map";
+
+:host {
+
+  .vc-dc-api {
+    align-items: center;
+    display: flex;
+    flex-direction: column;
+    min-width: temp.$min-body-width;
+
+    .authorize {
+      border: 0;
+      border-radius: 16px;
+      color: hsl(0, 0%, 99%);
+      cursor: pointer;
+      font-size: 16px;
+      height: 20px;
+      padding: 1rem;
+      transition: background 225ms ease-in-out 0s;
+      -webkit-user-select: none;
+      user-select: none;
+      width: -moz-fit-content;
+      width: fit-content;
+      background: map.get(map.get(temp.$palette, color), primary);
+      text-decoration: none;
+    }
+
+    .body {
+      align-items: center;
+      display: flex;
+      flex-direction: row;
+      justify-content: center;
+      width: 100%;
+
+      .qr-code {
+        -webkit-box-pack: center;
+        display: flex;
+        height: fit-content;
+        justify-content: center;
+        max-height: temp.$body-height;
+        overflow-y: auto;
+        padding: temp.$spaceBasic;
+        width: 100%;
+      }
+    }
+      .vc-dc-api__error {
+        align-items: flex-start;
+        background: rgba(211, 47, 47, 0.08);
+        border-left: 4px solid #b00020;
+        color: #b00020;
+        display: flex;
+        gap: 1rem;
+        margin-top: 1rem;
+        padding: 1rem;
+
+        mat-icon {
+          font-size: 1.5rem;
+          margin-top: 0.1rem;
+        }
+
+        &__error-content {
+          display: flex;
+          flex-direction: column;
+          gap: 0.25rem;
+        }
+
+        &__error-title {
+          display: block;
+          font-weight: 600;
+        }
+
+        &__error-detail {
+          line-height: 1.5;
+          white-space: pre-wrap;
+          word-break: break-word;
+        }
+      }
+  }
+  @media (max-width: map.get(points.$breakpoints, xs)) and  (min-width: map.get(points.$breakpoints, sm)){
+    .vc-verifiable-credential {
+      min-width: temp.$body-width-xs;
+      width: temp.$body-width-xs;
+
+      .body {
+        flex-direction: column;
+      }
+    }
+  }
+  @media (max-width: map.get(points.$breakpoints, sm)) {
+    .vc-verifiable-credential {
+      min-width: temp.$body-width-sm;
+      width: temp.$body-width-sm;
+
+      .body {
+        flex-direction: column;
+      }
+    }
+  }
+  @media (max-width: map.get(points.$breakpoints, md)) and (min-width: map.get(points.$breakpoints, sm)){
+    .vc-verifiable-credential {
+      width: temp.$body-width-md;
+    }
+  }
+}

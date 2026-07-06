@@ -1,0 +1,60 @@
+<mat-card>
+  <mat-card-header>
+    <mat-card-title>Presentation Options</mat-card-title>
+    <mat-card-subtitle>
+      Configure the options for your presentation request.
+    </mat-card-subtitle>
+  </mat-card-header>
+
+  <mat-card-content>
+    <ng-container *ngIf="dcApiSupported; else unsupported">
+      <div class="request-options-grid">
+        <div class="request-options-row">
+          <div class="request-options-label">
+            <span>Presentation Profile</span>
+            <p class="request-options-helper">
+              Defines the rules and constraints of the presentation
+            </p>
+          </div>
+          <div class="request-options-control">
+            The presentations follow the rules defined by
+            <a
+              target="_blank"
+              href="https://www.etsi.org/deliver/etsi_ts/119400_119499/11947202/01.02.01_60/ts_11947202v010201p.pdf"
+              >ETSI TS 119 472-2 v1.2.1</a
+            >
+          </div>
+        </div>
+
+        <div class="request-options-row">
+          <div class="request-options-label">
+            <span>Expected origins</span>
+            <p class="request-options-helper">
+              Comma-separated list of expected origin values for the DC API request
+            </p>
+          </div>
+          <div class="request-options-control">
+            <mat-form-field appearance="outline" class="config-option-field">
+              <mat-label>Expected origins</mat-label>
+              <input
+                matInput
+                [placeholder]="defaultOrigins"
+                [formControl]="expectedOriginsControl"
+                (input)="
+                  handleExpectedOriginsChange(expectedOriginsControl.value)
+                "
+                aria-label="Expected origins"
+                autocomplete="off"
+              />
+            </mat-form-field>
+          </div>
+        </div>
+      </div>
+    </ng-container>
+    <ng-template #unsupported>
+      <div class="unsupported-message">
+        <p>DC API is not supported by the current user agent.</p>
+      </div>
+    </ng-template>
+  </mat-card-content>
+</mat-card>

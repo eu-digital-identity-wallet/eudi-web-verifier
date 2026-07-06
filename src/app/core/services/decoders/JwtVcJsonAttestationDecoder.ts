@@ -24,7 +24,7 @@ export class JwtVcJsonAttestationDecoder implements AttestationDecoder {
     return format === AttestationFormat.JWT_VC_JSON;
   }
 
-  decode(attestation: string, nonce: string): Observable<PresentedAttestation> {
+  decode(attestation: string, nonce: string, origin?: string): Observable<PresentedAttestation> {
     let vp = this.jWTService.decodeToObject(attestation);
     let sharedCredentials = this.unWrapCredentials(vp)
 

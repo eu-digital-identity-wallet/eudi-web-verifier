@@ -1,0 +1,28 @@
+<div class="vc-dc-api">
+  <div>
+    <mat-card class="example-card">
+      <mat-card-content>
+        <h4>Triggering Wallet via DC API</h4>
+        <mat-divider />
+        <div
+          class="vc-dc-api__error"
+          *ngIf="errorMessage"
+          role="alert"
+          aria-live="polite"
+        >
+          <mat-icon aria-hidden="true">error_outline</mat-icon>
+          <div class="vc-dc-api__error-content">
+            <span class="vc-dc-api__error-title">An error occurred</span>
+            <div class="vc-dc-api__error-detail">{{ errorMessage }}</div>
+          </div>
+        </div>
+      </mat-card-content>
+      <mat-card-actions>
+        <button mat-button (click)="openLogs()">View transaction logs</button>
+      </mat-card-actions>
+      <mat-card-footer *ngIf="!errorMessage">
+        <mat-progress-bar mode="indeterminate" />
+      </mat-card-footer>
+    </mat-card>
+  </div>
+</div>

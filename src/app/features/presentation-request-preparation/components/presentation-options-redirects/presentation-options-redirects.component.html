@@ -18,7 +18,7 @@
         <div class="request-options-control">
           <mat-button-toggle-group
             [formControl]="presentationProfileControl"
-            (valueChange)="profileChange.emit($event)"
+            (valueChange)="handlePresentationProfileChange($event)"
             aria-label="Presentation Profile"
           >
           <mat-button-toggle value="haip">HAIP</mat-button-toggle>
@@ -37,7 +37,7 @@
         <div class="request-options-control">
           <mat-button-toggle-group
             [formControl]="requestUriMethodControl"
-            (valueChange)="requestUriMethodChange.emit($event)"
+            (valueChange)="handleRequestUriMethodChange($event)"
             aria-label="Request URI Method"
           >
             <mat-button-toggle value="get">GET</mat-button-toggle>
@@ -63,7 +63,7 @@
               [formControl]="authorizationSchemeControl"
               autocomplete="off"
               (input)="
-                authorizationSchemeChange.emit(authorizationSchemeControl.value)
+                handleAuthorizationSchemeChange(authorizationSchemeControl.value)
               "
             />
           </mat-form-field>

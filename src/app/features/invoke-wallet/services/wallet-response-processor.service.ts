@@ -29,7 +29,8 @@ export class WalletResponseProcessorService {
         return this.decodeAttestation(
             attestation,
             credentialQuery.format as AttestationFormat,
-            concludedTransaction.nonce
+            concludedTransaction.nonce,
+            concludedTransaction.origin
           )
       });
       
@@ -58,12 +59,13 @@ export class WalletResponseProcessorService {
   private decodeAttestation(
     attestation: any,
     format: AttestationFormat,
-    nonce: string
+    nonce: string,
+    origin?: string
   ): Observable<PresentedAttestation> {
     // locate appropriate decoder
     let decoder = this.decoders.decoderOf(format);
     // decode to SharedAttestation
-    return decoder.decode(attestation, nonce).pipe(
+    return decoder.decode(attestation, nonce, origin).pipe(
       catchError((error) => {
         this.toastrService.error(
           error.error,

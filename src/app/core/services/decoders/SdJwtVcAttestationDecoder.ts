@@ -22,8 +22,8 @@ export class SdJwtVcAttestationDecoder implements AttestationDecoder {
     return format === AttestationFormat.SD_JWT_VC;
   }
 
-  decode(attestation: string, nonce: string): Observable<PresentedAttestation> {
-    return this.verifierEndpointService.validateSdJwtVc(attestation, nonce)
+  decode(attestation: string, nonce: string, origin?: string): Observable<PresentedAttestation> {
+    return this.verifierEndpointService.validateSdJwtVc(attestation, nonce, origin)
       .pipe(
         map( (sdJwtVc: any) => {
           return {

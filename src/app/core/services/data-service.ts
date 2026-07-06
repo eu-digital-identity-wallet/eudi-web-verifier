@@ -5,5 +5,9 @@ import { Subject } from 'rxjs';
   providedIn: 'root',
 })
 export class DataService {
-  customRequest$: Subject<string> = new Subject();
+  customRequest$: Subject<CustomRequest> = new Subject();
+}
+export interface CustomRequest {
+  requestObjectJson: string,
+  channel: 'dc-api' | 'redirects'
 }

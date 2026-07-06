@@ -7,8 +7,6 @@ import {
   AttestationSelection,
   AttributeSelectionMethod,
 } from '@app/features/presentation-request-preparation/models/AttestationSelection';
-import { v4 as uuidv4 } from 'uuid';
-import { Profile, RequestUriMethod, TransactionInitializationRequest } from '../models/TransactionInitializationRequest';
 import {
   MsoMdocAttestation,
   SdJwtVcAttestation,
@@ -18,44 +16,29 @@ import {
   providedIn: 'root',
 })
 export class DCQLService {
-  dcqlPresentationRequest(
+
+  getDCQLCredentialQueries(
     selectedAttestations: AttestationSelection[],
     selectedAttributes: { [id: string]: string[] },
-    selectedRequestUriMethod: RequestUriMethod,
-    selectedProfile: Profile,
-    authorizationRequestUri: string,
-    issuerChain?: string
-  ): TransactionInitializationRequest {
-    let dcqlQueries: CredentialQuery[] = selectedAttestations.map(
-      (attestation, index) =>
-        this.dcqlQueryOf(
-          `query_${index}`,
-          attestation.type,
-          attestation.format!,
-          attestation.attributeSelectionMethod ===
-            AttributeSelectionMethod.ALL_ATTRIBUTES
-            ? undefined
-            : selectedAttributes[attestation.type]
-        )
+  ): CredentialQuery[] {
+    return selectedAttestations.map((attestation, index) =>
+      this.dcqlQueryOf(
+        `query_${index}`,
+        attestation.type,
+        attestation.format!,
+        attestation.attributeSelectionMethod ===
+          AttributeSelectionMethod.ALL_ATTRIBUTES
+          ? undefined
+          : selectedAttributes[attestation.type],
+      ),
     );
-
-    return {
-      dcql_query: {
-        credentials: dcqlQueries,
-      },
-      nonce: uuidv4(),
-      request_uri_method: selectedRequestUriMethod,
-      issuer_chain: issuerChain,
-      profile: selectedProfile,
-      authorization_request_uri: authorizationRequestUri
-    };
   }
 
-  dcqlQueryOf(
+  private dcqlQueryOf(
     queryId: QueryId,
     type: AttestationType,
     format: AttestationFormat,
-    selectedAttributes?: string[]
+    selectedAttributes?: string[],
   ): CredentialQuery {
     let attestation = getAttestationByFormatAndType(type, format);
 
@@ -74,9 +57,10 @@ export class DCQLService {
 
     let claims: ClaimsQuery[] = [];
     claims = attestation!.attestationDef.dataSet
-      .filter((dataElement) =>
-        selectedAttributes === undefined ||
-        selectedAttributes!.includes(dataElement.identifier)
+      .filter(
+        (dataElement) =>
+          selectedAttributes === undefined ||
+          selectedAttributes!.includes(dataElement.identifier),
       )
       .map((dataElement) => {
         return attestation!.claimQuery(dataElement);

@@ -33,3 +33,17 @@ main {
   border-radius: 16px;
   padding: 1.5rem;
 }
+
+@media (max-width: 599px) {
+  div.mat-vertical-content-container {
+    margin-left: 0;
+    position: initial;
+    .mat-vertical-content{
+      padding: 0;
+    }
+  }
+}
+
+div.mat-vertical-stepper-content {
+  padding: 2px;
+}

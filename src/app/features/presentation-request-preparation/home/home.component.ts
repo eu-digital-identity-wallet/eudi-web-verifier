@@ -1,50 +1,41 @@
-import { Component, inject, OnDestroy } from '@angular/core';
-import { NavigateService } from '@app/core/services/navigate.service';
-import { HOME_ACTIONS } from '@core/constants/pages-actions';
-import { BodyAction } from '@app/shared/elements/body-actions/models/BodyAction';
-import { CommonModule } from '@angular/common';
-import { MatTabsModule } from '@angular/material/tabs';
-import { SharedModule } from '@shared/shared.module';
-import { WalletLayoutComponent } from '@core/layout/wallet-layout/wallet-layout.component';
-import { MatDialogModule } from '@angular/material/dialog';
-import { RouterLink, RouterLinkActive } from '@angular/router';
-import { SupportedAttestationsComponent } from '@features/presentation-request-preparation/components/supported-attestations/supported-attestations.component';
-import { MatStepperModule } from '@angular/material/stepper';
+import {Component, inject, OnDestroy} from '@angular/core';
+import {NavigateService} from '@app/core/services/navigate.service';
+import {HOME_ACTIONS} from '@core/constants/pages-actions';
+import {BodyAction} from '@app/shared/elements/body-actions/models/BodyAction';
+import {CommonModule} from '@angular/common';
+import {MatTabsModule} from '@angular/material/tabs';
+import {SharedModule} from '@shared/shared.module';
+import {WalletLayoutComponent} from '@core/layout/wallet-layout/wallet-layout.component';
+import {MatDialogModule} from '@angular/material/dialog';
+import {RouterLink, RouterLinkActive} from '@angular/router';
 import {
-  FormBuilder,
-  FormControl,
-  ReactiveFormsModule,
-  Validators,
-} from '@angular/forms';
-import { MatButtonModule } from '@angular/material/button';
+  SupportedAttestationsComponent
+} from '@features/presentation-request-preparation/components/supported-attestations/supported-attestations.component';
+import {MatStepperModule} from '@angular/material/stepper';
+import {FormBuilder, FormControl, ReactiveFormsModule, Validators,} from '@angular/forms';
+import {MatButtonModule} from '@angular/material/button';
+import {AttestationSelection, AttributeSelectionMethod,} from '@features/presentation-request-preparation/models/AttestationSelection';
 import {
-  AttestationSelection,
-  AttributeSelectionMethod,
-} from '@features/presentation-request-preparation/models/AttestationSelection';
-import { AttributeSelectionComponent } from '@features/presentation-request-preparation/components/attribute-selection/attribute-selection.component';
-import {
-  Profile,
-  profileOptions,
-  RequestUriMethod,
-  TransactionInitializationRequest,
-} from '@core/models/TransactionInitializationRequest';
-import { VerifierEndpointService } from '@core/services/verifier-endpoint.service';
-import { MatExpansionModule } from '@angular/material/expansion';
-import { MatButtonToggleModule } from '@angular/material/button-toggle';
-import { MatIconModule } from '@angular/material/icon';
-import { ClipboardModule } from '@angular/cdk/clipboard';
-import { MatTooltipModule } from '@angular/material/tooltip';
-import { AttributesSelectionEvent } from '../models/AttributesSelection';
-import { DCQLService } from '@app/core/services/dcql-service';
-import { Subject } from 'rxjs';
-import { SessionStorageService } from '@app/core/services/session-storage.service';
-import {
-  DefaultProfile,
-  DefaultRequestUriMethod,
-  ISSUER_CHAIN,
-} from '@app/core/constants/general';
-import { SUPPORTED_ATTESTATIONS } from '@app/core/constants/attestation-definitions';
-import { PresentationOptionsComponent } from '../components/presentation-options/presentation-options.component';
+  AttributeSelectionComponent
+} from '@features/presentation-request-preparation/components/attribute-selection/attribute-selection.component';
+import {DCApiPresentationOptions, DCApiTransactionInitializationRequest, DefaultDCApiPresentationOptions, DefaultRedirectsPresentationOptions, Profile, profileOptions, RedirectsPresentationOptions, RedirectsTransactionInitializationRequest, RequestUriMethod, TransactionInitializationRequest,} from '@core/models/TransactionInitializationRequest';
+import {VerifierEndpointService} from '@core/services/verifier-endpoint.service';
+import {MatExpansionModule} from '@angular/material/expansion';
+import {MatButtonToggleModule} from '@angular/material/button-toggle';
+import {MatIconModule} from '@angular/material/icon';
+import {ClipboardModule} from '@angular/cdk/clipboard';
+import {MatTooltipModule} from '@angular/material/tooltip';
+import {AttributesSelectionEvent} from '../models/AttributesSelection';
+import {DCQLService} from '@app/core/services/dcql-service';
+import {Subject} from 'rxjs';
+import {SessionStorageService} from '@app/core/services/session-storage.service';
+import {DefaultProfile, DefaultRequestUriMethod, ISSUER_CHAIN,} from '@app/core/constants/general';
+import {SUPPORTED_ATTESTATIONS} from '@app/core/constants/attestation-definitions';
+import {PresentationOptionsRedirectsComponent, RedirectsPresentationOptionsChangedEvent} from '../components/presentation-options-redirects/presentation-options-redirects.component';
+import {DcApiPresentationOptionsChangedEvent, PresentationOptionsDcApiComponent} from '../components/presentation-options-dc-api/presentation-options-dc-api.component';
+import {LocalStorageService} from "@core/services/local-storage.service";
+import { v4 as uuidv4 } from 'uuid';
+import { isDCApiSupported } from '@app/shared/utils/dc-api-utils';
 
 @Component({
   imports: [
@@ -65,9 +56,10 @@ import { PresentationOptionsComponent } from '../components/presentation-options
     ClipboardModule,
     MatTooltipModule,
     MatButtonToggleModule,
-    PresentationOptionsComponent,
+    PresentationOptionsRedirectsComponent,
+    PresentationOptionsDcApiComponent,
   ],
-  providers: [VerifierEndpointService],
+  providers: [VerifierEndpointService, LocalStorageService],
   selector: 'vc-presentation-preparation-home',
   templateUrl: './home.component.html',
   styleUrls: ['./home.component.scss'],
@@ -77,8 +69,11 @@ export class HomeComponent implements OnDestroy {
     private readonly navigateService: NavigateService,
     private readonly verifierEndpointService: VerifierEndpointService,
     private readonly dcqlService: DCQLService,
-    private readonly sessionStorageService: SessionStorageService
-  ) {}
+    private readonly sessionStorageService: SessionStorageService,
+    private readonly localStorageService: LocalStorageService
+  ) {
+  }
+  readonly dcApiSupported = isDCApiSupported();
 
   actions: BodyAction[] = HOME_ACTIONS;
 
@@ -87,7 +82,7 @@ export class HomeComponent implements OnDestroy {
   });
   authorizationSchemeControl = new FormControl<string>(
     profileOptions[DefaultProfile].endpoint,
-    { nonNullable: true }
+    {nonNullable: true}
   );
   presentationProfileControl = new FormControl<Profile>(DefaultProfile, {
     nonNullable: true,
@@ -101,10 +96,11 @@ export class HomeComponent implements OnDestroy {
   selectedAttestations: AttestationSelection[] | null = null;
   selectedAttributes: { [id: string]: string[] } | null = {};
   selectedRequestUriMethod: RequestUriMethod = DefaultRequestUriMethod;
-  selectedProfile: Profile = DefaultProfile;
-  authorizationRequestUri: string = profileOptions[DefaultProfile].endpoint;
+  redirectsOptions: RedirectsPresentationOptions = DefaultRedirectsPresentationOptions;
+  dcApiOptions: DCApiPresentationOptions = DefaultDCApiPresentationOptions;
 
   initializationRequest: TransactionInitializationRequest | null = null;
+  requestMode: 'redirects' | 'dc-api' = 'redirects';
 
   private readonly destroy$ = new Subject<void>();
 
@@ -138,85 +134,132 @@ export class HomeComponent implements OnDestroy {
     if ($event?.selectedAttributes) {
       this.selectedAttributes = $event.selectedAttributes;
 
-      this.initializationRequest = this.prepareInitializationRequest(
+      this.initializationRequest = this.prepareRedirectsInitializationRequest(
         this.selectedAttestations!,
         this.selectedAttributes,
-        this.selectedRequestUriMethod,
-        this.selectedProfile
+        this.redirectsOptions
       );
     } else {
       this.selectedAttributes = null;
     }
   }
 
-  handleRequestUriMethodChangedEvent($event: string) {
-    this.selectedRequestUriMethod = $event as RequestUriMethod;
+  handleRequestModeChange($event: any) {
+    if ($event?.index === 0) {
+      this.requestMode = 'redirects';
+      if (this.selectedAttestations && this.selectedAttributes) {
+        this.initializationRequest = this.prepareRedirectsInitializationRequest(
+          this.selectedAttestations,
+          this.selectedAttributes,
+          this.redirectsOptions
+        );
+      } else {
+        this.initializationRequest = null;
+      }
+    } else {
+      this.requestMode = 'dc-api';
+      if (this.selectedAttestations && this.selectedAttributes) {
+        this.initializationRequest = this.prepareDcApiInitializationRequest(
+          this.selectedAttestations,
+          this.selectedAttributes,
+          this.dcApiOptions
+        );
+      } else {
+        this.initializationRequest = null;
+      }
+    }
+  }
 
+  handleRedirectsPresentationOptionsChangedEvent($event: RedirectsPresentationOptionsChangedEvent) {
+    this.redirectsOptions = $event.options;
     if (this.selectedAttestations && this.selectedAttributes) {
-      this.initializationRequest = this.prepareInitializationRequest(
+      this.initializationRequest = this.prepareRedirectsInitializationRequest(
         this.selectedAttestations,
         this.selectedAttributes,
-        this.selectedRequestUriMethod,
-        this.selectedProfile
+        this.redirectsOptions
+      );
+    } else {
+      this.initializationRequest = null;
+    }
+  }
+  
+  handleDcApiPresentationOptionsChangedEvent($event: DcApiPresentationOptionsChangedEvent) {
+    this.dcApiOptions = $event.options;
+    if (this.selectedAttestations && this.selectedAttributes) {
+      this.initializationRequest = this.prepareDcApiInitializationRequest(
+        this.selectedAttestations,
+        this.selectedAttributes,
+        this.dcApiOptions
       );
     } else {
       this.initializationRequest = null;
     }
   }
 
-  handleProfileChangedEvent($event: string) {
-    this.selectedProfile = $event as Profile;
-    this.authorizationSchemeControl.setValue(profileOptions[this.selectedProfile].endpoint);
-    this.authorizationRequestUri = profileOptions[this.selectedProfile].endpoint;
-    if (this.selectedAttestations && this.selectedAttributes) {
-      this.initializationRequest = this.prepareInitializationRequest(
-        this.selectedAttestations,
-        this.selectedAttributes,
-        this.selectedRequestUriMethod,
-        this.selectedProfile
-      );
-    } else {
-      this.initializationRequest = null;
-    }
-  }
-
-  handleAuthorizationSchemeChangedEvent($event: string) {
-    this.authorizationRequestUri = $event;
-    if (this.selectedAttestations && this.selectedAttributes) {
-      this.initializationRequest = this.prepareInitializationRequest(
-        this.selectedAttestations,
-        this.selectedAttributes,
-        this.selectedRequestUriMethod,
-        this.selectedProfile
-      );
-    } else {
-      this.initializationRequest = null;
-    }
-  }
-
-  private prepareInitializationRequest(
+  private prepareRedirectsInitializationRequest(
     selectedAttestations: AttestationSelection[],
     selectedAttributes: { [id: string]: string[] },
-    selectedRequestUriMethod: RequestUriMethod,
-    selectedProfile: Profile
-  ): TransactionInitializationRequest {
+    options: RedirectsPresentationOptions,
+  ): RedirectsTransactionInitializationRequest {
     const issuerChain =
       this.sessionStorageService.get(ISSUER_CHAIN) ?? undefined;
 
-    return this.dcqlService.dcqlPresentationRequest(
-      selectedAttestations,
-      selectedAttributes,
-      selectedRequestUriMethod,
-      selectedProfile,
-      this.authorizationRequestUri,
-      issuerChain
-    );
+    return {
+      dcql_query: {
+        credentials: this.dcqlService.getDCQLCredentialQueries(
+          selectedAttestations,
+          selectedAttributes
+        ),
+      },
+      nonce: uuidv4(),
+      request_uri_method: options.requestUriMethod,
+      issuer_chain: issuerChain,
+      profile: options.profile,
+      authorization_request_uri: options.authorizationRequestUri,
+    };
   }
 
-  proceedToInvokeWallet() {
+  private prepareDcApiInitializationRequest(
+    selectedAttestations: AttestationSelection[],
+    selectedAttributes: { [id: string]: string[] },
+    options: DCApiPresentationOptions
+  ): DCApiTransactionInitializationRequest {
+    const issuerChain =
+      this.sessionStorageService.get(ISSUER_CHAIN) ?? undefined;
+
+    return {
+      dcql_query: {
+        credentials: this.dcqlService.getDCQLCredentialQueries(
+          selectedAttestations,
+          selectedAttributes
+        ),
+      },
+      nonce: uuidv4(),
+      issuer_chain: issuerChain,
+      origin: window.location.origin,
+      ...(options.expected_origins?.length
+        ? { expected_origins: options.expected_origins }
+        : {}),
+    };
+  }
+
+  proceedToInvokeWalletOverRedirects() {
     if (this.initializationRequest != null) {
-      this.verifierEndpointService.initializeTransaction(
-        this.initializationRequest,
+      this.verifierEndpointService.initializeRedirectsTransaction(
+        this.initializationRequest as RedirectsTransactionInitializationRequest,
+        (_) => {
+          this.navigateService.navigateTo('invoke-wallet');
+        }
+      );
+    } else {
+      alert('nothing to submit');
+    }
+  }
+
+  proceedToInvokeWalletOverDcApi() {
+    if (this.initializationRequest != null) {
+      this.verifierEndpointService.initializeDcApiTransaction(
+        this.initializationRequest as DCApiTransactionInitializationRequest,
         (_) => {
           this.navigateService.navigateTo('invoke-wallet');
         }
@@ -258,4 +301,5 @@ export class HomeComponent implements OnDestroy {
   canProceed() {
     return this.initializationRequest !== null;
   }
+
 }
