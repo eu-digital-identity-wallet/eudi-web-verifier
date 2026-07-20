@@ -33,6 +33,7 @@ import {DefaultProfile, DefaultRequestUriMethod, ISSUER_CHAIN,} from '@app/core/
 import {SUPPORTED_ATTESTATIONS} from '@app/core/constants/attestation-definitions';
 import {PresentationOptionsRedirectsComponent, RedirectsPresentationOptionsChangedEvent} from '../components/presentation-options-redirects/presentation-options-redirects.component';
 import {DcApiPresentationOptionsChangedEvent, PresentationOptionsDcApiComponent} from '../components/presentation-options-dc-api/presentation-options-dc-api.component';
+import {PresentationOptionsRegistrationCertificateComponent, RegistrationCertificatePresentationOptionsChangedEvent} from '../components/presentation-options-registration-certificate/presentation-options-registration-certificate.component';
 import {LocalStorageService} from "@core/services/local-storage.service";
 import { v4 as uuidv4 } from 'uuid';
 import { isDCApiSupported } from '@app/shared/utils/dc-api-utils';
@@ -58,6 +59,7 @@ import { isDCApiSupported } from '@app/shared/utils/dc-api-utils';
     MatButtonToggleModule,
     PresentationOptionsRedirectsComponent,
     PresentationOptionsDcApiComponent,
+    PresentationOptionsRegistrationCertificateComponent,
   ],
   providers: [VerifierEndpointService, LocalStorageService],
   selector: 'vc-presentation-preparation-home',
@@ -98,6 +100,7 @@ export class HomeComponent implements OnDestroy {
   selectedRequestUriMethod: RequestUriMethod = DefaultRequestUriMethod;
   redirectsOptions: RedirectsPresentationOptions = DefaultRedirectsPresentationOptions;
   dcApiOptions: DCApiPresentationOptions = DefaultDCApiPresentationOptions;
+  commonOptions: RegistrationCertificatePresentationOptionsChangedEvent = {};
 
   initializationRequest: TransactionInitializationRequest | null = null;
   requestMode: 'redirects' | 'dc-api' = 'redirects';
@@ -196,6 +199,25 @@ export class HomeComponent implements OnDestroy {
     }
   }
 
+  handleRegistrationCertificateOptionsChangedEvent($event: RegistrationCertificatePresentationOptionsChangedEvent) {
+    this.commonOptions = $event;
+    if (this.selectedAttestations && this.selectedAttributes) {
+      if (this.requestMode === 'redirects') {
+        this.initializationRequest = this.prepareRedirectsInitializationRequest(
+          this.selectedAttestations,
+          this.selectedAttributes,
+          this.redirectsOptions
+        );
+      } else {
+        this.initializationRequest = this.prepareDcApiInitializationRequest(
+          this.selectedAttestations,
+          this.selectedAttributes,
+          this.dcApiOptions
+        );
+      }
+    }
+  }
+
   private prepareRedirectsInitializationRequest(
     selectedAttestations: AttestationSelection[],
     selectedAttributes: { [id: string]: string[] },
@@ -216,6 +238,8 @@ export class HomeComponent implements OnDestroy {
       issuer_chain: issuerChain,
       profile: options.profile,
       authorization_request_uri: options.authorizationRequestUri,
+      ...(this.commonOptions.registrationCertificate ? { registration_certificate: this.commonOptions.registrationCertificate } : {}),
+      ...(this.commonOptions.intendedUseId ? { intended_use_id: this.commonOptions.intendedUseId } : {}),
     };
   }
 
@@ -240,6 +264,8 @@ export class HomeComponent implements OnDestroy {
       ...(options.expected_origins?.length
         ? { expected_origins: options.expected_origins }
         : {}),
+      ...(this.commonOptions.registrationCertificate ? { registration_certificate: this.commonOptions.registrationCertificate } : {}),
+      ...(this.commonOptions.intendedUseId ? { intended_use_id: this.commonOptions.intendedUseId } : {}),
     };
   }
 
@@ -300,6 +326,21 @@ export class HomeComponent implements OnDestroy {
 
   canProceed() {
     return this.initializationRequest !== null;
+  }
+
+  proceedToInvokeWallet() {
+    if (this.requestMode === 'redirects') {
+      this.proceedToInvokeWalletOverRedirects();
+    } else {
+      this.proceedToInvokeWalletOverDcApi();
+    }
+  }
+
+  canSubmit(): boolean {
+    if (this.requestMode === 'dc-api') {
+      return this.canProceed() && this.dcApiSupported;
+    }
+    return this.canProceed();
   }
 
 }

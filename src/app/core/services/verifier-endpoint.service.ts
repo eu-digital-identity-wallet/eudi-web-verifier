@@ -12,6 +12,7 @@ import {EventLog} from "@core/models/EventLog";
 import {HttpHeaders} from "@angular/common/http";
 import {ActiveTransaction} from "@core/models/ActiveTransaction";
 import {SessionStorageService} from './session-storage.service';
+import {IntendedUse} from "@core/models/IntendedUse";
 
 const SAME_DEVICE_UI_RE_ENTRY_URL = '/get-wallet-code?response_code={RESPONSE_CODE}';
 const INIT_TRANSACTION_ENDPOINT = 'ui/presentations/v2';
@@ -20,6 +21,7 @@ const POST_DC_API_RESPONSE_ENDPOINT = 'ui/presentations/${transactionId}/dc-api'
 const WALLET_RESPONSE_ENDPOINT = 'ui/presentations/${transactionId}';
 const EVENTS_ENDPOINT = 'ui/presentations/${transactionId}/events';
 const VALIDATE_SD_JWT_VC_PRESENTATION_ENDPOINT = 'utilities/validations/sdJwtVc';
+const INTENDED_USES_ENDPOINT = 'ui/intended-uses';
 
 @Injectable()
 export class VerifierEndpointService {
@@ -137,6 +139,11 @@ export class VerifierEndpointService {
     issuerChain && body.set('issuer_chain', issuerChain);
 
     return this.httpService.post<any, string>(VALIDATE_SD_JWT_VC_PRESENTATION_ENDPOINT, body.toString(), {headers})
+  }
+
+  getIntendedUses(): Observable<IntendedUse[]> {
+    return this.httpService.get<{ intended_uses: IntendedUse[] }>(INTENDED_USES_ENDPOINT)
+      .pipe(map((data) => data.intended_uses ?? []));
   }
 
   private getTransactionData(event: EventLog): string[] {

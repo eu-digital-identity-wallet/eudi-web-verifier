@@ -75,21 +75,6 @@
 
 
 
-                <div class="button-container">
-                  <button mat-raised-button matStepperPrevious type="button">
-                    Back
-                  </button>
-                  <button
-                    mat-raised-button
-                    matStepperNext
-                    type="button"
-                    (click)="proceedToInvokeWalletOverRedirects()"
-                    [disabled]="!canProceed()"
-                  >
-                    Submit
-                  </button>
-
-                </div>
 
               </mat-tab>
 
@@ -107,24 +92,29 @@
                   ></vc-presentation-options-dc-api>
                 </div>
 
-                <div class="button-container">
-                  <button mat-raised-button matStepperPrevious type="button">
-                    Back
-                  </button>
 
-                  <button
-                    mat-raised-button
-                    matStepperNext
-                    type="button"
-                    (click)="proceedToInvokeWalletOverDcApi()"
-                    [disabled]="!canProceed() || !dcApiSupported"
-                  >
-                    Submit
-                  </button>
-                </div>
               </mat-tab>
 
             </mat-tab-group>
+
+            <vc-presentation-options-registration-certificate
+              (registrationCertificateOptionsChanged)="handleRegistrationCertificateOptionsChangedEvent($event)"
+            ></vc-presentation-options-registration-certificate>
+
+            <div class="button-container">
+              <button mat-raised-button matStepperPrevious type="button">
+                Back
+              </button>
+              <button
+                mat-raised-button
+                matStepperNext
+                type="button"
+                (click)="proceedToInvokeWallet()"
+                [disabled]="!canSubmit()"
+              >
+                Submit
+              </button>
+            </div>
 
             <mat-expansion-panel>
               <mat-expansion-panel-header>
