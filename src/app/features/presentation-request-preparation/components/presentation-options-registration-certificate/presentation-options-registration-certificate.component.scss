@@ -1,5 +1,6 @@
 :host {
   display: block;
+  max-width: 100%;
 }
 
 .request-options-grid {
@@ -7,16 +8,22 @@
   flex-direction: column;
   gap: 24px;
   padding-top: 16px;
+  width: 100%;
+  box-sizing: border-box;
 }
 
 .request-options-row {
   display: grid;
-  grid-template-columns: 40% 60%;
+  grid-template-columns: 2fr 3fr;
   gap: 16px;
+  min-width: 0;
+  overflow: hidden;
 }
 
 .request-options-label {
   text-align: right;
+  min-width: 0;
+  overflow: hidden;
 
   span {
     display: block;
@@ -31,6 +38,9 @@
 }
 
 .request-options-control {
+  display: block;
+  min-width: 0;
+  overflow: hidden;
   flex-direction: column;
   gap: 8px;
 }
@@ -44,6 +54,8 @@
   align-items: center;
   gap: 8px;
   padding: 8px 0;
+  min-width: 0;
+  overflow: hidden;
 }
 
 .registration-certificate-value {
