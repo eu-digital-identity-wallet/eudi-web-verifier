@@ -41,11 +41,6 @@ testem.log
 .DS_Store
 Thumbs.db
 
-cypress/results/*
-cypress/reports/*
-cypress/screenshots/*
-cypress/videos/*
-
 ### SonarQube ###
 # SonarQube ignore files.
 #
