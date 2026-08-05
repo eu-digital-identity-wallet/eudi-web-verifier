@@ -11,6 +11,5 @@ LICENSE
 dist
 
 coverage
-cypress
 reports
 .angular
