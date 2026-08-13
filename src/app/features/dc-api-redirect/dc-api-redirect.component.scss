@@ -1,0 +1,51 @@
+@use '/src/template' as temp;
+@use 'sass:map';
+
+:host {
+  .redirect-content {
+    padding-top: 1rem;
+  }
+
+  .disclaimer {
+    color: temp.$textDarkSecondary;
+    font-size: 0.95rem;
+    margin: 0 0 1rem;
+    text-align: center;
+  }
+
+  .status-panel {
+    background: temp.$backgroundDefault;
+    border-radius: 16px;
+    padding: 1.5rem;
+  }
+
+  h4 {
+    margin-top: 0;
+  }
+
+  p {
+    line-height: 1.5;
+    margin-bottom: 1.5rem;
+  }
+
+  .error-message {
+    color: map.get(map.get(temp.$palette, color), error);
+  }
+
+  .button-container {
+    display: flex;
+    justify-content: flex-end;
+  }
+}
+
+@media (max-width: 599px) {
+  :host {
+    .status-panel {
+      padding: 1rem;
+    }
+
+    .button-container button {
+      width: 100%;
+    }
+  }
+}
