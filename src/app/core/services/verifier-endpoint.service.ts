@@ -17,8 +17,8 @@ import {IntendedUse} from "@core/models/IntendedUse";
 const SAME_DEVICE_UI_RE_ENTRY_URL = '/get-wallet-code?response_code={RESPONSE_CODE}';
 const INIT_TRANSACTION_ENDPOINT = 'ui/presentations/v2';
 const INIT_DC_API_TRANSACTION_ENDPOINT = 'ui/presentations/dc-api'
-const DC_API_TRANSACTION_ENDPOINT = 'ui/presentations/${transactionId}/dc-api'
-const GET_DC_API_RETRIEVE_ENDPOINT = 'ui/presentations/${transactionId}/dcapi/retrieve'
+const POST_DC_API_RESPONSE_ENDPOINT = 'ui/presentations/${transactionId}/dc-api'
+const GET_DC_API_RETRIEVE_ENDPOINT = 'ui/presentations/${transactionId}/request"'
 const WALLET_RESPONSE_ENDPOINT = 'ui/presentations/${transactionId}';
 const EVENTS_ENDPOINT = 'ui/presentations/${transactionId}/events';
 const VALIDATE_SD_JWT_VC_PRESENTATION_ENDPOINT = 'utilities/validations/sdJwtVc';
@@ -82,7 +82,7 @@ export class VerifierEndpointService {
     const body = new URLSearchParams();
     body.set('response', response);
     return this.httpService.post<any, string>(
-      DC_API_TRANSACTION_ENDPOINT.replace('${transactionId}', transactionId),
+      POST_DC_API_RESPONSE_ENDPOINT.replace('${transactionId}', transactionId),
       body.toString(),
       { headers }
     );
@@ -98,7 +98,7 @@ export class VerifierEndpointService {
       body.set('error_description', errorDescription);
     }
     return this.httpService.post<any, string>(
-      DC_API_TRANSACTION_ENDPOINT.replace('${transactionId}', transactionId),
+      POST_DC_API_RESPONSE_ENDPOINT.replace('${transactionId}', transactionId),
       body.toString(),
       { headers }
     );
