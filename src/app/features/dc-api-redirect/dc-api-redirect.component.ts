@@ -2,6 +2,9 @@ import { ChangeDetectorRef, Component, Injector, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { ActivatedRoute, Router } from '@angular/router';
 import { MatButtonModule } from '@angular/material/button';
+import { MatCardModule } from '@angular/material/card';
+import { MatIconModule } from '@angular/material/icon';
+import { MatProgressBarModule } from '@angular/material/progress-bar';
 import jwtDecode from 'jwt-decode';
 import { VerifierEndpointService } from '@core/services/verifier-endpoint.service';
 import { LocalStorageService } from '@core/services/local-storage.service';
@@ -26,7 +29,14 @@ type DcApiRequestClaims = Pick<DCApiTransactionInitializationRequest, 'nonce' | 
 @Component({
 	selector: 'vc-dc-api-redirect',
 	standalone: true,
-	imports: [CommonModule, MatButtonModule, WalletLayoutComponent],
+	imports: [
+		CommonModule,
+		MatButtonModule,
+		MatCardModule,
+		MatIconModule,
+		MatProgressBarModule,
+		WalletLayoutComponent,
+	],
 	templateUrl: './dc-api-redirect.component.html',
 	styleUrls: ['./dc-api-redirect.component.scss'],
 	providers: [VerifierEndpointService],
@@ -38,17 +48,17 @@ export class DcApiRedirectComponent implements OnInit {
 	isTimedOut = false;
 
 	constructor (
-    private readonly route: ActivatedRoute,
-    private readonly router: Router,
-    private readonly verifierEndpointService: VerifierEndpointService,
-    private readonly injector: Injector,
-    private readonly changeDetectorRef: ChangeDetectorRef,
+		private readonly route: ActivatedRoute,
+		private readonly router: Router,
+		private readonly verifierEndpointService: VerifierEndpointService,
+		private readonly injector: Injector,
+		private readonly changeDetectorRef: ChangeDetectorRef,
 	) {
 		this.localStorageService = this.injector.get(LocalStorageService);
 	}
 
 	ngOnInit (): void {
-		const transactionId: string = this.route.snapshot.params['transactionId'];
+		const { transactionId } = this.route.snapshot.params;
 
 		if (!transactionId) {
 			this.isInvalidTransaction = true;

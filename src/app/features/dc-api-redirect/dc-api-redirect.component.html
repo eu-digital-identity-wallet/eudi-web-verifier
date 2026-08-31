@@ -1,32 +1,42 @@
 <vc-wallet-layout>
-  <div body class="redirect-content">
-    <p class="disclaimer">
-      This flow should only be initialized from the ITB app.
+  <div body>
+    <p class="notice">
+      <mat-icon aria-hidden="true">info_outline</mat-icon>
+      This flow should only be initialized from ITB.
     </p>
 
-    <section class="status-panel" aria-live="polite">
-      <h4>Continue to your wallet</h4>
+    <mat-card class="status-card" aria-live="polite">
+      <mat-card-content>
+        <h4>Continue to your wallet</h4>
 
-      <p *ngIf="!isReady && !isInvalidTransaction && !isTimedOut">
-        Initializing your presentation request...
-      </p>
+        <p *ngIf="!isReady && !isInvalidTransaction && !isTimedOut">
+          Retrieving presentation request...
+        </p>
 
-      <p *ngIf="isTimedOut" class="error-message">
-        The request timed out while loading. Please start this flow again from
-        the ITB app.
-      </p>
+        <div
+          class="dc-api-error"
+          *ngIf="isInvalidTransaction || isTimedOut"
+          role="alert"
+        >
+          <mat-icon aria-hidden="true">error_outline</mat-icon>
+          <div class="dc-api-error__content">
+            <span class="dc-api-error__title">{{
+              isTimedOut
+                ? 'The request timed out while loading'
+                : 'The transaction ID is invalid'
+            }}</span>
+            <div class="dc-api-error__detail">
+              Please re-start the test case in ITB.
+            </div>
+          </div>
+        </div>
 
-      <p *ngIf="isInvalidTransaction" class="error-message">
-        The transaction ID is invalid. Please start this flow again from the ITB
-        app.
-      </p>
+        <p *ngIf="isReady">
+           Your presentation request is ready. Click the button below to start the presentation in your wallet.
+        </p>
+      </mat-card-content>
 
-      <p *ngIf="isReady">
-        Your presentation request is ready. Continue to your wallet to complete
-        the flow.
-      </p>
-
-      <div class="button-container">
+      <mat-card-actions align="end">
         <button
           mat-raised-button
           color="primary"
@@ -34,9 +44,15 @@
           [disabled]="!isReady"
           (click)="navigateToInvokeWallet()"
         >
-          Continue to wallet
+          Start DC API presentation
         </button>
-      </div>
-    </section>
+      </mat-card-actions>
+
+      <mat-card-footer
+        *ngIf="!isReady && !isInvalidTransaction && !isTimedOut"
+      >
+        <mat-progress-bar mode="indeterminate" />
+      </mat-card-footer>
+    </mat-card>
   </div>
 </vc-wallet-layout>
