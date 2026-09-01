@@ -18,7 +18,7 @@ const SAME_DEVICE_UI_RE_ENTRY_URL = '/get-wallet-code?response_code={RESPONSE_CO
 const INIT_TRANSACTION_ENDPOINT = 'ui/presentations/v2';
 const INIT_DC_API_TRANSACTION_ENDPOINT = 'ui/presentations/dc-api'
 const POST_DC_API_RESPONSE_ENDPOINT = 'ui/presentations/${transactionId}/dc-api'
-const GET_DC_API_RETRIEVE_ENDPOINT = 'ui/presentations/${transactionId}/request'
+const GET_DC_API_REQUEST_ENDPOINT = 'ui/presentations/dc-api/${transactionId}/request'
 const WALLET_RESPONSE_ENDPOINT = 'ui/presentations/${transactionId}';
 const EVENTS_ENDPOINT = 'ui/presentations/${transactionId}/events';
 const VALIDATE_SD_JWT_VC_PRESENTATION_ENDPOINT = 'utilities/validations/sdJwtVc';
@@ -71,7 +71,7 @@ export class VerifierEndpointService {
 
   getDcApiRetrieve(transactionId: string): Observable<DcApiTransaction> {
     return this.httpService.get<DcApiTransaction>(
-      GET_DC_API_RETRIEVE_ENDPOINT.replace('${transactionId}', transactionId)
+      GET_DC_API_REQUEST_ENDPOINT.replace('${transactionId}', transactionId)
     );
   }
 
