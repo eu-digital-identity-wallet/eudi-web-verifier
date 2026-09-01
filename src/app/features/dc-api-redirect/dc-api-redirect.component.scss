@@ -1,0 +1,57 @@
+@use '/src/template' as temp;
+
+:host {
+    .notice {
+        align-items: center;
+        color: temp.$textDarkSecondary;
+        display: flex;
+        font-size: 0.875rem;
+        gap: 0.25rem;
+        justify-content: center;
+        margin: 0 0 1rem;
+
+        mat-icon {
+            font-size: 1.125rem;
+            height: 1.125rem;
+            width: 1.125rem;
+        }
+    }
+
+    .dc-api-error {
+        align-items: flex-start;
+        background: rgb(211 47 47 / 8%);
+        border-left: 4px solid #b00020;
+        color: #b00020;
+        display: flex;
+        gap: 1rem;
+        margin-top: 1rem;
+        padding: 1rem;
+
+        mat-icon {
+            font-size: 1.5rem;
+            margin-top: 0.1rem;
+        }
+
+        &__content {
+            display: flex;
+            flex-direction: column;
+            gap: 0.25rem;
+        }
+
+        &__title {
+            display: block;
+            font-weight: 600;
+        }
+
+        &__detail {
+            line-height: 1.5;
+            white-space: pre-wrap;
+            word-break: break-word;
+        }
+    }
+
+    p {
+        line-height: 1.5;
+        margin: 0 0 1.5rem;
+    }
+}
