@@ -105,7 +105,7 @@ export class DcApiRedirectComponent implements OnInit {
 			initialization_request: {
 				nonce: claims.nonce,
 				dcql_query: claims.dcql_query,
-				origin: claims.origin,
+				origin: claims.origin ?? window.location.origin,
 			},
 		};
 
