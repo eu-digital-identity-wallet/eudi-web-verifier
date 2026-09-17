@@ -4,6 +4,7 @@ import { WalletRedirectResolver } from '@features/wallet-redirect/resolver/walle
 import { NavigateService } from '@core/services/navigate.service';
 import { VerifierEndpointService } from '@core/services/verifier-endpoint.service';
 import { WalletRedirectComponent } from './features/wallet-redirect/wallet-redirect.component';
+import { DcApiRedirectComponent } from '@features/dc-api-redirect/dc-api-redirect.component';
 
 const routes: Routes = [
   { path: '', redirectTo: 'home', pathMatch: 'full' },
@@ -27,6 +28,14 @@ const routes: Routes = [
       import('@features/invoke-wallet/invoke-wallet.module').then(
         (m) => m.InvokeWalletModule
       ),
+  },
+  {
+    // Direct-link only entry point: initializes the DC API flow for a
+    // transaction id received from the URL by fetching its DC API request
+    // from the backend before allowing the user to enter the existing invoke-wallet flow.
+    path: 'dc-api-init/:transactionId',
+    component: DcApiRedirectComponent,
+    providers: [VerifierEndpointService, NavigateService],
   },
   {
     path: 'get-wallet-code',

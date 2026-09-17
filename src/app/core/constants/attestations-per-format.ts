@@ -124,7 +124,6 @@ export const PID_SD_JWT_VC_ATTRIBUTE_MAP: { [id: string]: string } = {
   "resident_city": "address.locality",
   "resident_postal_code": "address.postal_code",
   "resident_street": "address.street_address",
-  "resident_house_number": "address.house_number",
   "nationality": "nationalities",
   "issuance_date": "date_of_issuance",
   "expiry_date": "date_of_expiry",

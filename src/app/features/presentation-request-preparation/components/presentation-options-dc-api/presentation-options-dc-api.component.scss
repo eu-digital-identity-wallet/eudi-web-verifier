@@ -11,7 +11,7 @@
 
 .request-options-row {
   display: grid;
-  grid-template-columns: 40% 60%;
+  grid-template-columns: 2fr 3fr;
   gap: 16px;
 }
 
@@ -28,6 +28,10 @@
   margin: 4px 0 0;
   font-size: 0.85rem;
   color: rgba(0, 0, 0, 0.6);
+}
+
+.config-option-field {
+  width: 100%;
 }
 
 .request-options-control {

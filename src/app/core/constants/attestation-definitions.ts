@@ -17,7 +17,6 @@ export const PID_ATTESTATION: AttestationDefinition = {
     { identifier: 'resident_city', attribute: 'Resident city'},
     { identifier: 'resident_postal_code', attribute: 'Resident postal code'},
     { identifier: 'resident_street', attribute: 'Resident street'},
-    { identifier: 'resident_house_number', attribute: 'Resident house number'},
     { identifier: 'sex', attribute: 'Sex'},
     { identifier: 'nationality', attribute: 'Nationality'},
     { identifier: 'issuance_date', attribute: 'Issuance date'},

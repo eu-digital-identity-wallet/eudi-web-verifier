@@ -8,8 +8,8 @@ import { VerifierEndpointService } from '@app/core/services/verifier-endpoint.se
 import { IntendedUse } from '@app/core/models/IntendedUse';
 
 const mockIntendedUses: IntendedUse[] = [
-  { intended_use_id: 'use-1', description: 'First use', registration_certificate: 'xxx.yyy.zzz' },
-  { intended_use_id: 'use-2', description: 'Second use', registration_certificate: 'xxx.yyy.zzz'},
+  { intended_use_id: 'use-1', description: 'First use', registration_certificate: 'cert-1' },
+  { intended_use_id: 'use-2', description: 'Second use', registration_certificate: 'cert-2' },
 ];
 
 describe('PresentationOptionsRegistrationCertificateComponent', () => {

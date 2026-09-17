@@ -54,9 +54,9 @@
 
         <mat-step>
           <div style="padding-top: 10px">
-            <ng-template matStepLabel>...select presentation options and submit</ng-template>
+            <ng-template matStepLabel>...select presentation options & submit</ng-template>
 
-            <mat-tab-group (selectedTabChange)="handleRequestModeChange($event)">
+            <mat-tab-group (selectedTabChange)="handleRequestModeChange($event)" dynamicHeight="true">
 
               <!-------------------------------------------------------------------->
               <!-------------------------------------------------------------------->
@@ -64,18 +64,12 @@
               <!-------------------------------------------------------------------->
               <!-------------------------------------------------------------------->
 
-
               <mat-tab label="Submit with Redirects">
-
                 <div class="presentation-options-container">
                   <vc-presentation-options-redirects
                     (optionsChanged)="handleRedirectsPresentationOptionsChangedEvent($event)"
                   ></vc-presentation-options-redirects>
                 </div>
-
-
-
-
               </mat-tab>
 
               <!-------------------------------------------------------------------->
@@ -85,14 +79,11 @@
               <!-------------------------------------------------------------------->
 
               <mat-tab label="Submit via DC API">
-
                 <div class="presentation-options-container">
                   <vc-presentation-options-dc-api
                     (optionsChanged)="handleDcApiPresentationOptionsChangedEvent($event)"
                   ></vc-presentation-options-dc-api>
                 </div>
-
-
               </mat-tab>
 
             </mat-tab-group>
