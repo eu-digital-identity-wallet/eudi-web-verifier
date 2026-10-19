@@ -16,7 +16,7 @@ export const MDL_MSO_MDOC: MsoMdocAttestation = {
   attestationDef: MDL_ATTESTATION,
   doctype: 'org.iso.18013.5.1.mDL',
   namespace: 'org.iso.18013.5.1',
-  claimQuery: (attribute: DataElement) => { return msoMdocClaimQuery('org.iso.18013.5.1', attribute.identifier) }
+  claimQuery: (attribute: DataElement) => msoMdocClaimQuery('org.iso.18013.5.1', attribute.identifier)
 }
 
 /*---- PID ATTESTATION INSTANCES PER FORMAT ----*/
@@ -25,13 +25,13 @@ export const PID_MSO_MDOC: MsoMdocAttestation = {
   attestationDef: PID_ATTESTATION,
   doctype: 'eu.europa.ec.eudi.pid.1',
   namespace: 'eu.europa.ec.eudi.pid.1',
-  claimQuery: (attribute: DataElement) => { return msoMdocClaimQuery('eu.europa.ec.eudi.pid.1', attribute.identifier) }
+  claimQuery: (attribute: DataElement) => msoMdocClaimQuery('eu.europa.ec.eudi.pid.1', attribute.identifier)
 }
 export const PID_SD_JWT_VC: SdJwtVcAttestation = {
   format: AttestationFormat.SD_JWT_VC,
   vct: "urn:eudi:pid:1",
   attestationDef: PID_ATTESTATION,
-  claimQuery: (attribute: DataElement) => { return { path: sdJwtVcAttributeClaimQuery(attribute, AttestationType.PID) } }
+  claimQuery: (attribute: DataElement) => sdJwtVcAttributeClaimQuery(attribute, AttestationType.PID)
 }
 
 /*---- PHOTO ID ATTESTATION INSTANCES PER FORMAT ----*/
@@ -40,7 +40,7 @@ export const PHOTO_ID_MSO_MDOC: MsoMdocAttestation = {
   attestationDef: PHOTO_ID_ATTESTATION,
   doctype: 'org.iso.23220.2.photoid.1',
   namespace: 'org.iso.23220.photoid.1',
-  claimQuery: (attribute: DataElement) => { return msoMdocClaimQuery('org.iso.23220.photoid.1', attribute.identifier) }
+  claimQuery: (attribute: DataElement) => msoMdocClaimQuery('org.iso.23220.photoid.1', attribute.identifier)
 }
 
 /*---- EHIC INSTANCES PER FORMAT ----*/
@@ -49,13 +49,13 @@ export const EHIC_MSO_MDOC: MsoMdocAttestation = {
   attestationDef: EHIC_ATTESTATION,
   doctype: 'eu.europa.ec.eudi.ehic.1',
   namespace: 'eu.europa.ec.eudi.ehic.1',
-  claimQuery: (attribute: DataElement) => { return msoMdocClaimQuery('eu.europa.ec.eudi.ehic.1', attribute.identifier) }
+  claimQuery: (attribute: DataElement) => msoMdocClaimQuery('eu.europa.ec.eudi.ehic.1', attribute.identifier)
 }
 export const EHIC_SD_JWT_VC: SdJwtVcAttestation = {
   format: AttestationFormat.SD_JWT_VC,
   attestationDef: EHIC_ATTESTATION,
   vct: 'urn:eu.europa.ec.eudi:ehic:1',
-  claimQuery: (attribute: DataElement) => { return { path: sdJwtVcAttributeClaimQuery(attribute, AttestationType.EHIC) } }
+  claimQuery: (attribute: DataElement) => sdJwtVcAttributeClaimQuery(attribute, AttestationType.EHIC)
 }
 
 /*---- PDA1 INSTANCES PER FORMAT ----*/
@@ -64,13 +64,13 @@ export const PDA1_MSO_MDOC: MsoMdocAttestation = {
   attestationDef: PDA1_ATTESTATION,
   doctype: 'eu.europa.ec.eudi.pda1.1',
   namespace: 'eu.europa.ec.eudi.pda1.1',
-  claimQuery: (attribute: DataElement) => { return msoMdocClaimQuery('eu.europa.ec.eudi.pda1.1', attribute.identifier) }
+  claimQuery: (attribute: DataElement) => msoMdocClaimQuery('eu.europa.ec.eudi.pda1.1', attribute.identifier)
 }
 export const PDA1_SD_JWT_VC: SdJwtVcAttestation = {
   format: AttestationFormat.SD_JWT_VC,
   attestationDef: PDA1_ATTESTATION,
   vct: 'urn:eu.europa.ec.eudi:pda1:1',
-  claimQuery: (attribute: DataElement) => { return { path: sdJwtVcAttributeClaimQuery(attribute, AttestationType.PDA1) } }
+  claimQuery: (attribute: DataElement) => sdJwtVcAttributeClaimQuery(attribute, AttestationType.PDA1)
 }
 
 /*---- LEARNING CREDENTIAL INSTANCES PER FORMAT ----*/
@@ -78,11 +78,11 @@ export const LEARNING_CREDENTIAL_SD_JWT_VC: SdJwtVcAttestation = {
   format: AttestationFormat.SD_JWT_VC,
   attestationDef: LEARNING_CREDENTIAL_ATTESTATION,
   vct: "urn:eu.europa.ec.eudi:learning:credential:1",
-  claimQuery: (attribute: DataElement) => { return { path: sdJwtVcAttributeClaimQuery(attribute, AttestationType.LEARNING_CREDENTIAL) } }
+  claimQuery: (attribute: DataElement) => sdJwtVcAttributeClaimQuery(attribute, AttestationType.LEARNING_CREDENTIAL)
 }
 
-function resolveAttribute(attribute: DataElement, attestationType: AttestationType): string {
-  let resolvedAttribute = attribute.identifier
+function resolveAttribute(attribute: DataElement, attestationType: AttestationType): string | string[] {
+  let resolvedAttribute: string | string[] = attribute.identifier
   if (attestationType === AttestationType.PID) {
     let mappedAttribute = PID_SD_JWT_VC_ATTRIBUTE_MAP[attribute.identifier];
     resolvedAttribute = mappedAttribute || attribute.identifier;
@@ -91,33 +91,35 @@ function resolveAttribute(attribute: DataElement, attestationType: AttestationTy
   return resolvedAttribute;
 }
 
-function sdJwtVcAttributeClaimQuery(attribute: DataElement, attestationType: AttestationType): (string | null)[] {
+function sdJwtVcAttributeClaimQuery(attribute: DataElement, attestationType: AttestationType): ClaimsQuery[] {
   let resolvedAttribute = resolveAttribute(attribute, attestationType);
 
-  if (attestationType === AttestationType.PID && resolvedAttribute === 'nationalities') {
-    return ['nationalities', null];
+  if (Array.isArray(resolvedAttribute)) {
+    return resolvedAttribute.map(path => ({ path: path.split('.') }));
+  } else if (attestationType === AttestationType.PID && resolvedAttribute === 'nationalities') {
+    return [{ path: ['nationalities', null] }];
   } else if (attestationType === AttestationType.LEARNING_CREDENTIAL && resolvedAttribute === "learning_outcomes") {
-    return ["learning_outcomes", null];
+    return [{ path: ["learning_outcomes", null] }];
   } else if (attestationType === AttestationType.LEARNING_CREDENTIAL && resolvedAttribute === "language_of_classes") {
-    return ["language_of_classes", null];
+    return [{ path: ["language_of_classes", null] }];
   } else if (attestationType === AttestationType.LEARNING_CREDENTIAL && resolvedAttribute === "types_of_quality_assurance") {
-    return ["types_of_quality_assurance", null];
+    return [{ path: ["types_of_quality_assurance", null] }];
   } else if (attestationType === AttestationType.LEARNING_CREDENTIAL && resolvedAttribute === "prerequisites_to_enroll") {
-    return ["prerequisites_to_enroll", null];
+    return [{ path: ["prerequisites_to_enroll", null] }];
   } else {
-    return resolvedAttribute.split('.');
+    return [{ path: resolvedAttribute.split('.') }];
   }
 }
 
-function msoMdocClaimQuery(namespace: string, claimName: string): ClaimsQuery {
-  return { path: [namespace, claimName], intent_to_retain: false }
+function msoMdocClaimQuery(namespace: string, claimName: string): ClaimsQuery[] {
+  return [{ path: [namespace, claimName], intent_to_retain: false }]
 }
 
-export const PID_SD_JWT_VC_ATTRIBUTE_MAP: { [id: string]: string } = {
+export const PID_SD_JWT_VC_ATTRIBUTE_MAP: { [id: string]: string | string[] } = {
   "birth_date": "birthdate",
   "family_name_birth": "birth_family_name",
   "given_name_birth": "birth_given_name",
-  "place_of_birth": "place_of_birth.locality",
+  "place_of_birth": ["place_of_birth.locality", "place_of_birth.country", "place_of_birth.region"],
   "resident_address": "address.formatted",
   "resident_country": "address.country",
   "resident_state": "address.region",
