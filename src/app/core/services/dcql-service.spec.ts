@@ -19,7 +19,7 @@ describe('DCQLService', () => {
     expect(service).toBeTruthy();
   });
 
-  it('should expand PID place_of_birth into locality, country and region for dc+sd-jwt', () => {
+  it('should expand PID place_of_birth into the whole object plus locality, country and region for dc+sd-jwt', () => {
     const selections: AttestationSelection[] = [
       {
         type: AttestationType.PID,
@@ -33,11 +33,12 @@ describe('DCQLService', () => {
 
     expect(queries.length).toBe(1);
     const claims = queries[0].claims!;
-    expect(claims.length).toBe(3);
+    expect(claims.length).toBe(4);
     expect(claims.map((c) => c.path)).toEqual([
       ['place_of_birth', 'locality'],
       ['place_of_birth', 'country'],
       ['place_of_birth', 'region'],
+      ['place_of_birth'],
     ]);
   });
 

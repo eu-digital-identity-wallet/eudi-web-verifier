@@ -119,7 +119,7 @@ export const PID_SD_JWT_VC_ATTRIBUTE_MAP: { [id: string]: string | string[] } = 
   "birth_date": "birthdate",
   "family_name_birth": "birth_family_name",
   "given_name_birth": "birth_given_name",
-  "place_of_birth": ["place_of_birth.locality", "place_of_birth.country", "place_of_birth.region"],
+  "place_of_birth": ["place_of_birth.locality", "place_of_birth.country", "place_of_birth.region", "place_of_birth"],
   "resident_address": "address.formatted",
   "resident_country": "address.country",
   "resident_state": "address.region",
