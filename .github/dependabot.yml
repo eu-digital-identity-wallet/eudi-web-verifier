@@ -5,10 +5,24 @@ updates:
     schedule:
       interval: "weekly"
     groups:
-      libs:
+      patch-minor:
+        applies-to: version-updates
         patterns:
           - "*"
-    open-pull-requests-limit: 1
+        update-types:
+          - "patch"
+          - "minor"
+      major:
+        applies-to: version-updates
+        patterns:
+          - "*"
+        update-types:
+          - "major"
+      security:
+        applies-to: security-updates
+        patterns:
+          - "*"
+    open-pull-requests-limit: 3
   - package-ecosystem: "github-actions"
     directory: "/"
     schedule:
