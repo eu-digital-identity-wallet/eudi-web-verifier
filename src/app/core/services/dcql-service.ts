@@ -62,7 +62,7 @@ export class DCQLService {
           selectedAttributes === undefined ||
           selectedAttributes!.includes(dataElement.identifier),
       )
-      .map((dataElement) => {
+      .flatMap((dataElement) => {
         return attestation!.claimQuery(dataElement);
       });
 
