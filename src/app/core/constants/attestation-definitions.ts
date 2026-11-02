@@ -32,6 +32,12 @@ export const PID_ATTESTATION: AttestationDefinition = {
   ]
 }
 
+export const PID_CROSS_BORDER_ATTESTATION: AttestationDefinition = {
+  name: "Person Identification Data (PID - cross border)",
+  type: AttestationType.PID_CROSS_BORDER,
+  dataSet: PID_ATTESTATION.dataSet
+}
+
 export const MDL_ATTESTATION: AttestationDefinition = {
   name: "Mobile Driving Licence (MDL)",
   type: AttestationType.MDL,
@@ -167,6 +173,7 @@ export const LEARNING_CREDENTIAL_ATTESTATION: AttestationDefinition = {
 
 export const SUPPORTED_ATTESTATIONS: { [id: string]: AttestationDefinition } = {
   "pid": PID_ATTESTATION,
+  "pid_cross_border": PID_CROSS_BORDER_ATTESTATION,
   "mdl": MDL_ATTESTATION,
   "photo_id": PHOTO_ID_ATTESTATION,
   "ehic": EHIC_ATTESTATION,

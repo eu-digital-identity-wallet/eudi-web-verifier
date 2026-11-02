@@ -227,12 +227,10 @@ export class HomeComponent implements OnDestroy {
       this.sessionStorageService.get(ISSUER_CHAIN) ?? undefined;
 
     return {
-      dcql_query: {
-        credentials: this.dcqlService.getDCQLCredentialQueries(
-          selectedAttestations,
-          selectedAttributes
-        ),
-      },
+      dcql_query: this.dcqlService.getDCQLQuery(
+        selectedAttestations,
+        selectedAttributes
+      ),
       nonce: uuidv4(),
       request_uri_method: options.requestUriMethod,
       issuer_chain: issuerChain,
@@ -252,12 +250,10 @@ export class HomeComponent implements OnDestroy {
       this.sessionStorageService.get(ISSUER_CHAIN) ?? undefined;
 
     return {
-      dcql_query: {
-        credentials: this.dcqlService.getDCQLCredentialQueries(
-          selectedAttestations,
-          selectedAttributes
-        ),
-      },
+      dcql_query: this.dcqlService.getDCQLQuery(
+        selectedAttestations,
+        selectedAttributes
+      ),
       nonce: uuidv4(),
       issuer_chain: issuerChain,
       origin: window.location.origin,

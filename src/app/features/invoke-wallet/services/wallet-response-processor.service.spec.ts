@@ -87,6 +87,70 @@ describe('WalletResponseProcessorService', () => {
             done();
           });
       });
+
+      it('should not create an entry for a query with no vp_token entry', () => {
+        const mockConcludedTransaction: ConcludedTransaction = {
+          transactionId: 'mockTransactionId',
+          nonce: 'mockNonce',
+          presentationQuery: {
+            credentials: [
+              {
+                id: 'query_0',
+                format: 'mso_mdoc',
+                meta: {
+                  doctype_value: 'eu.europa.ec.eudi.pid.1',
+                },
+              },
+              {
+                id: 'pid_cross_border_AT',
+                format: 'dc+sd-jwt',
+                meta: {
+                  vct_values: ['urn:eudi:pid:at:1'],
+                },
+              },
+            ],
+          },
+          walletResponse: {
+            vp_token: {},
+          },
+        };
+
+        const result =
+          service.mapVpTokenToAttestations(mockConcludedTransaction);
+
+        expect(Object.keys(result)).toEqual([]);
+        expect(result['query_0']).toBeUndefined();
+        expect(result['pid_cross_border_AT']).toBeUndefined();
+      });
+
+      it('should not create an entry for a query with an empty vp_token array', () => {
+        const mockConcludedTransaction: ConcludedTransaction = {
+          transactionId: 'mockTransactionId',
+          nonce: 'mockNonce',
+          presentationQuery: {
+            credentials: [
+              {
+                id: 'pid_cross_border_AT',
+                format: 'dc+sd-jwt',
+                meta: {
+                  vct_values: ['urn:eudi:pid:at:1'],
+                },
+              },
+            ],
+          },
+          walletResponse: {
+            vp_token: {
+              pid_cross_border_AT: [],
+            },
+          },
+        };
+
+        const result =
+          service.mapVpTokenToAttestations(mockConcludedTransaction);
+
+        expect(Object.keys(result)).toEqual([]);
+        expect(result['pid_cross_border_AT']).toBeUndefined();
+      });
     });
   });
 });
