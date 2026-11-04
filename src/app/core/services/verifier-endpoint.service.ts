@@ -22,7 +22,13 @@ const GET_DC_API_REQUEST_ENDPOINT = 'ui/presentations/dc-api/${transactionId}/re
 const WALLET_RESPONSE_ENDPOINT = 'ui/presentations/${transactionId}';
 const EVENTS_ENDPOINT = 'ui/presentations/${transactionId}/events';
 const VALIDATE_SD_JWT_VC_PRESENTATION_ENDPOINT = 'utilities/validations/sdJwtVc';
+const VALIDATE_MSO_MDOC_DEVICE_RESPONSE_ENDPOINT = 'utilities/validations/msoMdoc/deviceResponse';
 const INTENDED_USES_ENDPOINT = 'ui/intended-uses';
+
+export interface MsoMdocDocument {
+  docType: string;
+  attributes: Record<string, Record<string, unknown>>;
+}
 
 @Injectable()
 export class VerifierEndpointService {
@@ -146,6 +152,19 @@ export class VerifierEndpointService {
     issuerChain && body.set('issuer_chain', issuerChain);
 
     return this.httpService.post<any, string>(VALIDATE_SD_JWT_VC_PRESENTATION_ENDPOINT, body.toString(), {headers})
+  }
+
+  validateMsoMdocDeviceResponse(deviceResponse: string): Observable<MsoMdocDocument[]> {
+    const issuerChain = this.sessionStorageService.get(constants.ISSUER_CHAIN) ?? undefined;
+
+    const headers = new HttpHeaders({
+      'Content-Type': 'application/x-www-form-urlencoded'
+    });
+    const body = new URLSearchParams();
+    body.set('device_response', deviceResponse);
+    issuerChain && body.set('issuer_chain', issuerChain);
+
+    return this.httpService.post<MsoMdocDocument[], string>(VALIDATE_MSO_MDOC_DEVICE_RESPONSE_ENDPOINT, body.toString(), {headers})
   }
 
   getIntendedUses(): Observable<IntendedUse[]> {
