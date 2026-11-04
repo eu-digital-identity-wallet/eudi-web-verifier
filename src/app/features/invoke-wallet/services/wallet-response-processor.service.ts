@@ -22,10 +22,13 @@ export class WalletResponseProcessorService {
     const dcqlQuery = concludedTransaction.presentationQuery;
     let vpToken: { [id: string]: string[] } = concludedTransaction.walletResponse.vp_token;
 
-    console.log(concludedTransaction)
     dcqlQuery.credentials.forEach(credentialQuery => {
-      
-      const a = vpToken[credentialQuery.id]?.map(attestation => {
+      const credentialIds = vpToken[credentialQuery.id];
+      if (!credentialIds?.length) {
+        return;
+      }
+
+      const a = credentialIds.map(attestation => {
         return this.decodeAttestation(
             attestation,
             credentialQuery.format as AttestationFormat,
@@ -33,7 +36,7 @@ export class WalletResponseProcessorService {
             concludedTransaction.origin
           )
       });
-      
+
       attestationsPerQuery$[credentialQuery.id] = forkJoin(a).pipe(
         map((attestations) => this.flatten(attestations)),
       );

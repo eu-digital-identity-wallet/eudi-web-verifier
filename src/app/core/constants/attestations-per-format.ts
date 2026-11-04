@@ -1,5 +1,5 @@
 import {Attestation, MsoMdocAttestation, SdJwtVcAttestation} from "@core/models/attestation/Attestations";
-import {EHIC_ATTESTATION, MDL_ATTESTATION, PDA1_ATTESTATION, PHOTO_ID_ATTESTATION, PID_ATTESTATION, LEARNING_CREDENTIAL_ATTESTATION} from "@core/constants/attestation-definitions";
+import {EHIC_ATTESTATION, MDL_ATTESTATION, PDA1_ATTESTATION, PHOTO_ID_ATTESTATION, PID_ATTESTATION, PID_CROSS_BORDER_ATTESTATION, LEARNING_CREDENTIAL_ATTESTATION} from "@core/constants/attestation-definitions";
 import {AttestationFormat} from "@core/models/attestation/AttestationFormat";
 import {AttestationType} from "@core/models/attestation/AttestationType";
 import {DataElement} from "@core/models/attestation/AttestationDefinition";
@@ -32,6 +32,12 @@ export const PID_SD_JWT_VC: SdJwtVcAttestation = {
   vct: "urn:eudi:pid:1",
   attestationDef: PID_ATTESTATION,
   claimQuery: (attribute: DataElement) => sdJwtVcAttributeClaimQuery(attribute, AttestationType.PID)
+}
+export const PID_CROSS_BORDER_SD_JWT_VC: SdJwtVcAttestation = {
+  format: PID_SD_JWT_VC.format,
+  vct: PID_SD_JWT_VC.vct,
+  attestationDef: PID_CROSS_BORDER_ATTESTATION,
+  claimQuery: PID_SD_JWT_VC.claimQuery
 }
 
 /*---- PHOTO ID ATTESTATION INSTANCES PER FORMAT ----*/
@@ -81,9 +87,13 @@ export const LEARNING_CREDENTIAL_SD_JWT_VC: SdJwtVcAttestation = {
   claimQuery: (attribute: DataElement) => sdJwtVcAttributeClaimQuery(attribute, AttestationType.LEARNING_CREDENTIAL)
 }
 
+function isPid(attestationType: AttestationType): boolean {
+  return attestationType === AttestationType.PID || attestationType === AttestationType.PID_CROSS_BORDER;
+}
+
 function resolveAttribute(attribute: DataElement, attestationType: AttestationType): string | string[] {
   let resolvedAttribute: string | string[] = attribute.identifier
-  if (attestationType === AttestationType.PID) {
+  if (isPid(attestationType)) {
     let mappedAttribute = PID_SD_JWT_VC_ATTRIBUTE_MAP[attribute.identifier];
     resolvedAttribute = mappedAttribute || attribute.identifier;
   }
@@ -96,7 +106,7 @@ function sdJwtVcAttributeClaimQuery(attribute: DataElement, attestationType: Att
 
   if (Array.isArray(resolvedAttribute)) {
     return resolvedAttribute.map(path => ({ path: path.split('.') }));
-  } else if (attestationType === AttestationType.PID && resolvedAttribute === 'nationalities') {
+  } else if (isPid(attestationType) && resolvedAttribute === 'nationalities') {
     return [{ path: ['nationalities', null] }];
   } else if (attestationType === AttestationType.LEARNING_CREDENTIAL && resolvedAttribute === "learning_outcomes") {
     return [{ path: ["learning_outcomes", null] }];
@@ -136,7 +146,7 @@ export const PID_SD_JWT_VC_ATTRIBUTE_MAP: { [id: string]: string | string[] } = 
 
 export const ATTESTATIONS_BY_FORMAT: { [id: string]: Attestation[] } = {
   "mso_mdoc": [PID_MSO_MDOC, MDL_MSO_MDOC, PHOTO_ID_MSO_MDOC, EHIC_MSO_MDOC, PDA1_MSO_MDOC],
-  "dc+sd-jwt": [PID_SD_JWT_VC, EHIC_SD_JWT_VC, PDA1_SD_JWT_VC, LEARNING_CREDENTIAL_SD_JWT_VC]
+  "dc+sd-jwt": [PID_SD_JWT_VC, PID_CROSS_BORDER_SD_JWT_VC, EHIC_SD_JWT_VC, PDA1_SD_JWT_VC, LEARNING_CREDENTIAL_SD_JWT_VC]
 }
 
 export const getAttestationByFormatAndType =
