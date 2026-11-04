@@ -1,3 +1,5 @@
+import { VctVariant } from '@core/models/attestation/Attestations';
+
 export type CrossBorderPidMemberState = {
   code: string;
   name: string;
@@ -43,4 +45,12 @@ export const EU_PID_CROSS_BORDER_MEMBER_STATES: CrossBorderPidMemberState[] = [
 	memberState('SI', 'Slovenia'),
 	memberState('ES', 'Spain'),
 	memberState('SE', 'Sweden'),
+];
+
+export const PID_CROSS_BORDER_VCT_VARIANTS: VctVariant[] = [
+	...EU_PID_CROSS_BORDER_MEMBER_STATES.map((state) => ({
+		id: `pid_cross_border_${state.code}`,
+		vct: state.vct,
+	})),
+	{ id: 'pid_cross_border_generic', vct: PID_GENERIC_VCT },
 ];

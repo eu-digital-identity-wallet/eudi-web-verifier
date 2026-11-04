@@ -156,6 +156,45 @@ describe('DCQLService', () => {
     const ids = dcql.credentials.map((q) => q.id);
     expect(ids).toContain('query_0');
     expect(new Set(ids).size).toBe(ids.length);
+
+    expect(dcql.credential_sets).toBeDefined();
+    expect(dcql.credential_sets!.length).toBe(2);
+
+    const pidSet = dcql.credential_sets![0];
+    expect(pidSet).toEqual({ options: [['query_0']], required: true });
+
+    const setQueryIds = dcql.credential_sets!.flatMap((s) => s.options).flat();
+    expect(new Set(setQueryIds).size).toBe(setQueryIds.length);
+    expect([...setQueryIds].sort()).toEqual([...ids].sort());
+  });
+
+  it('should emit a credential set for a normal attestation mixed with cross-border PID', () => {
+    const selections: AttestationSelection[] = [
+      {
+        type: AttestationType.PID_CROSS_BORDER,
+        format: AttestationFormat.SD_JWT_VC,
+        attributeSelectionMethod: AttributeSelectionMethod.ALL_ATTRIBUTES,
+      },
+      {
+        type: AttestationType.MDL,
+        format: AttestationFormat.MSO_MDOC,
+        attributeSelectionMethod: AttributeSelectionMethod.ALL_ATTRIBUTES,
+      },
+    ];
+
+    const dcql = service.getDCQLQuery(selections, {});
+
+    expect(dcql.credential_sets).toBeDefined();
+    expect(dcql.credential_sets!.length).toBe(2);
+
+    const mdlSet = dcql.credential_sets!.find(
+      (s) => s.options.some((o) => o.includes('query_0')),
+    )!;
+    expect(mdlSet).toEqual({ options: [['query_0']], required: true });
+
+    const mdlQuery = dcql.credentials.find((q) => q.id === 'query_0')!;
+    expect(mdlQuery.format).toBe(AttestationFormat.MSO_MDOC);
+    expect(mdlQuery.meta).toEqual({ doctype_value: 'org.iso.18013.5.1.mDL' });
   });
 
   it('should not emit credential_sets when no cross-border attestation is selected', () => {

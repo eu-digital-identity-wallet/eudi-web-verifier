@@ -9,8 +9,10 @@
     "config": "node set-env.js",
     "test": "ng test",
     "test:coverage": "ng test --code-coverage",
-    "stylelint": "npx stylelint \"src/**/*.{css,scss}\" --fix",
-    "lint": "ng lint --fix",
+    "stylelint": "npx stylelint \"src/**/*.{css,scss}\"",
+    "stylelint:fix": "npx stylelint \"src/**/*.{css,scss}\" --fix",
+    "lint": "ng lint",
+    "lint:fix": "ng lint --fix",
     "pre-build": "test && lint"
   },
   "private": true,

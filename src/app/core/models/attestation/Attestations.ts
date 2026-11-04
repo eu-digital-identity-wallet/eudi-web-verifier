@@ -4,6 +4,11 @@ import { ClaimsQuery } from "../dcql/DCQL";
 
 export type Attestation = MsoMdocAttestation | SdJwtVcAttestation;
 
+export type VctVariant = {
+  id: string,
+  vct: string,
+}
+
 export type MsoMdocAttestation  = {
   format: AttestationFormat.MSO_MDOC,
   doctype: string,
@@ -15,6 +20,7 @@ export type MsoMdocAttestation  = {
 export type SdJwtVcAttestation = {
   format: AttestationFormat.SD_JWT_VC,
   vct: string,
-  attestationDef: AttestationDefinition
+  altVcts?: VctVariant[],
+  attestationDef: AttestationDefinition,
   claimQuery: (attribute: DataElement) => ClaimsQuery[],
 }
