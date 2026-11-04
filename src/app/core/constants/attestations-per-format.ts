@@ -4,6 +4,7 @@ import {AttestationFormat} from "@core/models/attestation/AttestationFormat";
 import {AttestationType} from "@core/models/attestation/AttestationType";
 import {DataElement} from "@core/models/attestation/AttestationDefinition";
 import { ClaimsQuery } from "../models/dcql/DCQL";
+import {PID_CROSS_BORDER_VCT_VARIANTS} from "@core/constants/cross-border-pid";
 
 export const SUPPORTED_FORMATS: AttestationFormat[] = [
   AttestationFormat.MSO_MDOC,
@@ -36,6 +37,7 @@ export const PID_SD_JWT_VC: SdJwtVcAttestation = {
 export const PID_CROSS_BORDER_SD_JWT_VC: SdJwtVcAttestation = {
   format: PID_SD_JWT_VC.format,
   vct: PID_SD_JWT_VC.vct,
+  altVcts: PID_CROSS_BORDER_VCT_VARIANTS,
   attestationDef: PID_CROSS_BORDER_ATTESTATION,
   claimQuery: PID_SD_JWT_VC.claimQuery
 }
