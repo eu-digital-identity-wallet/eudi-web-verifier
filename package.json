@@ -34,7 +34,6 @@
     "angularx-qrcode": "^19.0.0",
     "bignumber.js": "^9.1.2",
     "buffer": "^6.0.3",
-    "cbor-x": "^1.6.0",
     "codemirror": "^6.0.1",
     "crypto-js": "^4.2.0",
     "jsonpath-plus": "^10.3.0",

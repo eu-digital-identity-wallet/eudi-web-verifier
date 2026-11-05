@@ -70,17 +70,49 @@ export class WalletResponseProcessorService {
     // decode to SharedAttestation
     return decoder.decode(attestation, nonce, origin).pipe(
       catchError((error) => {
+        const reason = this.toErrorMessage(error);
         this.toastrService.error(
-          error.error,
+          reason,
           `Error decoding document in ${format}`
         );
         return of({
           kind: 'error' as const,
           format: format,
-          reason: error.error,
+          reason: reason,
         });
       })
     );
+  }
+
+  private toErrorMessage(error: any): string {
+    const body = error?.error;
+    if (typeof body === 'string' && body) {
+      return body;
+    }
+    if (body && typeof body === 'object') {
+      return this.formatErrorBody(body);
+    }
+    return error?.message ?? 'Unknown error';
+  }
+
+  private formatErrorBody(body: any): string {
+    if (Array.isArray(body)) {
+      return body
+        .map((e: any) => e?.description ?? e?.error ?? JSON.stringify(e))
+        .join('; ');
+    }
+    if (typeof body.type === 'string') {
+      return this.formatValidationError(body);
+    }
+    return JSON.stringify(body);
+  }
+
+  private formatValidationError(body: any): string {
+    const invalidDocuments = Array.isArray(body.invalidDocuments) ? body.invalidDocuments : [];
+    const details = invalidDocuments
+      .map((doc: any) => `${doc.documentType}: ${(doc.errors ?? []).join(', ')}`)
+      .join('; ');
+    return details ? `${body.type} - ${details}` : body.type;
   }
 
 }
