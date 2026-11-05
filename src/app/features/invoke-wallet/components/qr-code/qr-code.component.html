@@ -35,12 +35,25 @@
           >
         </div>
 
+        <div
+          class="vc-qr-code__error"
+          *ngIf="errorMessage"
+          role="alert"
+          aria-live="polite"
+        >
+          <mat-icon aria-hidden="true">error_outline</mat-icon>
+          <div class="vc-qr-code__error-content">
+            <span class="vc-qr-code__error-title">An error occurred</span>
+            <div class="vc-qr-code__error-detail">{{ errorMessage }}</div>
+          </div>
+        </div>
+
         <mat-divider />
       </mat-card-content>
       <mat-card-actions>
         <button mat-button (click)="openLogs()">View transaction logs</button>
       </mat-card-actions>
-      <mat-card-footer>
+      <mat-card-footer *ngIf="!errorMessage">
         <mat-progress-bar *ngIf="isCrossDevice" mode="indeterminate" />
       </mat-card-footer>
     </mat-card>
